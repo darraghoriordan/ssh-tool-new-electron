@@ -1,34 +1,17 @@
-import { IpcMainEvent, app, ipcRenderer } from 'electron'
-import { IpcMainInvokeEventChannelInterface } from '../IpcChannelTypes/IpcMainInvokeEventChannelInterface'
-import { CertChannels } from './CertChannelEnum'
+import { IpcMainEvent, app } from 'electron'
+
 import { SshCertificateManager } from '../services/sshCertificates/SshCertificateManager'
 import { ScanForSshCertsResponse } from '../services/sshCertificates/Types'
 import { SshCertFileCacheService } from '../services/sshCertificates/SshCertFileCacheService'
 import path from 'path'
 import { ScanForSshCertsMessage } from './MessageTypes'
-export class ScanForSshCerts
+import { ScanForSshCertsPub } from './ScanForSshCertsPub'
+import { IIpcMainInvokeEventSub } from '../IpcChannelTypes/IIpcMainInvokeEventSube'
+export class ScanForSshCertsSub
+  extends ScanForSshCertsPub
   implements
-    IpcMainInvokeEventChannelInterface<
-      ScanForSshCertsMessage,
-      ScanForSshCertsResponse
-    >
+    IIpcMainInvokeEventSub<ScanForSshCertsMessage, ScanForSshCertsResponse>
 {
-  public static ExposedApiName = 'ScanForSshCerts'
-
-  getExposedApiName(): string {
-    return ScanForSshCerts.ExposedApiName
-  }
-
-  getChannelName(): string {
-    return CertChannels.SCAN_FOR_CERTS
-  }
-
-  async invoke(
-    request: ScanForSshCertsMessage
-  ): Promise<ScanForSshCertsResponse> {
-    return ipcRenderer.invoke(CertChannels.SCAN_FOR_CERTS, request)
-  }
-
   async handle(
     event: IpcMainEvent,
     request: ScanForSshCertsMessage

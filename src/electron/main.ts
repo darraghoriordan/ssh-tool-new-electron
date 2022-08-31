@@ -1,11 +1,11 @@
 import 'reflect-metadata'
 import { app, BrowserWindow, ipcMain } from 'electron'
-import { IpcMainSendEventChannelInterface } from './IpcChannelTypes/IpcMainSendEventChannelInterface'
-import { IpcMainInvokeEventChannelInterface } from './IpcChannelTypes/IpcMainInvokeEventChannelInterface'
 import {
-  ChannelConfigurations,
-  ChannelConfigurationType,
-} from './channelConfigurations'
+  ChannelConfigurationSubs,
+  ChannelConfigurationTypeSub,
+} from './channelConfigurationsSubs'
+import { IIpcMainSendEventSub } from './IpcChannelTypes/IIpcMainSendEventSub'
+import { IIpcMainInvokeEventSub } from './IpcChannelTypes/IIpcMainInvokeEventSube'
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
@@ -13,7 +13,7 @@ declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
 class Main {
   private mainWindow!: BrowserWindow | null
 
-  public async init(config: ChannelConfigurationType) {
+  public async init(config: ChannelConfigurationTypeSub) {
     try {
       await app.on('ready', this.createWindow).whenReady()
       console.log(`
@@ -72,8 +72,8 @@ class Main {
   }
 
   registerIpChannels(
-    rtmSendChannels: IpcMainSendEventChannelInterface<any>[],
-    rtmInvokeChannels: IpcMainInvokeEventChannelInterface<any, any>[]
+    rtmSendChannels: IIpcMainSendEventSub<unknown>[],
+    rtmInvokeChannels: IIpcMainInvokeEventSub<unknown, unknown>[]
   ) {
     // set up the handlers on the main process side
     rtmSendChannels.forEach(channel => {
@@ -94,4 +94,4 @@ class Main {
   }
 }
 
-new Main().init(ChannelConfigurations)
+new Main().init(ChannelConfigurationSubs)

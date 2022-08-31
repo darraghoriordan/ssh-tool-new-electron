@@ -1,28 +1,15 @@
-import { IpcMainEvent, app, ipcRenderer } from 'electron'
-import { SshConfigFileChannels } from './ConfigFileChannelEnum'
-import { IpcMainInvokeEventChannelInterface } from '../IpcChannelTypes/IpcMainInvokeEventChannelInterface'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { IpcMainEvent, app } from 'electron'
 import { GetValidSshHostsResponseMessage } from './MessageTypes'
 import path from 'path'
 import { SshConfigFileLoader } from '../services/sshConfigFile/SshConfigFileLoader'
+import { GetValidSshHostsPub } from './GetValidSshHostsPub'
+import { IIpcMainInvokeEventSub } from '../IpcChannelTypes/IIpcMainInvokeEventSube'
 
-export class GetValidSshHosts
-  implements
-    IpcMainInvokeEventChannelInterface<void, GetValidSshHostsResponseMessage>
+export class GetValidSshHostsSub
+  extends GetValidSshHostsPub
+  implements IIpcMainInvokeEventSub<void, GetValidSshHostsResponseMessage>
 {
-  public static ExposedApiName = 'GetValidSshHosts'
-
-  getExposedApiName(): string {
-    return GetValidSshHosts.ExposedApiName
-  }
-
-  getChannelName(): string {
-    return SshConfigFileChannels.GET_VALID_SSH_HOSTS
-  }
-
-  async invoke(): Promise<GetValidSshHostsResponseMessage> {
-    return ipcRenderer.invoke(SshConfigFileChannels.GET_VALID_SSH_HOSTS)
-  }
-
   async handle(
     event: IpcMainEvent,
     request: void

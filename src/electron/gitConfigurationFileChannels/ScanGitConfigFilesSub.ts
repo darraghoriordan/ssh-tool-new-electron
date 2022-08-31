@@ -1,6 +1,4 @@
-import { IpcMainEvent, app, ipcRenderer } from 'electron'
-import { GitConfigFileChannels } from './GitConfigFileChannelsEnum'
-import { IpcMainInvokeEventChannelInterface } from '../IpcChannelTypes/IpcMainInvokeEventChannelInterface'
+import { IpcMainEvent, app } from 'electron'
 import path from 'path'
 import {
   GitConfigFileScanRequestMessage,
@@ -9,30 +7,17 @@ import {
 import GitConfigFileSystemScanner from '../services/gitConfigSystemScanner/GitConfigFileSystemScanner'
 import util from 'util'
 import { GitConfigFileCacheService } from '../services/gitConfigSystemScanner/GitConfigFileCacheService'
+import { ScanGitConfigFilesPub } from './ScanGitConfigFilesPub'
+import { IIpcMainInvokeEventSub } from '../IpcChannelTypes/IIpcMainInvokeEventSube'
 
-export class ScanGitConfigFiles
+export class ScanGitConfigFilesSub
+  extends ScanGitConfigFilesPub
   implements
-    IpcMainInvokeEventChannelInterface<
+    IIpcMainInvokeEventSub<
       GitConfigFileScanRequestMessage,
       GitConfigScanResponseMessage
     >
 {
-  public static ExposedApiName = 'ScanGitConfigFiles'
-
-  getExposedApiName(): string {
-    return ScanGitConfigFiles.ExposedApiName
-  }
-
-  getChannelName(): string {
-    return GitConfigFileChannels.SCAN_FOR_CONFIG_FILES
-  }
-
-  async invoke(
-    arg: GitConfigFileScanRequestMessage
-  ): Promise<GitConfigScanResponseMessage> {
-    return ipcRenderer.invoke(GitConfigFileChannels.SCAN_FOR_CONFIG_FILES, arg)
-  }
-
   async handle(
     event: IpcMainEvent,
     request: GitConfigFileScanRequestMessage

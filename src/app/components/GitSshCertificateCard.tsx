@@ -62,11 +62,11 @@ export default function GitSshCertificateCard(
                 onChange={(newValue: boolean) => {
                   if (newValue === false) {
                     props.handleRemoveFromSshAgentClick(
-                      props.sshCertFileInfo.privateKeyPath
+                      props.sshCertFileInfo.privateKeyPath || '' // no pkey if using http
                     )
                   } else {
                     props.handleAddToSshAgentClick(
-                      props.sshCertFileInfo.privateKeyPath
+                      props.sshCertFileInfo.privateKeyPath || '' // no pkey if using http
                     )
                   }
                 }}

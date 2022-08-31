@@ -2,11 +2,11 @@
 import 'reflect-metadata'
 import { contextBridge, ipcRenderer } from 'electron'
 import {
-  ChannelConfigurations,
-  ChannelConfigurationType,
-} from './channelConfigurations'
-import { IpcMainInvokeEventChannelInterface } from './IpcChannelTypes/IpcMainInvokeEventChannelInterface'
-import { IpcMainSendEventChannelInterface } from './IpcChannelTypes/IpcMainSendEventChannelInterface'
+  ChannelConfigurationPubs,
+  ChannelConfigurationTypePub,
+} from './channelConfigurationsPubs'
+import { IIpcMainSendEventPub } from './IpcChannelTypes/IIpcMainSendEventPub'
+import { IIpcMainInvokeEventPub } from './IpcChannelTypes/IIpcMainInvokeEventPub'
 
 export const api = {
   /**
@@ -18,22 +18,22 @@ export const api = {
 }
 
 class Bridge {
-  public async init(config: ChannelConfigurationType) {
+  public async init(config: ChannelConfigurationTypePub) {
     try {
       console.log(`Registering FE bridge methods...`)
       await this.registerBridgeMethods(
         config.rtmSendChannels,
         config.rtmInvokeChannels
       )
-      console.log(`FE bridge methods registered`)
+      console.log(`All FE bridge methods registered`)
     } catch (error) {
       console.error(error)
     }
   }
 
   registerBridgeMethods(
-    rtmSendChannels: IpcMainSendEventChannelInterface<any>[],
-    rtmInvokeChannels: IpcMainInvokeEventChannelInterface<any, any>[]
+    rtmSendChannels: IIpcMainSendEventPub<any>[],
+    rtmInvokeChannels: IIpcMainInvokeEventPub<any, any>[]
   ) {
     // set up bridge methods to be added on the window object in react app
     rtmInvokeChannels.forEach(channel => {
@@ -55,5 +55,5 @@ class Bridge {
     contextBridge.exposeInMainWorld('Main', api)
   }
 }
-
-new Bridge().init(ChannelConfigurations)
+//const emptyTester = { rtmSendChannels: [], rtmInvokeChannels: [] };
+new Bridge().init(ChannelConfigurationPubs)
