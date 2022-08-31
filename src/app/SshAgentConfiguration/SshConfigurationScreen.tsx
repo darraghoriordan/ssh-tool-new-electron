@@ -18,14 +18,17 @@ export function SshConfigurationScreen() {
     privateKeys: [],
     errorMessage: undefined,
   } as ScanForSshCertsResponse)
-
+  const wrappedInitialLoad = async () => {
+    await handleInitialLoad()
+  }
   function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
   }
   useEffect(() => {
-    ;(async () => {
-      await handleInitialLoad()
-    })()
+    wrappedInitialLoad()
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    return () => {}
   }, [])
 
   const handleAddToSshAgentClick = async (
@@ -49,6 +52,7 @@ export function SshConfigurationScreen() {
 
   const handleInitialLoad = async () => {
     setLoadingCerts(true)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const sshCerts = await window.ScanForSshCerts.invoke({
       forceFileSystemSearch: false,
     })
