@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import 'reflect-metadata'
+//import 'reflect-metadata'
 import { contextBridge, ipcRenderer } from 'electron'
 import {
   ChannelConfigurationPubs,

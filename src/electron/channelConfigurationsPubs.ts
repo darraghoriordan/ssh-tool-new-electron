@@ -1,14 +1,15 @@
 import { LoadSettingsChannelPub } from './appSettings/LoadSettingsChannelPub'
 import { SaveSettingsChannelPub } from './appSettings/SaveSettingsChannelPub'
 import { ScanGitConfigFilesPub } from './gitConfigurationFileChannels/ScanGitConfigFilesPub'
-import { IIpcMainInvokeEventPub } from './IpcChannelTypes/IIpcMainInvokeEventPub'
-import { IIpcMainSendEventPub } from './IpcChannelTypes/IIpcMainSendEventPub'
-import { SimpleMessagePub } from './simpleMessage/SimpleMessagePub'
 import { AddCertToSshAgentPub } from './sshCertChannels/AddCertToSshAgentPub'
 import { GenerateCertPub } from './sshCertChannels/GenerateCertPub'
 import { RemoveCertFromSshAgentPub } from './sshCertChannels/RemoveCertFromSshAgentPub'
 import { ScanForSshCertsPub } from './sshCertChannels/ScanForSshCertsPub'
 import { GetValidSshHostsPub } from './sshConfigFileChannels/GetValidSshHostsPub'
+import { IIpcMainInvokeEventPub } from './IpcChannelTypes/IIpcMainInvokeEventPub'
+import { IIpcMainSendEventPub } from './IpcChannelTypes/IIpcMainSendEventPub'
+import { SimpleMessagePub } from './simpleMessage/SimpleMessagePub'
+
 import { OpenSshConfigFilePub } from './sshConfigFileChannels/OpenSshConfigFilePub'
 
 export type ChannelConfigurationTypePub = {

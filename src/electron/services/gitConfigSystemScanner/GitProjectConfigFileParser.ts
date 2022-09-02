@@ -139,6 +139,7 @@ export class GitProjectConfigFileParser {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/ban-types
   static filteredKeys = (obj: Object, filter: RegExp) => {
     const keys = []
     for (const key in obj)

@@ -22,10 +22,10 @@ class Main {
       
       `)
       console.log('registering channels...')
-      await this.registerIpChannels(
-        config.rtmSendChannels,
-        config.rtmInvokeChannels
-      )
+      //   await this.registerIpChannels(
+      //     config.rtmSendChannels,
+      //     config.rtmInvokeChannels
+      //   )
       console.log('channels registered')
     } catch (error) {
       console.error(error)
