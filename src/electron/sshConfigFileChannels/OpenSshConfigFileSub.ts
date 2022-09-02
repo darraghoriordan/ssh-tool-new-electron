@@ -3,7 +3,7 @@ import { IpcMainEvent } from 'electron'
 import { OpenFileResponseMessage } from './MessageTypes'
 import { SshConfigFileHandler } from '../services/sshConfigFile/SshConfigFileHandlerService'
 import { OpenSshConfigFilePub } from './OpenSshConfigFilePub'
-import { IIpcMainInvokeEventSub } from '../IpcChannelTypes/IIpcMainInvokeEventSube'
+import { IIpcMainInvokeEventSub } from '../IpcChannelTypes/IIpcMainInvokeEventSub'
 
 export class OpenSshConfigFileSub
   extends OpenSshConfigFilePub

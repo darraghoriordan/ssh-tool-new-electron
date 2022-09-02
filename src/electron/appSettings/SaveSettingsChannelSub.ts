@@ -2,7 +2,7 @@ import { IpcMainEvent } from 'electron'
 import { SaveSettingsMessage, SettingsResponse } from './MessageTypes'
 import { ApplicationSettingsFileService } from '../services/applicationSettings/ApplicationSettingsFileService'
 import { SaveSettingsChannelPub } from './SaveSettingsChannelPub'
-import { IIpcMainInvokeEventSub } from '../IpcChannelTypes/IIpcMainInvokeEventSube'
+import { IIpcMainInvokeEventSub } from '../IpcChannelTypes/IIpcMainInvokeEventSub'
 
 export class SaveSettingsChannelSub
   extends SaveSettingsChannelPub

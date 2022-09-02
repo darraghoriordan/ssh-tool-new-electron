@@ -5,7 +5,7 @@ import {
   ChannelConfigurationTypeSub,
 } from './channelConfigurationsSubs'
 import { IIpcMainSendEventSub } from './IpcChannelTypes/IIpcMainSendEventSub'
-import { IIpcMainInvokeEventSub } from './IpcChannelTypes/IIpcMainInvokeEventSube'
+import { IIpcMainInvokeEventSub } from './IpcChannelTypes/IIpcMainInvokeEventSub'
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
@@ -22,10 +22,10 @@ class Main {
       
       `)
       console.log('registering channels...')
-      //   await this.registerIpChannels(
-      //     config.rtmSendChannels,
-      //     config.rtmInvokeChannels
-      //   )
+      await this.registerIpChannels(
+        config.rtmSendChannels,
+        config.rtmInvokeChannels
+      )
       console.log('channels registered')
     } catch (error) {
       console.error(error)

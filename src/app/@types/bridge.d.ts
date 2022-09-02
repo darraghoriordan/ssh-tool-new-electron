@@ -1,5 +1,3 @@
-import { IpcMainInvokeApi } from '../../electron/IpcChannelTypes/IpcMainInvokeEventChannelInterface'
-import { IpcMainSendApi } from '../../electron/IpcChannelTypes/IpcMainSendEventChannelInterface'
 import { api } from '../../electron/bridge'
 import { OpenFileResponseMessage } from '../../electron/sshConfigFileChannels/MessageTypes'
 import {
@@ -23,22 +21,22 @@ declare global {
   // eslint-disable-next-line
   interface Window {
     Main: typeof api
-    OpenSshFile: IpcMainInvokeApi<void, OpenFileResponseMessage>
-    ScanForSshCerts: IpcMainInvokeApi<
+    OpenSshFile: IIpcMainInvokeEventPub<void, OpenFileResponseMessage>
+    ScanForSshCerts: IIpcMainInvokeEventPub<
       ScanForSshCertsMessage,
       ScanForSshCertsResponse
     >
-    ScanGitConfigFiles: IpcMainInvokeApi<
+    ScanGitConfigFiles: IIpcMainInvokeEventPub<
       GitConfigFileScanRequestMessage,
       GitConfigScanResponseMessage
     >
-    SimpleMessage: IpcMainSendApi<string>
-    AddCertToSshAgent: IpcMainInvokeApi<AddCertMessage, AddCertResponse>
-    RemoveCertFromSshAgent: IpcMainInvokeApi<
+    SimpleMessage: IIpcMainSendEventPub<string>
+    AddCertToSshAgent: IIpcMainInvokeEventPub<AddCertMessage, AddCertResponse>
+    RemoveCertFromSshAgent: IIpcMainInvokeEventPub<
       RemoveCertMessage,
       RemoveCertResponse
     >
-    LoadSettings: IpcMainInvokeApi<void, SettingsResponse>
-    SaveSettings: IpcMainInvokeApi<SaveSettingsMessage, SettingsResponse>
+    LoadSettings: IIpcMainInvokeEventPub<void, SettingsResponse>
+    SaveSettings: IIpcMainInvokeEventPub<SaveSettingsMessage, SettingsResponse>
   }
 }

@@ -3,7 +3,7 @@ import { IpcMainEvent } from 'electron'
 import { AddCertMessage, AddCertResponse } from './MessageTypes'
 import { SshCertificateManager } from '../services/sshCertificates/SshCertificateManager'
 import { AddCertToSshAgentPub } from './AddCertToSshAgentPub'
-import { IIpcMainInvokeEventSub } from '../IpcChannelTypes/IIpcMainInvokeEventSube'
+import { IIpcMainInvokeEventSub } from '../IpcChannelTypes/IIpcMainInvokeEventSub'
 
 export class AddCertToSshAgentSub
   extends AddCertToSshAgentPub

@@ -8,7 +8,7 @@ import GitConfigFileSystemScanner from '../services/gitConfigSystemScanner/GitCo
 import util from 'util'
 import { GitConfigFileCacheService } from '../services/gitConfigSystemScanner/GitConfigFileCacheService'
 import { ScanGitConfigFilesPub } from './ScanGitConfigFilesPub'
-import { IIpcMainInvokeEventSub } from '../IpcChannelTypes/IIpcMainInvokeEventSube'
+import { IIpcMainInvokeEventSub } from '../IpcChannelTypes/IIpcMainInvokeEventSub'
 
 export class ScanGitConfigFilesSub
   extends ScanGitConfigFilesPub

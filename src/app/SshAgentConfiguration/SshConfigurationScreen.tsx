@@ -53,10 +53,11 @@ export function SshConfigurationScreen() {
   const handleInitialLoad = async () => {
     setLoadingCerts(true)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    console.log('scanning for ssh certs')
     const sshCerts = await window.ScanForSshCerts.invoke({
       forceFileSystemSearch: false,
     })
-    setSshCertScanResponse(sshCerts)
+    // setSshCertScanResponse(sshCerts)
     setLoadingCerts(false)
   }
 

@@ -6,7 +6,7 @@ import { SshCertFileCacheService } from '../services/sshCertificates/SshCertFile
 import path from 'path'
 import { ScanForSshCertsMessage } from './MessageTypes'
 import { ScanForSshCertsPub } from './ScanForSshCertsPub'
-import { IIpcMainInvokeEventSub } from '../IpcChannelTypes/IIpcMainInvokeEventSube'
+import { IIpcMainInvokeEventSub } from '../IpcChannelTypes/IIpcMainInvokeEventSub'
 export class ScanForSshCertsSub
   extends ScanForSshCertsPub
   implements

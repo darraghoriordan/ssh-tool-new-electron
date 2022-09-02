@@ -3,7 +3,7 @@ import { IpcMainEvent } from 'electron'
 import { SettingsResponse } from './MessageTypes'
 import { ApplicationSettingsFileService } from '../services/applicationSettings/ApplicationSettingsFileService'
 import { LoadSettingsChannelPub } from './LoadSettingsChannelPub'
-import { IIpcMainInvokeEventSub } from '../IpcChannelTypes/IIpcMainInvokeEventSube'
+import { IIpcMainInvokeEventSub } from '../IpcChannelTypes/IIpcMainInvokeEventSub'
 
 export class LoadSettingsChannelSub
   extends LoadSettingsChannelPub

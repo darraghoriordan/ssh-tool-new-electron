@@ -4,7 +4,7 @@ import { GetValidSshHostsResponseMessage } from './MessageTypes'
 import path from 'path'
 import { SshConfigFileLoader } from '../services/sshConfigFile/SshConfigFileLoader'
 import { GetValidSshHostsPub } from './GetValidSshHostsPub'
-import { IIpcMainInvokeEventSub } from '../IpcChannelTypes/IIpcMainInvokeEventSube'
+import { IIpcMainInvokeEventSub } from '../IpcChannelTypes/IIpcMainInvokeEventSub'
 
 export class GetValidSshHostsSub
   extends GetValidSshHostsPub

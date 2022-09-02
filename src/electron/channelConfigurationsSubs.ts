@@ -1,7 +1,7 @@
 import { LoadSettingsChannelSub } from './appSettings/LoadSettingsChannelSub'
 import { SaveSettingsChannelSub } from './appSettings/SaveSettingsChannelSub'
 import { ScanGitConfigFilesSub } from './gitConfigurationFileChannels/ScanGitConfigFilesSub'
-import { IIpcMainInvokeEventSub } from './IpcChannelTypes/IIpcMainInvokeEventSube'
+import { IIpcMainInvokeEventSub } from './IpcChannelTypes/IIpcMainInvokeEventSub'
 import { IIpcMainSendEventSub } from './IpcChannelTypes/IIpcMainSendEventSub'
 import { SimpleMessageSub } from './simpleMessage/SimpleMessageSub'
 import { AddCertToSshAgentSub } from './sshCertChannels/AddCertToSshAgentSub'
