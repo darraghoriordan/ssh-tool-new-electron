@@ -77,19 +77,19 @@ class Main {
   ) {
     // set up the handlers on the main process side
     rtmSendChannels.forEach(channel => {
-      console.log(`adding BE channel for ${channel.getExposedApiName()}...`)
+      console.log(`adding BE channel ${channel.getChannelName()}...`)
       ipcMain.on(channel.getChannelName(), (event, request) =>
         channel.handle(event, request)
       )
-      console.log(`added BE channel for ${channel.getExposedApiName()}`)
+      console.log(`added BE channel ${channel.getChannelName()}`)
     })
 
     rtmInvokeChannels.forEach(channel => {
-      console.log(`adding BE channel for ${channel.getExposedApiName()}...`)
+      console.log(`adding BE channel ${channel.getChannelName()}...`)
       ipcMain.handle(channel.getChannelName(), (event, request) =>
         channel.handle(event, request)
       )
-      console.log(`added BE channel for ${channel.getExposedApiName()}`)
+      console.log(`added BE channel ${channel.getChannelName()}`)
     })
   }
 }

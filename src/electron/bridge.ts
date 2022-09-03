@@ -33,18 +33,21 @@ class Bridge {
     rtmSendChannels: IIpcMainSendEventPub<any>[],
     rtmInvokeChannels: IIpcMainInvokeEventPub<any, any>[]
   ) {
+    contextBridge.exposeInMainWorld('electronApiTest', {
+      test: (message: string) => console.log(message),
+    })
     // set up bridge methods to be added on the window object in react app
     rtmInvokeChannels.forEach(channel => {
       console.log(`adding FE bridge for ${channel.getExposedApiName()}`)
       contextBridge.exposeInMainWorld(channel.getExposedApiName(), {
-        invoke: channel.invoke,
+        invoke: channel.getInvoker(),
       })
       console.log(`added FE bridge for ${channel.getExposedApiName()}`)
     })
     rtmSendChannels.forEach(channel => {
       console.log(`adding FE bridge for ${channel.getExposedApiName()}`)
       contextBridge.exposeInMainWorld(channel.getExposedApiName(), {
-        invoke: channel.invoke,
+        invoke: channel.getInvoker(),
       })
       console.log(`added FE bridge for ${channel.getExposedApiName()}`)
     })

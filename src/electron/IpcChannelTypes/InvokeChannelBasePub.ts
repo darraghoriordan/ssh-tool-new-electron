@@ -13,7 +13,7 @@ export class InvokeChannelBasePub<T, S>
     return this.channelName
   }
 
-  invoke(message: T): Promise<S> {
-    return ipcRenderer.invoke(this.channelName, message)
+  getInvoker(): (message: T) => Promise<S> {
+    return (message: T) => ipcRenderer.invoke(this.channelName, message)
   }
 }

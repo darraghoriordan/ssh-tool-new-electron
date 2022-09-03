@@ -11,7 +11,7 @@ export class SendChannelBasePub<T> implements IIpcMainSendEventPub<T> {
     return this.channelName
   }
 
-  invoke(message: T): void {
-    return ipcRenderer.send(this.channelName, message)
+  getInvoker(): (message: T) => void {
+    return (message: T) => ipcRenderer.send(this.channelName, message)
   }
 }
