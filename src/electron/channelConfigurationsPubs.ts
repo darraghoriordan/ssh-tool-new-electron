@@ -6,16 +6,10 @@ import { GenerateCertPub } from './sshCertChannels/GenerateCertPub'
 import { RemoveCertFromSshAgentPub } from './sshCertChannels/RemoveCertFromSshAgentPub'
 import { ScanForSshCertsPub } from './sshCertChannels/ScanForSshCertsPub'
 import { GetValidSshHostsPub } from './sshConfigFileChannels/GetValidSshHostsPub'
-import { IIpcMainInvokeEventPub } from './IpcChannelTypes/IIpcMainInvokeEventPub'
-import { IIpcMainSendEventPub } from './IpcChannelTypes/IIpcMainSendEventPub'
 import { SimpleMessagePub } from './simpleMessage/SimpleMessagePub'
 
 import { OpenSshConfigFilePub } from './sshConfigFileChannels/OpenSshConfigFilePub'
-
-export type ChannelConfigurationTypePub = {
-  rtmSendChannels: IIpcMainSendEventPub<unknown>[]
-  rtmInvokeChannels: IIpcMainInvokeEventPub<unknown, unknown>[]
-}
+import { ChannelConfigurationTypePub } from './ChannelConfigurationTypePub'
 
 export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
   rtmSendChannels: [new SimpleMessagePub()],

@@ -1,12 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 //import 'reflect-metadata'
 import { contextBridge, ipcRenderer } from 'electron'
-import {
-  ChannelConfigurationPubs,
-  ChannelConfigurationTypePub,
-} from './channelConfigurationsPubs'
+import { ChannelConfigurationPubs } from './channelConfigurationsPubs'
 import { IIpcMainSendEventPub } from './IpcChannelTypes/IIpcMainSendEventPub'
 import { IIpcMainInvokeEventPub } from './IpcChannelTypes/IIpcMainInvokeEventPub'
+import { ChannelConfigurationTypePub } from './ChannelConfigurationTypePub'
 
 export const api = {
   /**
@@ -55,5 +53,5 @@ class Bridge {
     contextBridge.exposeInMainWorld('Main', api)
   }
 }
-//const emptyTester = { rtmSendChannels: [], rtmInvokeChannels: [] };
+// const emptyTester = { rtmSendChannels: [], rtmInvokeChannels: [] }
 new Bridge().init(ChannelConfigurationPubs)
