@@ -11,16 +11,17 @@ import logo from '../assets/logo-tp.png'
 
 const navigation = [
   {
-    name: 'Git SSH Configurations',
-    href: '/',
-    icon: ShieldCheckIcon,
-    current: true,
-  },
-  {
     name: 'Git Project Configurations',
-    href: '/git-configuration',
+    href: '/',
     icon: ArrowUpCircleIcon,
     current: false,
+  },
+  {
+    name: 'Git SSH Configurations',
+    href: '/ssh-configuration',
+    icon: ShieldCheckIcon,
+    hidden: true,
+    current: true,
   },
   {
     name: 'JWT Decoder',
@@ -75,26 +76,28 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
           </div>
           <div className="flex-1 flex flex-col overflow-y-auto">
             <nav className="flex-1 px-2 py-4 space-y-1">
-              {navigation.map(item => (
-                <NavLink
-                  key={item.name}
-                  to={item.href}
-                  className={(props: { isActive: boolean }): string => {
-                    return classNames(
-                      props.isActive
-                        ? 'bg-gray-900 text-white'
-                        : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                      'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
-                    )
-                  }}
-                >
-                  <item.icon
-                    className={'mr-3 flex-shrink-0 h-6 w-6'}
-                    aria-hidden="true"
-                  />
-                  {item.name}
-                </NavLink>
-              ))}
+              {navigation
+                .filter(x => x.hidden != true)
+                .map(item => (
+                  <NavLink
+                    key={item.name}
+                    to={item.href}
+                    className={(props: { isActive: boolean }): string => {
+                      return classNames(
+                        props.isActive
+                          ? 'bg-gray-900 text-white'
+                          : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                        'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
+                      )
+                    }}
+                  >
+                    <item.icon
+                      className={'mr-3 flex-shrink-0 h-6 w-6'}
+                      aria-hidden="true"
+                    />
+                    {item.name}
+                  </NavLink>
+                ))}
             </nav>
           </div>
         </div>

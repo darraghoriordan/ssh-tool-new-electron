@@ -99,7 +99,7 @@ export class GitProjectConfigFileParser {
     // this needs a git remote connection
     const mappedSshHostsToGitRemotes = listOfNamedSshConnections.map(x => {
       return {
-        url: `${x.user}@${x.alias}${originRemote.pathname}`, // this will have to change based on the contents of this object
+        url: `${x.user}@${x.alias}:${originRemote.pathname.substring(1)}`, // this will have to change based on the contents of this object
         owner: originRemote.owner,
         pathname: originRemote.pathname,
         protocol: 'ssh',

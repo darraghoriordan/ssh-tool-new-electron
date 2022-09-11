@@ -7,7 +7,7 @@ function AppRoutes() {
   return (
     <Layout>
       <Routes>
-        <Route path="/" element={<SshConfigurationScreen />} />
+        <Route path="/" element={<GitConfigurationScreen />} />
         <Route path="/git-configuration" element={<GitConfigurationScreen />} />
       </Routes>
     </Layout>

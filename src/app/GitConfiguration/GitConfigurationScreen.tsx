@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { GitConfigScanResponseMessage } from '../../electron/gitConfigurationFileChannels/MessageTypes'
 import { ErrorMessage } from '../components/ErrorMessage'
-import GithubAccountCard from '../components/GithubAccountCard'
+import GithubAccountCard from './GithubAccountCard'
 import { ArrowPathIcon } from '@heroicons/react/24/solid'
 import PageHeader from '../components/PageHeader'
 
