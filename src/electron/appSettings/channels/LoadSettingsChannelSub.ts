@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { IpcMainEvent } from 'electron'
-import { SettingsResponse } from './MessageTypes'
-import { ApplicationSettingsFileService } from '../services/applicationSettings/ApplicationSettingsFileService'
+import { SettingsResponse } from '../MessageTypes'
+import { ApplicationSettingsFileService } from '../services/ApplicationSettingsFileService'
 import { LoadSettingsChannelPub } from './LoadSettingsChannelPub'
-import { IIpcMainInvokeEventSub } from '../IpcChannelTypes/IIpcMainInvokeEventSub'
+import { IIpcMainInvokeEventSub } from '../../IpcChannelTypes/IIpcMainInvokeEventSub'
 
 export class LoadSettingsChannelSub
   extends LoadSettingsChannelPub

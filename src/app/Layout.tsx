@@ -4,6 +4,7 @@ import {
   ShieldCheckIcon,
   ArrowUpCircleIcon,
   DocumentMagnifyingGlassIcon,
+  Cog6ToothIcon,
   ClockIcon,
 } from '@heroicons/react/24/outline'
 import { NavLink } from 'react-router-dom'
@@ -51,6 +52,12 @@ const navigation = [
     name: 'Unix Time Converter',
     href: '/unix-time-converter',
     icon: ArrowDownOnSquareStackIcon,
+    current: false,
+  },
+  {
+    name: 'Settings',
+    href: '/settings',
+    icon: Cog6ToothIcon,
     current: false,
   },
   //   { name: 'Team', href: '#', icon: UsersIcon, current: false },

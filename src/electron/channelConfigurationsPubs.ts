@@ -1,5 +1,5 @@
-import { LoadSettingsChannelPub } from './appSettings/LoadSettingsChannelPub'
-import { SaveSettingsChannelPub } from './appSettings/SaveSettingsChannelPub'
+import { LoadSettingsChannelPub } from './appSettings/channels/LoadSettingsChannelPub'
+import { SaveSettingsChannelPub } from './appSettings/channels/SaveSettingsChannelPub'
 import { ScanGitConfigFilesPub } from './gitConfigurationFileChannels/ScanGitConfigFilesPub'
 import { AddCertToSshAgentPub } from './sshCertChannels/AddCertToSshAgentPub'
 import { GenerateCertPub } from './sshCertChannels/GenerateCertPub'

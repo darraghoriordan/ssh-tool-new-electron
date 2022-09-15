@@ -21,22 +21,29 @@ declare global {
   // eslint-disable-next-line
   interface Window {
     Main: typeof api
-    OpenSshFile: IIpcMainInvokeEventPub<void, OpenFileResponseMessage>
-    ScanForSshCerts: IIpcMainInvokeEventPub<
-      ScanForSshCertsMessage,
-      ScanForSshCertsResponse
-    >
-    ScanGitConfigFiles: IIpcMainInvokeEventPub<
-      GitConfigFileScanRequestMessage,
-      GitConfigScanResponseMessage
-    >
-    SimpleMessage: IIpcMainSendEventPub<string>
-    AddCertToSshAgent: IIpcMainInvokeEventPub<AddCertMessage, AddCertResponse>
-    RemoveCertFromSshAgent: IIpcMainInvokeEventPub<
-      RemoveCertMessage,
-      RemoveCertResponse
-    >
-    LoadSettings: IIpcMainInvokeEventPub<void, SettingsResponse>
-    SaveSettings: IIpcMainInvokeEventPub<SaveSettingsMessage, SettingsResponse>
+    OpenSshFile: {
+      invoke: () => Promise<OpenFileResponseMessage>
+    }
+    ScanForSshCerts: {
+      invoke: (
+        message: ScanForSshCertsMessage
+      ) => Promise<ScanForSshCertsResponse>
+    }
+    ScanGitConfigFiles: {
+      invoke: (
+        message: GitConfigFileScanRequestMessage
+      ) => Promise<GitConfigScanResponseMessage>
+    }
+    SimpleMessage: { invoke: (message: string) => void }
+    AddCertToSshAgent: {
+      invoke: (message: AddCertMessage) => Promise<AddCertResponse>
+    }
+    RemoveCertFromSshAgent: {
+      invoke: (message: RemoveCertMessage) => Promise<RemoveCertResponse>
+    }
+    LoadSettings: { invoke: () => Promise<SettingsResponse> }
+    SaveSettings: {
+      invoke: (message: SaveSettingsMessage) => Promise<SettingsResponse>
+    }
   }
 }

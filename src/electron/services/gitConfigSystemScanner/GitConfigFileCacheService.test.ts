@@ -1,5 +1,5 @@
 import { GitConfigFileCacheService } from './GitConfigFileCacheService'
-import { rawGitConfig } from '../applicationSettings/TestData'
+import { rawGitConfig } from '../../appSettings/services/TestData'
 
 describe('GitConfigFileCacheService', () => {
   let classUnderTest: GitConfigFileCacheService

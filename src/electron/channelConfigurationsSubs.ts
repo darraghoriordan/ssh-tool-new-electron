@@ -1,5 +1,5 @@
-import { LoadSettingsChannelSub } from './appSettings/LoadSettingsChannelSub'
-import { SaveSettingsChannelSub } from './appSettings/SaveSettingsChannelSub'
+import { LoadSettingsChannelSub } from './appSettings/channels/LoadSettingsChannelSub'
+import { SaveSettingsChannelSub } from './appSettings/channels/SaveSettingsChannelSub'
 import { ScanGitConfigFilesSub } from './gitConfigurationFileChannels/ScanGitConfigFilesSub'
 import { IIpcMainInvokeEventSub } from './IpcChannelTypes/IIpcMainInvokeEventSub'
 import { IIpcMainSendEventSub } from './IpcChannelTypes/IIpcMainSendEventSub'
