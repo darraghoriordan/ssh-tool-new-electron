@@ -4,22 +4,24 @@ import path from 'path'
 import { app } from 'electron'
 import { instanceToPlain, plainToInstance } from 'class-transformer'
 import { ApplicationSettings } from '../ApplicationSettings'
-// can't use generics with plain to class
+
 export class ApplicationSettingsFileService {
   private filePath: string
   constructor() {
     this.filePath = path.join(app.getPath('userData'), 'appSettings.json')
+    console.log('Using settings path', this.filePath)
   }
 
   async loadFile(): Promise<ApplicationSettings> {
     // trying to catch the error on readFile still throws for some reason
+    // so using this instead
     if (!fs.existsSync(this.filePath)) {
       return this.getDefaultSettings()
     }
 
     try {
       const fileUtf8 = await fsp.readFile(this.filePath, { encoding: 'utf-8' })
-      console.log('Using settings path', this.filePath)
+
       const settingsInstance = plainToInstance(
         ApplicationSettings,
         JSON.parse(fileUtf8)
