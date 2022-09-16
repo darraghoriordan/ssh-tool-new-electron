@@ -9,6 +9,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { NavLink } from 'react-router-dom'
 import logo from '../assets/logo-tp.png'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const navigation = [
   {
@@ -70,50 +71,52 @@ const navigation = [
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
-
+const queryClient = new QueryClient()
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div>
-      {/* Static sidebar for desktop */}
-      <div className="flex w-64 flex-col fixed inset-y-0">
-        {/* Sidebar component, swap this element with another sidebar if you like */}
-        <div className="flex-1 flex flex-col min-h-0 bg-gray-800">
-          <div className="flex items-center h-18 flex-shrink-0 px-4 bg-gray-800">
-            <img src={logo} alt="Local Dev Tools" />
-          </div>
-          <div className="flex-1 flex flex-col overflow-y-auto">
-            <nav className="flex-1 px-2 py-4 space-y-1">
-              {navigation
-                .filter(x => x.hidden != true)
-                .map(item => (
-                  <NavLink
-                    key={item.name}
-                    to={item.href}
-                    className={(props: { isActive: boolean }): string => {
-                      return classNames(
-                        props.isActive
-                          ? 'bg-gray-900 text-white'
-                          : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                        'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
-                      )
-                    }}
-                  >
-                    <item.icon
-                      className={'mr-3 flex-shrink-0 h-6 w-6'}
-                      aria-hidden="true"
-                    />
-                    {item.name}
-                  </NavLink>
-                ))}
-            </nav>
+    <QueryClientProvider client={queryClient}>
+      <div>
+        {/* Static sidebar for desktop */}
+        <div className="flex w-64 flex-col fixed inset-y-0">
+          {/* Sidebar component, swap this element with another sidebar if you like */}
+          <div className="flex-1 flex flex-col min-h-0 bg-gray-800">
+            <div className="flex items-center h-18 flex-shrink-0 px-4 bg-gray-800">
+              <img src={logo} alt="Local Dev Tools" />
+            </div>
+            <div className="flex-1 flex flex-col overflow-y-auto">
+              <nav className="flex-1 px-2 py-4 space-y-1">
+                {navigation
+                  .filter(x => x.hidden != true)
+                  .map(item => (
+                    <NavLink
+                      key={item.name}
+                      to={item.href}
+                      className={(props: { isActive: boolean }): string => {
+                        return classNames(
+                          props.isActive
+                            ? 'bg-gray-900 text-white'
+                            : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
+                        )
+                      }}
+                    >
+                      <item.icon
+                        className={'mr-3 flex-shrink-0 h-6 w-6'}
+                        aria-hidden="true"
+                      />
+                      {item.name}
+                    </NavLink>
+                  ))}
+              </nav>
+            </div>
           </div>
         </div>
+        <div className="md:pl-64 flex flex-col">
+          <main className="flex-1">
+            <div className="pb-6">{children}</div>
+          </main>
+        </div>
       </div>
-      <div className="md:pl-64 flex flex-col">
-        <main className="flex-1">
-          <div className="pb-6">{children}</div>
-        </main>
-      </div>
-    </div>
+    </QueryClientProvider>
   )
 }
