@@ -7,13 +7,13 @@ import { useGetSettings, useSaveSettings } from './ReactQueryWrappers'
 export function SettingsScreen() {
   const { register, handleSubmit } = useForm()
 
-  const { status, data, error } = useGetSettings()
+  const { isLoading, data, error } = useGetSettings()
   const saveMutation = useSaveSettings()
 
-  if (status === 'loading' || data === undefined) {
+  if (isLoading || data === undefined) {
     return <>Loading...</>
   }
-  if (status === 'error') {
+  if (error) {
     return <>Error...{error}</>
   }
 
