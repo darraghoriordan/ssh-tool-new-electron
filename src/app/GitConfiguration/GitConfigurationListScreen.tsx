@@ -37,21 +37,13 @@ export function GitConfigurationListScreen() {
       </PageHeader>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="py-4">
-          {data.isInError && (
-            <ErrorMessage
-              title={'Failed to list Git configs'}
-              list={[data.errorMessage || '']}
-            />
-          )}
-
           <ul role="list">
-            {data.
+            {data.configList
               .sort((x, y) => (x.path > y.path ? 1 : 0))
               .map(gitConfigInfo => (
                 <li key={gitConfigInfo.path} className="py-4 flex">
                   <GitConfigurationViewCard
                     gitConfigInfo={gitConfigInfo}
-                    allCustomUsers={data.allCustomUsers}
                     globalUser={data.globalUser}
                   />
                 </li>

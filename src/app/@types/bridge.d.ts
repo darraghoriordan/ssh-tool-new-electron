@@ -7,15 +7,12 @@ import {
   RemoveCertResponse,
   ScanForSshCertsMessage,
 } from '../../electron/sshCertChannels/MessageTypes'
-import {
-  GitConfigFileScanRequestMessage,
-  GitConfigScanResponseMessage,
-} from '../../electron/gitConfigurations/channels/MessageTypes'
 import { ScanForSshCertsResponse } from '../../electron/services/sshCertificates/Types'
 import {
   SaveSettingsMessage,
   SettingsResponse,
 } from '../../electron/appSettings/channels/MessageTypes'
+import { GitConfigListResponse } from '../../electron/gitConfigurations/channels/MessageTypes'
 
 declare global {
   // eslint-disable-next-line
@@ -30,7 +27,7 @@ declare global {
       ) => Promise<ScanForSshCertsResponse>
     }
     GitConfigFilesList: {
-      invoke: () => Promise<GitConfigScanResponseMessage>
+      invoke: () => Promise<GitConfigListResponse>
     }
     SimpleMessage: { invoke: (message: string) => void }
     AddCertToSshAgent: {

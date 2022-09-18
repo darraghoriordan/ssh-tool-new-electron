@@ -3,7 +3,6 @@ import { GitConfigInfo } from '../../electron/services/gitConfigSystemScanner/mo
 
 export class GitConfigurationViewCardProps {
   gitConfigInfo!: GitConfigInfo
-  allCustomUsers!: GitUser[]
   globalUser?: GitUser
 }
 

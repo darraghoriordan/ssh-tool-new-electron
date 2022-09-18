@@ -2,23 +2,23 @@ import { IpcMainEvent } from 'electron'
 import GitConfigFileSystemScanner from '../services/GitConfigFileSystemScanner'
 import { IIpcMainInvokeEventSub } from '../../IpcChannelTypes/IIpcMainInvokeEventSub'
 import { GitConfigFilesListPub } from './GitConfigFilesListPub'
-import { GitConfigListResponseMessage } from './MessageTypes'
+import { GitConfigListResponse } from './MessageTypes'
 import { ApplicationSettingService } from '../../appSettings/services/ApplicationSettingService'
 import { GitConfigFileCacheService } from '../services/GitConfigFileCacheService'
 
 export class GitConfigFilesListSub
   extends GitConfigFilesListPub
-  implements IIpcMainInvokeEventSub<void, GitConfigListResponseMessage>
+  implements IIpcMainInvokeEventSub<void, GitConfigListResponse>
 {
   async handle(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     event: IpcMainEvent,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     request: void
-  ): Promise<GitConfigListResponseMessage> {
+  ): Promise<GitConfigListResponse> {
     const settings = await ApplicationSettingService.getSettings()
 
-    const response: GitConfigListResponseMessage = {
+    const response: GitConfigListResponse = {
       configList: [],
       searchedPath: settings.projectsPath,
       globalUser: undefined,
