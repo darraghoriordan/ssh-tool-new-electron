@@ -6,9 +6,7 @@ import GitConfigurationViewCard from './GitConfigurationViewCard'
 import { useGetGitConfigurationList } from './ReactQueryWrappers'
 
 export function GitConfigurationListScreen() {
-  const { isLoading, data, error } = useGetGitConfigurationList({
-    forceFileSystemSearch: false,
-  })
+  const { isLoading, data, error } = useGetGitConfigurationList()
   if (isLoading || data === undefined) {
     return <>Loading...</>
   }
@@ -16,7 +14,7 @@ export function GitConfigurationListScreen() {
     return <>Error...{error}</>
   }
   // i think this should really be some other call that is a mutation that
-  // deletes the cache on the server side and invalidtes the plain old get
+  // deletes the cache on the server side and invalidates the plain old get
   //   const {
   //     isLoading: isLoading2,
   //     data: data2,
@@ -47,7 +45,7 @@ export function GitConfigurationListScreen() {
           )}
 
           <ul role="list">
-            {data.contents
+            {data.
               .sort((x, y) => (x.path > y.path ? 1 : 0))
               .map(gitConfigInfo => (
                 <li key={gitConfigInfo.path} className="py-4 flex">

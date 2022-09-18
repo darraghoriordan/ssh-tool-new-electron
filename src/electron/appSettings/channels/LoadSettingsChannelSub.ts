@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { IpcMainEvent } from 'electron'
-import { SettingsResponse } from '../MessageTypes'
+import { SettingsResponse } from './MessageTypes'
 import { ApplicationSettingService } from '../services/ApplicationSettingService'
 import { LoadSettingsChannelPub } from './LoadSettingsChannelPub'
 import { IIpcMainInvokeEventSub } from '../../IpcChannelTypes/IIpcMainInvokeEventSub'

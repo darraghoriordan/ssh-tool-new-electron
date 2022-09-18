@@ -1,15 +1,14 @@
 import { LoadSettingsChannelPub } from './appSettings/channels/LoadSettingsChannelPub'
 import { SaveSettingsChannelPub } from './appSettings/channels/SaveSettingsChannelPub'
-import { ScanGitConfigFilesPub } from './gitConfigurationFileChannels/ScanGitConfigFilesPub'
 import { AddCertToSshAgentPub } from './sshCertChannels/AddCertToSshAgentPub'
 import { GenerateCertPub } from './sshCertChannels/GenerateCertPub'
 import { RemoveCertFromSshAgentPub } from './sshCertChannels/RemoveCertFromSshAgentPub'
 import { ScanForSshCertsPub } from './sshCertChannels/ScanForSshCertsPub'
 import { GetValidSshHostsPub } from './sshConfigFileChannels/GetValidSshHostsPub'
 import { SimpleMessagePub } from './simpleMessage/SimpleMessagePub'
-
 import { OpenSshConfigFilePub } from './sshConfigFileChannels/OpenSshConfigFilePub'
 import { ChannelConfigurationTypePub } from './ChannelConfigurationTypePub'
+import { GitConfigFilesListPub } from './gitConfigurations/channels/GitConfigFilesListPub'
 
 export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
   rtmSendChannels: [new SimpleMessagePub()],
@@ -19,7 +18,7 @@ export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
     new AddCertToSshAgentPub(),
     new GenerateCertPub(),
     new RemoveCertFromSshAgentPub(),
-    new ScanGitConfigFilesPub(),
+    new GitConfigFilesListPub(),
     new GetValidSshHostsPub(),
     new LoadSettingsChannelPub(),
     new SaveSettingsChannelPub(),

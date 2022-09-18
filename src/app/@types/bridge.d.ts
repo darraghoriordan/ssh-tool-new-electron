@@ -10,12 +10,12 @@ import {
 import {
   GitConfigFileScanRequestMessage,
   GitConfigScanResponseMessage,
-} from '../../electron/gitConfigurationFileChannels/MessageTypes'
+} from '../../electron/gitConfigurations/channels/MessageTypes'
 import { ScanForSshCertsResponse } from '../../electron/services/sshCertificates/Types'
 import {
   SaveSettingsMessage,
   SettingsResponse,
-} from '../../electron/appSettings/MessageTypes'
+} from '../../electron/appSettings/channels/MessageTypes'
 
 declare global {
   // eslint-disable-next-line
@@ -29,10 +29,8 @@ declare global {
         message: ScanForSshCertsMessage
       ) => Promise<ScanForSshCertsResponse>
     }
-    ScanGitConfigFiles: {
-      invoke: (
-        message: GitConfigFileScanRequestMessage
-      ) => Promise<GitConfigScanResponseMessage>
+    GitConfigFilesList: {
+      invoke: () => Promise<GitConfigScanResponseMessage>
     }
     SimpleMessage: { invoke: (message: string) => void }
     AddCertToSshAgent: {

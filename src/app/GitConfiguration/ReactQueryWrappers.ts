@@ -1,23 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { ApplicationSettings } from '../../electron/appSettings/ApplicationSettings'
+import { ApplicationSettings } from '../../electron/appSettings/models/ApplicationSettings'
 
 export const wellKnownQueries = {
   getGitConfigurations: 'get-git-configurations',
   saveGitConfiguration: 'save-git-configuration',
 }
 
-type GetGitConfigurationsContext = {
-  forceFileSystemSearch: boolean
-}
-export function useGetGitConfigurationList(
-  options: GetGitConfigurationsContext
-) {
+export function useGetGitConfigurationList() {
   return useQuery(
-    [wellKnownQueries.getGitConfigurations, options.forceFileSystemSearch],
-    async ({ queryKey }) =>
-      window.ScanGitConfigFiles.invoke({
-        forceFileSystemSearch: queryKey[1] === true || queryKey[1] === 'true',
-      }),
+    [wellKnownQueries.getGitConfigurations],
+    async () => window.GitConfigFilesList.invoke(),
     { staleTime: Infinity }
   )
 }

@@ -1,5 +1,5 @@
 import { GitProjectConfigFileParser } from './GitProjectConfigFileParser'
-import { GitProtocolTypeEnum } from './models/GitProtocolTypeEnum'
+import { GitProtocolTypeEnum } from '../../services/gitConfigSystemScanner/models/GitProtocolTypeEnum'
 
 const sampleGlobalConfig = `[user]
 name = Darragh ORiordan

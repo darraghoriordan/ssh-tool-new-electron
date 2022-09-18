@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { stringify } from 'querystring'
-import { ApplicationSettings } from '../../electron/appSettings/ApplicationSettings'
-import { SettingsResponse } from '../../electron/appSettings/MessageTypes'
+import { ApplicationSettings } from '../../electron/appSettings/models/ApplicationSettings'
+import { SettingsResponse } from '../../electron/appSettings/channels/MessageTypes'
 
 export const wellKnownQueries = {
   getSettings: 'get-settings',

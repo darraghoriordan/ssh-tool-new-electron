@@ -1,11 +1,11 @@
-import { GitUser } from './models/GitUser'
-import { GitRemote } from './models/GitRemote'
-import { GitConfigInfo } from './models/GitConfigInfo'
-import { GitProtocolTypeEnum } from './models/GitProtocolTypeEnum'
+import { GitUser } from '../../services/gitConfigSystemScanner/models/GitUser'
+import { GitRemote } from '../../services/gitConfigSystemScanner/models/GitRemote'
+import { GitConfigInfo } from '../../services/gitConfigSystemScanner/models/GitConfigInfo'
+import { GitProtocolTypeEnum } from '../../services/gitConfigSystemScanner/models/GitProtocolTypeEnum'
 import ini from 'ini'
 import gitUrlParser from 'git-url-parse'
-import { SshConfigFileLoader } from '../sshConfigFile/SshConfigFileLoader'
-import { AvailableHost } from '../sshConfigFile/SshConfigFileParser'
+import { SshConfigFileLoader } from '../../services/sshConfigFile/SshConfigFileLoader'
+import { AvailableHost } from '../../services/sshConfigFile/SshConfigFileParser'
 
 export class GitProjectConfigFileParser {
   static parseGitUser(rawFile: string): GitUser {
@@ -20,13 +20,11 @@ export class GitProjectConfigFileParser {
     rawFile: string,
     filePath: string
   ): GitConfigInfo {
-    const iniParse = ini.parse(rawFile)
+    const parsedIniFile = ini.parse(rawFile)
     const namedSshConnections = SshConfigFileLoader.load()
 
-    console.log('parsed the ini file', iniParse)
-    console.log('parsed ssh connections', namedSshConnections)
     const remotesKeys = GitProjectConfigFileParser.filteredKeys(
-      iniParse,
+      parsedIniFile,
       /^remote /
     )
 
@@ -35,7 +33,7 @@ export class GitProjectConfigFileParser {
       potentialOrigins: [],
       id: Buffer.from(filePath).toString('base64'),
       remotes: remotesKeys.map(remoteNameKey => {
-        const rawUrl = iniParse[remoteNameKey].url
+        const rawUrl = parsedIniFile[remoteNameKey].url
         const parsedUrl = gitUrlParser(rawUrl)
         const urlType = this.parseUrlType(parsedUrl.protocol)
         const remoteName = remoteNameKey
@@ -58,7 +56,10 @@ export class GitProjectConfigFileParser {
         remote.type = urlType
         return remote
       }),
-      user: { email: iniParse.user?.email, name: iniParse.user?.name },
+      user: {
+        email: parsedIniFile.user?.email,
+        name: parsedIniFile.user?.name,
+      },
     }
     result.originRepositoryFileName = this.extractOriginGitRepoName(result)
     try {

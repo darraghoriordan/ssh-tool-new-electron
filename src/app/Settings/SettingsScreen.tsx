@@ -28,12 +28,13 @@ export function SettingsScreen() {
         action="#"
         method="POST"
         onError={e => {
-          throw new Error('FORM SAVVE ERROR')
+          throw new Error('FORM SAVE ERROR')
         }}
         onSubmit={handleSubmit(data =>
           saveMutation.mutate({
             sshCertPath: data['sshCertPath']!,
             projectsPath: data['projectsPath']!,
+            globalGitConfigFile: data['globalGitConfigFile'],
           })
         )}
       >
@@ -61,7 +62,7 @@ export function SettingsScreen() {
                 <div className="grid grid-cols-3 gap-6">
                   <div className="col-span-3 sm:col-span-2">
                     <label
-                      htmlFor="company-website"
+                      htmlFor="sshCertPath"
                       className="block text-sm font-medium text-gray-700"
                     >
                       SSH certs path
@@ -76,7 +77,7 @@ export function SettingsScreen() {
                   </div>
                   <div className="col-span-3 sm:col-span-2">
                     <label
-                      htmlFor="company-website"
+                      htmlFor="projectsPath"
                       className="block text-sm font-medium text-gray-700"
                     >
                       Git project paths
@@ -86,6 +87,21 @@ export function SettingsScreen() {
                         {...register('projectsPath')}
                         className="block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                         defaultValue={data.settings.projectsPath}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-span-3 sm:col-span-2">
+                    <label
+                      htmlFor="globalGitConfigFile"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Git Global Config File
+                    </label>
+                    <div className="mt-1 flex rounded-md shadow-sm">
+                      <input
+                        {...register('globalGitConfigFile')}
+                        className="block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        defaultValue={data.settings.globalGitConfigFile}
                       />
                     </div>
                   </div>

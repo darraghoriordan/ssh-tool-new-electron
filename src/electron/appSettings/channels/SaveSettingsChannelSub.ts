@@ -1,5 +1,5 @@
 import { IpcMainEvent } from 'electron'
-import { SaveSettingsMessage, SettingsResponse } from '../MessageTypes'
+import { SaveSettingsMessage, SettingsResponse } from './MessageTypes'
 import { ApplicationSettingService } from '../services/ApplicationSettingService'
 import { SaveSettingsChannelPub } from './SaveSettingsChannelPub'
 import { IIpcMainInvokeEventSub } from '../../IpcChannelTypes/IIpcMainInvokeEventSub'

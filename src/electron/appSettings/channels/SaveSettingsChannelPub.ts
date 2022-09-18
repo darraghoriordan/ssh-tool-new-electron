@@ -1,4 +1,4 @@
-import { AppSettingsChannels } from '../AppSettingsChannelEnum'
+import { AppSettingsChannels } from './AppSettingsChannelEnum'
 import { InvokeChannelBasePub } from '../../IpcChannelTypes/InvokeChannelBasePub'
 
 export class SaveSettingsChannelPub extends InvokeChannelBasePub {

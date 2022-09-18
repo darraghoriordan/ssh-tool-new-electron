@@ -1,4 +1,4 @@
-import { ApplicationSettings } from './ApplicationSettings'
+import { ApplicationSettings } from '../models/ApplicationSettings'
 
 export type SaveSettingsMessage = {
   settings: ApplicationSettings

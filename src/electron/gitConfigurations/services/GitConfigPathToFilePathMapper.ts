@@ -2,9 +2,6 @@ import path from 'path'
 
 export class GitConfigPathToFilePathMapper {
   public static map(homePath: string, stdout: string): string[] {
-    console.debug('parsing.. ', {
-      stdout,
-    })
     const response: string[] = []
 
     const paths = stdout

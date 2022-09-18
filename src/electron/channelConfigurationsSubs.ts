@@ -1,6 +1,6 @@
 import { LoadSettingsChannelSub } from './appSettings/channels/LoadSettingsChannelSub'
 import { SaveSettingsChannelSub } from './appSettings/channels/SaveSettingsChannelSub'
-import { ScanGitConfigFilesSub } from './gitConfigurationFileChannels/ScanGitConfigFilesSub'
+import { GitConfigFilesListSub } from './gitConfigurations/channels/GitConfigFilesListSub'
 import { IIpcMainInvokeEventSub } from './IpcChannelTypes/IIpcMainInvokeEventSub'
 import { IIpcMainSendEventSub } from './IpcChannelTypes/IIpcMainSendEventSub'
 import { SimpleMessageSub } from './simpleMessage/SimpleMessageSub'
@@ -24,7 +24,7 @@ export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
     new AddCertToSshAgentSub(),
     new GenerateCertSub(),
     new RemoveCertFromSshAgentSub(),
-    new ScanGitConfigFilesSub(),
+    new GitConfigFilesListSub(),
     new GetValidSshHostsSub(),
     new LoadSettingsChannelSub(),
     new SaveSettingsChannelSub(),
