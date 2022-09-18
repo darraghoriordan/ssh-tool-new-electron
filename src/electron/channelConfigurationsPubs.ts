@@ -9,9 +9,11 @@ import { SimpleMessagePub } from './simpleMessage/SimpleMessagePub'
 import { OpenSshConfigFilePub } from './sshConfigFileChannels/OpenSshConfigFilePub'
 import { ChannelConfigurationTypePub } from './ChannelConfigurationTypePub'
 import { GitConfigFilesListPub } from './gitConfigurations/channels/GitConfigFilesListPub'
+import { ResetSettingsChannelPub } from './appSettings/channels/ResetSettingsChannelPub'
+import { OpenFileLocationPub } from './appSettings/channels/OpenFileLocationPub'
 
 export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
-  rtmSendChannels: [new SimpleMessagePub()],
+  rtmSendChannels: [new SimpleMessagePub(), new OpenFileLocationPub()],
   rtmInvokeChannels: [
     new OpenSshConfigFilePub(),
     new ScanForSshCertsPub(),
@@ -22,5 +24,6 @@ export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
     new GetValidSshHostsPub(),
     new LoadSettingsChannelPub(),
     new SaveSettingsChannelPub(),
+    new ResetSettingsChannelPub(),
   ],
 }

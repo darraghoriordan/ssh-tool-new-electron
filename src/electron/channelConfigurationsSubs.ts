@@ -1,4 +1,6 @@
 import { LoadSettingsChannelSub } from './appSettings/channels/LoadSettingsChannelSub'
+import { OpenFileLocationSub } from './appSettings/channels/OpenFileLocationSub'
+import { ResetSettingsChannelSub } from './appSettings/channels/ResetSettingsChannelSub'
 import { SaveSettingsChannelSub } from './appSettings/channels/SaveSettingsChannelSub'
 import { GitConfigFilesListSub } from './gitConfigurations/channels/GitConfigFilesListSub'
 import { IIpcMainInvokeEventSub } from './IpcChannelTypes/IIpcMainInvokeEventSub'
@@ -17,7 +19,7 @@ export type ChannelConfigurationTypeSub = {
 }
 
 export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
-  rtmSendChannels: [new SimpleMessageSub()],
+  rtmSendChannels: [new SimpleMessageSub(), new OpenFileLocationSub()],
   rtmInvokeChannels: [
     new OpenSshConfigFileSub(),
     new ScanForSshCertsSub(),
@@ -28,5 +30,6 @@ export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
     new GetValidSshHostsSub(),
     new LoadSettingsChannelSub(),
     new SaveSettingsChannelSub(),
+    new ResetSettingsChannelSub(),
   ],
 }

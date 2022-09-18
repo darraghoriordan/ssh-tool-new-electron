@@ -49,7 +49,7 @@ class Bridge {
       console.log(`adding FE bridge for ${channel.getExposedApiName()}`)
       contextBridge.exposeInMainWorld(channel.getExposedApiName(), {
         invoke: (message: any) =>
-          ipcRenderer.invoke(channel.getChannelName(), message),
+          ipcRenderer.send(channel.getChannelName(), message),
       })
       console.log(`added FE bridge for ${channel.getExposedApiName()}`)
     })

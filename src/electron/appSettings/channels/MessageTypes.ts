@@ -5,4 +5,9 @@ export type SaveSettingsMessage = {
 }
 export type SettingsResponse = {
   settings: ApplicationSettings
+  meta: ApplicationSettingsMeta
+}
+
+export type ApplicationSettingsMeta = {
+  appSettingsFileLocation: string
 }

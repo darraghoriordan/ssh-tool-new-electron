@@ -6,8 +6,8 @@ export class DefaultSettingsMac extends ApplicationSettings {
   constructor() {
     super()
     this.platformMatcher = 'darwin'
-    this.projectsPath = '~/projects'
-    this.sshCertPath = '~/.ssh'
+    this.projectsPath = path.join(app.getPath('home'), 'Documents')
+    this.sshCertPath = path.join(app.getPath('home'), '.ssh')
     this.globalGitConfigFile = path.join(app.getPath('home'), '.gitconfig')
   }
 

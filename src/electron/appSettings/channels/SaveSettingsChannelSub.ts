@@ -23,6 +23,7 @@ export class SaveSettingsChannelSub
 
     return {
       settings: request.settings,
+      meta: { appSettingsFileLocation: ApplicationSettingService.filePath },
     }
   }
 }

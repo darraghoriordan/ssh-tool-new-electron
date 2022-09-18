@@ -6,10 +6,12 @@ export class ApplicationSettings {
   @IsString()
   @MinLength(1)
   sshCertPath!: string
+
   @Expose()
   @IsString()
   @MinLength(1)
   projectsPath!: string
+
   @Expose()
   @IsString()
   @MinLength(1)

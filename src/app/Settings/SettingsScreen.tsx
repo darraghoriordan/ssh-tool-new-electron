@@ -2,13 +2,31 @@
 import React from 'react'
 import PageHeader from '../components/PageHeader'
 import { useForm } from 'react-hook-form'
-import { useGetSettings, useSaveSettings } from './ReactQueryWrappers'
+import {
+  useGetSettings,
+  useResetSettings,
+  useSaveSettings,
+} from './ReactQueryWrappers'
 
 export function SettingsScreen() {
   const { register, handleSubmit } = useForm()
 
   const { isLoading, data, error } = useGetSettings()
   const saveMutation = useSaveSettings()
+  const resetMutation = useResetSettings()
+
+  const onResetClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    resetMutation.mutate()
+  }
+
+  const onOpenSettingsFolderClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault()
+    // shell.showItemInFolder(data!.meta.appSettingsFileLocation)
+    window.OpenFileLocation.invoke(data!.meta.appSettingsFileLocation)
+  }
 
   if (isLoading || data === undefined) {
     return <>Loading...</>
@@ -39,6 +57,25 @@ export function SettingsScreen() {
         )}
       >
         <PageHeader pageTitle={'App Settings'}>
+          {data && (
+            <button
+              type="button"
+              disabled={resetMutation.isLoading}
+              onClick={e => onOpenSettingsFolderClick(e)}
+              className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+              Open settings folder
+            </button>
+          )}
+
+          <button
+            type="button"
+            disabled={resetMutation.isLoading}
+            onClick={e => onResetClick(e)}
+            className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
+            Reset To Defaults
+          </button>
           <button
             type="submit"
             disabled={saveMutation.isLoading}

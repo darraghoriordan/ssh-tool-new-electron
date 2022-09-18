@@ -5,6 +5,7 @@ import { SettingsResponse } from '../../electron/appSettings/channels/MessageTyp
 export const wellKnownQueries = {
   getSettings: 'get-settings',
   saveSettings: 'save-settings',
+  resetSettings: 'reset-settings',
 }
 
 export function useGetSettings() {
@@ -36,6 +37,26 @@ export function useSaveSettings() {
         console.log(
           'Saving settings successful, invalidating current settings cache...'
         )
+        queryClient.invalidateQueries([wellKnownQueries.getSettings])
+      },
+    }
+  )
+}
+
+export function useResetSettings() {
+  const queryClient = useQueryClient()
+
+  return useMutation<void, { message: string }, void, void>(
+    [wellKnownQueries.resetSettings],
+    async () => {
+      return window.ResetSettings.invoke()
+    },
+    {
+      onError: error => {
+        console.log(error.message)
+      },
+      onSuccess: () => {
+        console.log('Reset settings successful, clearing cache.')
         queryClient.invalidateQueries([wellKnownQueries.getSettings])
       },
     }

@@ -13,6 +13,9 @@ export class LoadSettingsChannelSub
     console.log('Loading settings file...')
 
     const settingsFile = await ApplicationSettingService.getSettings()
-    return { settings: settingsFile }
+    return {
+      settings: settingsFile,
+      meta: { appSettingsFileLocation: ApplicationSettingService.filePath },
+    }
   }
 }

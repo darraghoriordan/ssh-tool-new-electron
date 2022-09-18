@@ -11,12 +11,12 @@ import { DefaultSettingsWindows } from '../models/DefaultSettingsWindows'
 import { validate } from 'class-validator'
 
 export class ApplicationSettingService {
-  private static filePath: string = path.join(
+  static filePath: string = path.join(
     app.getPath('userData'),
     'appSettings.json'
   )
 
-  private static loadedSettings: ApplicationSettings
+  private static loadedSettings: ApplicationSettings | undefined
 
   static async getSettings(): Promise<ApplicationSettings> {
     if (this.loadedSettings === undefined) {
@@ -92,5 +92,13 @@ export class ApplicationSettingService {
     )
 
     this.loadedSettings = settings
+  }
+
+  static async deleteFile(): Promise<void> {
+    console.log(
+      `deleting settings file path ${ApplicationSettingService.filePath}`
+    )
+    await fsp.rm(this.filePath, { force: true })
+    this.loadedSettings = undefined
   }
 }

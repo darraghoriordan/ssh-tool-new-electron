@@ -30,6 +30,7 @@ declare global {
       invoke: () => Promise<GitConfigListResponse>
     }
     SimpleMessage: { invoke: (message: string) => void }
+    OpenFileLocation: { invoke: (filePath: string) => void }
     AddCertToSshAgent: {
       invoke: (message: AddCertMessage) => Promise<AddCertResponse>
     }
@@ -39,6 +40,9 @@ declare global {
     LoadSettings: { invoke: () => Promise<SettingsResponse> }
     SaveSettings: {
       invoke: (message: SaveSettingsMessage) => Promise<SettingsResponse>
+    }
+    ResetSettings: {
+      invoke: () => Promise<void>
     }
   }
 }
