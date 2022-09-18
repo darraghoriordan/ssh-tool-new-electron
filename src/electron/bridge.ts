@@ -30,8 +30,8 @@ class Bridge {
   }
 
   registerBridgeMethods(
-    rtmSendChannels: IIpcMainSendEventPub<any>[],
-    rtmInvokeChannels: IIpcMainInvokeEventPub<any, any>[]
+    rtmSendChannels: IIpcMainSendEventPub[],
+    rtmInvokeChannels: IIpcMainInvokeEventPub[]
   ) {
     contextBridge.exposeInMainWorld('electronApiTest', {
       test: (message: string) => console.log(message),
@@ -40,14 +40,16 @@ class Bridge {
     rtmInvokeChannels.forEach(channel => {
       console.log(`adding FE bridge for ${channel.getExposedApiName()}`)
       contextBridge.exposeInMainWorld(channel.getExposedApiName(), {
-        invoke: channel.getInvoker(),
+        invoke: (message: any) =>
+          ipcRenderer.invoke(channel.getChannelName(), message),
       })
       console.log(`added FE bridge for ${channel.getExposedApiName()}`)
     })
     rtmSendChannels.forEach(channel => {
       console.log(`adding FE bridge for ${channel.getExposedApiName()}`)
       contextBridge.exposeInMainWorld(channel.getExposedApiName(), {
-        invoke: channel.getInvoker(),
+        invoke: (message: any) =>
+          ipcRenderer.invoke(channel.getChannelName(), message),
       })
       console.log(`added FE bridge for ${channel.getExposedApiName()}`)
     })

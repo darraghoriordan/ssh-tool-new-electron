@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { IpcMainEvent } from 'electron'
 import { SettingsResponse } from '../MessageTypes'
-import { ApplicationSettingsFileService } from '../services/ApplicationSettingsFileService'
+import { ApplicationSettingService } from '../services/ApplicationSettingService'
 import { LoadSettingsChannelPub } from './LoadSettingsChannelPub'
 import { IIpcMainInvokeEventSub } from '../../IpcChannelTypes/IIpcMainInvokeEventSub'
 
@@ -11,8 +11,8 @@ export class LoadSettingsChannelSub
 {
   async handle(event: IpcMainEvent): Promise<SettingsResponse> {
     console.log('Loading settings file...')
-    const settingsService = new ApplicationSettingsFileService()
-    const settingsFile = await settingsService.loadFile()
-    return { settings: settingsFile, isInError: false, errorMessage: undefined }
+
+    const settingsFile = await ApplicationSettingService.getSettings()
+    return { settings: settingsFile }
   }
 }

@@ -1,6 +1,6 @@
 import { IpcMainEvent } from 'electron'
 import { SaveSettingsMessage, SettingsResponse } from '../MessageTypes'
-import { ApplicationSettingsFileService } from '../services/ApplicationSettingsFileService'
+import { ApplicationSettingService } from '../services/ApplicationSettingService'
 import { SaveSettingsChannelPub } from './SaveSettingsChannelPub'
 import { IIpcMainInvokeEventSub } from '../../IpcChannelTypes/IIpcMainInvokeEventSub'
 
@@ -13,12 +13,16 @@ export class SaveSettingsChannelSub
     request: SaveSettingsMessage
   ): Promise<SettingsResponse> {
     console.log(request)
-    const settingsService = new ApplicationSettingsFileService()
-    settingsService.saveFile(request.settings)
+    try {
+      await ApplicationSettingService.saveFile(request.settings)
+    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      console.log('error right in handler', (error as any).message)
+      throw error
+    }
+
     return {
       settings: request.settings,
-      isInError: false,
-      errorMessage: undefined,
     }
   }
 }

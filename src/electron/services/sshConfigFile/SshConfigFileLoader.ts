@@ -14,6 +14,7 @@ export class SshConfigFileLoader {
       throw new Error("Couldn't parse the ssh config file")
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return SshConfigFileParser.parseValidSshHosts(rawFileContents.contents!)
   }
 }

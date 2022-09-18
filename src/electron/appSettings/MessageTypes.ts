@@ -5,6 +5,4 @@ export type SaveSettingsMessage = {
 }
 export type SettingsResponse = {
   settings: ApplicationSettings
-  errorMessage: string | undefined
-  isInError: boolean
 }

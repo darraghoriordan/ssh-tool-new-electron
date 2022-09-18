@@ -27,8 +27,7 @@ name = Darragh ORiordan
 email = darragh@emailer.com`
 describe('GitProjectConfigFileParser', () => {
   it('can parse global config', () => {
-    const result =
-      GitProjectConfigFileParser.parseGitGlobalConfig(sampleGlobalConfig)
+    const result = GitProjectConfigFileParser.parseGitUser(sampleGlobalConfig)
     expect(result).toMatchObject({
       name: 'Darragh ORiordan',
       email: 'darragh@emailer.com',

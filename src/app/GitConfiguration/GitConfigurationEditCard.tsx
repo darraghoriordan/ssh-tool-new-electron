@@ -2,13 +2,15 @@ import { GitUser } from '../../electron/services/gitConfigSystemScanner/models/G
 import { GitConfigInfo } from '../../electron/services/gitConfigSystemScanner/models/GitConfigInfo'
 import { DocumentArrowDownIcon } from '@heroicons/react/24/outline'
 
-export class GithubAccountCardProps {
+export class GitConfigurationEditCardProps {
   gitConfigInfo!: GitConfigInfo
   allCustomUsers!: GitUser[]
   globalUser?: GitUser
 }
 
-export default function GithubAccountCard(props: GithubAccountCardProps) {
+export default function GitConfigurationEditCard(
+  props: GitConfigurationEditCardProps
+) {
   const origin = props.gitConfigInfo.remotes.find(x =>
     x.remoteName?.includes('origin')
   )

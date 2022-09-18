@@ -8,6 +8,7 @@ export class GitConfigInfo {
 
   originRepositoryFileName?: string
   path!: string
+  id!: string
 
   @Type(() => GitRemote)
   remotes!: GitRemote[]

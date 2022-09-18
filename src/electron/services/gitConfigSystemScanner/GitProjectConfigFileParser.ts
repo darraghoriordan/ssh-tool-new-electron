@@ -8,7 +8,7 @@ import { SshConfigFileLoader } from '../sshConfigFile/SshConfigFileLoader'
 import { AvailableHost } from '../sshConfigFile/SshConfigFileParser'
 
 export class GitProjectConfigFileParser {
-  static parseGitGlobalConfig(rawFile: string): GitUser {
+  static parseGitUser(rawFile: string): GitUser {
     const parsedGlobal = ini.parse(rawFile)
     return {
       name: parsedGlobal.user?.name,
@@ -33,6 +33,7 @@ export class GitProjectConfigFileParser {
     const result: GitConfigInfo = {
       path: filePath,
       potentialOrigins: [],
+      id: Buffer.from(filePath).toString('base64'),
       remotes: remotesKeys.map(remoteNameKey => {
         const rawUrl = iniParse[remoteNameKey].url
         const parsedUrl = gitUrlParser(rawUrl)

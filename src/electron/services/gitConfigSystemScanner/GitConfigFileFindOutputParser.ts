@@ -1,7 +1,7 @@
 import path from 'path'
 
-export class GitConfigFileFindOutputParser {
-  public static parse(homePath: string, stdout: string): string[] {
+export class GitConfigPathToFilePathMapper {
+  public static map(homePath: string, stdout: string): string[] {
     console.debug('parsing.. ', {
       stdout,
     })

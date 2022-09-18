@@ -16,6 +16,10 @@ export function SettingsScreen() {
   if (error) {
     return <>Error...{error}</>
   }
+  if (saveMutation.isError) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return <>Error...{saveMutation.error.message}</>
+  }
 
   return (
     <>
@@ -23,6 +27,9 @@ export function SettingsScreen() {
         className="space-y-6"
         action="#"
         method="POST"
+        onError={e => {
+          throw new Error('FORM SAVVE ERROR')
+        }}
         onSubmit={handleSubmit(data =>
           saveMutation.mutate({
             sshCertPath: data['sshCertPath']!,
@@ -31,7 +38,6 @@ export function SettingsScreen() {
         )}
       >
         <PageHeader pageTitle={'App Settings'}>
-          {' '}
           <button
             type="submit"
             disabled={saveMutation.isLoading}

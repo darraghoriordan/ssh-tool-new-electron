@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { stringify } from 'querystring'
 import { ApplicationSettings } from '../../electron/appSettings/ApplicationSettings'
+import { SettingsResponse } from '../../electron/appSettings/MessageTypes'
 
 export const wellKnownQueries = {
   getSettings: 'get-settings',
@@ -17,12 +19,24 @@ export function useGetSettings() {
 export function useSaveSettings() {
   const queryClient = useQueryClient()
 
-  return useMutation(
+  return useMutation<
+    SettingsResponse,
+    { message: string },
+    ApplicationSettings,
+    unknown
+  >(
     [wellKnownQueries.saveSettings],
-    async (settings: ApplicationSettings) =>
-      window.SaveSettings.invoke({ settings }),
+    async (settings: ApplicationSettings) => {
+      return window.SaveSettings.invoke({ settings })
+    },
     {
+      onError: error => {
+        console.log(error.message)
+      },
       onSuccess: () => {
+        console.log(
+          'Saving settings successful, invalidating current settings cache...'
+        )
         queryClient.invalidateQueries([wellKnownQueries.getSettings])
       },
     }

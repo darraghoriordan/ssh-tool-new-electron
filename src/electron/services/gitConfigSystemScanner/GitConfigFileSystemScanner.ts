@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { GitConfigFileFindOutputParser } from './GitConfigFileFindOutputParser'
+import { GitConfigPathToFilePathMapper } from './GitConfigFileFindOutputParser'
 import fsp from 'fs/promises'
 import path from 'path'
 import { spawnPromise } from '../PromisifiedNodeUtilities/SpawnPromise'
@@ -19,14 +19,14 @@ export default class GitConfigFileSystemScanner {
       globalUser: undefined,
       allCustomUsers: [],
     }
-    // check exists
+    // check project path exists
     if (!fs.existsSync(scanStartPath)) {
       console.error('path not found', scanStartPath)
       response.foundDirectory = false
       response.errorMessage = 'home path not found'
       response.isInError = true
     }
-
+    // scan the project path for matching config files
     if (response.foundDirectory) {
       let stdout = ''
       try {
@@ -96,10 +96,10 @@ export default class GitConfigFileSystemScanner {
         response.isInError = true
         return response
       }
-      // parse the lines to a list of full paths and include global file
+      // map the lines to a list of full paths and include global file
       const GLOBAL_CONFIG_FILE_PATH = path.join(homeDirectory, '.gitconfig')
       const gitConfigFilePaths = [GLOBAL_CONFIG_FILE_PATH].concat(
-        GitConfigFileFindOutputParser.parse(homeDirectory, stdout)
+        GitConfigPathToFilePathMapper.map(homeDirectory, stdout)
       )
 
       // create promises for each file to get contents
@@ -112,7 +112,7 @@ export default class GitConfigFileSystemScanner {
 
       // parse the result of the global config file as a special case
       if (results[0].status === 'fulfilled') {
-        response.globalUser = GitProjectConfigFileParser.parseGitGlobalConfig(
+        response.globalUser = GitProjectConfigFileParser.parseGitUser(
           results[0].value.toString()
         )
       }

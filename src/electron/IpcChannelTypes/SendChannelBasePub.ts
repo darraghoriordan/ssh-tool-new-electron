@@ -1,7 +1,6 @@
-import { ipcRenderer } from 'electron'
 import { IIpcMainSendEventPub } from './IIpcMainSendEventPub'
 
-export class SendChannelBasePub<T> implements IIpcMainSendEventPub<T> {
+export class SendChannelBasePub implements IIpcMainSendEventPub {
   constructor(private apiName: string, private channelName: string) {}
 
   getExposedApiName(): string {
@@ -9,9 +8,5 @@ export class SendChannelBasePub<T> implements IIpcMainSendEventPub<T> {
   }
   getChannelName(): string {
     return this.channelName
-  }
-
-  getInvoker(): (message: T) => void {
-    return (message: T) => ipcRenderer.send(this.channelName, message)
   }
 }

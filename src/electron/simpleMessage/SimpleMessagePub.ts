@@ -1,6 +1,6 @@
 import { SendChannelBasePub } from '../IpcChannelTypes/SendChannelBasePub'
 
-export class SimpleMessagePub extends SendChannelBasePub<string> {
+export class SimpleMessagePub extends SendChannelBasePub {
   constructor() {
     super('message', 'SimpleMessage')
   }

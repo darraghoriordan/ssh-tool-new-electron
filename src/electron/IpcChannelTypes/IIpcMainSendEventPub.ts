@@ -1,5 +1,4 @@
-export type IIpcMainSendEventPub<T> = {
+export type IIpcMainSendEventPub = {
   getChannelName(): string
   getExposedApiName(): string
-  getInvoker(): (message: T) => void
 }
