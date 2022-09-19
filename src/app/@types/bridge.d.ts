@@ -42,7 +42,7 @@ declare global {
       invoke: (message: SaveSettingsMessage) => Promise<SettingsResponse>
     }
     ResetSettings: {
-      invoke: () => Promise<void>
+      invoke: () => Promise<SettingsResponse>
     }
   }
 }

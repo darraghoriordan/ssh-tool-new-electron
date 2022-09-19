@@ -15,11 +15,11 @@ export function SettingsScreen() {
   const saveMutation = useSaveSettings()
   const resetMutation = useResetSettings()
 
-  const onResetClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const onResetClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
-    resetMutation.mutate()
+    const settingsResponse = await resetMutation.mutateAsync()
     // UNLESS THE ABOVE RETURNS DATA THIS BREAKS
-    reset()
+    reset(settingsResponse.settings)
   }
 
   const onOpenSettingsFolderClick = (

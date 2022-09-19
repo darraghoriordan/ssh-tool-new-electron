@@ -46,9 +46,9 @@ export function useSaveSettings() {
 export function useResetSettings() {
   const queryClient = useQueryClient()
 
-  return useMutation<void, { message: string }, void, void>(
+  return useMutation<SettingsResponse, { message: string }, void, unknown>(
     [wellKnownQueries.resetSettings],
-    async () => {
+    async (): Promise<SettingsResponse> => {
       return window.ResetSettings.invoke()
     },
     {
