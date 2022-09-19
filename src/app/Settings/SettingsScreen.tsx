@@ -9,7 +9,7 @@ import {
 } from './ReactQueryWrappers'
 
 export function SettingsScreen() {
-  const { register, handleSubmit } = useForm()
+  const { register, handleSubmit, reset } = useForm()
 
   const { isLoading, data, error } = useGetSettings()
   const saveMutation = useSaveSettings()
@@ -18,6 +18,8 @@ export function SettingsScreen() {
   const onResetClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     resetMutation.mutate()
+    // UNLESS THE ABOVE RETURNS DATA THIS BREAKS
+    reset()
   }
 
   const onOpenSettingsFolderClick = (
@@ -48,13 +50,14 @@ export function SettingsScreen() {
         onError={e => {
           throw new Error('FORM SAVE ERROR')
         }}
-        onSubmit={handleSubmit(data =>
+        onSubmit={handleSubmit(data => {
+          console.log('data', data)
           saveMutation.mutate({
             sshCertPath: data['sshCertPath']!,
             projectsPath: data['projectsPath']!,
             globalGitConfigFile: data['globalGitConfigFile'],
           })
-        )}
+        })}
       >
         <PageHeader pageTitle={'App Settings'}>
           {data && (
