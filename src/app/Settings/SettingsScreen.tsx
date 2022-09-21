@@ -42,7 +42,7 @@ export function SettingsScreen() {
   }
 
   return (
-    <>
+    <div className="max-w-10xl mx-auto">
       <form
         className="space-y-6"
         action="#"
@@ -65,7 +65,7 @@ export function SettingsScreen() {
               type="button"
               disabled={resetMutation.isLoading}
               onClick={e => onOpenSettingsFolderClick(e)}
-              className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               Open settings folder
             </button>
@@ -75,75 +75,75 @@ export function SettingsScreen() {
             type="button"
             disabled={resetMutation.isLoading}
             onClick={e => onResetClick(e)}
-            className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
             Reset To Defaults
           </button>
+
           <button
             type="submit"
             disabled={saveMutation.isLoading}
-            className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
             Save
           </button>
         </PageHeader>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-          <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
-            <div className="md:grid md:grid-cols-3 md:gap-6">
-              <div className="md:col-span-1">
-                <h3 className="text-lg font-medium leading-6 text-gray-900">
-                  General Settings
-                </h3>
-                <p className="mt-1 text-sm text-gray-500">
-                  These settings affect the whole application.
-                </p>
-              </div>
-              <div className="mt-5 space-y-6 md:col-span-2 md:mt-0">
-                <div className="grid grid-cols-3 gap-6">
-                  <div className="col-span-3 sm:col-span-2">
-                    <label
-                      htmlFor="sshCertPath"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      SSH certs path
-                    </label>
-                    <div className="mt-1 flex rounded-md shadow-sm">
-                      <input
-                        {...register('sshCertPath')}
-                        className="block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        defaultValue={data.settings.sshCertPath}
-                      />
-                    </div>
+
+        <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
+          <div className="md:grid md:grid-cols-3 md:gap-6">
+            <div className="md:col-span-1">
+              <h3 className="text-lg font-medium leading-6 text-gray-900">
+                General Settings
+              </h3>
+              <p className="mt-1 text-sm text-gray-500">
+                These settings affect the whole application.
+              </p>
+            </div>
+            <div className="mt-5 space-y-6 md:col-span-2 md:mt-0">
+              <div className="grid grid-cols-3 gap-6">
+                <div className="col-span-3 sm:col-span-2">
+                  <label
+                    htmlFor="sshCertPath"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    SSH certs path
+                  </label>
+                  <div className="mt-1 flex rounded-md shadow-sm">
+                    <input
+                      {...register('sshCertPath')}
+                      className="block w-full rounded-md border border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                      defaultValue={data.settings.sshCertPath}
+                    />
                   </div>
-                  <div className="col-span-3 sm:col-span-2">
-                    <label
-                      htmlFor="projectsPath"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Git project paths
-                    </label>
-                    <div className="mt-1 flex rounded-md shadow-sm">
-                      <input
-                        {...register('projectsPath')}
-                        className="block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        defaultValue={data.settings.projectsPath}
-                      />
-                    </div>
+                </div>
+                <div className="col-span-3 sm:col-span-2">
+                  <label
+                    htmlFor="projectsPath"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Git project paths
+                  </label>
+                  <div className="mt-1 flex rounded-md shadow-sm">
+                    <input
+                      {...register('projectsPath')}
+                      className="block w-full rounded-md border border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                      defaultValue={data.settings.projectsPath}
+                    />
                   </div>
-                  <div className="col-span-3 sm:col-span-2">
-                    <label
-                      htmlFor="globalGitConfigFile"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Git Global Config File
-                    </label>
-                    <div className="mt-1 flex rounded-md shadow-sm">
-                      <input
-                        {...register('globalGitConfigFile')}
-                        className="block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        defaultValue={data.settings.globalGitConfigFile}
-                      />
-                    </div>
+                </div>
+                <div className="col-span-3 sm:col-span-2">
+                  <label
+                    htmlFor="globalGitConfigFile"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Git Global Config File
+                  </label>
+                  <div className="mt-1 flex rounded-md shadow-sm">
+                    <input
+                      {...register('globalGitConfigFile')}
+                      className="block w-full rounded-md border border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                      defaultValue={data.settings.globalGitConfigFile}
+                    />
                   </div>
                 </div>
               </div>
@@ -151,6 +151,6 @@ export function SettingsScreen() {
           </div>
         </div>
       </form>
-    </>
+    </div>
   )
 }

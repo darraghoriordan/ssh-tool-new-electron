@@ -7,8 +7,9 @@ import {
   Cog6ToothIcon,
   ClockIcon,
 } from '@heroicons/react/24/outline'
-import { NavLink } from 'react-router-dom'
-import logo from '../assets/logo-tp.png'
+import { NavLink, Outlet } from 'react-router-dom'
+//import logo from '../assets/logo-tp.png'
+import logo from '../assets/logo-grey800.png'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const navigation = [
@@ -17,13 +18,14 @@ const navigation = [
     href: '/',
     icon: ArrowUpCircleIcon,
     current: false,
+    end: true,
   },
   {
     name: 'Git SSH Configurations',
     href: '/ssh-configuration',
     icon: ShieldCheckIcon,
     hidden: true,
-    current: true,
+    current: false,
   },
   {
     name: 'JWT Decoder',
@@ -72,15 +74,15 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 const queryClient = new QueryClient()
-export const Layout = ({ children }: { children: React.ReactNode }) => {
+export const Layout = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <div>
         {/* Static sidebar for desktop */}
-        <div className="flex w-64 flex-col fixed inset-y-0">
+        <div className="flex w-64 flex-col fixed inset-y-0 bg-gray-800">
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex-1 flex flex-col min-h-0 bg-gray-800">
-            <div className="flex items-center h-18 flex-shrink-0 px-4 bg-gray-800">
+          <div className="flex-1 flex flex-col min-h-0">
+            <div className="flex items-center h-18 flex-shrink-0 px-4 my-4">
               <img src={logo} alt="Local Dev Tools" />
             </div>
             <div className="flex-1 flex flex-col overflow-y-auto">
@@ -89,13 +91,18 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
                   .filter(x => x.hidden != true)
                   .map(item => (
                     <NavLink
+                      end={item.end}
                       key={item.name}
                       to={item.href}
-                      className={(props: { isActive: boolean }): string => {
+                      className={props => {
+                        if (props.isActive) {
+                          return classNames(
+                            'bg-gray-900 text-white',
+                            'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
+                          )
+                        }
                         return classNames(
-                          props.isActive
-                            ? 'bg-gray-900 text-white'
-                            : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          'text-gray-300 hover:bg-gray-700 hover:text-white',
                           'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
                         )
                       }}
@@ -111,9 +118,9 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
             </div>
           </div>
         </div>
-        <div className="md:pl-64 flex flex-col">
-          <main className="flex-1">
-            <div className="pb-6">{children}</div>
+        <div className="pl-64 mx-8 mt-8">
+          <main className="">
+            <Outlet />
           </main>
         </div>
       </div>
