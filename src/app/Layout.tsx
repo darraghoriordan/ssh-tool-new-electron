@@ -58,7 +58,7 @@ const navigation = [
     current: false,
   },
   {
-    name: 'Settings',
+    name: 'App Settings',
     href: '/settings',
     icon: Cog6ToothIcon,
     current: false,
