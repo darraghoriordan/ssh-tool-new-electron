@@ -14,9 +14,6 @@ export class GenerateCertSub
   ): Promise<GenerateCertResponse> {
     console.log(request)
 
-    return SshCertificateManager.generateCertificate(
-      request,
-      app.getPath('home')
-    )
+    return SshCertificateManager.generateCertificate(request)
   }
 }

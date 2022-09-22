@@ -33,9 +33,7 @@ export class ScanForSshCertsSub
         errorMessage: undefined,
       } as ScanForSshCertsResponse
     } else {
-      const certScanResult = await SshCertificateManager.scanForCertificates(
-        settings.sshCertPath
-      )
+      const certScanResult = await SshCertificateManager.scanForCertificates()
       sshCertFileCacheService.saveFile({
         privateKeys: certScanResult.privateKeys,
       })
