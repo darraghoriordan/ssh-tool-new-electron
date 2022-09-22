@@ -1,22 +1,23 @@
 import fs from 'fs'
-import { GitConfigPathToFilePathMapper } from './GitConfigPathToFilePathMapper'
 import fsp from 'fs/promises'
 import { spawnPromise } from '../../services/PromisifiedNodeUtilities/SpawnPromise'
 import { GitProjectConfigFileParser } from './GitProjectConfigFileParser'
 import { GitConfigInfo } from '../../services/gitConfigSystemScanner/models/GitConfigInfo'
 import { ApplicationSettingService } from '../../appSettings/services/ApplicationSettingService'
-import { GitConfigFileListCacheModel } from '../models/GitConfigFileListCacheModel'
-import { SshConfigFileLoader } from '../../services/sshConfigFile/SshConfigFileLoader'
+import { GitConfigsModel } from '../models/GitConfigFileListCacheModel'
 
+/**
+ * Used when the cache is empty or missing
+ * Will rescan the file system for git config files and
+ * process them into our required model
+ */
 export default class GitConfigFileSystemScanner {
-  static async scan(
-    scanStartPath: string
-  ): Promise<GitConfigFileListCacheModel> {
+  static async scan(scanStartPath: string): Promise<GitConfigsModel> {
     const settings = await ApplicationSettingService.getSettings()
-    const namedSshConnections = await SshConfigFileLoader.load()
 
-    const response: GitConfigFileListCacheModel = {
+    const response: GitConfigsModel = {
       configList: [],
+      searchedPath: settings.projectsPath,
       globalUser: undefined,
     }
     // check project path exists
@@ -25,14 +26,15 @@ export default class GitConfigFileSystemScanner {
         `Git Config file project directory not found (${scanStartPath})`
       )
     }
-    // scan the project path for matching config files
+
+    // recursive scan of the project path for paths to Git config files
     const gitConfigFilePaths =
       await GitConfigFileSystemScanner.getListOfPathsToGitConfigFiles(
         scanStartPath,
         settings.globalGitConfigFile
       )
 
-    // create promises for each file to get the contents
+    // create readfile promises for each file to get the contents
     const fileReadPromises = gitConfigFilePaths.map(fInfo => {
       return fsp.readFile(fInfo)
     })
@@ -57,8 +59,7 @@ export default class GitConfigFileSystemScanner {
       .map((r, i) => {
         return GitProjectConfigFileParser.parseGitProjectConfig(
           (r as PromiseFulfilledResult<Buffer>).value.toString(),
-          gitConfigFilePaths[i + GLOBAL_CONFIG_OFFSET],
-          namedSshConnections
+          gitConfigFilePaths[i + GLOBAL_CONFIG_OFFSET]
         )
       })
     const settledIniParsePromises = await Promise.allSettled(
@@ -67,6 +68,22 @@ export default class GitConfigFileSystemScanner {
     const parsedIniFiles = settledIniParsePromises
       .filter(r => r.status === 'fulfilled')
       .map(r => (r as PromiseFulfilledResult<GitConfigInfo>).value)
+
+    // REMOVE# FOR NOW
+    // now parse potential origins from the ssh connections
+    // const namedSshConnections = await SshConfigFileLoader.load()
+    // const iniFilesWithRemotes = parsedIniFiles.map(iniFile => {
+    //   try {
+    //     const possibleRemotes =
+    //       GitProjectConfigFileParser.findPotentialRemoteOrigins(
+    //         iniFile,
+    //         namedSshConnections
+    //       )
+    //     iniFile.potentialOrigins = possibleRemotes
+    //   } catch (error) {
+    //     console.warn("Couldn't find a remote", iniFile.path)
+    //   }
+    // })
 
     // REMOVED FOR NOW
     // now parse all the individual custom users from each config
@@ -81,7 +98,7 @@ export default class GitConfigFileSystemScanner {
     //       )
     //     })
 
-    response.configList = parsedIniFiles as GitConfigInfo[]
+    response.configList = parsedIniFiles
 
     return response
   }
@@ -90,15 +107,13 @@ export default class GitConfigFileSystemScanner {
     scanStartPath: string,
     globalGitConfigFilePath: string
   ) {
-    const settings = await ApplicationSettingService.getSettings()
     // eslint-disable-next-line prefer-const
     let stdout = ''
     // scan the file system for a list of files
     await GitConfigFileSystemScanner.scanFileSystem(stdout, scanStartPath)
-    const mappedPaths = GitConfigPathToFilePathMapper.map(
-      settings.projectsPath,
-      stdout
-    )
+    const mappedPaths = stdout
+      .split(/\r?\n/)
+      .filter((x: string | undefined) => x && x.trim() !== '')
 
     // add the git global config file to the array
     const gitConfigFilePaths = [globalGitConfigFilePath].concat(mappedPaths)
@@ -106,11 +121,20 @@ export default class GitConfigFileSystemScanner {
     return gitConfigFilePaths
   }
 
+  /**
+   * output looks like
+   * /Users/darraghoriordan/Documents/personal-projects/ssh-tool-new-electron/.git
+   * /Users/darraghoriordan/Documents/personal-projects/mac-setup-script/.git
+   * /Users/darraghoriordan/Documents/personal-projects/remix-project/.git
+   * @param stdout
+   * @param scanStartPath
+   * @returns
+   */
   private static async scanFileSystem(stdout: string, scanStartPath: string) {
     stdout = await spawnPromise(
       'find',
       [
-        '.',
+        `${scanStartPath}`,
         '-type',
         'd',
         '(',

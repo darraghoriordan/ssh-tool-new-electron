@@ -2,7 +2,7 @@ import { Type } from 'class-transformer'
 import { GitConfigInfo } from '../../services/gitConfigSystemScanner/models/GitConfigInfo'
 import { GitUser } from '../../services/gitConfigSystemScanner/models/GitUser'
 
-export class GitConfigFileListCacheModel {
+export class GitConfigsModel {
   /**
    * The list of found git config file details
    */
@@ -14,4 +14,6 @@ export class GitConfigFileListCacheModel {
    */
   @Type(() => GitUser)
   globalUser?: GitUser
+
+  searchedPath!: string
 }

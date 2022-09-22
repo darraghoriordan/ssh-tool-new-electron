@@ -8,21 +8,25 @@ import { AvailableHost } from '../../services/sshConfigFile/SshConfigFileParser'
 
 export class GitProjectConfigFileParser {
   static parseGitUser(rawFile: string): GitUser {
-    const parsedGlobal = ini.parse(rawFile)
+    const parsedIni = ini.parse(rawFile)
+    return this.parseGitUserFromIni(parsedIni)
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  static parseGitUserFromIni(parsedIniFile: { [key: string]: any }): GitUser {
     return {
-      name: parsedGlobal.user?.name,
-      email: parsedGlobal.user?.email,
+      name: parsedIniFile.user?.name,
+      email: parsedIniFile.user?.email,
     }
   }
 
   static async parseGitProjectConfig(
     rawFile: string,
-    filePath: string,
-    namedSshConnections: AvailableHost[]
+    filePath: string
   ): Promise<GitConfigInfo> {
     const parsedIniFile = ini.parse(rawFile)
 
-    const remotesKeys = GitProjectConfigFileParser.filteredKeys(
+    const remotesKeys = GitProjectConfigFileParser.filterIniKeys(
       parsedIniFile,
       /^remote /
     )
@@ -31,47 +35,43 @@ export class GitProjectConfigFileParser {
       path: filePath,
       potentialOrigins: [],
       id: Buffer.from(filePath).toString('base64'),
-      remotes: remotesKeys.map(remoteNameKey => {
-        const rawUrl = parsedIniFile[remoteNameKey].url
-        const parsedUrl = gitUrlParser(rawUrl)
-        const urlType = this.parseUrlType(parsedUrl.protocol)
-        const remoteName = remoteNameKey
-          // eslint-disable-next-line no-useless-escape
-          .replace(/remote "/, '')
-          .trim()
-          // eslint-disable-next-line no-useless-escape
-          .replace(/"/, '')
-        const remote = new GitRemote()
-
-        remote.url = rawUrl
-        remote.owner = parsedUrl.owner
-        remote.pathname = parsedUrl.pathname
-        remote.protocol = parsedUrl.protocol
-        remote.source = parsedUrl.source
-        remote.port = parsedUrl.port || undefined
-        remote.user = parsedUrl.user
-        remote.repoName = parsedUrl.name
-        remote.remoteName = remoteName
-        remote.type = urlType
-        return remote
-      }),
-      user: {
-        email: parsedIniFile.user?.email,
-        name: parsedIniFile.user?.name,
-      },
+      remotes: remotesKeys.map(remoteKey =>
+        this.mapSingleRemote(remoteKey, parsedIniFile[remoteKey].url)
+      ),
+      user: this.parseGitUserFromIni(parsedIniFile),
     }
     result.originRepositoryFileName = this.extractOriginGitRepoName(result)
-    try {
-      const possibleRemotes = this.findPotentialRemoteOrigins(
-        result,
-        namedSshConnections
-      )
-      result.potentialOrigins = possibleRemotes
-    } catch (error) {
-      console.warn("Couldn't find a remote", result.path)
-    }
 
     return result
+  }
+  static mapSingleRemote(remoteNameKey: string, url: string): GitRemote {
+    const parsedUrl = gitUrlParser(url)
+
+    const remote = new GitRemote()
+
+    remote.type = this.mapUrlType(parsedUrl.protocol)
+    remote.remoteName = this.cleanRemoteName(remoteNameKey)
+    remote.url = url
+    remote.owner = parsedUrl.owner
+    remote.pathname = parsedUrl.pathname
+    remote.protocol = parsedUrl.protocol
+    remote.source = parsedUrl.source
+    remote.port = parsedUrl.port || undefined
+    remote.user = parsedUrl.user
+    remote.repoName = parsedUrl.name
+
+    return remote
+  }
+
+  static cleanRemoteName(rawRemote: string): string {
+    return (
+      rawRemote
+        // eslint-disable-next-line no-useless-escape
+        .replace(/remote "/, '')
+        .trim()
+        // eslint-disable-next-line no-useless-escape
+        .replace(/"/, '')
+    )
   }
 
   static findPotentialRemoteOrigins(
@@ -128,7 +128,7 @@ export class GitProjectConfigFileParser {
     return originRemote.repoName || unknownRepoTitle
   }
 
-  static parseUrlType(protocol: string): GitProtocolTypeEnum {
+  static mapUrlType(protocol: string): GitProtocolTypeEnum {
     switch (protocol) {
       case 'ssh':
         return GitProtocolTypeEnum.SSH
@@ -141,7 +141,7 @@ export class GitProjectConfigFileParser {
   }
 
   // eslint-disable-next-line @typescript-eslint/ban-types
-  static filteredKeys = (obj: Object, filter: RegExp) => {
+  static filterIniKeys = (obj: Object, filter: RegExp) => {
     const keys = []
     for (const key in obj)
       if (Object.prototype.hasOwnProperty.call(obj, key) && filter.test(key)) {

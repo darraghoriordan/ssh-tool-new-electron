@@ -8,7 +8,7 @@ import { IIpcMainSendEventSub } from './IpcChannelTypes/IIpcMainSendEventSub'
 import { IIpcMainInvokeEventSub } from './IpcChannelTypes/IIpcMainInvokeEventSub'
 import { ApplicationSettingService } from './appSettings/services/ApplicationSettingService'
 import path from 'path'
-import { GitConfigFileCacheService } from './gitConfigurations/services/GitConfigFileCacheService'
+import { GitConfigsFileCacheService } from './gitConfigurations/services/GitConfigsFileCacheService'
 import { SshCertFileCacheService } from './services/sshCertificates/SshCertFileCacheService'
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
@@ -28,7 +28,7 @@ class Main {
           'appSettings.json'
         ),
       })
-      GitConfigFileCacheService.init({
+      GitConfigsFileCacheService.init({
         gitConfigurationCacheFilePath: path.join(
           app.getPath('userData'),
           'gitConfigurationCache.json'
