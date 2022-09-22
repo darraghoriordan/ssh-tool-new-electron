@@ -1,4 +1,4 @@
-import { IpcMainEvent, app } from 'electron'
+import { IpcMainEvent } from 'electron'
 import { GenerateCertMessage, GenerateCertResponse } from './MessageTypes'
 import { SshCertificateManager } from '../services/sshCertificates/SshCertificateManager'
 import { IIpcMainInvokeEventSub } from '../IpcChannelTypes/IIpcMainInvokeEventSub'

@@ -1,8 +1,6 @@
 import fsp from 'fs/promises'
 import fs from 'fs'
-import path from 'path'
 import os from 'os'
-import { app } from 'electron'
 import { instanceToPlain, plainToInstance } from 'class-transformer'
 import { ApplicationSettings } from '../models/ApplicationSettings'
 import { DefaultSettingsMac } from '../models/DefaultSettingsMac'
@@ -11,12 +9,22 @@ import { DefaultSettingsWindows } from '../models/DefaultSettingsWindows'
 import { validate } from 'class-validator'
 
 export class ApplicationSettingService {
-  static filePath: string = path.join(
-    app.getPath('userData'),
-    'appSettings.json'
-  )
+  static filePath: string
 
   private static loadedSettings: ApplicationSettings | undefined
+
+  static init({
+    settingsFilePath,
+    overrideSettings,
+  }: {
+    settingsFilePath: string
+    overrideSettings?: ApplicationSettings
+  }): void {
+    this.filePath = settingsFilePath
+    if (overrideSettings) {
+      this.loadedSettings = overrideSettings
+    }
+  }
 
   static async getSettings(): Promise<ApplicationSettings> {
     if (this.loadedSettings === undefined) {

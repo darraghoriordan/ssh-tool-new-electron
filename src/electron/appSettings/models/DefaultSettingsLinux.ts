@@ -8,6 +8,7 @@ export class DefaultSettingsLinux extends ApplicationSettings {
     this.platformMatcher = 'linux'
     this.projectsPath = '~/projects'
     this.sshCertPath = '~/.ssh'
+    this.sshConfigFilePath = path.join(app.getPath('home'), '.ssh', 'config')
     this.globalGitConfigFile = path.join(app.getPath('home'), '.gitconfig')
   }
 

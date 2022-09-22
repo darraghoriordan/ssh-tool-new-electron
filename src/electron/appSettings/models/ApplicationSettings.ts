@@ -10,6 +10,11 @@ export class ApplicationSettings {
   @Expose()
   @IsString()
   @MinLength(1)
+  sshConfigFilePath!: string
+
+  @Expose()
+  @IsString()
+  @MinLength(1)
   projectsPath!: string
 
   @Expose()

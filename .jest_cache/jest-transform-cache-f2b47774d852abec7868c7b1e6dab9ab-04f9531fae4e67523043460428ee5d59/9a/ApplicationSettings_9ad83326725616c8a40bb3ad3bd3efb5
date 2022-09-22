@@ -1,0 +1,43 @@
+36e31ae11cc196c49357c23793e77ced
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ApplicationSettings = void 0;
+const class_transformer_1 = require("class-transformer");
+const class_validator_1 = require("class-validator");
+class ApplicationSettings {
+}
+__decorate([
+    (0, class_transformer_1.Expose)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MinLength)(1),
+    __metadata("design:type", String)
+], ApplicationSettings.prototype, "sshCertPath", void 0);
+__decorate([
+    (0, class_transformer_1.Expose)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MinLength)(1),
+    __metadata("design:type", String)
+], ApplicationSettings.prototype, "sshConfigFilePath", void 0);
+__decorate([
+    (0, class_transformer_1.Expose)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MinLength)(1),
+    __metadata("design:type", String)
+], ApplicationSettings.prototype, "projectsPath", void 0);
+__decorate([
+    (0, class_transformer_1.Expose)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MinLength)(1),
+    __metadata("design:type", String)
+], ApplicationSettings.prototype, "globalGitConfigFile", void 0);
+exports.ApplicationSettings = ApplicationSettings;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL2RhcnJhZ2hvcmlvcmRhbi9Eb2N1bWVudHMvcGVyc29uYWwtcHJvamVjdHMvc3NoLXRvb2wtbmV3LWVsZWN0cm9uL3NyYy9lbGVjdHJvbi9hcHBTZXR0aW5ncy9tb2RlbHMvQXBwbGljYXRpb25TZXR0aW5ncy50cyIsIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7QUFBQSx5REFBMEM7QUFDMUMscURBQXFEO0FBRXJELE1BQWEsbUJBQW1CO0NBb0IvQjtBQW5CQztJQUFDLElBQUEsMEJBQU0sR0FBRTtJQUNSLElBQUEsMEJBQVEsR0FBRTtJQUNWLElBQUEsMkJBQVMsRUFBQyxDQUFDLENBQUM7O3dEQUNPO0FBRXBCO0lBQUMsSUFBQSwwQkFBTSxHQUFFO0lBQ1IsSUFBQSwwQkFBUSxHQUFFO0lBQ1YsSUFBQSwyQkFBUyxFQUFDLENBQUMsQ0FBQzs7OERBQ2E7QUFFMUI7SUFBQyxJQUFBLDBCQUFNLEdBQUU7SUFDUixJQUFBLDBCQUFRLEdBQUU7SUFDVixJQUFBLDJCQUFTLEVBQUMsQ0FBQyxDQUFDOzt5REFDUTtBQUVyQjtJQUFDLElBQUEsMEJBQU0sR0FBRTtJQUNSLElBQUEsMEJBQVEsR0FBRTtJQUNWLElBQUEsMkJBQVMsRUFBQyxDQUFDLENBQUM7O2dFQUNlO0FBbkI5QixrREFvQkMiLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL1VzZXJzL2RhcnJhZ2hvcmlvcmRhbi9Eb2N1bWVudHMvcGVyc29uYWwtcHJvamVjdHMvc3NoLXRvb2wtbmV3LWVsZWN0cm9uL3NyYy9lbGVjdHJvbi9hcHBTZXR0aW5ncy9tb2RlbHMvQXBwbGljYXRpb25TZXR0aW5ncy50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBFeHBvc2UgfSBmcm9tICdjbGFzcy10cmFuc2Zvcm1lcidcbmltcG9ydCB7IElzU3RyaW5nLCBNaW5MZW5ndGggfSBmcm9tICdjbGFzcy12YWxpZGF0b3InXG5cbmV4cG9ydCBjbGFzcyBBcHBsaWNhdGlvblNldHRpbmdzIHtcbiAgQEV4cG9zZSgpXG4gIEBJc1N0cmluZygpXG4gIEBNaW5MZW5ndGgoMSlcbiAgc3NoQ2VydFBhdGghOiBzdHJpbmdcblxuICBARXhwb3NlKClcbiAgQElzU3RyaW5nKClcbiAgQE1pbkxlbmd0aCgxKVxuICBzc2hDb25maWdGaWxlUGF0aCE6IHN0cmluZ1xuXG4gIEBFeHBvc2UoKVxuICBASXNTdHJpbmcoKVxuICBATWluTGVuZ3RoKDEpXG4gIHByb2plY3RzUGF0aCE6IHN0cmluZ1xuXG4gIEBFeHBvc2UoKVxuICBASXNTdHJpbmcoKVxuICBATWluTGVuZ3RoKDEpXG4gIGdsb2JhbEdpdENvbmZpZ0ZpbGUhOiBzdHJpbmdcbn1cbiJdLCJ2ZXJzaW9uIjozfQ==

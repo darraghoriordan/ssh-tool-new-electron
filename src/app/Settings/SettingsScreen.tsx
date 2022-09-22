@@ -56,6 +56,7 @@ export function SettingsScreen() {
             sshCertPath: data['sshCertPath']!,
             projectsPath: data['projectsPath']!,
             globalGitConfigFile: data['globalGitConfigFile'],
+            sshConfigFilePath: data['sshConfigFilePath'],
           })
         })}
       >
@@ -67,7 +68,7 @@ export function SettingsScreen() {
               onClick={e => onOpenSettingsFolderClick(e)}
               className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
-              Open settings folder
+              Edit settings as JSON...
             </button>
           )}
 
@@ -121,7 +122,7 @@ export function SettingsScreen() {
                     htmlFor="projectsPath"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Git project paths
+                    Git project path
                   </label>
                   <div className="mt-1 flex rounded-md shadow-sm">
                     <input
@@ -143,6 +144,22 @@ export function SettingsScreen() {
                       {...register('globalGitConfigFile')}
                       className="block w-full rounded-md border border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                       defaultValue={data.settings.globalGitConfigFile}
+                    />
+                  </div>
+                </div>
+
+                <div className="col-span-3 sm:col-span-2">
+                  <label
+                    htmlFor="sshConfigFilePath"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    SSH Config File
+                  </label>
+                  <div className="mt-1 flex rounded-md shadow-sm">
+                    <input
+                      {...register('sshConfigFilePath')}
+                      className="block w-full rounded-md border border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                      defaultValue={data.settings.sshConfigFilePath}
                     />
                   </div>
                 </div>

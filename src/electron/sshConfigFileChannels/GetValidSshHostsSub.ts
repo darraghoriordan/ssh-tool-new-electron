@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { IpcMainEvent, app } from 'electron'
+import { IpcMainEvent } from 'electron'
 import { GetValidSshHostsResponseMessage } from './MessageTypes'
-import path from 'path'
 import { SshConfigFileLoader } from '../services/sshConfigFile/SshConfigFileLoader'
 import { GetValidSshHostsPub } from './GetValidSshHostsPub'
 import { IIpcMainInvokeEventSub } from '../IpcChannelTypes/IIpcMainInvokeEventSub'
+import { ApplicationSettingService } from '../appSettings/services/ApplicationSettingService'
 
 export class GetValidSshHostsSub
   extends GetValidSshHostsPub
@@ -14,16 +14,15 @@ export class GetValidSshHostsSub
     event: IpcMainEvent,
     request: void
   ): Promise<GetValidSshHostsResponseMessage> {
-    // TODO: get the ssh file path from settings
-    const sshFilePath = path.join(app.getPath('home'), '.ssh', 'config')
+    const settings = await ApplicationSettingService.getSettings()
 
     const response: GetValidSshHostsResponseMessage = {
-      path: sshFilePath,
+      path: settings.sshConfigFilePath,
       contents: undefined,
       found: true,
     }
     // blurgh - need to refactor al these paths and things
-    response.contents = SshConfigFileLoader.load()
+    response.contents = await SshConfigFileLoader.load()
     response.found = true
 
     console.log('returning response', response)

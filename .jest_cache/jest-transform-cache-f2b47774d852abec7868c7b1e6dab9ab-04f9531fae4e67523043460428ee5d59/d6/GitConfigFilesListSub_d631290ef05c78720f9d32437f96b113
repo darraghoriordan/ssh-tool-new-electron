@@ -1,0 +1,55 @@
+0214dd09e83f8e8d53acd2259a6cadb2
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.GitConfigFilesListSub = void 0;
+const GitConfigFileSystemScanner_1 = __importDefault(require("../services/GitConfigFileSystemScanner"));
+const GitConfigFilesListPub_1 = require("./GitConfigFilesListPub");
+const ApplicationSettingService_1 = require("../../appSettings/services/ApplicationSettingService");
+const GitConfigFileCacheService_1 = require("../services/GitConfigFileCacheService");
+class GitConfigFilesListSub extends GitConfigFilesListPub_1.GitConfigFilesListPub {
+    handle(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    event, 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const settings = yield ApplicationSettingService_1.ApplicationSettingService.getSettings();
+            const response = {
+                configList: [],
+                searchedPath: settings.projectsPath,
+                globalUser: undefined,
+            };
+            // try to find data in cache first
+            let cacheData = yield GitConfigFileCacheService_1.GitConfigFileCacheService.loadFile();
+            if ((cacheData === null || cacheData === void 0 ? void 0 : cacheData.configList.length) <= 0) {
+                // scan the system for data
+                console.log(`Scanning system (${settings.projectsPath}) for git config files...`);
+                cacheData = yield GitConfigFileSystemScanner_1.default.scan(settings.projectsPath);
+                // cache the data for next time
+                yield GitConfigFileCacheService_1.GitConfigFileCacheService.saveFile(cacheData);
+            }
+            // map the data to a response for renderer
+            response.configList = cacheData.configList;
+            response.globalUser = cacheData.globalUser;
+            return response;
+        });
+    }
+    shouldRescan(cacheData) {
+        var _a;
+        return ((_a = cacheData === null || cacheData === void 0 ? void 0 : cacheData.configList) === null || _a === void 0 ? void 0 : _a.length) <= 0;
+    }
+}
+exports.GitConfigFilesListSub = GitConfigFilesListSub;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL2RhcnJhZ2hvcmlvcmRhbi9Eb2N1bWVudHMvcGVyc29uYWwtcHJvamVjdHMvc3NoLXRvb2wtbmV3LWVsZWN0cm9uL3NyYy9lbGVjdHJvbi9naXRDb25maWd1cmF0aW9ucy9jaGFubmVscy9HaXRDb25maWdGaWxlc0xpc3RTdWIudHMiLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7O0FBQ0Esd0dBQStFO0FBRS9FLG1FQUErRDtBQUUvRCxvR0FBZ0c7QUFDaEcscUZBQWlGO0FBR2pGLE1BQWEscUJBQ1gsU0FBUSw2Q0FBcUI7SUFHdkIsTUFBTTtJQUNWLDZEQUE2RDtJQUM3RCxLQUFtQjtJQUNuQiw2REFBNkQ7SUFDN0QsT0FBYTs7WUFFYixNQUFNLFFBQVEsR0FBRyxNQUFNLHFEQUF5QixDQUFDLFdBQVcsRUFBRSxDQUFBO1lBRTlELE1BQU0sUUFBUSxHQUEwQjtnQkFDdEMsVUFBVSxFQUFFLEVBQUU7Z0JBQ2QsWUFBWSxFQUFFLFFBQVEsQ0FBQyxZQUFZO2dCQUNuQyxVQUFVLEVBQUUsU0FBUzthQUN0QixDQUFBO1lBQ0Qsa0NBQWtDO1lBQ2xDLElBQUksU0FBUyxHQUFHLE1BQU0scURBQXlCLENBQUMsUUFBUSxFQUFFLENBQUE7WUFFMUQsSUFBSSxDQUFBLFNBQVMsYUFBVCxTQUFTLHVCQUFULFNBQVMsQ0FBRSxVQUFVLENBQUMsTUFBTSxLQUFJLENBQUMsRUFBRTtnQkFDckMsMkJBQTJCO2dCQUMzQixPQUFPLENBQUMsR0FBRyxDQUNULG9CQUFvQixRQUFRLENBQUMsWUFBWSwyQkFBMkIsQ0FDckUsQ0FBQTtnQkFDRCxTQUFTLEdBQUcsTUFBTSxvQ0FBMEIsQ0FBQyxJQUFJLENBQUMsUUFBUSxDQUFDLFlBQVksQ0FBQyxDQUFBO2dCQUN4RSwrQkFBK0I7Z0JBQy9CLE1BQU0scURBQXlCLENBQUMsUUFBUSxDQUFDLFNBQVMsQ0FBQyxDQUFBO2FBQ3BEO1lBQ0QsMENBQTBDO1lBQzFDLFFBQVEsQ0FBQyxVQUFVLEdBQUcsU0FBUyxDQUFDLFVBQVUsQ0FBQTtZQUMxQyxRQUFRLENBQUMsVUFBVSxHQUFHLFNBQVMsQ0FBQyxVQUFVLENBQUE7WUFFMUMsT0FBTyxRQUFRLENBQUE7UUFDakIsQ0FBQztLQUFBO0lBRUQsWUFBWSxDQUFDLFNBQXNDOztRQUNqRCxPQUFPLENBQUEsTUFBQSxTQUFTLGFBQVQsU0FBUyx1QkFBVCxTQUFTLENBQUUsVUFBVSwwQ0FBRSxNQUFNLEtBQUksQ0FBQyxDQUFBO0lBQzNDLENBQUM7Q0FDRjtBQXZDRCxzREF1Q0MiLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL1VzZXJzL2RhcnJhZ2hvcmlvcmRhbi9Eb2N1bWVudHMvcGVyc29uYWwtcHJvamVjdHMvc3NoLXRvb2wtbmV3LWVsZWN0cm9uL3NyYy9lbGVjdHJvbi9naXRDb25maWd1cmF0aW9ucy9jaGFubmVscy9HaXRDb25maWdGaWxlc0xpc3RTdWIudHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgSXBjTWFpbkV2ZW50IH0gZnJvbSAnZWxlY3Ryb24nXG5pbXBvcnQgR2l0Q29uZmlnRmlsZVN5c3RlbVNjYW5uZXIgZnJvbSAnLi4vc2VydmljZXMvR2l0Q29uZmlnRmlsZVN5c3RlbVNjYW5uZXInXG5pbXBvcnQgeyBJSXBjTWFpbkludm9rZUV2ZW50U3ViIH0gZnJvbSAnLi4vLi4vSXBjQ2hhbm5lbFR5cGVzL0lJcGNNYWluSW52b2tlRXZlbnRTdWInXG5pbXBvcnQgeyBHaXRDb25maWdGaWxlc0xpc3RQdWIgfSBmcm9tICcuL0dpdENvbmZpZ0ZpbGVzTGlzdFB1YidcbmltcG9ydCB7IEdpdENvbmZpZ0xpc3RSZXNwb25zZSB9IGZyb20gJy4vTWVzc2FnZVR5cGVzJ1xuaW1wb3J0IHsgQXBwbGljYXRpb25TZXR0aW5nU2VydmljZSB9IGZyb20gJy4uLy4uL2FwcFNldHRpbmdzL3NlcnZpY2VzL0FwcGxpY2F0aW9uU2V0dGluZ1NlcnZpY2UnXG5pbXBvcnQgeyBHaXRDb25maWdGaWxlQ2FjaGVTZXJ2aWNlIH0gZnJvbSAnLi4vc2VydmljZXMvR2l0Q29uZmlnRmlsZUNhY2hlU2VydmljZSdcbmltcG9ydCB7IEdpdENvbmZpZ0ZpbGVMaXN0Q2FjaGVNb2RlbCB9IGZyb20gJy4uL21vZGVscy9HaXRDb25maWdGaWxlTGlzdENhY2hlTW9kZWwnXG5cbmV4cG9ydCBjbGFzcyBHaXRDb25maWdGaWxlc0xpc3RTdWJcbiAgZXh0ZW5kcyBHaXRDb25maWdGaWxlc0xpc3RQdWJcbiAgaW1wbGVtZW50cyBJSXBjTWFpbkludm9rZUV2ZW50U3ViPHZvaWQsIEdpdENvbmZpZ0xpc3RSZXNwb25zZT5cbntcbiAgYXN5bmMgaGFuZGxlKFxuICAgIC8vIGVzbGludC1kaXNhYmxlLW5leHQtbGluZSBAdHlwZXNjcmlwdC1lc2xpbnQvbm8tdW51c2VkLXZhcnNcbiAgICBldmVudDogSXBjTWFpbkV2ZW50LFxuICAgIC8vIGVzbGludC1kaXNhYmxlLW5leHQtbGluZSBAdHlwZXNjcmlwdC1lc2xpbnQvbm8tdW51c2VkLXZhcnNcbiAgICByZXF1ZXN0OiB2b2lkXG4gICk6IFByb21pc2U8R2l0Q29uZmlnTGlzdFJlc3BvbnNlPiB7XG4gICAgY29uc3Qgc2V0dGluZ3MgPSBhd2FpdCBBcHBsaWNhdGlvblNldHRpbmdTZXJ2aWNlLmdldFNldHRpbmdzKClcblxuICAgIGNvbnN0IHJlc3BvbnNlOiBHaXRDb25maWdMaXN0UmVzcG9uc2UgPSB7XG4gICAgICBjb25maWdMaXN0OiBbXSxcbiAgICAgIHNlYXJjaGVkUGF0aDogc2V0dGluZ3MucHJvamVjdHNQYXRoLFxuICAgICAgZ2xvYmFsVXNlcjogdW5kZWZpbmVkLFxuICAgIH1cbiAgICAvLyB0cnkgdG8gZmluZCBkYXRhIGluIGNhY2hlIGZpcnN0XG4gICAgbGV0IGNhY2hlRGF0YSA9IGF3YWl0IEdpdENvbmZpZ0ZpbGVDYWNoZVNlcnZpY2UubG9hZEZpbGUoKVxuXG4gICAgaWYgKGNhY2hlRGF0YT8uY29uZmlnTGlzdC5sZW5ndGggPD0gMCkge1xuICAgICAgLy8gc2NhbiB0aGUgc3lzdGVtIGZvciBkYXRhXG4gICAgICBjb25zb2xlLmxvZyhcbiAgICAgICAgYFNjYW5uaW5nIHN5c3RlbSAoJHtzZXR0aW5ncy5wcm9qZWN0c1BhdGh9KSBmb3IgZ2l0IGNvbmZpZyBmaWxlcy4uLmBcbiAgICAgIClcbiAgICAgIGNhY2hlRGF0YSA9IGF3YWl0IEdpdENvbmZpZ0ZpbGVTeXN0ZW1TY2FubmVyLnNjYW4oc2V0dGluZ3MucHJvamVjdHNQYXRoKVxuICAgICAgLy8gY2FjaGUgdGhlIGRhdGEgZm9yIG5leHQgdGltZVxuICAgICAgYXdhaXQgR2l0Q29uZmlnRmlsZUNhY2hlU2VydmljZS5zYXZlRmlsZShjYWNoZURhdGEpXG4gICAgfVxuICAgIC8vIG1hcCB0aGUgZGF0YSB0byBhIHJlc3BvbnNlIGZvciByZW5kZXJlclxuICAgIHJlc3BvbnNlLmNvbmZpZ0xpc3QgPSBjYWNoZURhdGEuY29uZmlnTGlzdFxuICAgIHJlc3BvbnNlLmdsb2JhbFVzZXIgPSBjYWNoZURhdGEuZ2xvYmFsVXNlclxuXG4gICAgcmV0dXJuIHJlc3BvbnNlXG4gIH1cblxuICBzaG91bGRSZXNjYW4oY2FjaGVEYXRhOiBHaXRDb25maWdGaWxlTGlzdENhY2hlTW9kZWwpOiBib29sZWFuIHtcbiAgICByZXR1cm4gY2FjaGVEYXRhPy5jb25maWdMaXN0Py5sZW5ndGggPD0gMFxuICB9XG59XG4iXSwidmVyc2lvbiI6M30=

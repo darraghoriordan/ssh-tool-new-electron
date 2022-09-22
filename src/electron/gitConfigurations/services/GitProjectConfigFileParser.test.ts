@@ -1,5 +1,7 @@
 import { GitProjectConfigFileParser } from './GitProjectConfigFileParser'
 import { GitProtocolTypeEnum } from '../../services/gitConfigSystemScanner/models/GitProtocolTypeEnum'
+import { ApplicationSettingService } from '../../appSettings/services/ApplicationSettingService'
+import { ApplicationSettings } from '../../appSettings/models/ApplicationSettings'
 
 const sampleGlobalConfig = `[user]
 name = Darragh ORiordan
@@ -34,10 +36,15 @@ describe('GitProjectConfigFileParser', () => {
     })
   })
 
-  it('can parse ssh git config', () => {
-    const result = GitProjectConfigFileParser.parseGitProjectConfig(
+  it('can parse ssh git config', async () => {
+    // ApplicationSettingService.init({
+    //   settingsFilePath: '/some/path',
+    //   overrideSettings: new ApplicationSettings(),
+    // })
+    const result = await GitProjectConfigFileParser.parseGitProjectConfig(
       sampleSshConfig,
-      '/Users/darragh/gitproject'
+      '/Users/darragh/gitproject',
+      []
     )
     expect(result).toMatchObject({
       originRepositoryFileName: 'ssh-tool',

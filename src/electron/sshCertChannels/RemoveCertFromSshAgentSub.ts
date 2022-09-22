@@ -1,4 +1,4 @@
-import { IpcMainEvent, app } from 'electron'
+import { IpcMainEvent } from 'electron'
 import { RemoveCertMessage, RemoveCertResponse } from './MessageTypes'
 import { SshCertificateManager } from '../services/sshCertificates/SshCertificateManager'
 import { RemoveCertFromSshAgentPub } from './RemoveCertFromSshAgentPub'
@@ -15,8 +15,7 @@ export class RemoveCertFromSshAgentSub
     console.log(request)
     try {
       await SshCertificateManager.removeCertificateFromAgent(
-        request.privateCertPath,
-        app.getPath('home')
+        request.privateCertPath
       )
     } catch (error) {
       return { isInError: false, errorMessage: error as string }

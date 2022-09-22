@@ -1,12 +1,12 @@
-import { IpcMainEvent, app } from 'electron'
+import { IpcMainEvent } from 'electron'
 
 import { SshCertificateManager } from '../services/sshCertificates/SshCertificateManager'
 import { ScanForSshCertsResponse } from '../services/sshCertificates/Types'
 import { SshCertFileCacheService } from '../services/sshCertificates/SshCertFileCacheService'
-import path from 'path'
 import { ScanForSshCertsMessage } from './MessageTypes'
 import { ScanForSshCertsPub } from './ScanForSshCertsPub'
 import { IIpcMainInvokeEventSub } from '../IpcChannelTypes/IIpcMainInvokeEventSub'
+import { ApplicationSettingService } from '../appSettings/services/ApplicationSettingService'
 export class ScanForSshCertsSub
   extends ScanForSshCertsPub
   implements
@@ -19,7 +19,7 @@ export class ScanForSshCertsSub
     console.log(request)
     const sshCertFileCacheService = new SshCertFileCacheService()
     const cachedConfigData = await sshCertFileCacheService.loadFile()
-
+    const settings = await ApplicationSettingService.getSettings()
     if (
       !request.forceFileSystemSearch &&
       cachedConfigData.privateKeys &&
@@ -28,13 +28,13 @@ export class ScanForSshCertsSub
       console.log('Local ssh cert config found')
       return {
         isInError: false,
-        path: path.join(app.getPath('home'), '.ssh'),
+        path: settings.sshCertPath,
         privateKeys: cachedConfigData.privateKeys,
         errorMessage: undefined,
       } as ScanForSshCertsResponse
     } else {
       const certScanResult = await SshCertificateManager.scanForCertificates(
-        app.getPath('home')
+        settings.sshCertPath
       )
       sshCertFileCacheService.saveFile({
         privateKeys: certScanResult.privateKeys,

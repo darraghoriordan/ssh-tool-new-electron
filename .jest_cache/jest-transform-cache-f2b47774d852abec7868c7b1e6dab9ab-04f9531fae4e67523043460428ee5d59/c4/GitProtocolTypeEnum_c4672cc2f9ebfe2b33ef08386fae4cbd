@@ -1,0 +1,14 @@
+c38f0aa0fb8a4fecda399955626a9ab9
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.GitProtocolTypeEnum = void 0;
+/* eslint-disable no-unused-vars */
+var GitProtocolTypeEnum;
+(function (GitProtocolTypeEnum) {
+    GitProtocolTypeEnum["GIT"] = "GIT";
+    GitProtocolTypeEnum["HTTP"] = "HTTP";
+    GitProtocolTypeEnum["SSH"] = "SSH";
+    GitProtocolTypeEnum["LOCAL"] = "LOCAL";
+    GitProtocolTypeEnum["UNKNOWN"] = "UNKNOWN";
+})(GitProtocolTypeEnum = exports.GitProtocolTypeEnum || (exports.GitProtocolTypeEnum = {}));
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL2RhcnJhZ2hvcmlvcmRhbi9Eb2N1bWVudHMvcGVyc29uYWwtcHJvamVjdHMvc3NoLXRvb2wtbmV3LWVsZWN0cm9uL3NyYy9lbGVjdHJvbi9zZXJ2aWNlcy9naXRDb25maWdTeXN0ZW1TY2FubmVyL21vZGVscy9HaXRQcm90b2NvbFR5cGVFbnVtLnRzIiwibWFwcGluZ3MiOiI7OztBQUFBLG1DQUFtQztBQUNuQyxJQUFZLG1CQU1YO0FBTkQsV0FBWSxtQkFBbUI7SUFDN0Isa0NBQVcsQ0FBQTtJQUNYLG9DQUFhLENBQUE7SUFDYixrQ0FBVyxDQUFBO0lBQ1gsc0NBQWUsQ0FBQTtJQUNmLDBDQUFtQixDQUFBO0FBQ3JCLENBQUMsRUFOVyxtQkFBbUIsR0FBbkIsMkJBQW1CLEtBQW5CLDJCQUFtQixRQU05QiIsIm5hbWVzIjpbXSwic291cmNlcyI6WyIvVXNlcnMvZGFycmFnaG9yaW9yZGFuL0RvY3VtZW50cy9wZXJzb25hbC1wcm9qZWN0cy9zc2gtdG9vbC1uZXctZWxlY3Ryb24vc3JjL2VsZWN0cm9uL3NlcnZpY2VzL2dpdENvbmZpZ1N5c3RlbVNjYW5uZXIvbW9kZWxzL0dpdFByb3RvY29sVHlwZUVudW0udHMiXSwic291cmNlc0NvbnRlbnQiOlsiLyogZXNsaW50LWRpc2FibGUgbm8tdW51c2VkLXZhcnMgKi9cbmV4cG9ydCBlbnVtIEdpdFByb3RvY29sVHlwZUVudW0ge1xuICBHSVQgPSAnR0lUJyxcbiAgSFRUUCA9ICdIVFRQJyxcbiAgU1NIID0gJ1NTSCcsXG4gIExPQ0FMID0gJ0xPQ0FMJyxcbiAgVU5LTk9XTiA9ICdVTktOT1dOJyxcbn1cbiJdLCJ2ZXJzaW9uIjozfQ==

@@ -6,13 +6,14 @@ import { GitProjectConfigFileParser } from './GitProjectConfigFileParser'
 import { GitConfigInfo } from '../../services/gitConfigSystemScanner/models/GitConfigInfo'
 import { ApplicationSettingService } from '../../appSettings/services/ApplicationSettingService'
 import { GitConfigFileListCacheModel } from '../models/GitConfigFileListCacheModel'
-import { app } from 'electron'
+import { SshConfigFileLoader } from '../../services/sshConfigFile/SshConfigFileLoader'
 
 export default class GitConfigFileSystemScanner {
   static async scan(
     scanStartPath: string
   ): Promise<GitConfigFileListCacheModel> {
     const settings = await ApplicationSettingService.getSettings()
+    const namedSshConnections = await SshConfigFileLoader.load()
 
     const response: GitConfigFileListCacheModel = {
       configList: [],
@@ -28,7 +29,6 @@ export default class GitConfigFileSystemScanner {
     const gitConfigFilePaths =
       await GitConfigFileSystemScanner.getListOfPathsToGitConfigFiles(
         scanStartPath,
-        app.getPath('home'),
         settings.globalGitConfigFile
       )
 
@@ -51,19 +51,22 @@ export default class GitConfigFileSystemScanner {
     // the global config, also add that offset to the file paths
     // in the response
     const GLOBAL_CONFIG_OFFSET = 1
-    const parsedIniFiles = results
+    const parsedIniFilePromises = results
       .slice(GLOBAL_CONFIG_OFFSET) // skip the first one (global config)
+      .filter(r => r.status === 'fulfilled')
       .map((r, i) => {
-        if (r.status === 'fulfilled') {
-          return GitProjectConfigFileParser.parseGitProjectConfig(
-            r.value.toString(),
-            gitConfigFilePaths[i + GLOBAL_CONFIG_OFFSET]
-          )
-        }
-
-        return undefined
+        return GitProjectConfigFileParser.parseGitProjectConfig(
+          (r as PromiseFulfilledResult<Buffer>).value.toString(),
+          gitConfigFilePaths[i + GLOBAL_CONFIG_OFFSET],
+          namedSshConnections
+        )
       })
-      .filter(x => x !== undefined) as GitConfigInfo[] // remove any failed ones
+    const settledIniParsePromises = await Promise.allSettled(
+      parsedIniFilePromises
+    )
+    const parsedIniFiles = settledIniParsePromises
+      .filter(r => r.status === 'fulfilled')
+      .map(r => (r as PromiseFulfilledResult<GitConfigInfo>).value)
 
     // REMOVED FOR NOW
     // now parse all the individual custom users from each config
@@ -78,21 +81,24 @@ export default class GitConfigFileSystemScanner {
     //       )
     //     })
 
-    response.configList = parsedIniFiles
+    response.configList = parsedIniFiles as GitConfigInfo[]
 
     return response
   }
 
   static async getListOfPathsToGitConfigFiles(
     scanStartPath: string,
-    homePath: string,
     globalGitConfigFilePath: string
   ) {
+    const settings = await ApplicationSettingService.getSettings()
     // eslint-disable-next-line prefer-const
     let stdout = ''
     // scan the file system for a list of files
     await GitConfigFileSystemScanner.scanFileSystem(stdout, scanStartPath)
-    const mappedPaths = GitConfigPathToFilePathMapper.map(homePath, stdout)
+    const mappedPaths = GitConfigPathToFilePathMapper.map(
+      settings.projectsPath,
+      stdout
+    )
 
     // add the git global config file to the array
     const gitConfigFilePaths = [globalGitConfigFilePath].concat(mappedPaths)

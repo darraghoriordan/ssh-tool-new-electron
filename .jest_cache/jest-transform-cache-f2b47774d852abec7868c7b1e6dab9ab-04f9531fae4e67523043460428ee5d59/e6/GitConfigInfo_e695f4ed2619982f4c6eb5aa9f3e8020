@@ -1,0 +1,32 @@
+2a7e8d9d16bbc07c25a6d42d7c0cdd35
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.GitConfigInfo = void 0;
+const class_transformer_1 = require("class-transformer");
+const GitUser_1 = require("./GitUser");
+const GitRemote_1 = require("./GitRemote");
+class GitConfigInfo {
+}
+__decorate([
+    (0, class_transformer_1.Type)(() => GitUser_1.GitUser),
+    __metadata("design:type", GitUser_1.GitUser)
+], GitConfigInfo.prototype, "user", void 0);
+__decorate([
+    (0, class_transformer_1.Type)(() => GitRemote_1.GitRemote),
+    __metadata("design:type", Array)
+], GitConfigInfo.prototype, "remotes", void 0);
+__decorate([
+    (0, class_transformer_1.Type)(() => GitRemote_1.GitRemote),
+    __metadata("design:type", Array)
+], GitConfigInfo.prototype, "potentialOrigins", void 0);
+exports.GitConfigInfo = GitConfigInfo;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL2RhcnJhZ2hvcmlvcmRhbi9Eb2N1bWVudHMvcGVyc29uYWwtcHJvamVjdHMvc3NoLXRvb2wtbmV3LWVsZWN0cm9uL3NyYy9lbGVjdHJvbi9zZXJ2aWNlcy9naXRDb25maWdTeXN0ZW1TY2FubmVyL21vZGVscy9HaXRDb25maWdJbmZvLnRzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7OztBQUFBLHlEQUF3QztBQUN4Qyx1Q0FBbUM7QUFDbkMsMkNBQXVDO0FBRXZDLE1BQWEsYUFBYTtDQWF6QjtBQVpDO0lBQUMsSUFBQSx3QkFBSSxFQUFDLEdBQUcsRUFBRSxDQUFDLGlCQUFPLENBQUM7OEJBQ2IsaUJBQU87MkNBQUE7QUFNZDtJQUFDLElBQUEsd0JBQUksRUFBQyxHQUFHLEVBQUUsQ0FBQyxxQkFBUyxDQUFDOzs4Q0FDRDtBQUVyQjtJQUFDLElBQUEsd0JBQUksRUFBQyxHQUFHLEVBQUUsQ0FBQyxxQkFBUyxDQUFDOzt1REFDUTtBQVpoQyxzQ0FhQyIsIm5hbWVzIjpbXSwic291cmNlcyI6WyIvVXNlcnMvZGFycmFnaG9yaW9yZGFuL0RvY3VtZW50cy9wZXJzb25hbC1wcm9qZWN0cy9zc2gtdG9vbC1uZXctZWxlY3Ryb24vc3JjL2VsZWN0cm9uL3NlcnZpY2VzL2dpdENvbmZpZ1N5c3RlbVNjYW5uZXIvbW9kZWxzL0dpdENvbmZpZ0luZm8udHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgVHlwZSB9IGZyb20gJ2NsYXNzLXRyYW5zZm9ybWVyJ1xuaW1wb3J0IHsgR2l0VXNlciB9IGZyb20gJy4vR2l0VXNlcidcbmltcG9ydCB7IEdpdFJlbW90ZSB9IGZyb20gJy4vR2l0UmVtb3RlJ1xuXG5leHBvcnQgY2xhc3MgR2l0Q29uZmlnSW5mbyB7XG4gIEBUeXBlKCgpID0+IEdpdFVzZXIpXG4gIHVzZXIhOiBHaXRVc2VyXG5cbiAgb3JpZ2luUmVwb3NpdG9yeUZpbGVOYW1lPzogc3RyaW5nXG4gIHBhdGghOiBzdHJpbmdcbiAgaWQhOiBzdHJpbmdcblxuICBAVHlwZSgoKSA9PiBHaXRSZW1vdGUpXG4gIHJlbW90ZXMhOiBHaXRSZW1vdGVbXVxuXG4gIEBUeXBlKCgpID0+IEdpdFJlbW90ZSlcbiAgcG90ZW50aWFsT3JpZ2lucyE6IEdpdFJlbW90ZVtdXG59XG4iXSwidmVyc2lvbiI6M30=

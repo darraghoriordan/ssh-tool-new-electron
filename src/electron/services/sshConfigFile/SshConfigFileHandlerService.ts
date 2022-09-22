@@ -1,13 +1,12 @@
 import { OpenFileResponseMessage } from '../../sshConfigFileChannels/MessageTypes'
-import path from 'path'
-import { app } from 'electron'
 import SshConfigFileDiskLoader from './SshConfigFileDiskLoader'
 import { SshConfigFileParser } from './SshConfigFileParser'
+import { ApplicationSettingService } from '../../appSettings/services/ApplicationSettingService'
 
 export class SshConfigFileHandler {
-  public static readAllFromFile() {
-    // TODO: get the ssh file path from settings
-    const sshFilePath = path.join(app.getPath('home'), '.ssh', 'config')
+  public static async readAllFromFile() {
+    const settings = await ApplicationSettingService.getSettings()
+    const sshFilePath = settings.sshConfigFilePath
 
     const response: OpenFileResponseMessage = {
       path: sshFilePath,

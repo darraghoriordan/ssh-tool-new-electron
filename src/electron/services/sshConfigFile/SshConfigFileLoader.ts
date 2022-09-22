@@ -1,12 +1,11 @@
 import SshConfigFileDiskLoader from './SshConfigFileDiskLoader'
 import { AvailableHost, SshConfigFileParser } from './SshConfigFileParser'
-import path from 'path'
-import { app } from 'electron'
+import { ApplicationSettingService } from '../../appSettings/services/ApplicationSettingService'
 
 export class SshConfigFileLoader {
-  static load(): AvailableHost[] {
-    // TODO: get the ssh file path from settings
-    const sshFilePath = path.join(app.getPath('home'), '.ssh', 'config')
+  static async load(): Promise<AvailableHost[]> {
+    const settings = await ApplicationSettingService.getSettings()
+    const sshFilePath = settings.sshConfigFilePath
 
     const rawFileContents = SshConfigFileDiskLoader.loadFromPath(sshFilePath)
 

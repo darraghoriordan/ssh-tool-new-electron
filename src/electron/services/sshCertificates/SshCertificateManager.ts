@@ -1,11 +1,11 @@
 import util from 'util'
 import { exec } from 'child_process'
 import { GenerateCertMessage, GenerateCertResponse } from './Types'
-import path from 'path'
 import { GenerateCertResultParser } from './GenerateCertResultParser'
 import { spawnPromise } from '../PromisifiedNodeUtilities/SpawnPromise'
 import { SshCertPathToCertInfoListMapper } from './SshCertPathToCertInfoListMapper'
 import { SshCertInfoEnricher } from './SshCertInfoEnricher'
+import { ApplicationSettingService } from '../../appSettings/services/ApplicationSettingService'
 
 export class SshCertificateManager {
   static async addCertificateToAgent(
@@ -24,27 +24,30 @@ export class SshCertificateManager {
   }
 
   static async removeCertificateFromAgent(
-    privateCertPath: string,
-    homeDirectory: string
+    privateCertPath: string
   ): Promise<string> {
-    const sshFilePath = path.join(homeDirectory, '.ssh')
+    const settings = await ApplicationSettingService.getSettings()
     // run add command
-    return spawnPromise(`ssh-add`, ['-d', privateCertPath], sshFilePath, true)
+    return spawnPromise(
+      `ssh-add`,
+      ['-d', privateCertPath],
+      settings.sshCertPath,
+      true
+    )
   }
 
-  static async scanForCertificates(homeDirectory: string) {
-    // TODO: get the ssh file path from settings
-    const sshFilePath = path.join(homeDirectory, '.ssh')
+  static async scanForCertificates() {
+    const settings = await ApplicationSettingService.getSettings()
 
     // scan hdd path for files that look like private keys
     const execSshFileScan = util.promisify(exec)
     const { stdout, stderr } = await execSshFileScan(
-      `grep -lrnw '${sshFilePath}' -e 'BEGIN OPENSSH PRIVATE KEY'`
+      `grep -lrnw '${settings.sshConfigFilePath}' -e 'BEGIN OPENSSH PRIVATE KEY'`
     )
     // parse to list of files (too lazy to create new model. this returns
     // a model with some empty properties that will be enhanced later)
     const sshFiles = SshCertPathToCertInfoListMapper.map(
-      sshFilePath,
+      settings.sshConfigFilePath,
       stdout,
       stderr
     )
@@ -52,11 +55,13 @@ export class SshCertificateManager {
     // create promises for each file to get fingerprints
     const fingerprintPromises = sshFiles.map(fInfo => {
       const execSshFingerprintInfo = util.promisify(
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         require('child_process').exec
       ) as (command: string) => Promise<{ stdout: string; stderr: string }>
       return execSshFingerprintInfo(`ssh-keygen -lf '${fInfo.privateKeyPath}'`)
     })
     // create promise to get all keys that are in the ssh agent
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const execSshAddLs = util.promisify(require('child_process').exec) as (
       command: string
     ) => Promise<{ stdout: string; stderr: string }>
@@ -67,23 +72,25 @@ export class SshCertificateManager {
       [sshListPromise].concat(fingerprintPromises)
     )
 
-    return SshCertInfoEnricher.enrichModels(sshFilePath, sshFiles, results)
+    return SshCertInfoEnricher.enrichModels(
+      settings.sshConfigFilePath,
+      sshFiles,
+      results
+    )
   }
 
   static async generateCertificate(
-    request: GenerateCertMessage,
-    homeDirectory: string
+    request: GenerateCertMessage
   ): Promise<GenerateCertResponse> {
-    // TODO: get the ssh file path from settings
-    const sshPath = path.join(homeDirectory, '.ssh')
+    const settings = await ApplicationSettingService.getSettings()
 
     // scan hdd path for files that look like private keys
     const procExec = util.promisify(exec)
     const { stdout, stderr } = await procExec(
       `ssh-keygen -t rsa -b 4096 -C "${request.emailAddress}" -f ${request.certName} -P "${request.passphrase}"`,
-      { cwd: sshPath }
+      { cwd: settings.sshCertPath }
     )
 
-    return GenerateCertResultParser.parse(sshPath, stderr, stdout)
+    return GenerateCertResultParser.parse(settings.sshCertPath, stderr, stdout)
   }
 }

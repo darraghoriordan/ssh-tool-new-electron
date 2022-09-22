@@ -1,0 +1,35 @@
+4b7d4e45fb10830ca242770794cf3218
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SshConfigFileLoader = void 0;
+const SshConfigFileDiskLoader_1 = __importDefault(require("./SshConfigFileDiskLoader"));
+const SshConfigFileParser_1 = require("./SshConfigFileParser");
+const ApplicationSettingService_1 = require("../../appSettings/services/ApplicationSettingService");
+class SshConfigFileLoader {
+    static load() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const settings = yield ApplicationSettingService_1.ApplicationSettingService.getSettings();
+            const sshFilePath = settings.sshConfigFilePath;
+            const rawFileContents = SshConfigFileDiskLoader_1.default.loadFromPath(sshFilePath);
+            if (!rawFileContents.found) {
+                throw new Error("Couldn't parse the ssh config file");
+            }
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            return SshConfigFileParser_1.SshConfigFileParser.parseValidSshHosts(rawFileContents.contents);
+        });
+    }
+}
+exports.SshConfigFileLoader = SshConfigFileLoader;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL2RhcnJhZ2hvcmlvcmRhbi9Eb2N1bWVudHMvcGVyc29uYWwtcHJvamVjdHMvc3NoLXRvb2wtbmV3LWVsZWN0cm9uL3NyYy9lbGVjdHJvbi9zZXJ2aWNlcy9zc2hDb25maWdGaWxlL1NzaENvbmZpZ0ZpbGVMb2FkZXIudHMiLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7Ozs7O0FBQUEsd0ZBQStEO0FBQy9ELCtEQUEwRTtBQUMxRSxvR0FBZ0c7QUFFaEcsTUFBYSxtQkFBbUI7SUFDOUIsTUFBTSxDQUFPLElBQUk7O1lBQ2YsTUFBTSxRQUFRLEdBQUcsTUFBTSxxREFBeUIsQ0FBQyxXQUFXLEVBQUUsQ0FBQTtZQUM5RCxNQUFNLFdBQVcsR0FBRyxRQUFRLENBQUMsaUJBQWlCLENBQUE7WUFFOUMsTUFBTSxlQUFlLEdBQUcsaUNBQXVCLENBQUMsWUFBWSxDQUFDLFdBQVcsQ0FBQyxDQUFBO1lBRXpFLElBQUksQ0FBQyxlQUFlLENBQUMsS0FBSyxFQUFFO2dCQUMxQixNQUFNLElBQUksS0FBSyxDQUFDLG9DQUFvQyxDQUFDLENBQUE7YUFDdEQ7WUFFRCxvRUFBb0U7WUFDcEUsT0FBTyx5Q0FBbUIsQ0FBQyxrQkFBa0IsQ0FBQyxlQUFlLENBQUMsUUFBUyxDQUFDLENBQUE7UUFDMUUsQ0FBQztLQUFBO0NBQ0Y7QUFkRCxrREFjQyIsIm5hbWVzIjpbXSwic291cmNlcyI6WyIvVXNlcnMvZGFycmFnaG9yaW9yZGFuL0RvY3VtZW50cy9wZXJzb25hbC1wcm9qZWN0cy9zc2gtdG9vbC1uZXctZWxlY3Ryb24vc3JjL2VsZWN0cm9uL3NlcnZpY2VzL3NzaENvbmZpZ0ZpbGUvU3NoQ29uZmlnRmlsZUxvYWRlci50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgU3NoQ29uZmlnRmlsZURpc2tMb2FkZXIgZnJvbSAnLi9Tc2hDb25maWdGaWxlRGlza0xvYWRlcidcbmltcG9ydCB7IEF2YWlsYWJsZUhvc3QsIFNzaENvbmZpZ0ZpbGVQYXJzZXIgfSBmcm9tICcuL1NzaENvbmZpZ0ZpbGVQYXJzZXInXG5pbXBvcnQgeyBBcHBsaWNhdGlvblNldHRpbmdTZXJ2aWNlIH0gZnJvbSAnLi4vLi4vYXBwU2V0dGluZ3Mvc2VydmljZXMvQXBwbGljYXRpb25TZXR0aW5nU2VydmljZSdcblxuZXhwb3J0IGNsYXNzIFNzaENvbmZpZ0ZpbGVMb2FkZXIge1xuICBzdGF0aWMgYXN5bmMgbG9hZCgpOiBQcm9taXNlPEF2YWlsYWJsZUhvc3RbXT4ge1xuICAgIGNvbnN0IHNldHRpbmdzID0gYXdhaXQgQXBwbGljYXRpb25TZXR0aW5nU2VydmljZS5nZXRTZXR0aW5ncygpXG4gICAgY29uc3Qgc3NoRmlsZVBhdGggPSBzZXR0aW5ncy5zc2hDb25maWdGaWxlUGF0aFxuXG4gICAgY29uc3QgcmF3RmlsZUNvbnRlbnRzID0gU3NoQ29uZmlnRmlsZURpc2tMb2FkZXIubG9hZEZyb21QYXRoKHNzaEZpbGVQYXRoKVxuXG4gICAgaWYgKCFyYXdGaWxlQ29udGVudHMuZm91bmQpIHtcbiAgICAgIHRocm93IG5ldyBFcnJvcihcIkNvdWxkbid0IHBhcnNlIHRoZSBzc2ggY29uZmlnIGZpbGVcIilcbiAgICB9XG5cbiAgICAvLyBlc2xpbnQtZGlzYWJsZS1uZXh0LWxpbmUgQHR5cGVzY3JpcHQtZXNsaW50L25vLW5vbi1udWxsLWFzc2VydGlvblxuICAgIHJldHVybiBTc2hDb25maWdGaWxlUGFyc2VyLnBhcnNlVmFsaWRTc2hIb3N0cyhyYXdGaWxlQ29udGVudHMuY29udGVudHMhKVxuICB9XG59XG4iXSwidmVyc2lvbiI6M30=

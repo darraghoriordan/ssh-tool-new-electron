@@ -5,6 +5,7 @@ import { GitConfigFilesListPub } from './GitConfigFilesListPub'
 import { GitConfigListResponse } from './MessageTypes'
 import { ApplicationSettingService } from '../../appSettings/services/ApplicationSettingService'
 import { GitConfigFileCacheService } from '../services/GitConfigFileCacheService'
+import { GitConfigFileListCacheModel } from '../models/GitConfigFileListCacheModel'
 
 export class GitConfigFilesListSub
   extends GitConfigFilesListPub
@@ -26,7 +27,7 @@ export class GitConfigFilesListSub
     // try to find data in cache first
     let cacheData = await GitConfigFileCacheService.loadFile()
 
-    if (cacheData?.configList?.length <= 0) {
+    if (cacheData?.configList.length <= 0) {
       // scan the system for data
       console.log(
         `Scanning system (${settings.projectsPath}) for git config files...`
@@ -40,5 +41,9 @@ export class GitConfigFilesListSub
     response.globalUser = cacheData.globalUser
 
     return response
+  }
+
+  shouldRescan(cacheData: GitConfigFileListCacheModel): boolean {
+    return cacheData?.configList?.length <= 0
   }
 }

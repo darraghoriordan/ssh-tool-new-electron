@@ -1,12 +1,19 @@
 import fsp from 'fs/promises'
-import path from 'path'
-import { app } from 'electron'
 import { instanceToPlain, plainToInstance } from 'class-transformer'
 import { SshCertFileCache } from './SshCertFileCache'
 // can't use generics with plain to class
 export class SshCertFileCacheService {
+  static sshCertCacheFilePath: string
+
+  static init({
+    sshCertCacheFilePath,
+  }: {
+    sshCertCacheFilePath: string
+  }): void {
+    SshCertFileCacheService.sshCertCacheFilePath = sshCertCacheFilePath
+  }
   async loadFile(): Promise<SshCertFileCache> {
-    const filePath = path.join(app.getPath('userData'), 'sshCertCache.json')
+    const filePath = SshCertFileCacheService.sshCertCacheFilePath
     try {
       const buffer = await fsp.readFile(filePath)
 
@@ -31,7 +38,7 @@ export class SshCertFileCacheService {
   }
 
   async saveFile(settings: SshCertFileCache): Promise<void> {
-    const filePath = path.join(app.getPath('userData'), 'sshCertCache.json')
+    const filePath = SshCertFileCacheService.sshCertCacheFilePath
     return fsp.writeFile(filePath, JSON.stringify(instanceToPlain(settings)))
   }
 }

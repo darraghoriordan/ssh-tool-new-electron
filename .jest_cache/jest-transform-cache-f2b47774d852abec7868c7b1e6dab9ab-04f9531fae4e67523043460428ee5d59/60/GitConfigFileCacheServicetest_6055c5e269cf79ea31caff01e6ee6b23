@@ -1,0 +1,25 @@
+e084702bf648df11ab67056ee1ccd035
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const GitConfigFileCacheService_1 = require("./GitConfigFileCacheService");
+describe('GitConfigFileCacheService', () => {
+    it('is an expected response', () => __awaiter(void 0, void 0, void 0, function* () {
+        const result = GitConfigFileCacheService_1.GitConfigFileCacheService.transformToInstance('{}');
+        expect(result.constructor.name).toEqual('GitConfigFileListCacheModel');
+        // This test is broken
+        // need to add a correct test string to the method call above
+        expect(result).not.toBeUndefined();
+        // then need to change assertion above to check for parsed items
+        // expect(result.configList.length).toEqual(2)
+    }));
+});
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL2RhcnJhZ2hvcmlvcmRhbi9Eb2N1bWVudHMvcGVyc29uYWwtcHJvamVjdHMvc3NoLXRvb2wtbmV3LWVsZWN0cm9uL3NyYy9lbGVjdHJvbi9naXRDb25maWd1cmF0aW9ucy9zZXJ2aWNlcy9HaXRDb25maWdGaWxlQ2FjaGVTZXJ2aWNlLnRlc3QudHMiLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7QUFBQSwyRUFBdUU7QUFFdkUsUUFBUSxDQUFDLDJCQUEyQixFQUFFLEdBQUcsRUFBRTtJQUN6QyxFQUFFLENBQUMseUJBQXlCLEVBQUUsR0FBUyxFQUFFO1FBQ3ZDLE1BQU0sTUFBTSxHQUFHLHFEQUF5QixDQUFDLG1CQUFtQixDQUFDLElBQUksQ0FBQyxDQUFBO1FBQ2xFLE1BQU0sQ0FBQyxNQUFNLENBQUMsV0FBVyxDQUFDLElBQUksQ0FBQyxDQUFDLE9BQU8sQ0FBQyw2QkFBNkIsQ0FBQyxDQUFBO1FBQ3RFLHNCQUFzQjtRQUN0Qiw2REFBNkQ7UUFDN0QsTUFBTSxDQUFDLE1BQU0sQ0FBQyxDQUFDLEdBQUcsQ0FBQyxhQUFhLEVBQUUsQ0FBQTtRQUNsQyxnRUFBZ0U7UUFDaEUsOENBQThDO0lBQ2hELENBQUMsQ0FBQSxDQUFDLENBQUE7QUFDSixDQUFDLENBQUMsQ0FBQSIsIm5hbWVzIjpbXSwic291cmNlcyI6WyIvVXNlcnMvZGFycmFnaG9yaW9yZGFuL0RvY3VtZW50cy9wZXJzb25hbC1wcm9qZWN0cy9zc2gtdG9vbC1uZXctZWxlY3Ryb24vc3JjL2VsZWN0cm9uL2dpdENvbmZpZ3VyYXRpb25zL3NlcnZpY2VzL0dpdENvbmZpZ0ZpbGVDYWNoZVNlcnZpY2UudGVzdC50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBHaXRDb25maWdGaWxlQ2FjaGVTZXJ2aWNlIH0gZnJvbSAnLi9HaXRDb25maWdGaWxlQ2FjaGVTZXJ2aWNlJ1xuXG5kZXNjcmliZSgnR2l0Q29uZmlnRmlsZUNhY2hlU2VydmljZScsICgpID0+IHtcbiAgaXQoJ2lzIGFuIGV4cGVjdGVkIHJlc3BvbnNlJywgYXN5bmMgKCkgPT4ge1xuICAgIGNvbnN0IHJlc3VsdCA9IEdpdENvbmZpZ0ZpbGVDYWNoZVNlcnZpY2UudHJhbnNmb3JtVG9JbnN0YW5jZSgne30nKVxuICAgIGV4cGVjdChyZXN1bHQuY29uc3RydWN0b3IubmFtZSkudG9FcXVhbCgnR2l0Q29uZmlnRmlsZUxpc3RDYWNoZU1vZGVsJylcbiAgICAvLyBUaGlzIHRlc3QgaXMgYnJva2VuXG4gICAgLy8gbmVlZCB0byBhZGQgYSBjb3JyZWN0IHRlc3Qgc3RyaW5nIHRvIHRoZSBtZXRob2QgY2FsbCBhYm92ZVxuICAgIGV4cGVjdChyZXN1bHQpLm5vdC50b0JlVW5kZWZpbmVkKClcbiAgICAvLyB0aGVuIG5lZWQgdG8gY2hhbmdlIGFzc2VydGlvbiBhYm92ZSB0byBjaGVjayBmb3IgcGFyc2VkIGl0ZW1zXG4gICAgLy8gZXhwZWN0KHJlc3VsdC5jb25maWdMaXN0Lmxlbmd0aCkudG9FcXVhbCgyKVxuICB9KVxufSlcbiJdLCJ2ZXJzaW9uIjozfQ==

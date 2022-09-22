@@ -4,7 +4,6 @@ import { GitConfigInfo } from '../../services/gitConfigSystemScanner/models/GitC
 import { GitProtocolTypeEnum } from '../../services/gitConfigSystemScanner/models/GitProtocolTypeEnum'
 import ini from 'ini'
 import gitUrlParser from 'git-url-parse'
-import { SshConfigFileLoader } from '../../services/sshConfigFile/SshConfigFileLoader'
 import { AvailableHost } from '../../services/sshConfigFile/SshConfigFileParser'
 
 export class GitProjectConfigFileParser {
@@ -16,12 +15,12 @@ export class GitProjectConfigFileParser {
     }
   }
 
-  static parseGitProjectConfig(
+  static async parseGitProjectConfig(
     rawFile: string,
-    filePath: string
-  ): GitConfigInfo {
+    filePath: string,
+    namedSshConnections: AvailableHost[]
+  ): Promise<GitConfigInfo> {
     const parsedIniFile = ini.parse(rawFile)
-    const namedSshConnections = SshConfigFileLoader.load()
 
     const remotesKeys = GitProjectConfigFileParser.filteredKeys(
       parsedIniFile,

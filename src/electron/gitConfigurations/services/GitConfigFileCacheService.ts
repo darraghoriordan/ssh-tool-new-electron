@@ -1,14 +1,18 @@
 import fsp from 'fs/promises'
-import path from 'path'
-import { app } from 'electron'
 import { instanceToPlain, plainToInstance } from 'class-transformer'
 import { GitConfigFileListCacheModel } from '../models/GitConfigFileListCacheModel'
 
 export class GitConfigFileCacheService {
-  private static gitConfigCachePath: string = path.join(
-    app.getPath('userData'),
-    'gitConfigurationCache.json'
-  )
+  private static gitConfigCachePath: string
+
+  static init({
+    gitConfigurationCacheFilePath,
+  }: {
+    gitConfigurationCacheFilePath: string
+  }): void {
+    this.gitConfigCachePath = gitConfigurationCacheFilePath
+  }
+
   static async loadFile(): Promise<GitConfigFileListCacheModel> {
     try {
       const buffer = await fsp.readFile(
