@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer'
-import { GitConfigInfo } from '../../services/gitConfigSystemScanner/models/GitConfigInfo'
-import { GitUser } from '../../services/gitConfigSystemScanner/models/GitUser'
+import { GitConfigInfo } from './GitConfigInfo'
+import { GitUser } from '../models/GitUser'
 
 export class GitConfigsModel {
   /**

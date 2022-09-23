@@ -44,5 +44,8 @@ declare global {
     ResetSettings: {
       invoke: () => Promise<SettingsResponse>
     }
+    RescanGithubConfigs: {
+      invoke: () => Promise<void>
+    }
   }
 }

@@ -47,8 +47,15 @@ export class GitConfigsFileCacheService {
   }
 
   static async deleteFile(): Promise<void> {
-    return fsp.rm(GitConfigsFileCacheService.gitConfigCachePath, {
-      force: true,
-    })
+    try {
+      return fsp.rm(GitConfigsFileCacheService.gitConfigCachePath, {
+        force: true,
+      })
+    } catch (error) {
+      console.log(
+        `Error when deleting file ${GitConfigsFileCacheService.gitConfigCachePath}.`,
+        error
+      )
+    }
   }
 }

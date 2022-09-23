@@ -1,11 +1,11 @@
 import React from 'react'
-import { ErrorMessage } from '../components/ErrorMessage'
 import { ArrowPathIcon } from '@heroicons/react/24/solid'
 import PageHeader from '../components/PageHeader'
 import GitConfigurationViewCard from './GitConfigurationViewCard'
-import { useGetGitConfigurationList } from './ReactQueryWrappers'
+import { useGetGitConfigurationList, useResetCache } from './ReactQueryWrappers'
 
 export function GitConfigurationListScreen() {
+  const resetCachesMutation = useResetCache()
   const { isLoading, data, error } = useGetGitConfigurationList()
   if (isLoading || data === undefined) {
     return <>Loading...</>
@@ -22,12 +22,22 @@ export function GitConfigurationListScreen() {
   //   } = useGetGitConfigurationList({
   //     forceFileSystemSearch: true,
   //   })
-
+  const onOpenFolderClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    window.OpenFileLocation.invoke(data.globalGitConfigPath)
+  }
   return (
     <>
       <PageHeader pageTitle={'Git Configurations'}>
         <button
-          onClick={() => console.log('clicked')}
+          onClick={e => onOpenFolderClick(e)}
+          type="button"
+          className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+          Open global config...
+        </button>
+        <button
+          onClick={() => resetCachesMutation.mutate()}
           type="button"
           className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-sm font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >

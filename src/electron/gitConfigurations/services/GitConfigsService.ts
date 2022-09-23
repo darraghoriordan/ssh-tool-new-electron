@@ -25,6 +25,11 @@ export class GitConfigsService {
     return cacheData
   }
 
+  static async clearAllCaches(): Promise<void> {
+    // delete the file
+    return GitConfigsFileCacheService.deleteFile()
+  }
+
   static shouldRescan(cacheData: GitConfigsModel): boolean {
     return cacheData?.configList?.length <= 0
   }

@@ -1,6 +1,7 @@
 import { GitProjectConfigFileParser } from './GitProjectConfigFileParser'
-import { GitProtocolTypeEnum } from '../../services/gitConfigSystemScanner/models/GitProtocolTypeEnum'
+
 import ini from 'ini'
+import { GitProtocolTypeEnum } from '../models/GitProtocolTypeEnum'
 
 const sampleGlobalConfig = `[user]
 name = Darragh ORiordan
@@ -10,7 +11,8 @@ excludesfile = /Users/darragh/.gitignore_global
 editor = nano -w
 pager = diff-so-fancy | less --tabs=4 -RFX`
 
-const sampleConfig = `[core]
+const sampleSsh = {
+  config: `[core]
 repositoryformatversion = 0
 filemode = true
 bare = false
@@ -25,37 +27,108 @@ remote = origin
 merge = refs/heads/master
 [user]
 name = Darragh ORiordan
-email = darragh@emailer.com`
-
-const expectedMappedConfig = {
-  originRepositoryFileName: 'ssh-tool',
-  path: '/Users/darragh/gitproject',
-  potentialOrigins: [],
-  id: 'L1VzZXJzL2RhcnJhZ2gvZ2l0cHJvamVjdA==',
-  remotes: [
-    {
-      owner: 'darraghoriordan',
-      pathname: '/darraghoriordan/ssh-tool.git',
-      port: undefined,
-      protocol: 'ssh',
-      remoteName: 'origin',
-      repoName: 'ssh-tool',
-      source: 'pgh',
-      type: GitProtocolTypeEnum.SSH,
-      url: 'git@pgh:darraghoriordan/ssh-tool.git',
-      user: 'git',
+email = darragh@emailer.com`,
+  expected: {
+    originRepositoryFileName: 'ssh-tool',
+    path: '/Users/darragh/gitproject.git',
+    potentialOrigins: [],
+    id: 'L1VzZXJzL2RhcnJhZ2gvZ2l0cHJvamVjdC5naXQ=',
+    remotes: [
+      {
+        owner: 'darraghoriordan',
+        pathname: '/darraghoriordan/ssh-tool.git',
+        port: undefined,
+        protocol: 'ssh',
+        remoteName: 'origin',
+        repoName: 'ssh-tool',
+        source: 'pgh',
+        type: GitProtocolTypeEnum.SSH,
+        url: 'git@pgh:darraghoriordan/ssh-tool.git',
+        user: 'git',
+      },
+    ],
+    user: {
+      name: 'Darragh ORiordan',
+      email: 'darragh@emailer.com',
     },
-  ],
-  user: {
-    name: 'Darragh ORiordan',
-    email: 'darragh@emailer.com',
+  },
+}
+
+const sampleHttp = {
+  config: `[core]
+repositoryformatversion = 0
+filemode = true
+bare = false
+logallrefupdates = true
+ignorecase = true
+precomposeunicode = true
+[remote "origin"]
+url = https://github.com/darraghoriordan/darragh-oriordan-com.git
+fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+remote = origin
+merge = refs/heads/master
+[user]
+name = Darragh ORiordan
+email = darragh@emailer.com`,
+  expected: {
+    originRepositoryFileName: 'darragh-oriordan-com',
+    path: '/Users/darragh/gitproject.git',
+    potentialOrigins: [],
+    id: 'L1VzZXJzL2RhcnJhZ2gvZ2l0cHJvamVjdC5naXQ=',
+    remotes: [
+      {
+        owner: 'darraghoriordan',
+        pathname: '/darraghoriordan/darragh-oriordan-com.git',
+        port: undefined,
+        protocol: 'https',
+        remoteName: 'origin',
+        repoName: 'darragh-oriordan-com',
+        source: 'github.com',
+        type: GitProtocolTypeEnum.HTTP,
+        url: 'https://github.com/darraghoriordan/darragh-oriordan-com.git',
+        user: '',
+      },
+    ],
+    user: {
+      name: 'Darragh ORiordan',
+      email: 'darragh@emailer.com',
+    },
+  },
+}
+
+const sampleNoOrigin = {
+  config: `[core]
+repositoryformatversion = 0
+filemode = true
+bare = false
+logallrefupdates = true
+ignorecase = true
+precomposeunicode = true
+[branch "master"]
+remote = origin
+merge = refs/heads/master
+[user]
+name = Darragh ORiordan
+email = darragh@emailer.com`,
+  expected: {
+    originRepositoryFileName: 'Unknown Remote Origin',
+    path: '/Users/darragh/gitproject.git',
+    potentialOrigins: [],
+    id: 'L1VzZXJzL2RhcnJhZ2gvZ2l0cHJvamVjdC5naXQ=',
+    remotes: [],
+    user: {
+      name: 'Darragh ORiordan',
+      email: 'darragh@emailer.com',
+    },
   },
 }
 
 describe('GitProjectConfigFileParser', () => {
   it('can extract the origin remote repo name', () => {
-    const result =
-      GitProjectConfigFileParser.extractOriginGitRepoName(expectedMappedConfig)
+    const result = GitProjectConfigFileParser.extractOriginGitRepoName(
+      sampleSsh.expected
+    )
     expect(result).toEqual('ssh-tool')
   })
 
@@ -77,7 +150,7 @@ describe('GitProjectConfigFileParser', () => {
   })
 
   it('can parse remote names from the ini output', () => {
-    const iniResult = ini.parse(sampleConfig)
+    const iniResult = ini.parse(sampleSsh.config)
     const result = GitProjectConfigFileParser.filterIniKeys(
       iniResult,
       /^remote /
@@ -94,14 +167,26 @@ describe('GitProjectConfigFileParser', () => {
   })
 
   it('can parse ssh git config', async () => {
-    // ApplicationSettingService.init({
-    //   settingsFilePath: '/some/path',
-    //   overrideSettings: new ApplicationSettings(),
-    // })
     const result = await GitProjectConfigFileParser.parseGitProjectConfig(
-      sampleConfig,
-      '/Users/darragh/gitproject'
+      sampleSsh.config,
+      '/Users/darragh/gitproject.git'
     )
-    expect(result).toMatchObject(expectedMappedConfig)
+    expect(result).toMatchObject(sampleSsh.expected)
+  })
+
+  it('can parse https git config', async () => {
+    const result = await GitProjectConfigFileParser.parseGitProjectConfig(
+      sampleHttp.config,
+      '/Users/darragh/gitproject.git'
+    )
+    expect(result).toMatchObject(sampleHttp.expected)
+  })
+
+  it('can parse no origin git config', async () => {
+    const result = await GitProjectConfigFileParser.parseGitProjectConfig(
+      sampleNoOrigin.config,
+      '/Users/darragh/gitproject.git'
+    )
+    expect(result).toMatchObject(sampleNoOrigin.expected)
   })
 })

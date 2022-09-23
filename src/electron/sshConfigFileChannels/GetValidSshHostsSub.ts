@@ -25,7 +25,6 @@ export class GetValidSshHostsSub
     response.contents = await SshConfigFileLoader.load()
     response.found = true
 
-    console.log('returning response', response)
     return response
   }
 }

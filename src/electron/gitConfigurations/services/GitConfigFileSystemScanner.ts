@@ -2,9 +2,10 @@ import fs from 'fs'
 import fsp from 'fs/promises'
 import { spawnPromise } from '../../services/PromisifiedNodeUtilities/SpawnPromise'
 import { GitProjectConfigFileParser } from './GitProjectConfigFileParser'
-import { GitConfigInfo } from '../../services/gitConfigSystemScanner/models/GitConfigInfo'
+import { GitConfigInfo } from '../models/GitConfigInfo'
 import { ApplicationSettingService } from '../../appSettings/services/ApplicationSettingService'
 import { GitConfigsModel } from '../models/GitConfigFileListCacheModel'
+import path from 'path'
 
 /**
  * Used when the cache is empty or missing
@@ -33,38 +34,57 @@ export default class GitConfigFileSystemScanner {
         scanStartPath,
         settings.globalGitConfigFile
       )
+    console.log('gitConfigFilePaths', gitConfigFilePaths)
 
-    // create readfile promises for each file to get the contents
-    const fileReadPromises = gitConfigFilePaths.map(fInfo => {
-      return fsp.readFile(fInfo)
+    // create readfile promises for every file to get the contents
+    const fileReadPromises = gitConfigFilePaths.map(filePath => {
+      return new Promise<{ fileContents: string; filePath: string }>(
+        (resolve, reject) => {
+          fsp
+            .readFile(filePath, 'utf8')
+            .then((fileContents: string) => {
+              resolve({ fileContents, filePath })
+            })
+            .catch((err: Error) => {
+              console.log('error reading file', err)
+              reject(err)
+            })
+        }
+      )
     })
 
     // run all the promises to read file input
     const results = await Promise.allSettled(fileReadPromises)
 
+    // split out the global config from this array
+    const [globalConfigResult, ...projectConfigResults] = results
+
     // parse the user from the global config file as a special case
-    if (results[0].status === 'fulfilled') {
+    if (globalConfigResult.status === 'fulfilled') {
       response.globalUser = GitProjectConfigFileParser.parseGitUser(
-        results[0].value.toString()
+        globalConfigResult.value.fileContents.toString()
       )
     }
 
-    // parse all the project files skipping the first because it's
-    // the global config, also add that offset to the file paths
-    // in the response
-    const GLOBAL_CONFIG_OFFSET = 1
-    const parsedIniFilePromises = results
-      .slice(GLOBAL_CONFIG_OFFSET) // skip the first one (global config)
+    // parse all the project files
+    const parsedIniFilePromises = projectConfigResults
       .filter(r => r.status === 'fulfilled')
-      .map((r, i) => {
+      .map(r => {
+        const fulfilledResult = r as PromiseFulfilledResult<{
+          fileContents: string
+          filePath: string
+        }>
         return GitProjectConfigFileParser.parseGitProjectConfig(
-          (r as PromiseFulfilledResult<Buffer>).value.toString(),
-          gitConfigFilePaths[i + GLOBAL_CONFIG_OFFSET]
+          fulfilledResult.value.fileContents,
+          fulfilledResult.value.filePath
         )
       })
+
     const settledIniParsePromises = await Promise.allSettled(
       parsedIniFilePromises
     )
+
+    // filter out the ones that failed
     const parsedIniFiles = settledIniParsePromises
       .filter(r => r.status === 'fulfilled')
       .map(r => (r as PromiseFulfilledResult<GitConfigInfo>).value)
@@ -108,12 +128,14 @@ export default class GitConfigFileSystemScanner {
     globalGitConfigFilePath: string
   ) {
     // eslint-disable-next-line prefer-const
-    let stdout = ''
+
     // scan the file system for a list of files
-    await GitConfigFileSystemScanner.scanFileSystem(stdout, scanStartPath)
+    const stdout = await this.scanFileSystem(scanStartPath)
+
     const mappedPaths = stdout
       .split(/\r?\n/)
       .filter((x: string | undefined) => x && x.trim() !== '')
+      .map(x => path.join(x, 'config'))
 
     // add the git global config file to the array
     const gitConfigFilePaths = [globalGitConfigFilePath].concat(mappedPaths)
@@ -130,8 +152,8 @@ export default class GitConfigFileSystemScanner {
    * @param scanStartPath
    * @returns
    */
-  private static async scanFileSystem(stdout: string, scanStartPath: string) {
-    stdout = await spawnPromise(
+  private static async scanFileSystem(scanStartPath: string) {
+    const stdout = await spawnPromise(
       'find',
       [
         `${scanStartPath}`,

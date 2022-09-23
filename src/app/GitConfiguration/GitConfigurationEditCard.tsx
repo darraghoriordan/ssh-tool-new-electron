@@ -1,6 +1,6 @@
-import { GitUser } from '../../electron/services/gitConfigSystemScanner/models/GitUser'
-import { GitConfigInfo } from '../../electron/services/gitConfigSystemScanner/models/GitConfigInfo'
+import { GitConfigInfo } from '../../electron/gitConfigurations/models/GitConfigInfo'
 import { DocumentArrowDownIcon } from '@heroicons/react/24/outline'
+import { GitUser } from '../../electron/gitConfigurations/models/GitUser'
 
 export class GitConfigurationEditCardProps {
   gitConfigInfo!: GitConfigInfo

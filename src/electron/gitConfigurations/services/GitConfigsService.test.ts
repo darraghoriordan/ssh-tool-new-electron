@@ -1,4 +1,4 @@
-import { GitConfigInfo } from '../../services/gitConfigSystemScanner/models/GitConfigInfo'
+import { GitConfigInfo } from '../models/GitConfigInfo'
 import { GitConfigsModel } from '../models/GitConfigFileListCacheModel'
 import { GitConfigsService } from './GitConfigsService'
 

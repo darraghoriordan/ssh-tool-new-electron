@@ -1,9 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { ApplicationSettings } from '../../electron/appSettings/models/ApplicationSettings'
 
 export const wellKnownQueries = {
   getGitConfigurations: 'get-git-configurations',
-  saveGitConfiguration: 'save-git-configuration',
+  resetGitConfiguration: 'reset-git-configuration',
 }
 
 export function useGetGitConfigurationList() {
@@ -14,15 +13,20 @@ export function useGetGitConfigurationList() {
   )
 }
 
-export function useSaveSettings() {
+export function useResetCache() {
   const queryClient = useQueryClient()
 
-  return useMutation(
-    [wellKnownQueries.getGitConfigurations],
-    async (settings: ApplicationSettings) =>
-      window.SaveSettings.invoke({ settings }),
+  return useMutation<void, { message: string }, void, unknown>(
+    [wellKnownQueries.resetGitConfiguration],
+    async (): Promise<void> => {
+      return window.RescanGithubConfigs.invoke()
+    },
     {
+      onError: error => {
+        console.log(error.message)
+      },
       onSuccess: () => {
+        console.log('Reset git caches successful, clearing cache.')
         queryClient.invalidateQueries([wellKnownQueries.getGitConfigurations])
       },
     }

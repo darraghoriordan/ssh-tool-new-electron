@@ -12,8 +12,6 @@ export class GenerateCertSub
     event: IpcMainEvent,
     request: GenerateCertMessage
   ): Promise<GenerateCertResponse> {
-    console.log(request)
-
     return SshCertificateManager.generateCertificate(request)
   }
 }

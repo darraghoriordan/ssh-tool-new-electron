@@ -16,7 +16,6 @@ export class ScanForSshCertsSub
     event: IpcMainEvent,
     request: ScanForSshCertsMessage
   ): Promise<ScanForSshCertsResponse> {
-    console.log(request)
     const sshCertFileCacheService = new SshCertFileCacheService()
     const cachedConfigData = await sshCertFileCacheService.loadFile()
     const settings = await ApplicationSettingService.getSettings()
@@ -25,7 +24,6 @@ export class ScanForSshCertsSub
       cachedConfigData.privateKeys &&
       cachedConfigData.privateKeys.length > 0
     ) {
-      console.log('Local ssh cert config found')
       return {
         isInError: false,
         path: settings.sshCertPath,

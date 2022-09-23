@@ -7,6 +7,7 @@ export class OpenFileLocationSub
   implements IIpcMainSendEventSub<string>
 {
   handle(event: IpcMainEvent, message: string): void {
+    console.log('OpenFileLocationSub.handle', message)
     shell.showItemInFolder(message)
   }
 }

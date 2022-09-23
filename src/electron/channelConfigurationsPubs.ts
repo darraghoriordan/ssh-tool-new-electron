@@ -11,6 +11,7 @@ import { ChannelConfigurationTypePub } from './ChannelConfigurationTypePub'
 import { GitConfigFilesListPub } from './gitConfigurations/channels/GitConfigFilesListPub'
 import { ResetSettingsChannelPub } from './appSettings/channels/ResetSettingsChannelPub'
 import { OpenFileLocationPub } from './appSettings/channels/OpenFileLocationPub'
+import { RescanGitConfigsChannelPub } from './gitConfigurations/channels/RescanGitConfigsChannelPub'
 
 export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
   rtmSendChannels: [new SimpleMessagePub(), new OpenFileLocationPub()],
@@ -25,5 +26,6 @@ export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
     new LoadSettingsChannelPub(),
     new SaveSettingsChannelPub(),
     new ResetSettingsChannelPub(),
+    new RescanGitConfigsChannelPub(),
   ],
 }

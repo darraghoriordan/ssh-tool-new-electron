@@ -21,7 +21,7 @@ export class SshConfigFileParser {
       .map((line: string, index: number) => {
         return this.parseSingleLine(line, index)
       })
-    console.log('Parsed ssh config file lines: ', parsedLines.length)
+
     return this.parseSshHosts(parsedLines)
   }
 
