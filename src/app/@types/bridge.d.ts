@@ -12,7 +12,10 @@ import {
   SaveSettingsMessage,
   SettingsResponse,
 } from '../../electron/appSettings/channels/MessageTypes'
-import { GitConfigListResponse } from '../../electron/gitConfigurations/channels/MessageTypes'
+import {
+  GitConfigListRequest,
+  GitConfigListResponse,
+} from '../../electron/gitConfigurations/channels/MessageTypes'
 
 declare global {
   // eslint-disable-next-line
@@ -27,7 +30,7 @@ declare global {
       ) => Promise<ScanForSshCertsResponse>
     }
     GitConfigFilesList: {
-      invoke: () => Promise<GitConfigListResponse>
+      invoke: (message: GitConfigListRequest) => Promise<GitConfigListResponse>
     }
     SimpleMessage: { invoke: (message: string) => void }
     OpenFileLocation: { invoke: (filePath: string) => void }

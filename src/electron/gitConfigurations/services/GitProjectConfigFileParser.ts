@@ -5,15 +5,22 @@ import { GitProtocolTypeEnum } from '../models/GitProtocolTypeEnum'
 import ini from 'ini'
 import gitUrlParser from 'git-url-parse'
 import { AvailableHost } from '../../services/sshConfigFile/SshConfigFileParser'
+import { GitConfigFileEditor } from './GitConfigFileEditor'
 
 export class GitProjectConfigFileParser {
-  static parseGitUser(rawFile: string): GitUser {
+  static parseGitUser(rawFile: string): GitUser | undefined {
     const parsedIni = ini.parse(rawFile)
     return this.parseGitUserFromIni(parsedIni)
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static parseGitUserFromIni(parsedIniFile: { [key: string]: any }): GitUser {
+  static parseGitUserFromIni(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    parsedIniFile: { [key: string]: any }
+  ): GitUser | undefined {
+    if (!parsedIniFile.user) {
+      return undefined
+    }
+
     return {
       name: parsedIniFile.user?.name,
       email: parsedIniFile.user?.email,
@@ -22,7 +29,8 @@ export class GitProjectConfigFileParser {
 
   static async parseGitProjectConfig(
     rawFile: string,
-    filePath: string
+    filePath: string,
+    globalGitUser: GitUser | undefined
   ): Promise<GitConfigInfo> {
     const parsedIniFile = ini.parse(rawFile)
 
@@ -30,7 +38,7 @@ export class GitProjectConfigFileParser {
       parsedIniFile,
       /^remote /
     )
-
+    const user = this.parseGitUserFromIni(parsedIniFile)
     const result: GitConfigInfo = {
       path: filePath,
       potentialOrigins: [],
@@ -38,8 +46,13 @@ export class GitProjectConfigFileParser {
       remotes: remotesKeys.map(remoteKey =>
         this.mapSingleRemote(remoteKey, parsedIniFile[remoteKey].url)
       ),
-      user: this.parseGitUserFromIni(parsedIniFile),
+      isProjectUserSet: user !== undefined,
+      user: user || globalGitUser,
+      userAsIniString: GitConfigFileEditor.convertToIniFormat(
+        user || globalGitUser
+      ),
     }
+
     result.originRepositoryFileName = this.extractOriginGitRepoName(result)
 
     return result

@@ -6,6 +6,7 @@ import { GitConfigInfo } from '../models/GitConfigInfo'
 import { ApplicationSettingService } from '../../appSettings/services/ApplicationSettingService'
 import { GitConfigsModel } from '../models/GitConfigFileListCacheModel'
 import path from 'path'
+import { GitUser } from '../models/GitUser'
 
 /**
  * Used when the cache is empty or missing
@@ -19,7 +20,7 @@ export default class GitConfigFileSystemScanner {
     const response: GitConfigsModel = {
       configList: [],
       searchedPath: settings.projectsPath,
-      globalUser: undefined,
+      // globalUser: undefined,
     }
     // check project path exists
     if (!fs.existsSync(scanStartPath)) {
@@ -59,9 +60,10 @@ export default class GitConfigFileSystemScanner {
     // split out the global config from this array
     const [globalConfigResult, ...projectConfigResults] = results
 
+    let globalUser: GitUser | undefined
     // parse the user from the global config file as a special case
     if (globalConfigResult.status === 'fulfilled') {
-      response.globalUser = GitProjectConfigFileParser.parseGitUser(
+      globalUser = GitProjectConfigFileParser.parseGitUser(
         globalConfigResult.value.fileContents.toString()
       )
     }
@@ -76,7 +78,8 @@ export default class GitConfigFileSystemScanner {
         }>
         return GitProjectConfigFileParser.parseGitProjectConfig(
           fulfilledResult.value.fileContents,
-          fulfilledResult.value.filePath
+          fulfilledResult.value.filePath,
+          globalUser
         )
       })
 

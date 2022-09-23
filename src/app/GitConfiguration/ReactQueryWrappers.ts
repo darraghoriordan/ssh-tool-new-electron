@@ -1,15 +1,22 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { ControlFunctions } from 'use-debounce'
 
 export const wellKnownQueries = {
   getGitConfigurations: 'get-git-configurations',
   resetGitConfiguration: 'reset-git-configuration',
 }
 
-export function useGetGitConfigurationList() {
+export function useGetGitConfigurationList(
+  debouncedFilter: [string | undefined, ControlFunctions],
+  filter: string | undefined
+) {
   return useQuery(
-    [wellKnownQueries.getGitConfigurations],
-    async () => window.GitConfigFilesList.invoke(),
-    { staleTime: Infinity }
+    [wellKnownQueries.getGitConfigurations, filter],
+    async () => window.GitConfigFilesList.invoke({ filter }),
+    {
+      staleTime: Infinity,
+      //enabled: debouncedFilter[0] !== undefined
+    }
   )
 }
 

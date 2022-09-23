@@ -79,9 +79,9 @@ class Main {
     this.mainWindow = new BrowserWindow({
       // icon: path.join(assetsPath, 'assets', 'icon.png'),
       minWidth: 1400,
-      minHeight: 1200,
+      minHeight: 800,
       width: 1400,
-      height: 1200,
+      height: 800,
       backgroundColor: '#191622',
       webPreferences: {
         nodeIntegration: false,

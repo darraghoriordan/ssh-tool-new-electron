@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer'
 import { GitConfigInfo } from './GitConfigInfo'
-import { GitUser } from '../models/GitUser'
+//import { GitUser } from '../models/GitUser'
 
 export class GitConfigsModel {
   /**
@@ -9,11 +9,11 @@ export class GitConfigsModel {
   @Type(() => GitConfigInfo)
   configList!: GitConfigInfo[]
 
-  /**
-   * The global user is useful to show on the list items that use it
-   */
-  @Type(() => GitUser)
-  globalUser?: GitUser
+  //   /**
+  //    * The global user is useful to show on the list items that use it
+  //    */
+  //   @Type(() => GitUser)
+  //   globalUser?: GitUser
 
   searchedPath!: string
 }

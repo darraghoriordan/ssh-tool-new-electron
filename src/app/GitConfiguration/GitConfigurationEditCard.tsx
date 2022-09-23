@@ -63,10 +63,10 @@ export default function GitConfigurationEditCard(
           <div className="sm:col-span-1">
             <dt className="text-sm font-medium text-gray-500">Current User</dt>
             <dd className="mt-1 text-sm text-gray-900">
-              {props.gitConfigInfo.user.name ||
+              {props.gitConfigInfo.user?.name ||
                 props.globalUser?.name + '(from global)'}
               <br />
-              {props.gitConfigInfo.user.email ||
+              {props.gitConfigInfo.user?.email ||
                 props.globalUser?.email + '(from global)'}
             </dd>
           </div>

@@ -4,7 +4,7 @@ import { GitRemote } from './GitRemote'
 
 export class GitConfigInfo {
   @Type(() => GitUser)
-  user!: GitUser
+  user!: GitUser | undefined
 
   originRepositoryFileName?: string
   path!: string
@@ -15,4 +15,6 @@ export class GitConfigInfo {
 
   @Type(() => GitRemote)
   potentialOrigins!: GitRemote[]
+  isProjectUserSet!: boolean
+  userAsIniString!: string | undefined
 }

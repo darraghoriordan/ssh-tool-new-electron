@@ -2,6 +2,7 @@ import { GitProjectConfigFileParser } from './GitProjectConfigFileParser'
 
 import ini from 'ini'
 import { GitProtocolTypeEnum } from '../models/GitProtocolTypeEnum'
+import { GitUser } from '../models/GitUser'
 
 const sampleGlobalConfig = `[user]
 name = Darragh ORiordan
@@ -47,6 +48,11 @@ email = darragh@emailer.com`,
         user: 'git',
       },
     ],
+    isProjectUserSet: true,
+    userAsIniString: `[user]
+name = Darragh ORiordan
+email = darragh@emailer.com
+`,
     user: {
       name: 'Darragh ORiordan',
       email: 'darragh@emailer.com',
@@ -90,6 +96,11 @@ email = darragh@emailer.com`,
         user: '',
       },
     ],
+    isProjectUserSet: true,
+    userAsIniString: `[user]
+name = Darragh ORiordan
+email = darragh@emailer.com
+`,
     user: {
       name: 'Darragh ORiordan',
       email: 'darragh@emailer.com',
@@ -117,9 +128,43 @@ email = darragh@emailer.com`,
     potentialOrigins: [],
     id: 'L1VzZXJzL2RhcnJhZ2gvZ2l0cHJvamVjdC5naXQ=',
     remotes: [],
+    isProjectUserSet: true,
+    userAsIniString: `[user]
+name = Darragh ORiordan
+email = darragh@emailer.com
+`,
     user: {
       name: 'Darragh ORiordan',
       email: 'darragh@emailer.com',
+    },
+  },
+}
+
+const sampleUsingGlobalUser = {
+  config: `[core]
+  repositoryformatversion = 0
+  filemode = true
+  bare = false
+  logallrefupdates = true
+  ignorecase = true
+  precomposeunicode = true
+  [branch "master"]
+  remote = origin
+  merge = refs/heads/master`,
+  expected: {
+    originRepositoryFileName: 'Unknown Remote Origin',
+    path: '/Users/darragh/gitproject.git',
+    potentialOrigins: [],
+    id: 'L1VzZXJzL2RhcnJhZ2gvZ2l0cHJvamVjdC5naXQ=',
+    remotes: [],
+    isProjectUserSet: false,
+    userAsIniString: `[user]
+  name = Darragh ORiordan
+  email = darragh@emailer.com
+  `,
+    user: {
+      name: 'Darragh Global',
+      email: 'darragh@global.com',
     },
   },
 }
@@ -169,7 +214,8 @@ describe('GitProjectConfigFileParser', () => {
   it('can parse ssh git config', async () => {
     const result = await GitProjectConfigFileParser.parseGitProjectConfig(
       sampleSsh.config,
-      '/Users/darragh/gitproject.git'
+      '/Users/darragh/gitproject.git',
+      undefined
     )
     expect(result).toMatchObject(sampleSsh.expected)
   })
@@ -177,7 +223,8 @@ describe('GitProjectConfigFileParser', () => {
   it('can parse https git config', async () => {
     const result = await GitProjectConfigFileParser.parseGitProjectConfig(
       sampleHttp.config,
-      '/Users/darragh/gitproject.git'
+      '/Users/darragh/gitproject.git',
+      undefined
     )
     expect(result).toMatchObject(sampleHttp.expected)
   })
@@ -185,7 +232,21 @@ describe('GitProjectConfigFileParser', () => {
   it('can parse no origin git config', async () => {
     const result = await GitProjectConfigFileParser.parseGitProjectConfig(
       sampleNoOrigin.config,
-      '/Users/darragh/gitproject.git'
+      '/Users/darragh/gitproject.git',
+      undefined
+    )
+    expect(result).toMatchObject(sampleNoOrigin.expected)
+  })
+
+  it('can parse using global user config', async () => {
+    const globalUser = new GitUser()
+    globalUser.name = 'Darragh Global'
+    globalUser.email = 'darragh@global.com'
+
+    const result = await GitProjectConfigFileParser.parseGitProjectConfig(
+      sampleNoOrigin.config,
+      '/Users/darragh/gitproject.git',
+      globalUser
     )
     expect(result).toMatchObject(sampleNoOrigin.expected)
   })
