@@ -4,6 +4,7 @@ import {
   FolderOpenIcon,
   DocumentDuplicateIcon,
 } from '@heroicons/react/24/outline'
+
 export class GitConfigurationViewCardProps {
   gitConfigInfo!: GitConfigInfo
   globalUser?: GitUser
@@ -25,11 +26,12 @@ export default function GitConfigurationViewCard(
   }
 
   const onCopyForGitConfigClick = (
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
+    value: string
   ) => {
     event.preventDefault()
     console.log('clicked', props.gitConfigInfo.userAsIniString)
-    // shell.showItemInFolder(data!.meta.appSettingsFileLocation)
+    navigator.clipboard.writeText(value)
   }
 
   return (
@@ -80,15 +82,22 @@ export default function GitConfigurationViewCard(
           <FolderOpenIcon className="h-5 w-5 mr-2" />
           Open config location...
         </button>
-        <button
-          type="button"
-          // disabled={resetMutation.isLoading}
-          onClick={e => onCopyForGitConfigClick(e)}
-          className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-        >
-          <DocumentDuplicateIcon className="h-5 w-5 mr-2" />
-          Copy user in git config format
-        </button>
+        {props.gitConfigInfo.userAsIniString && (
+          <button
+            type="button"
+            // disabled={resetMutation.isLoading}
+            onClick={e =>
+              onCopyForGitConfigClick(
+                e,
+                props.gitConfigInfo.userAsIniString || ''
+              )
+            }
+            className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
+            <DocumentDuplicateIcon className="h-5 w-5 mr-2" />
+            Copy user in git config format
+          </button>
+        )}
       </div>
     </div>
   )

@@ -25,14 +25,17 @@ export function GitConfigurationListScreen() {
     control = <>Error...{error}</>
   }
 
-  const onOpenFolderClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const onOpenFolderClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    location: string
+  ) => {
     event.preventDefault()
-    window.OpenFileLocation.invoke(data!.globalGitConfigPath)
+    window.OpenFileLocation.invoke(location)
   }
 
-  if (!isLoading && control === undefined) {
+  if (!isLoading && data && control === undefined) {
     control = (
-      <div className="py-4">
+      <div className="">
         <ul role="list">
           {data?.configList
             .sort((x, y) => (x.path > y.path ? 1 : 0))
@@ -40,7 +43,7 @@ export function GitConfigurationListScreen() {
               <li key={gitConfigInfo.path} className="py-4 flex-1">
                 <GitConfigurationViewCard
                   gitConfigInfo={gitConfigInfo}
-                  globalUser={data!.globalUser}
+                  globalUser={data.globalUser}
                 />
               </li>
             ))}
@@ -60,16 +63,20 @@ export function GitConfigurationListScreen() {
             onChange={e => setFilter(e.target.value)}
           />
         </div>
-        <button
-          onClick={e => onOpenFolderClick(e)}
-          type="button"
-          className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-        >
-          <FolderOpenIcon className="h-5 w-5 mr-2" />
-          Open global config...
-        </button>
+        {data?.globalGitConfigPath && (
+          <button
+            onClick={e => onOpenFolderClick(e, data.globalGitConfigPath)}
+            type="button"
+            className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
+            <FolderOpenIcon className="h-5 w-5 mr-2" />
+            Open global Git config...
+          </button>
+        )}
+
         <button
           onClick={() => resetCachesMutation.mutate()}
+          disabled={isLoading}
           type="button"
           className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-sm font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >

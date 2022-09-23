@@ -16,6 +16,10 @@ import {
   GitConfigListRequest,
   GitConfigListResponse,
 } from '../../electron/gitConfigurations/channels/MessageTypes'
+import {
+  DecodeJwtMessage,
+  DecodeJwtResponse,
+} from '../../electron/jwtDecoder/channels/MessageTypes'
 
 declare global {
   // eslint-disable-next-line
@@ -49,6 +53,9 @@ declare global {
     }
     RescanGithubConfigs: {
       invoke: () => Promise<void>
+    }
+    DecodeJwt: {
+      invoke: (message: DecodeJwtMessage) => Promise<DecodeJwtResponse>
     }
   }
 }

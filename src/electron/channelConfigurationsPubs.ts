@@ -12,6 +12,7 @@ import { GitConfigFilesListPub } from './gitConfigurations/channels/GitConfigFil
 import { ResetSettingsChannelPub } from './appSettings/channels/ResetSettingsChannelPub'
 import { OpenFileLocationPub } from './appSettings/channels/OpenFileLocationPub'
 import { RescanGitConfigsChannelPub } from './gitConfigurations/channels/RescanGitConfigsChannelPub'
+import { DecodeJwtChannelPub } from './jwtDecoder/channels/DecodeJwtChannelPub'
 
 export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
   rtmSendChannels: [new SimpleMessagePub(), new OpenFileLocationPub()],
@@ -27,5 +28,6 @@ export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
     new SaveSettingsChannelPub(),
     new ResetSettingsChannelPub(),
     new RescanGitConfigsChannelPub(),
+    new DecodeJwtChannelPub(),
   ],
 }

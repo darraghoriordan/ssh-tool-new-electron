@@ -6,6 +6,7 @@ export class GitConfigurationEditCardProps {
   gitConfigInfo!: GitConfigInfo
   allCustomUsers!: GitUser[]
   globalUser?: GitUser
+  onCopyClick!: (content: string) => void
 }
 
 export default function GitConfigurationEditCard(
@@ -88,15 +89,19 @@ export default function GitConfigurationEditCard(
                     >{`${o.name} - ${o.email}`}</option>
                   ))}
               </select>
-              <button
-                // eslint-disable-next-line @typescript-eslint/no-empty-function
-                onClick={() => {}}
-                type="button"
-                className="mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500"
-              >
-                <DocumentArrowDownIcon className="h-5 w-5 mr-2 " />
-                Save new user
-              </button>
+              {props.gitConfigInfo.userAsIniString && (
+                <button
+                  // eslint-disable-next-line @typescript-eslint/no-empty-function
+                  onClick={() => {
+                    props.onCopyClick(props.gitConfigInfo.userAsIniString || '')
+                  }}
+                  type="button"
+                  className="mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500"
+                >
+                  <DocumentArrowDownIcon className="h-5 w-5 mr-2 " />
+                  Save new user
+                </button>
+              )}
             </dd>
           </div>
         </dl>
