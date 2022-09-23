@@ -10,4 +10,14 @@ describe('JsonEscaperService', () => {
       expect(result.result).toEqual(expected)
     }
   )
+
+  // eslint-disable-next-line no-useless-escape
+  test.each([[`{"this":"isescaped"}`, `"{\\"this\\":\\"isescaped\\"}"`]])(
+    'is an expected response when escaping',
+    (input: string, expected: string) => {
+      const result = JsonEscaper.escapeJson(input)
+
+      expect(result.result).toEqual(expected)
+    }
+  )
 })

@@ -1,12 +1,13 @@
 import React from 'react'
 import {
-  ArrowDownOnSquareStackIcon,
+  GlobeAltIcon,
   ShieldCheckIcon,
   ArrowUpCircleIcon,
   DocumentMagnifyingGlassIcon,
   Cog6ToothIcon,
   ClockIcon,
   FunnelIcon,
+  CommandLineIcon,
 } from '@heroicons/react/24/outline'
 import { NavLink, Outlet } from 'react-router-dom'
 //import logo from '../assets/logo-tp.png'
@@ -37,7 +38,7 @@ const navigation = [
   {
     name: 'Timezone Crossover',
     href: '/timezone-crossover',
-    icon: ClockIcon,
+    icon: GlobeAltIcon,
     current: false,
   },
   {
@@ -48,14 +49,14 @@ const navigation = [
   },
   {
     name: 'Base 64 Encode / Decode',
-    href: '/base64-encode',
-    icon: ArrowDownOnSquareStackIcon,
+    href: '/base64-encoder',
+    icon: CommandLineIcon,
     current: false,
   },
   {
     name: 'Unix Time Converter',
     href: '/unix-time-converter',
-    icon: ArrowDownOnSquareStackIcon,
+    icon: ClockIcon,
     current: false,
   },
   {

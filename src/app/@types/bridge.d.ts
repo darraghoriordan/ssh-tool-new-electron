@@ -24,6 +24,14 @@ import {
   EscapeJsonMessage,
   EscapeJsonResponse,
 } from '../../electron/jsonEncoder/channels/MessageTypes'
+import {
+  Base64EncoderMessage,
+  Base64EncoderResponse,
+} from '../../electron/base64Encoder/channels/MessageTypes'
+import {
+  UnixTimeConverterMessage,
+  UnixTimeConverterResponse,
+} from '../../electron/unixTimeConverter/channels/MessageTypes'
 
 declare global {
   // eslint-disable-next-line
@@ -63,6 +71,14 @@ declare global {
     }
     EscapeJson: {
       invoke: (message: EscapeJsonMessage) => Promise<EscapeJsonResponse>
+    }
+    Base64Encoder: {
+      invoke: (message: Base64EncoderMessage) => Promise<Base64EncoderResponse>
+    }
+    UnixTimeConverter: {
+      invoke: (
+        message: UnixTimeConverterMessage
+      ) => Promise<UnixTimeConverterResponse>
     }
   }
 }

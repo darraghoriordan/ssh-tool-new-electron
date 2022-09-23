@@ -1,10 +1,12 @@
 import { Route, Routes } from 'react-router-dom'
+import { Base64EncoderScreen } from './Base64Encoder/Base64EncoderScreen'
 import { NotFound } from './components/NotFound'
 import { GitConfigurationListScreen } from './GitConfiguration/GitConfigurationListScreen'
-import { JwtEscaperScreen } from './JsonEscaper/JwtEscaperScreen'
+import { JsonEscaperScreen } from './JsonEscaper/JsonEscaperScreen'
 import { JwtDecoderScreen } from './JwtDecoder/JwtDecoderScreen'
 import { Layout } from './Layout'
 import { SettingsScreen } from './Settings/SettingsScreen'
+import { UnixTimeConverterScreen } from './UnixTimeConverter/UnixTimeConverterScreen'
 
 function AppRoutes() {
   return (
@@ -17,7 +19,13 @@ function AppRoutes() {
         />
         <Route path="settings" element={<SettingsScreen />} />
         <Route path="jwt-decoder" element={<JwtDecoderScreen />} />
-        <Route path="json-escaper" element={<JwtEscaperScreen />} />
+        <Route path="json-escaper" element={<JsonEscaperScreen />} />
+        <Route path="base64-encoder" element={<Base64EncoderScreen />} />
+        <Route
+          path="unix-time-converter"
+          element={<UnixTimeConverterScreen />}
+        />
+
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

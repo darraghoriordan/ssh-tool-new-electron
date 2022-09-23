@@ -2,6 +2,7 @@ import { LoadSettingsChannelSub } from './appSettings/channels/LoadSettingsChann
 import { OpenFileLocationSub } from './appSettings/channels/OpenFileLocationSub'
 import { ResetSettingsChannelSub } from './appSettings/channels/ResetSettingsChannelSub'
 import { SaveSettingsChannelSub } from './appSettings/channels/SaveSettingsChannelSub'
+import { Base64EncoderChannelSub } from './base64Encoder/channels/Base64EncoderChannelSub'
 import { GitConfigFilesListSub } from './gitConfigurations/channels/GitConfigFilesListSub'
 import { RescanGitConfigsChannelSub } from './gitConfigurations/channels/RescanGitConfigsChannelSub'
 import { IIpcMainInvokeEventSub } from './IpcChannelTypes/IIpcMainInvokeEventSub'
@@ -15,6 +16,7 @@ import { RemoveCertFromSshAgentSub } from './sshCertChannels/RemoveCertFromSshAg
 import { ScanForSshCertsSub } from './sshCertChannels/ScanForSshCertsSub'
 import { GetValidSshHostsSub } from './sshConfigFileChannels/GetValidSshHostsSub'
 import { OpenSshConfigFileSub } from './sshConfigFileChannels/OpenSshConfigFileSub'
+import { UnixTimeConverterChannelSub } from './unixTimeConverter/channels/UnixTimeConverterChannelSub'
 
 export type ChannelConfigurationTypeSub = {
   rtmSendChannels: IIpcMainSendEventSub<unknown>[]
@@ -37,5 +39,7 @@ export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
     new RescanGitConfigsChannelSub(),
     new DecodeJwtChannelSub(),
     new EscapeJsonChannelSub(),
+    new Base64EncoderChannelSub(),
+    new UnixTimeConverterChannelSub(),
   ],
 }

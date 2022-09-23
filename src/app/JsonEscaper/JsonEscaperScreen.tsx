@@ -4,7 +4,7 @@ import PageHeader from '../components/PageHeader'
 import { useEscapeJson } from './ReactQueryWrappers'
 import { DocumentCheckIcon } from '@heroicons/react/24/outline'
 
-export function JwtEscaperScreen() {
+export function JsonEscaperScreen() {
   const escapeJsonMutation = useEscapeJson()
   const [inputValue, setInputValue] = useState('')
   const [unescapeToggleValue, setUnescapeToggleValue] = useState(false)
@@ -113,7 +113,7 @@ export function JwtEscaperScreen() {
   }
   return (
     <div className="max-w-10xl mx-auto">
-      <PageHeader pageTitle={'JWT Decoder'}>
+      <PageHeader pageTitle={'Json Escaper'}>
         <button
           type="button"
           onClick={e => onDecodeClick(e)}
