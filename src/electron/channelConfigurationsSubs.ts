@@ -6,6 +6,7 @@ import { GitConfigFilesListSub } from './gitConfigurations/channels/GitConfigFil
 import { RescanGitConfigsChannelSub } from './gitConfigurations/channels/RescanGitConfigsChannelSub'
 import { IIpcMainInvokeEventSub } from './IpcChannelTypes/IIpcMainInvokeEventSub'
 import { IIpcMainSendEventSub } from './IpcChannelTypes/IIpcMainSendEventSub'
+import { EscapeJsonChannelSub } from './jsonEncoder/channels/EscapeJsonChannelSub'
 import { DecodeJwtChannelSub } from './jwtDecoder/channels/DecodeJwtChannelSub'
 import { SimpleMessageSub } from './simpleMessage/SimpleMessageSub'
 import { AddCertToSshAgentSub } from './sshCertChannels/AddCertToSshAgentSub'
@@ -35,5 +36,6 @@ export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
     new ResetSettingsChannelSub(),
     new RescanGitConfigsChannelSub(),
     new DecodeJwtChannelSub(),
+    new EscapeJsonChannelSub(),
   ],
 }

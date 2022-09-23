@@ -1,12 +1,13 @@
 import { DecodeJwtResponse } from './channels/MessageTypes'
+import * as jose from 'jose'
 
 export class JwtDecoder {
   static decode(jwt: string): DecodeJwtResponse {
-    const [header, payload, signature] = jwt.split('.')
+    const [alg, payload, signature] = jwt.split('.')
 
     return {
-      algorithm: JSON.parse(JwtDecoder.decodeBase64(header)),
-      payload: JSON.parse(JwtDecoder.decodeBase64(payload)),
+      algorithm: jose.decodeProtectedHeader(jwt),
+      payload: jose.decodeJwt(jwt),
       signature: JwtDecoder.decodeBase64(signature),
     }
   }

@@ -19,7 +19,13 @@ export function JwtDecoderScreen() {
 
     const result = await decodeJwtMutation.mutateAsync({ jwt: inputValue })
 
-    setOutputValue(JSON.stringify(result, null, 2))
+    setOutputValue(
+      JSON.stringify(
+        { header: result.algorithm, payload: result.payload },
+        null,
+        2
+      )
+    )
   }
   if (decodeJwtMutation.isError) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

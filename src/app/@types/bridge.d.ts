@@ -20,6 +20,10 @@ import {
   DecodeJwtMessage,
   DecodeJwtResponse,
 } from '../../electron/jwtDecoder/channels/MessageTypes'
+import {
+  EscapeJsonMessage,
+  EscapeJsonResponse,
+} from '../../electron/jsonEncoder/channels/MessageTypes'
 
 declare global {
   // eslint-disable-next-line
@@ -56,6 +60,9 @@ declare global {
     }
     DecodeJwt: {
       invoke: (message: DecodeJwtMessage) => Promise<DecodeJwtResponse>
+    }
+    EscapeJson: {
+      invoke: (message: EscapeJsonMessage) => Promise<EscapeJsonResponse>
     }
   }
 }

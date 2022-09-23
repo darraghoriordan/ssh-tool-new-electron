@@ -58,38 +58,20 @@ export function SettingsScreen() {
         <div className="md:grid md:grid-cols-3 md:gap-6">
           <div className="md:col-span-1">
             <h3 className="text-lg font-medium leading-6 text-gray-900">
-              General Settings
+              Git Settings
             </h3>
             <p className="mt-1 text-sm text-gray-500">
-              These settings affect the whole application.
+              Used for working with your git repositories.
             </p>
           </div>
           <div className="mt-5 space-y-6 md:col-span-2 md:mt-0">
             <div className="grid grid-cols-3 gap-6">
               <div className="col-span-3 ">
                 <label
-                  htmlFor="sshCertPath"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  SSH certs path
-                </label>
-                <div className="mt-1 flex rounded-md shadow-sm">
-                  <input
-                    {...register('sshCertPath', { required: true, min: 1 })}
-                    className="block w-full rounded-md border border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                    defaultValue={data.settings.sshCertPath}
-                  />
-                </div>
-                {errors.sshCertPath && (
-                  <span className="text-red-600">This field is required</span>
-                )}
-              </div>
-              <div className="col-span-3 ">
-                <label
                   htmlFor="projectsPath"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Git project path
+                  Git project path to scan for repositories
                 </label>
                 <div className="mt-1 flex rounded-md shadow-sm">
                   <input
@@ -107,7 +89,7 @@ export function SettingsScreen() {
                   htmlFor="globalGitConfigFile"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Git Global Config File
+                  Global Git Config File
                 </label>
                 <div className="mt-1 flex rounded-md shadow-sm">
                   <input
@@ -120,6 +102,38 @@ export function SettingsScreen() {
                   />
                 </div>
                 {errors.globalGitConfigFile && (
+                  <span className="text-red-600">This field is required</span>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="mt-8 md:grid md:grid-cols-3 md:gap-6">
+          <div className="md:col-span-1">
+            <h3 className="text-lg font-medium leading-6 text-gray-900">
+              Ssh Settings
+            </h3>
+            <p className="mt-1 text-sm text-gray-500">
+              Used for working with ssh certificates
+            </p>
+          </div>
+          <div className="mt-5 space-y-6 md:col-span-2 md:mt-0">
+            <div className="grid grid-cols-3 gap-6">
+              <div className="col-span-3 ">
+                <label
+                  htmlFor="sshCertPath"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  SSH certs path to scan
+                </label>
+                <div className="mt-1 flex rounded-md shadow-sm">
+                  <input
+                    {...register('sshCertPath', { required: true, min: 1 })}
+                    className="block w-full rounded-md border border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                    defaultValue={data.settings.sshCertPath}
+                  />
+                </div>
+                {errors.sshCertPath && (
                   <span className="text-red-600">This field is required</span>
                 )}
               </div>

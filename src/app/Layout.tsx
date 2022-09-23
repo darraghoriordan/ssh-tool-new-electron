@@ -6,6 +6,7 @@ import {
   DocumentMagnifyingGlassIcon,
   Cog6ToothIcon,
   ClockIcon,
+  FunnelIcon,
 } from '@heroicons/react/24/outline'
 import { NavLink, Outlet } from 'react-router-dom'
 //import logo from '../assets/logo-tp.png'
@@ -41,8 +42,8 @@ const navigation = [
   },
   {
     name: 'JSON Escape',
-    href: '/json-escape',
-    icon: ArrowDownOnSquareStackIcon,
+    href: '/json-escaper',
+    icon: FunnelIcon,
     current: false,
   },
   {
