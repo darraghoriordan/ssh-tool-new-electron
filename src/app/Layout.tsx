@@ -1,6 +1,5 @@
 import React from 'react'
 import {
-  ShieldCheckIcon,
   ArrowUpCircleIcon,
   DocumentMagnifyingGlassIcon,
   Cog6ToothIcon,
@@ -23,14 +22,7 @@ const navigation = [
     end: true,
   },
   {
-    name: 'Git SSH Configurations',
-    href: '/ssh-configuration',
-    icon: ShieldCheckIcon,
-    hidden: true,
-    current: false,
-  },
-  {
-    name: 'Git Url Converter',
+    name: 'Git SSH Url Converter',
     href: '/git-url-converter',
     icon: LinkIcon,
     current: false,
@@ -90,33 +82,31 @@ export const Layout = () => {
             </div>
             <div className="flex-1 flex flex-col overflow-y-auto">
               <nav className="flex-1 px-2 py-4 space-y-1">
-                {navigation
-                  .filter(x => x.hidden != true)
-                  .map(item => (
-                    <NavLink
-                      end={item.end}
-                      key={item.name}
-                      to={item.href}
-                      className={props => {
-                        if (props.isActive) {
-                          return classNames(
-                            'bg-gray-900 text-white',
-                            'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
-                          )
-                        }
+                {navigation.map(item => (
+                  <NavLink
+                    end={item.end}
+                    key={item.name}
+                    to={item.href}
+                    className={props => {
+                      if (props.isActive) {
                         return classNames(
-                          'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          'bg-gray-900 text-white',
                           'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
                         )
-                      }}
-                    >
-                      <item.icon
-                        className={'mr-3 flex-shrink-0 h-6 w-6'}
-                        aria-hidden="true"
-                      />
-                      {item.name}
-                    </NavLink>
-                  ))}
+                      }
+                      return classNames(
+                        'text-gray-300 hover:bg-gray-700 hover:text-white',
+                        'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
+                      )
+                    }}
+                  >
+                    <item.icon
+                      className={'mr-3 flex-shrink-0 h-6 w-6'}
+                      aria-hidden="true"
+                    />
+                    {item.name}
+                  </NavLink>
+                ))}
               </nav>
             </div>
           </div>

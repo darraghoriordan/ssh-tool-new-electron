@@ -41,7 +41,7 @@ export function SshUrlConverterScreen() {
             htmlFor="sshCertPath"
             className="block text-sm font-medium text-gray-700"
           >
-            Enter a git url
+            Enter an ssh or http git url
           </label>
           <div className="mt-1 flex rounded-md shadow-sm">
             <input
@@ -53,28 +53,33 @@ export function SshUrlConverterScreen() {
               defaultValue={''}
             />
           </div>
-          <p className="text-sm leading-5 text-gray-500 mt-8">Direct Urls</p>
-          <ul>
-            <li>HTTP: {outputValue?.httpUrl}</li>
-            <li>SSH: {outputValue?.sshUrl}</li>
-          </ul>
-          <p className="text-sm leading-5 text-gray-500 mt-4">
-            Local Ssh Alias Urls
+
+          <p className="text-sm leading-5 text-gray-500 mt-8">
+            http direct url
           </p>
-          <ul>
-            {outputValue?.sshAliases.map((x, i) => (
-              <li key={i}>
-                {x.alias}: {x.url}
-              </li>
-            ))}
-          </ul>
+          {outputValue?.httpUrl && (
+            <span className="font-mono">git clone {outputValue?.httpUrl}</span>
+          )}
+
+          <p className="text-sm leading-5 text-gray-500 mt-4">ssh direct url</p>
+
+          {outputValue?.sshUrl && (
+            <span className="font-mono">git clone {outputValue?.sshUrl}</span>
+          )}
+
+          {outputValue?.sshAliases.map(x => (
+            <>
+              <p className="text-sm leading-5 text-gray-500 mt-4">{x.alias}</p>
+              <span className="font-mono">git clone {x.url}</span>
+            </>
+          ))}
         </div>
       </div>
     )
   }
   return (
     <div className="max-w-10xl mx-auto">
-      <PageHeader pageTitle={'Git Url Converter'}>
+      <PageHeader pageTitle={'Git SSH Url Converter'}>
         <button
           type="button"
           onClick={e => onSubmitClick(e)}
