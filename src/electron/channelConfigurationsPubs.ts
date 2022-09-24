@@ -1,8 +1,7 @@
 import { LoadSettingsChannelPub } from './appSettings/channels/LoadSettingsChannelPub'
 import { SaveSettingsChannelPub } from './appSettings/channels/SaveSettingsChannelPub'
-import { GetValidSshHostsPub } from './sshConfigFileChannels/GetValidSshHostsPub'
+import { SshUrlConverterChannelPub } from './sshConfigFile/channels/SshUrlConverterChannelPub'
 import { SimpleMessagePub } from './simpleMessage/SimpleMessagePub'
-import { OpenSshConfigFilePub } from './sshConfigFileChannels/OpenSshConfigFilePub'
 import { ChannelConfigurationTypePub } from './ChannelConfigurationTypePub'
 import { GitConfigFilesListPub } from './gitConfigurations/channels/GitConfigFilesListPub'
 import { ResetSettingsChannelPub } from './appSettings/channels/ResetSettingsChannelPub'
@@ -16,9 +15,8 @@ import { UnixTimeConverterChannelPub } from './unixTimeConverter/channels/UnixTi
 export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
   rtmSendChannels: [new SimpleMessagePub(), new OpenFileLocationPub()],
   rtmInvokeChannels: [
-    new OpenSshConfigFilePub(),
     new GitConfigFilesListPub(),
-    new GetValidSshHostsPub(),
+    new SshUrlConverterChannelPub(),
     new LoadSettingsChannelPub(),
     new SaveSettingsChannelPub(),
     new ResetSettingsChannelPub(),

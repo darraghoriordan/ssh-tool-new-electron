@@ -4,7 +4,6 @@ import { GitConfigInfo } from '../models/GitConfigInfo'
 import { GitProtocolTypeEnum } from '../models/GitProtocolTypeEnum'
 import ini from 'ini'
 import gitUrlParser from 'git-url-parse'
-import { AvailableHost } from '../../services/sshConfigFile/SshConfigFileParser'
 import { GitConfigFileEditor } from './GitConfigFileEditor'
 
 export class GitProjectConfigFileParser {
@@ -86,48 +85,48 @@ export class GitProjectConfigFileParser {
         .replace(/"/, '')
     )
   }
+  // NOT USED - but could be useful in the future - WILL USE MANUAL METHOD FOR NOW
+  //   static findPotentialRemoteOrigins(
+  //     gitConfigInfo: GitConfigInfo,
+  //     listOfNamedSshConnections: AvailableHost[]
+  //   ): GitRemote[] {
+  //     // grab the single origin
+  //     console.info(
+  //       `Mapping ${listOfNamedSshConnections.length} named connections`
+  //     )
+  //     const originRemote = gitConfigInfo.remotes.find(x =>
+  //       x.remoteName.includes('origin')
+  //     )
+  //     // we can't change the origin if there isnt one already set
+  //     // but then maybe the customer will want to set one using the app?
+  //     // edit, no because you cant set origin with knowing base url, unless
+  //     // we offer a list of all potential ssh connections
+  //     if (!originRemote) {
+  //       return []
+  //     }
 
-  static findPotentialRemoteOrigins(
-    gitConfigInfo: GitConfigInfo,
-    listOfNamedSshConnections: AvailableHost[]
-  ): GitRemote[] {
-    // grab the single origin
-    console.info(
-      `Mapping ${listOfNamedSshConnections.length} named connections`
-    )
-    const originRemote = gitConfigInfo.remotes.find(x =>
-      x.remoteName.includes('origin')
-    )
-    // we can't change the origin if there isnt one already set
-    // but then maybe the customer will want to set one using the app?
-    // edit, no because you cant set origin with knowing base url, unless
-    // we offer a list of all potential ssh connections
-    if (!originRemote) {
-      return []
-    }
+  //     // for each config create ssh connections for each ssh certificate
+  //     // if ssh then for each connection add a potential http connection
+  //     // if ssh remove the existing named connection if in use
+  //     // if http then remove the potential http connection
+  //     // this needs a git remote connection
+  //     const mappedSshHostsToGitRemotes = listOfNamedSshConnections.map(x => {
+  //       return {
+  //         url: `${x.user}@${x.alias}:${originRemote.pathname.substring(1)}`, // this will have to change based on the contents of this object
+  //         owner: originRemote.owner,
+  //         pathname: originRemote.pathname,
+  //         protocol: 'ssh',
+  //         source: originRemote.source, // unsure if this changes? might like the root url? need docs
+  //         port: undefined,
+  //         user: x.user,
+  //         repoName: originRemote.repoName,
+  //         remoteName: originRemote.remoteName,
+  //         type: GitProtocolTypeEnum.SSH,
+  //       } as GitRemote
+  //     })
 
-    // for each config create ssh connections for each ssh certificate
-    // if ssh then for each connection add a potential http connection
-    // if ssh remove the existing named connection if in use
-    // if http then remove the potential http connection
-    // this needs a git remote connection
-    const mappedSshHostsToGitRemotes = listOfNamedSshConnections.map(x => {
-      return {
-        url: `${x.user}@${x.alias}:${originRemote.pathname.substring(1)}`, // this will have to change based on the contents of this object
-        owner: originRemote.owner,
-        pathname: originRemote.pathname,
-        protocol: 'ssh',
-        source: originRemote.source, // unsure if this changes? might like the root url? need docs
-        port: undefined,
-        user: x.user,
-        repoName: originRemote.repoName,
-        remoteName: originRemote.remoteName,
-        type: GitProtocolTypeEnum.SSH,
-      } as GitRemote
-    })
-
-    return mappedSshHostsToGitRemotes
-  }
+  //     return mappedSshHostsToGitRemotes
+  //   }
 
   static extractOriginGitRepoName(gitConfigInfo: GitConfigInfo): string {
     const unknownRepoTitle = 'Unknown Remote Origin'

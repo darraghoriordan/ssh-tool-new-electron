@@ -1,5 +1,8 @@
 import { api } from '../../electron/bridge'
-import { OpenFileResponseMessage } from '../../electron/sshConfigFileChannels/MessageTypes'
+import {
+  SshUrlConverterChannelMessage,
+  SshUrlConverterChannelResponse,
+} from '../../electron/sshConfigFile/channels/MessageTypes'
 
 import {
   SaveSettingsMessage,
@@ -30,10 +33,6 @@ declare global {
   // eslint-disable-next-line
   interface Window {
     Main: typeof api
-    OpenSshFile: {
-      invoke: () => Promise<OpenFileResponseMessage>
-    }
-
     GitConfigFilesList: {
       invoke: (message: GitConfigListRequest) => Promise<GitConfigListResponse>
     }
@@ -65,7 +64,9 @@ declare global {
       ) => Promise<UnixTimeConverterResponse>
     }
     SshUrlConverter: {
-      invoke: (message: { data: string }) => Promise<{ data: string }>
+      invoke: (
+        message: SshUrlConverterChannelMessage
+      ) => Promise<SshUrlConverterChannelResponse>
     }
   }
 }

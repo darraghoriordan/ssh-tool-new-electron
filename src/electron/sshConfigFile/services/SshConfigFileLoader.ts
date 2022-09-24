@@ -1,4 +1,4 @@
-import SshConfigFileDiskLoader from './SshConfigFileDiskLoader'
+import SshConfigFileDiskLoader from '../../sshConfigFile/services/SshConfigFileDiskLoader'
 import { AvailableHost, SshConfigFileParser } from './SshConfigFileParser'
 import { ApplicationSettingService } from '../../appSettings/services/ApplicationSettingService'
 

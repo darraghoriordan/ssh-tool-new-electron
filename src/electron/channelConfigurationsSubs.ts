@@ -10,8 +10,7 @@ import { IIpcMainSendEventSub } from './IpcChannelTypes/IIpcMainSendEventSub'
 import { EscapeJsonChannelSub } from './jsonEncoder/channels/EscapeJsonChannelSub'
 import { DecodeJwtChannelSub } from './jwtDecoder/channels/DecodeJwtChannelSub'
 import { SimpleMessageSub } from './simpleMessage/SimpleMessageSub'
-import { GetValidSshHostsSub } from './sshConfigFileChannels/GetValidSshHostsSub'
-import { OpenSshConfigFileSub } from './sshConfigFileChannels/OpenSshConfigFileSub'
+import { SshUrlConverterChannelSub } from './sshConfigFile/channels/SshUrlConverterChannelSub'
 import { UnixTimeConverterChannelSub } from './unixTimeConverter/channels/UnixTimeConverterChannelSub'
 
 export type ChannelConfigurationTypeSub = {
@@ -22,9 +21,8 @@ export type ChannelConfigurationTypeSub = {
 export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
   rtmSendChannels: [new SimpleMessageSub(), new OpenFileLocationSub()],
   rtmInvokeChannels: [
-    new OpenSshConfigFileSub(),
     new GitConfigFilesListSub(),
-    new GetValidSshHostsSub(),
+    new SshUrlConverterChannelSub(),
     new LoadSettingsChannelSub(),
     new SaveSettingsChannelSub(),
     new ResetSettingsChannelSub(),

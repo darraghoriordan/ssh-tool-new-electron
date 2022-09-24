@@ -7,24 +7,24 @@ import { useConvertSshUrl } from './ReactQueryWrappers'
 export function SshUrlConverterScreen() {
   const mutation = useConvertSshUrl()
   const [inputValue, setInputValue] = useState('')
-  const [outputValue, setOutputValue] = useState('')
+  const [outputValue, setOutputValue] = useState([] as string[])
 
   let control: ReactElement | undefined = undefined
   const onSubmitClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     const input = {
-      data: inputValue,
+      gitUrl: inputValue,
     }
     console.log('input', input)
 
-    if (!input.data) {
-      setOutputValue('You must enter some content')
+    if (!input.gitUrl) {
+      setOutputValue(['You must enter some content'])
       return
     }
 
     const result = await mutation.mutateAsync(input)
     console.log(result)
-    setOutputValue(result.data)
+    setOutputValue(result.possibleGitUrls)
   }
   if (mutation.isError) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -51,7 +51,11 @@ export function SshUrlConverterScreen() {
               defaultValue={''}
             />
           </div>
-          {outputValue}
+          <ul>
+            {outputValue.map((x, i) => (
+              <li key={i}>{x}</li>
+            ))}
+          </ul>
         </div>
       </div>
     )
