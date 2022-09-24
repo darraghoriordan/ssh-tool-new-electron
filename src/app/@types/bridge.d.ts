@@ -80,5 +80,8 @@ declare global {
         message: UnixTimeConverterMessage
       ) => Promise<UnixTimeConverterResponse>
     }
+    SshUrlConverter: {
+      invoke: (message: { data: string }) => Promise<{ data: string }>
+    }
   }
 }

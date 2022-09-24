@@ -54,7 +54,7 @@ export function GitConfigurationListScreen() {
 
   return (
     <div className="max-w-10xl mx-auto">
-      <PageHeader pageTitle={'Git Configurations'}>
+      <PageHeader pageTitle={'Git Project Configurations'}>
         <div className="">
           <input
             type="text"

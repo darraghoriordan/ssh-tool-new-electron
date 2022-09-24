@@ -8,6 +8,7 @@ import {
   ClockIcon,
   FunnelIcon,
   CommandLineIcon,
+  LinkIcon,
 } from '@heroicons/react/24/outline'
 import { NavLink, Outlet } from 'react-router-dom'
 //import logo from '../assets/logo-tp.png'
@@ -30,17 +31,18 @@ const navigation = [
     current: false,
   },
   {
+    name: 'Git Url Converter',
+    href: '/git-url-converter',
+    icon: LinkIcon,
+    current: false,
+  },
+  {
     name: 'JWT Decoder',
     href: '/jwt-decoder',
     icon: DocumentMagnifyingGlassIcon,
     current: false,
   },
-  {
-    name: 'Timezone Crossover',
-    href: '/timezone-crossover',
-    icon: GlobeAltIcon,
-    current: false,
-  },
+
   {
     name: 'JSON Escape',
     href: '/json-escaper',

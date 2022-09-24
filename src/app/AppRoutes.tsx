@@ -6,6 +6,7 @@ import { JsonEscaperScreen } from './JsonEscaper/JsonEscaperScreen'
 import { JwtDecoderScreen } from './JwtDecoder/JwtDecoderScreen'
 import { Layout } from './Layout'
 import { SettingsScreen } from './Settings/SettingsScreen'
+import { SshUrlConverterScreen } from './SshUrlConverter/SshUrlConverterScreen'
 import { UnixTimeConverterScreen } from './UnixTimeConverter/UnixTimeConverterScreen'
 
 function AppRoutes() {
@@ -21,6 +22,7 @@ function AppRoutes() {
         <Route path="jwt-decoder" element={<JwtDecoderScreen />} />
         <Route path="json-escaper" element={<JsonEscaperScreen />} />
         <Route path="base64-encoder" element={<Base64EncoderScreen />} />
+        <Route path="git-url-converter" element={<SshUrlConverterScreen />} />
         <Route
           path="unix-time-converter"
           element={<UnixTimeConverterScreen />}
