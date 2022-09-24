@@ -1,6 +1,5 @@
 import React from 'react'
 import {
-  GlobeAltIcon,
   ShieldCheckIcon,
   ArrowUpCircleIcon,
   DocumentMagnifyingGlassIcon,

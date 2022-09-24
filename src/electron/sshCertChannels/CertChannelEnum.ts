@@ -1,7 +1,0 @@
-/* eslint-disable no-unused-vars */
-export enum CertChannels {
-  SCAN_FOR_CERTS = 'SCAN_FOR_CERTS',
-  GENERATE_NEW_CERT = 'GENERATE_NEW_CERT',
-  ADD_CERT_TO_SSH_AGENT = 'ADD_CERT_TO_SSH_AGENT',
-  REMOVE_CERT_FROM_SSH_AGENT = 'REMOVE_CERT_FROM_SSH_AGENT',
-}
