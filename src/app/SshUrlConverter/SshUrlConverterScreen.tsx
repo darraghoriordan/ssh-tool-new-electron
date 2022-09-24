@@ -3,11 +3,14 @@ import React, { ReactElement, useState } from 'react'
 import PageHeader from '../components/PageHeader'
 import { DocumentCheckIcon } from '@heroicons/react/24/outline'
 import { useConvertSshUrl } from './ReactQueryWrappers'
+import { SshConverterResults } from '../../electron/sshConfigFile/models/SshConverterResults'
 
 export function SshUrlConverterScreen() {
   const mutation = useConvertSshUrl()
   const [inputValue, setInputValue] = useState('')
-  const [outputValue, setOutputValue] = useState([] as string[])
+  const [outputValue, setOutputValue] = useState<
+    SshConverterResults | undefined
+  >(undefined)
 
   let control: ReactElement | undefined = undefined
   const onSubmitClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -18,8 +21,7 @@ export function SshUrlConverterScreen() {
     console.log('input', input)
 
     if (!input.gitUrl) {
-      setOutputValue(['You must enter some content'])
-      return
+      // throw an error
     }
 
     const result = await mutation.mutateAsync(input)
@@ -51,9 +53,19 @@ export function SshUrlConverterScreen() {
               defaultValue={''}
             />
           </div>
+          <p className="text-sm leading-5 text-gray-500 mt-8">Direct Urls</p>
           <ul>
-            {outputValue.map((x, i) => (
-              <li key={i}>{x}</li>
+            <li>HTTP: {outputValue?.httpUrl}</li>
+            <li>SSH: {outputValue?.sshUrl}</li>
+          </ul>
+          <p className="text-sm leading-5 text-gray-500 mt-4">
+            Local Ssh Alias Urls
+          </p>
+          <ul>
+            {outputValue?.sshAliases.map((x, i) => (
+              <li key={i}>
+                {x.alias}: {x.url}
+              </li>
             ))}
           </ul>
         </div>
@@ -62,7 +74,7 @@ export function SshUrlConverterScreen() {
   }
   return (
     <div className="max-w-10xl mx-auto">
-      <PageHeader pageTitle={'Base64 Encoder'}>
+      <PageHeader pageTitle={'Git Url Converter'}>
         <button
           type="button"
           onClick={e => onSubmitClick(e)}

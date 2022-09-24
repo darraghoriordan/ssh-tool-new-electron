@@ -10,6 +10,14 @@ User dokku
     UseKeychain yes
     IdentitiesOnly yes
 
+Host pgh
+	HostName github.com
+	User git
+	IdentityFile ~/.ssh/darraghPersonalGithub
+        AddKeysToAgent yes
+        PreferredAuthentications publickey
+        UseKeychain yes
+        IdentitiesOnly yes
 #Host *
 # AddKeysToAgent yes
 # UseKeychain yes
@@ -18,7 +26,14 @@ User dokku
 describe('SshConfigFileParser', () => {
   it('parses the correct number of lines', () => {
     const result = SshConfigFileParser.parse(input)
-    const expected = 13
+    const expected = 21
+
+    expect(result.length).toBe(expected)
+  })
+
+  it('can parse all the hosts', () => {
+    const result = SshConfigFileParser.parseValidSshHosts(input)
+    const expected = 2
 
     expect(result.length).toBe(expected)
   })
@@ -44,11 +59,11 @@ describe('SshConfigFileParser', () => {
   })
 
   it('can parse commented line', () => {
-    const expected = new SshConfigFileLine('# AddKeysToAgent yes', 10)
+    const expected = new SshConfigFileLine('# AddKeysToAgent yes', 18)
     expected.isCommented = true
 
     const result = SshConfigFileParser.parse(input)
 
-    expect(result[10]).toMatchObject(expected)
+    expect(result[18]).toMatchObject(expected)
   })
 })

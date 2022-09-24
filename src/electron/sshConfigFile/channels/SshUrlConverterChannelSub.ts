@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { IpcMainEvent } from 'electron'
-import { SshConfigFileLoader } from '../services/SshConfigFileLoader'
+import { SshUrlConverterService } from '../services/SshUrlConverterService'
 import { IIpcMainInvokeEventSub } from '../../IpcChannelTypes/IIpcMainInvokeEventSub'
 import { ApplicationSettingService } from '../../appSettings/services/ApplicationSettingService'
 import { SshUrlConverterChannelPub } from './SshUrlConverterChannelPub'
@@ -23,9 +23,12 @@ export class SshUrlConverterChannelSub
   ): Promise<SshUrlConverterChannelResponse> {
     const settings = await ApplicationSettingService.getSettings()
 
-    const response: SshUrlConverterChannelResponse = { possibleGitUrls: [] }
-
-    const sshConfigs = await SshConfigFileLoader.load()
+    const possibleSshUrls = await SshUrlConverterService.getPossibleSshUrls(
+      request.gitUrl
+    )
+    const response: SshUrlConverterChannelResponse = {
+      possibleGitUrls: possibleSshUrls,
+    }
 
     return response
   }

@@ -58,6 +58,10 @@ export class SshConfigFileParser {
         continue
       }
     }
+    // add the last one found
+    if (currentAvailableHost) {
+      availableHosts.push({ ...currentAvailableHost })
+    }
     return availableHosts
   }
 

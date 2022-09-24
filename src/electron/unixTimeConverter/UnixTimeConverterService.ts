@@ -4,17 +4,14 @@ import { formatDistance, formatISO } from 'date-fns'
 export class UnixTimeConverter {
   static convert(input: string, now: Date): UnixTimeConverterResponse {
     const milliSeconds = parseInt(input, 10) * 1000
-    const utcDate = new Date(milliSeconds)
 
-    // the difference between two dates as an english sentence
+    const inputAsDate = new Date(milliSeconds)
 
-    // const diffYears = differenceInYears(now, utcDate);
-    // const diffMonths = differenceInMonths(now, utcDate)
     return {
-      utcDate: utcDate.toISOString(),
-      isoDate: formatISO(utcDate),
-      localeDate: utcDate.toLocaleString(),
-      differenceFromNow: formatDistance(utcDate, now, {
+      utcDate: inputAsDate.toISOString(),
+      isoDate: formatISO(inputAsDate),
+      localeDate: inputAsDate.toLocaleString(),
+      differenceFromNow: formatDistance(inputAsDate, now, {
         addSuffix: true,
         includeSeconds: true,
       }),
