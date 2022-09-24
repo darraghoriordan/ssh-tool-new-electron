@@ -10,10 +10,6 @@ import { IIpcMainSendEventSub } from './IpcChannelTypes/IIpcMainSendEventSub'
 import { EscapeJsonChannelSub } from './jsonEncoder/channels/EscapeJsonChannelSub'
 import { DecodeJwtChannelSub } from './jwtDecoder/channels/DecodeJwtChannelSub'
 import { SimpleMessageSub } from './simpleMessage/SimpleMessageSub'
-import { AddCertToSshAgentSub } from './sshCertChannels/AddCertToSshAgentSub'
-import { GenerateCertSub } from './sshCertChannels/GenerateCertSub'
-import { RemoveCertFromSshAgentSub } from './sshCertChannels/RemoveCertFromSshAgentSub'
-import { ScanForSshCertsSub } from './sshCertChannels/ScanForSshCertsSub'
 import { GetValidSshHostsSub } from './sshConfigFileChannels/GetValidSshHostsSub'
 import { OpenSshConfigFileSub } from './sshConfigFileChannels/OpenSshConfigFileSub'
 import { UnixTimeConverterChannelSub } from './unixTimeConverter/channels/UnixTimeConverterChannelSub'
@@ -27,10 +23,6 @@ export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
   rtmSendChannels: [new SimpleMessageSub(), new OpenFileLocationSub()],
   rtmInvokeChannels: [
     new OpenSshConfigFileSub(),
-    new ScanForSshCertsSub(),
-    new AddCertToSshAgentSub(),
-    new GenerateCertSub(),
-    new RemoveCertFromSshAgentSub(),
     new GitConfigFilesListSub(),
     new GetValidSshHostsSub(),
     new LoadSettingsChannelSub(),

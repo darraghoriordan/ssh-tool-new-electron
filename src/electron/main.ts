@@ -9,7 +9,6 @@ import { IIpcMainInvokeEventSub } from './IpcChannelTypes/IIpcMainInvokeEventSub
 import { ApplicationSettingService } from './appSettings/services/ApplicationSettingService'
 import path from 'path'
 import { GitConfigsFileCacheService } from './gitConfigurations/services/GitConfigsFileCacheService'
-import { SshCertFileCacheService } from './services/sshCertificates/SshCertFileCacheService'
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
@@ -32,12 +31,6 @@ class Main {
         gitConfigurationCacheFilePath: path.join(
           app.getPath('userData'),
           'gitConfigurationCache.json'
-        ),
-      })
-      SshCertFileCacheService.init({
-        sshCertCacheFilePath: path.join(
-          app.getPath('userData'),
-          'sshCertCacheFilePath.json'
         ),
       })
 
