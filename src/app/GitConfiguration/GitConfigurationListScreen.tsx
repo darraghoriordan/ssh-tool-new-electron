@@ -5,8 +5,35 @@ import PageHeader from '../components/PageHeader'
 import GitConfigurationViewCard from './GitConfigurationViewCard'
 import { useGetGitConfigurationList, useResetCache } from './ReactQueryWrappers'
 import { useDebounce } from 'use-debounce'
+import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
 
 export function GitConfigurationListScreen() {
+  const faqs = [
+    {
+      id: 1,
+      question: 'What is this tool for?',
+      answer:
+        'Developers often have many Git projects on their systems. This tool provides an easy way to scan a location recursively for Git configuration files.',
+    },
+    {
+      id: 2,
+      question: 'Why use it?',
+      answer:
+        'You can easily see which origin and which user is being used for a repository. This is useful if you use multiple Git accounts or if you have a global Git user configured.',
+    },
+    {
+      id: 3,
+      question: 'What is the rescan button?',
+      answer:
+        "The tool doesn't monitor your filesystem for changes or new projects. If you add a new Git project or edit a config file in a text editor, you need to click the rescan button to have it appear in the list.",
+    },
+    {
+      id: 4,
+      question: 'How do I adjust the scanned folder?',
+      answer:
+        'There are settings in App Settings where you can adjust the paths.',
+    },
+  ]
   const resetCachesMutation = useResetCache()
 
   const [filter, setFilter] = React.useState<string | undefined>(undefined)
@@ -84,6 +111,8 @@ export function GitConfigurationListScreen() {
           Rescan for projects
         </button>
       </PageHeader>
+
+      <DescriptionAndHelp faqs={faqs} />
       <div className="">{control}</div>
     </div>
   )

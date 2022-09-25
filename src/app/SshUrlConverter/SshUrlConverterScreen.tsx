@@ -9,8 +9,35 @@ import {
 import { useConvertSshUrl } from './ReactQueryWrappers'
 import { SshConverterResults } from '../../electron/sshConfigFile/models/SshConverterResults'
 import { useGetSettings } from '../Settings/ReactQueryWrappers'
+import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
 
 export function SshUrlConverterScreen() {
+  const faqs = [
+    {
+      id: 1,
+      question: 'What is this tool for?',
+      answer:
+        'If you copy a URL from a git repository, it will have a generic ssh url. This tool is aware of any local ssh aliases you have configured.',
+    },
+    {
+      id: 2,
+      question: 'Why use it?',
+      answer:
+        "This is useful when cloning git repositories if you use local ssh aliases. It's also useful if you quickly want to see what the ssh or http url is for a repository.",
+    },
+    {
+      id: 3,
+      question: 'What are local ssh aliases?',
+      answer:
+        "If you have a local ssh alias configured, you can use the alias in place of the full ssh url. For example, if you have an alias called 'pgh' configured with your private github ssh certificate, you can use 'git clone git@pgh:username/repo' instead of of 'git clone git@github.com:username/repo'.",
+    },
+    {
+      id: 4,
+      question: 'How do I adjust the ssh config file location?',
+      answer:
+        'There are settings in App Settings where you can adjust the paths.',
+    },
+  ]
   const mutation = useConvertSshUrl()
   const [inputValue, setInputValue] = useState('')
   const [outputValue, setOutputValue] = useState<
@@ -104,7 +131,7 @@ export function SshUrlConverterScreen() {
   }
   return (
     <div className="max-w-10xl mx-auto">
-      <PageHeader pageTitle={'Git SSH Url Converter'}>
+      <PageHeader pageTitle={'Git Url Converter'}>
         {data?.settings.sshConfigFilePath && (
           <button
             onClick={e => onOpenFolderClick(e, data.settings.sshConfigFilePath)}
@@ -133,7 +160,7 @@ export function SshUrlConverterScreen() {
           Submit
         </button>
       </PageHeader>
-
+      <DescriptionAndHelp faqs={faqs} />
       {control}
     </div>
   )
