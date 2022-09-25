@@ -16,7 +16,7 @@ import { GitUser } from '../models/GitUser'
 export default class GitConfigFileSystemScanner {
   static async scan(scanStartPath: string): Promise<GitConfigsModel> {
     const settings = await ApplicationSettingService.getSettings()
-
+    console.log('starting scan')
     const response: GitConfigsModel = {
       configList: [],
       searchedPath: settings.projectsPath,
@@ -37,6 +37,9 @@ export default class GitConfigFileSystemScanner {
       )
     console.log('gitConfigFilePaths', gitConfigFilePaths)
 
+    if (gitConfigFilePaths.length <= 0) {
+      return response
+    }
     // create readfile promises for every file to get the contents
     const fileReadPromises = gitConfigFilePaths.map(filePath => {
       return new Promise<{ fileContents: string; filePath: string }>(
@@ -134,7 +137,7 @@ export default class GitConfigFileSystemScanner {
 
     // scan the file system for a list of files
     const stdout = await this.scanFileSystem(scanStartPath)
-
+    console.log('stdout', stdout)
     const mappedPaths = stdout
       .split(/\r?\n/)
       .filter((x: string | undefined) => x && x.trim() !== '')

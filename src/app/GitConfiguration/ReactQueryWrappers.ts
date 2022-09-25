@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { ControlFunctions } from 'use-debounce'
+import { GitConfigListResponse } from '../../electron/gitConfigurations/channels/MessageTypes'
 
 export const wellKnownQueries = {
   getGitConfigurations: 'get-git-configurations',
@@ -10,11 +11,12 @@ export function useGetGitConfigurationList(
   debouncedFilter: [string | undefined, ControlFunctions],
   filter: string | undefined
 ) {
-  return useQuery(
+  return useQuery<GitConfigListResponse, { message: string }>(
     [wellKnownQueries.getGitConfigurations, filter],
     async () => window.GitConfigFilesList.invoke({ filter }),
     {
       staleTime: Infinity,
+
       //enabled: debouncedFilter[0] !== undefined
     }
   )

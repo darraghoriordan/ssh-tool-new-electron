@@ -108,30 +108,6 @@ export const Layout = () => {
                     {item.name}
                   </NavLink>
                 ))}
-                {/* <NavLink
-                  key={'App Settings'}
-                  to={'/settings'}
-                  className={props => {
-                    if (props.isActive) {
-                      return classNames(
-                        'bg-gray-900 text-white',
-
-                        'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
-                      )
-                    }
-                    return classNames(
-                      'text-gray-300 hover:bg-gray-700 hover:text-white',
-
-                      'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
-                    )
-                  }}
-                >
-                  <Cog6ToothIcon
-                    className={'mr-3 flex-shrink-0 h-6 w-6'}
-                    aria-hidden="true"
-                  />
-                  App Settings
-                </NavLink> */}
               </nav>
             </div>
 

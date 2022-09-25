@@ -1,11 +1,12 @@
 import React, { ReactElement } from 'react'
 import { ArrowPathIcon } from '@heroicons/react/24/solid'
-import { FolderOpenIcon } from '@heroicons/react/24/outline'
+import { Cog6ToothIcon, FolderOpenIcon } from '@heroicons/react/24/outline'
 import PageHeader from '../components/PageHeader'
 import GitConfigurationViewCard from './GitConfigurationViewCard'
 import { useGetGitConfigurationList, useResetCache } from './ReactQueryWrappers'
 import { useDebounce } from 'use-debounce'
 import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
+import { useNavigate } from 'react-router-dom'
 
 export function GitConfigurationListScreen() {
   const faqs = [
@@ -34,6 +35,7 @@ export function GitConfigurationListScreen() {
         'There are settings in App Settings where you can adjust the paths.',
     },
   ]
+  const navigateRoute = useNavigate()
   const resetCachesMutation = useResetCache()
 
   const [filter, setFilter] = React.useState<string | undefined>(undefined)
@@ -45,11 +47,8 @@ export function GitConfigurationListScreen() {
     filter
   )
   let control: ReactElement | undefined = undefined
-  if (isLoading || data === undefined) {
+  if (isLoading) {
     control = <>Loading...</>
-  }
-  if (error) {
-    control = <>Error...{error}</>
   }
 
   const onOpenFolderClick = (
@@ -60,23 +59,54 @@ export function GitConfigurationListScreen() {
     window.OpenFileLocation.invoke(location)
   }
 
-  if (!isLoading && data && control === undefined) {
-    control = (
-      <div className="">
-        <ul role="list">
-          {data?.configList
-            .sort((x, y) => (x.path > y.path ? 1 : 0))
-            .map(gitConfigInfo => (
-              <li key={gitConfigInfo.path} className="py-4 flex-1">
-                <GitConfigurationViewCard
-                  gitConfigInfo={gitConfigInfo}
-                  globalUser={data.globalUser}
-                />
-              </li>
-            ))}
-        </ul>
-      </div>
-    )
+  if (!isLoading && control === undefined) {
+    if ((data?.configList || []).length <= 0) {
+      control = (
+        <>
+          {error && <span>Error...{error.message}</span>}
+          <button
+            type="button"
+            onClick={e => {
+              e.preventDefault()
+              // go to new url
+              navigateRoute('/settings')
+            }}
+            className="mt-8 relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
+            <Cog6ToothIcon
+              className={'block mx-auto h-40 w-40'}
+              aria-hidden="true"
+            />
+
+            <span className="mt-2 block text-sm font-medium text-gray-900">
+              No Git configuration files found. <br />
+              Click here to go to the App Settings screen and verify the Git
+              project paths.
+            </span>
+            <span className="mt-8 block text-sm font-medium text-gray-900">
+              When you're done, return here and click on the rescan button.
+            </span>
+          </button>
+        </>
+      )
+    } else {
+      control = (
+        <div className="">
+          <ul role="list">
+            {data?.configList
+              .sort((x, y) => (x.path > y.path ? 1 : 0))
+              .map(gitConfigInfo => (
+                <li key={gitConfigInfo.path} className="py-4 flex-1">
+                  <GitConfigurationViewCard
+                    gitConfigInfo={gitConfigInfo}
+                    globalUser={data.globalUser}
+                  />
+                </li>
+              ))}
+          </ul>
+        </div>
+      )
+    }
   }
 
   return (

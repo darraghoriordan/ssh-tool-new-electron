@@ -45,7 +45,7 @@ export function SettingsScreen() {
     control = <>Loading...</>
   }
   if (error) {
-    control = <>Error...{error}</>
+    control = <>Error...{error.message}</>
   }
   if (saveMutation.isError) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -77,56 +77,71 @@ export function SshUrlConverterScreen() {
     )
   }
 
-  if (mutation.isError || error) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    control = <>Error...{mutation.error?.message || error}</>
-  }
   if (isLoading) {
     control = <>Loading...</>
   }
 
-  if (mutation && !mutation.isError) {
+  if (mutation) {
     control = (
-      <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
-        <div className="mb-8">
-          <label
-            htmlFor="sshCertPath"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Enter an ssh or http git url
-          </label>
-          <div className="mt-1 flex rounded-md shadow-sm">
-            <input
-              name="data"
-              id="data"
-              value={inputValue}
-              onChange={e => setInputValue(e.target.value)}
-              placeholder="paste a git url here"
-              className="block w-full rounded-md border border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-            />
-          </div>
-
-          <p className="text-sm leading-5 text-gray-500 mt-8">
-            http direct url
-          </p>
-          {outputValue?.httpUrl && (
-            <span className="font-mono">git clone {outputValue?.httpUrl}</span>
-          )}
-
-          <p className="text-sm leading-5 text-gray-500 mt-4">ssh direct url</p>
-
-          {outputValue?.sshUrl && (
-            <span className="font-mono">git clone {outputValue?.sshUrl}</span>
-          )}
-
-          {outputValue?.sshAliases.map((x, i) => (
-            <div key={i}>
-              <p className="text-sm leading-5 text-gray-500 mt-4">{x.alias}</p>
-              <span className="font-mono">git clone {x.url}</span>
+      <>
+        {error && <span>Error...{error.message}</span>}
+        {mutation.isError && (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          <span>Error...{(mutation as any).error?.message}</span>
+        )}
+        <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
+          <div className="mb-8">
+            <label
+              htmlFor="sshCertPath"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Enter an ssh or http git url
+            </label>
+            <div className="mt-1 flex rounded-md shadow-sm">
+              <input
+                name="data"
+                id="data"
+                value={inputValue}
+                onChange={e => setInputValue(e.target.value)}
+                placeholder="paste a git url here"
+                className="block w-full rounded-md border border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+              />
             </div>
-          ))}
+
+            {outputValue?.httpUrl && (
+              <>
+                <p className="text-sm leading-5 text-gray-500 mt-8">
+                  http direct url
+                </p>
+
+                <span className="font-mono">
+                  git clone {outputValue?.httpUrl}
+                </span>
+              </>
+            )}
+            {outputValue?.sshUrl && (
+              <>
+                <p className="text-sm leading-5 text-gray-500 mt-4">
+                  ssh direct url
+                </p>
+
+                <span className="font-mono">
+                  git clone {outputValue?.sshUrl}
+                </span>
+              </>
+            )}
+
+            {outputValue?.sshAliases.map((x, i) => (
+              <div key={i}>
+                <p className="text-sm leading-5 text-gray-500 mt-4">
+                  {x.alias}
+                </p>
+                <span className="font-mono">git clone {x.url}</span>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      </>
     )
   }
   return (
