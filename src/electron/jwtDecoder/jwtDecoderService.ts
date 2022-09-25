@@ -3,16 +3,20 @@ import * as jose from 'jose'
 
 export class JwtDecoder {
   static decode(jwt: string): DecodeJwtResponse {
-    const [alg, payload, signature] = jwt.split('.')
+    const trimmedInput = jwt.trim()
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [alg, payload, signature] = trimmedInput.split('.')
 
     return {
-      algorithm: jose.decodeProtectedHeader(jwt),
-      payload: jose.decodeJwt(jwt),
+      algorithm: jose.decodeProtectedHeader(trimmedInput),
+      payload: jose.decodeJwt(trimmedInput),
       signature: JwtDecoder.decodeBase64(signature),
     }
   }
 
   static decodeBase64(base64: string): string {
-    return Buffer.from(base64, 'base64').toString('utf8')
+    const trimmedInput = base64.trim()
+
+    return Buffer.from(trimmedInput, 'base64').toString('utf8')
   }
 }
