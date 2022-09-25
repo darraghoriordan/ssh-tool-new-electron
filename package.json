@@ -1,7 +1,7 @@
 {
   "name": "ssh-tool-new-electron",
   "productName": "ssh-tool-new-electron",
-  "version": "1.0.0",
+  "version": "1.11.2",
   "description": "Local offline tools for developers",
   "main": ".webpack/main",
   "scripts": {
@@ -88,6 +88,7 @@
     "@vercel/webpack-asset-relocator-loader": "1.7.3",
     "css-loader": "6.7.1",
     "electron": "20.1.4",
+    "electron-prebuilt-compile": "8.2.0",
     "eslint": "8.23.1",
     "eslint-plugin-import": "2.26.0",
     "fork-ts-checker-webpack-plugin": "7.2.13",
