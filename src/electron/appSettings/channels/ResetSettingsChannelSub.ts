@@ -3,6 +3,7 @@ import { ApplicationSettingService } from '../services/ApplicationSettingService
 import { IIpcMainInvokeEventSub } from '../../IpcChannelTypes/IIpcMainInvokeEventSub'
 import { ResetSettingsChannelPub } from './ResetSettingsChannelPub'
 import { SettingsResponse } from './MessageTypes'
+import Main from '../../main'
 
 export class ResetSettingsChannelSub
   extends ResetSettingsChannelPub
@@ -15,7 +16,10 @@ export class ResetSettingsChannelSub
       const settings = await ApplicationSettingService.getDefaultSettings()
       return {
         settings,
-        meta: { appSettingsFileLocation: ApplicationSettingService.filePath },
+        meta: {
+          appSettingsFileLocation: ApplicationSettingService.filePath,
+          appVersion: Main.version,
+        },
       }
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

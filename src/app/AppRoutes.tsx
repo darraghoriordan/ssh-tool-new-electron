@@ -7,7 +7,7 @@ import { JwtDecoderScreen } from './JwtDecoder/JwtDecoderScreen'
 import { Layout } from './Layout'
 import { SettingsScreen } from './Settings/SettingsScreen'
 import { SshUrlConverterScreen } from './SshUrlConverter/SshUrlConverterScreen'
-import { UnixTimeConverterScreen } from './UnixTimeConverter/UnixTimeConverterScreen'
+import { TimestampConverterScreen } from './TimestampConverter/TimeStampConverterScreen'
 
 function AppRoutes() {
   return (
@@ -25,7 +25,7 @@ function AppRoutes() {
         <Route path="git-url-converter" element={<SshUrlConverterScreen />} />
         <Route
           path="unix-time-converter"
-          element={<UnixTimeConverterScreen />}
+          element={<TimestampConverterScreen />}
         />
 
         <Route path="*" element={<NotFound />} />

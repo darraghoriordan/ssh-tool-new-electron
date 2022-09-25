@@ -2,12 +2,12 @@
 import React, { ReactElement, useState } from 'react'
 import PageHeader from '../components/PageHeader'
 import { useEscapeJson } from './ReactQueryWrappers'
-import { DocumentCheckIcon } from '@heroicons/react/24/outline'
+import { ArrowDownIcon, DocumentCheckIcon } from '@heroicons/react/24/outline'
 
 export function JsonEscaperScreen() {
   const escapeJsonMutation = useEscapeJson()
   const [inputValue, setInputValue] = useState('')
-  const [unescapeToggleValue, setUnescapeToggleValue] = useState(false)
+  const [unescapeToggleValue, setUnescapeToggleValue] = useState(true)
   const [outputValue, setOutputValue] = useState('')
 
   let control: ReactElement | undefined = undefined
@@ -27,6 +27,15 @@ export function JsonEscaperScreen() {
     const result = await escapeJsonMutation.mutateAsync(input)
 
     setOutputValue(result.result)
+  }
+
+  const insertSampleValue = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    setInputValue(
+      // eslint-disable-next-line no-useless-escape
+      // prettier-ignore
+      `{\\"this\\":\\"isescaped\\"}`
+    )
   }
   if (escapeJsonMutation.isError) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -54,7 +63,6 @@ export function JsonEscaperScreen() {
                   onChange={e =>
                     setUnescapeToggleValue(e.currentTarget.id === 'unescape')
                   }
-                  defaultChecked={true}
                   className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
                 />
                 <label
@@ -68,6 +76,7 @@ export function JsonEscaperScreen() {
                 <input
                   id="unescape"
                   name="escaping-method"
+                  defaultChecked={true}
                   onChange={e =>
                     setUnescapeToggleValue(e.currentTarget.id === 'unescape')
                   }
@@ -91,7 +100,7 @@ export function JsonEscaperScreen() {
           onChange={e => setInputValue(e.target.value)}
           placeholder="Paste your content here"
           className="mb-4 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-          defaultValue={''}
+          value={inputValue}
         />
         <label
           htmlFor="decoded"
@@ -114,6 +123,14 @@ export function JsonEscaperScreen() {
   return (
     <div className="max-w-10xl mx-auto">
       <PageHeader pageTitle={'Json Escaper'}>
+        <button
+          onClick={e => insertSampleValue(e)}
+          type="button"
+          className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+          <ArrowDownIcon className="h-5 w-5 mr-2" />
+          Try with sample data
+        </button>
         <button
           type="button"
           onClick={e => onDecodeClick(e)}

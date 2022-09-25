@@ -1,9 +1,14 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { ReactElement, useState } from 'react'
 import PageHeader from '../components/PageHeader'
-import { DocumentCheckIcon } from '@heroicons/react/24/outline'
+import {
+  DocumentCheckIcon,
+  FolderOpenIcon,
+  ArrowDownIcon,
+} from '@heroicons/react/24/outline'
 import { useConvertSshUrl } from './ReactQueryWrappers'
 import { SshConverterResults } from '../../electron/sshConfigFile/models/SshConverterResults'
+import { useGetSettings } from '../Settings/ReactQueryWrappers'
 
 export function SshUrlConverterScreen() {
   const mutation = useConvertSshUrl()
@@ -13,6 +18,8 @@ export function SshUrlConverterScreen() {
   >(undefined)
 
   let control: ReactElement | undefined = undefined
+  const { isLoading, data, error } = useGetSettings()
+
   const onSubmitClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     const input = {
@@ -28,9 +35,27 @@ export function SshUrlConverterScreen() {
     console.log(result)
     setOutputValue(result.possibleGitUrls)
   }
-  if (mutation.isError) {
+  const onOpenFolderClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    location: string
+  ) => {
+    event.preventDefault()
+    window.OpenFileLocation.invoke(location)
+  }
+
+  const insertSampleValue = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    setInputValue(
+      'https://github.com/darraghoriordan/eslint-plugin-nestjs-typed.git'
+    )
+  }
+
+  if (mutation.isError || error) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    control = <>Error...{mutation.error.message}</>
+    control = <>Error...{mutation.error?.message || error}</>
+  }
+  if (isLoading) {
+    control = <>Loading...</>
   }
 
   if (mutation && !mutation.isError) {
@@ -47,10 +72,10 @@ export function SshUrlConverterScreen() {
             <input
               name="data"
               id="data"
+              value={inputValue}
               onChange={e => setInputValue(e.target.value)}
               placeholder="paste a git url here"
               className="block w-full rounded-md border border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-              defaultValue={''}
             />
           </div>
 
@@ -67,11 +92,11 @@ export function SshUrlConverterScreen() {
             <span className="font-mono">git clone {outputValue?.sshUrl}</span>
           )}
 
-          {outputValue?.sshAliases.map(x => (
-            <>
+          {outputValue?.sshAliases.map((x, i) => (
+            <div key={i}>
               <p className="text-sm leading-5 text-gray-500 mt-4">{x.alias}</p>
               <span className="font-mono">git clone {x.url}</span>
-            </>
+            </div>
           ))}
         </div>
       </div>
@@ -80,6 +105,24 @@ export function SshUrlConverterScreen() {
   return (
     <div className="max-w-10xl mx-auto">
       <PageHeader pageTitle={'Git SSH Url Converter'}>
+        {data?.settings.sshConfigFilePath && (
+          <button
+            onClick={e => onOpenFolderClick(e, data.settings.sshConfigFilePath)}
+            type="button"
+            className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
+            <FolderOpenIcon className="h-5 w-5 mr-2" />
+            Open global ssh config...
+          </button>
+        )}
+        <button
+          onClick={e => insertSampleValue(e)}
+          type="button"
+          className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+          <ArrowDownIcon className="h-5 w-5 mr-2" />
+          Try with sample data
+        </button>
         <button
           type="button"
           onClick={e => onSubmitClick(e)}

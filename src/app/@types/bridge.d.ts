@@ -68,5 +68,6 @@ declare global {
         message: SshUrlConverterChannelMessage
       ) => Promise<SshUrlConverterChannelResponse>
     }
+    OpenSubmitFeedback: { invoke: () => void }
   }
 }

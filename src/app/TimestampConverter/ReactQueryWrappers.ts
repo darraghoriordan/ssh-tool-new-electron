@@ -7,7 +7,7 @@ import {
 export const wellKnownQueries = {
   convertTime: 'convert-time',
 }
-export function useUnixTimeConverter() {
+export function useTimestampConverter() {
   return useMutation<
     UnixTimeConverterResponse,
     { message: string },
@@ -23,7 +23,7 @@ export function useUnixTimeConverter() {
         console.log(error.message)
       },
       onSuccess: () => {
-        console.log('Time conversion completed successfully.')
+        console.log('Timestamp conversion completed successfully.')
       },
     }
   )

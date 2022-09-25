@@ -7,5 +7,6 @@ export type UnixTimeConverterResponse = {
   utcDate: string
   localeDate: string
   isoDate: string
+  unixTimestamp: number
   differenceFromNow: string
 }

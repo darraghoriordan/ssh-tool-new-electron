@@ -3,6 +3,7 @@ import { SaveSettingsMessage, SettingsResponse } from './MessageTypes'
 import { ApplicationSettingService } from '../services/ApplicationSettingService'
 import { SaveSettingsChannelPub } from './SaveSettingsChannelPub'
 import { IIpcMainInvokeEventSub } from '../../IpcChannelTypes/IIpcMainInvokeEventSub'
+import Main from '../../main'
 
 export class SaveSettingsChannelSub
   extends SaveSettingsChannelPub
@@ -23,7 +24,10 @@ export class SaveSettingsChannelSub
 
     return {
       settings: request.settings,
-      meta: { appSettingsFileLocation: ApplicationSettingService.filePath },
+      meta: {
+        appSettingsFileLocation: ApplicationSettingService.filePath,
+        appVersion: Main.version,
+      },
     }
   }
 }

@@ -12,6 +12,7 @@ import { NavLink, Outlet } from 'react-router-dom'
 //import logo from '../assets/logo-tp.png'
 import logo from '../assets/logo-grey800.png'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { MenuFooter } from './components/MenuFooter'
 
 const navigation = [
   {
@@ -47,7 +48,7 @@ const navigation = [
     current: false,
   },
   {
-    name: 'Unix Time Converter',
+    name: 'Timestamp Converter',
     href: '/unix-time-converter',
     icon: ClockIcon,
     current: false,
@@ -109,6 +110,7 @@ export const Layout = () => {
                 ))}
               </nav>
             </div>
+            <MenuFooter />
           </div>
         </div>
         <div className="pl-64 mx-8 mt-8">

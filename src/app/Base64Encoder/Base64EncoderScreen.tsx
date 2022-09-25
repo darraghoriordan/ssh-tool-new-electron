@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { ReactElement, useState } from 'react'
 import PageHeader from '../components/PageHeader'
-import { DocumentCheckIcon } from '@heroicons/react/24/outline'
+import { ArrowDownIcon, DocumentCheckIcon } from '@heroicons/react/24/outline'
 import { useEncodeBase64 } from './ReactQueryWrappers'
 
 export function Base64EncoderScreen() {
@@ -27,6 +27,10 @@ export function Base64EncoderScreen() {
     const result = await encodeBase64Mutation.mutateAsync(input)
     console.log(result)
     setOutputValue(result.result)
+  }
+  const insertSampleValue = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    setInputValue('VGhpcyBpcyBhbiBlbmNvZGVkIHNlbnRlbmNlLg==')
   }
   if (encodeBase64Mutation.isError) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -91,7 +95,7 @@ export function Base64EncoderScreen() {
           onChange={e => setInputValue(e.target.value)}
           placeholder="Paste your content here"
           className="mb-4 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-          defaultValue={''}
+          value={inputValue}
         />
         <label
           htmlFor="decoded"
@@ -114,6 +118,14 @@ export function Base64EncoderScreen() {
   return (
     <div className="max-w-10xl mx-auto">
       <PageHeader pageTitle={'Base64 Encoder'}>
+        <button
+          onClick={e => insertSampleValue(e)}
+          type="button"
+          className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+          <ArrowDownIcon className="h-5 w-5 mr-2" />
+          Try with sample data
+        </button>
         <button
           type="button"
           onClick={e => onDecodeClick(e)}

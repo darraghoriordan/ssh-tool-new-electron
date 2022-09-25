@@ -4,6 +4,7 @@ import { SettingsResponse } from './MessageTypes'
 import { ApplicationSettingService } from '../services/ApplicationSettingService'
 import { LoadSettingsChannelPub } from './LoadSettingsChannelPub'
 import { IIpcMainInvokeEventSub } from '../../IpcChannelTypes/IIpcMainInvokeEventSub'
+import Main from '../../main'
 
 export class LoadSettingsChannelSub
   extends LoadSettingsChannelPub
@@ -15,7 +16,10 @@ export class LoadSettingsChannelSub
     const settingsFile = await ApplicationSettingService.getSettings()
     return {
       settings: settingsFile,
-      meta: { appSettingsFileLocation: ApplicationSettingService.filePath },
+      meta: {
+        appSettingsFileLocation: ApplicationSettingService.filePath,
+        appVersion: Main.version,
+      },
     }
   }
 }

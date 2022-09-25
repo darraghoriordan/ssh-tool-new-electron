@@ -9,7 +9,7 @@ export const wellKnownQueries = {
 }
 
 export function useGetSettings() {
-  return useQuery(
+  return useQuery<SettingsResponse, { message: string }>(
     [wellKnownQueries.getSettings],
     async () => window.LoadSettings.invoke(),
     { staleTime: Infinity }

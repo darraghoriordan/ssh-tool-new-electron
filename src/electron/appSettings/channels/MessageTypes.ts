@@ -10,4 +10,5 @@ export type SettingsResponse = {
 
 export type ApplicationSettingsMeta = {
   appSettingsFileLocation: string
+  appVersion: string
 }

@@ -1,5 +1,6 @@
 import { LoadSettingsChannelSub } from './appSettings/channels/LoadSettingsChannelSub'
 import { OpenFileLocationSub } from './appSettings/channels/OpenFileLocationSub'
+import { OpenSubmitFeedbackSub } from './appSettings/channels/OpenSubmitFeedbackSub'
 import { ResetSettingsChannelSub } from './appSettings/channels/ResetSettingsChannelSub'
 import { SaveSettingsChannelSub } from './appSettings/channels/SaveSettingsChannelSub'
 import { Base64EncoderChannelSub } from './base64Encoder/channels/Base64EncoderChannelSub'
@@ -9,7 +10,6 @@ import { IIpcMainInvokeEventSub } from './IpcChannelTypes/IIpcMainInvokeEventSub
 import { IIpcMainSendEventSub } from './IpcChannelTypes/IIpcMainSendEventSub'
 import { EscapeJsonChannelSub } from './jsonEncoder/channels/EscapeJsonChannelSub'
 import { DecodeJwtChannelSub } from './jwtDecoder/channels/DecodeJwtChannelSub'
-import { SimpleMessageSub } from './simpleMessage/SimpleMessageSub'
 import { SshUrlConverterChannelSub } from './sshConfigFile/channels/SshUrlConverterChannelSub'
 import { UnixTimeConverterChannelSub } from './unixTimeConverter/channels/UnixTimeConverterChannelSub'
 
@@ -19,7 +19,7 @@ export type ChannelConfigurationTypeSub = {
 }
 
 export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
-  rtmSendChannels: [new SimpleMessageSub(), new OpenFileLocationSub()],
+  rtmSendChannels: [new OpenFileLocationSub(), new OpenSubmitFeedbackSub()],
   rtmInvokeChannels: [
     new GitConfigFilesListSub(),
     new SshUrlConverterChannelSub(),

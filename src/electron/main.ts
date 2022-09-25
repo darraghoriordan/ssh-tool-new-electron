@@ -13,7 +13,9 @@ import { GitConfigsFileCacheService } from './gitConfigurations/services/GitConf
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
 
-class Main {
+export default class Main {
+  static version = '1.11.2' // lazy but I'll use this for versioning the front end for now
+
   private mainWindow!: BrowserWindow | null
 
   public async init(config: ChannelConfigurationTypeSub) {
