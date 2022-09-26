@@ -1,5 +1,6 @@
 import ini from 'ini'
 import { GitUser } from '../models/GitUser'
+import os from 'os'
 
 export class GitConfigFileEditor {
   static convertToIniFormat(gitUser: GitUser | undefined): string | undefined {
@@ -7,7 +8,7 @@ export class GitConfigFileEditor {
       return undefined
     }
 
-    return ini.stringify(
+    const encodedIni = ini.stringify(
       {
         user: {
           name: gitUser.name,
@@ -16,5 +17,7 @@ export class GitConfigFileEditor {
       },
       { whitespace: true }
     )
+
+    return encodedIni
   }
 }

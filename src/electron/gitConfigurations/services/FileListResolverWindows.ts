@@ -1,4 +1,4 @@
-import { spawnPromise } from '../../services/PromisifiedNodeUtilities/SpawnPromise'
+import { execPromise } from '../../PromisifiedNodeUtilities/ExecPromise'
 
 /**
  * Used when the cache is empty or missing
@@ -17,11 +17,7 @@ export default class FileListResolverWindows {
    * @returns
    */
   public async scanFileSystem(scanStartPath: string): Promise<string> {
-    const stdout = await spawnPromise(
-      'dir',
-      ['/s', '/b', '/a:d', '/s', `.git`],
-      scanStartPath
-    )
+    const stdout = await execPromise(`dir /s /b /a:d /s .git`, scanStartPath)
     return stdout
   }
 }

@@ -151,8 +151,10 @@ export default class GitConfigFileSystemScanner {
     // eslint-disable-next-line prefer-const
 
     console.log('stdout', stdout)
+    console.log('stdout has new lines', stdout.includes('\r'))
     const mappedPaths = stdout
       .split(/\r?\n/)
+      .filter(x => x.includes('.git')) // remove any non config files (dir on windows prints "nothing found")
       .filter((x: string | undefined) => x && x.trim() !== '')
       .map(x => path.join(x, 'config'))
 

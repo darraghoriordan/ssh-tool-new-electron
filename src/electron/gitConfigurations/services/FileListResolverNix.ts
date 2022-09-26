@@ -1,4 +1,4 @@
-import { spawnPromise } from '../../services/PromisifiedNodeUtilities/SpawnPromise'
+import { spawnPromise } from '../../PromisifiedNodeUtilities/SpawnPromise'
 
 /**
  * Used when the cache is empty or missing

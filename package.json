@@ -10,7 +10,8 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "eslint --ext .ts,.tsx .",
-    "test": "export NODE_OPTIONS=\"--max-old-space-size=8192\" && npx jest --runInBand --color --reporters=default --no-cache --coverage=false --passWithNoTests"
+    "test": "npx jest --runInBand --color --reporters=default --no-cache --coverage=false --passWithNoTests",
+    "test:nix": "export NODE_OPTIONS=\"--max-old-space-size=8192\" && npx jest --runInBand --color --reporters=default --no-cache --coverage=false --passWithNoTests"
   },
   "keywords": [],
   "author": {
