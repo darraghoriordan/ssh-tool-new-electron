@@ -1,19 +1,25 @@
 import fs from 'fs'
 import fsp from 'fs/promises'
-import { spawnPromise } from '../../services/PromisifiedNodeUtilities/SpawnPromise'
 import { GitProjectConfigFileParser } from './GitProjectConfigFileParser'
 import { GitConfigInfo } from '../models/GitConfigInfo'
 import { ApplicationSettingService } from '../../appSettings/services/ApplicationSettingService'
 import { GitConfigsModel } from '../models/GitConfigFileListCacheModel'
 import path from 'path'
 import { GitUser } from '../models/GitUser'
-
+import FileListResolverNix from './FileListResolverNix'
+import FileListResolverWindows from './FileListResolverWindows'
+import os from 'os'
 /**
  * Used when the cache is empty or missing
  * Will rescan the file system for git config files and
- * process them into our required model
+ * process them inFto our required model
  */
 export default class GitConfigFileSystemScanner {
+  static fileScannerInstances = [
+    new FileListResolverNix(),
+    new FileListResolverWindows(),
+  ]
+
   static async scan(scanStartPath: string): Promise<GitConfigsModel> {
     const settings = await ApplicationSettingService.getSettings()
     console.log('starting scan')
@@ -29,10 +35,20 @@ export default class GitConfigFileSystemScanner {
       )
     }
 
+    // nix uses find and windows uses dir
+    const scannerInstance = this.fileScannerInstances.find(x =>
+      x.platformMatchers.includes(os.platform())
+    )
+
+    if (!scannerInstance) {
+      throw new Error(`No file scanner found for platform ${os.platform()}`)
+    }
+
+    const stdout = await scannerInstance.scanFileSystem(scanStartPath)
     // recursive scan of the project path for paths to Git config files
     const gitConfigFilePaths =
       await GitConfigFileSystemScanner.getListOfPathsToGitConfigFiles(
-        scanStartPath,
+        stdout,
         settings.globalGitConfigFile
       )
     console.log('gitConfigFilePaths', gitConfigFilePaths)
@@ -128,15 +144,12 @@ export default class GitConfigFileSystemScanner {
 
     return response
   }
-
   static async getListOfPathsToGitConfigFiles(
-    scanStartPath: string,
+    stdout: string,
     globalGitConfigFilePath: string
   ) {
     // eslint-disable-next-line prefer-const
 
-    // scan the file system for a list of files
-    const stdout = await this.scanFileSystem(scanStartPath)
     console.log('stdout', stdout)
     const mappedPaths = stdout
       .split(/\r?\n/)
@@ -147,78 +160,5 @@ export default class GitConfigFileSystemScanner {
     const gitConfigFilePaths = [globalGitConfigFilePath].concat(mappedPaths)
 
     return gitConfigFilePaths
-  }
-
-  /**
-   * output looks like
-   * /Users/darraghoriordan/Documents/personal-projects/ssh-tool-new-electron/.git
-   * /Users/darraghoriordan/Documents/personal-projects/mac-setup-script/.git
-   * /Users/darraghoriordan/Documents/personal-projects/remix-project/.git
-   * @param stdout
-   * @param scanStartPath
-   * @returns
-   */
-  private static async scanFileSystem(scanStartPath: string) {
-    const stdout = await spawnPromise(
-      'find',
-      [
-        `${scanStartPath}`,
-        '-type',
-        'd',
-        '(',
-        '-path',
-        './Library',
-        '-o',
-        '-path',
-        './.Trash',
-        '-o',
-        '-path',
-        './.config',
-        '-o',
-        '-path',
-        './.nuget',
-        '-o',
-        '-path',
-        './.vscode',
-        '-o',
-        '-path',
-        './.npm',
-        '-o',
-        '-path',
-        './development/flutter',
-        '-o',
-        '-path',
-        './Virtual Machines.localized',
-        '-o',
-        '-path',
-        './Applications',
-        '-o',
-        '-path',
-        './Movies',
-        '-o',
-        '-path',
-        './Music',
-        '-o',
-        '-path',
-        './Pictures',
-        '-o',
-        '-path',
-        './Public',
-        '-o',
-        '-path',
-        './.antigen',
-        '-o',
-        '-name',
-        'node_modules',
-        ')',
-        '-prune',
-        '-o',
-        '-name',
-        '.git',
-        '-print',
-      ],
-      scanStartPath
-    )
-    return stdout
   }
 }
