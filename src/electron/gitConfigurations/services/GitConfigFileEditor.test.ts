@@ -19,7 +19,7 @@ describe('GitConfigFileEditor', () => {
       // but it doesn't matter so remove it all for the matcher
 
       // replace newlines with nothing
-      const resultWithoutNewLines = result //result?.replace(/\r?\n/, '')
+      const resultWithoutNewLines = result
 
       expect(resultWithoutNewLines).toEqual(expected)
     }
