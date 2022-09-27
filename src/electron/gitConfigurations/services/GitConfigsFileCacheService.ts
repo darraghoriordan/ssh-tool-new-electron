@@ -1,4 +1,5 @@
 import fsp from 'fs/promises'
+import fs from 'fs'
 import { instanceToPlain, plainToInstance } from 'class-transformer'
 import { GitConfigsModel } from '../models/GitConfigFileListCacheModel'
 
@@ -14,6 +15,12 @@ export class GitConfigsFileCacheService {
   }
 
   static async loadFromFile(): Promise<GitConfigsModel> {
+    if (!fs.existsSync(GitConfigsFileCacheService.gitConfigCachePath)) {
+      const emptyResult = new GitConfigsModel()
+      emptyResult.configList = []
+      return emptyResult
+    }
+
     try {
       const buffer = await fsp.readFile(
         GitConfigsFileCacheService.gitConfigCachePath

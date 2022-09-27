@@ -13,11 +13,12 @@ export function useGetGitConfigurationList(
 ) {
   return useQuery<GitConfigListResponse, { message: string }>(
     [wellKnownQueries.getGitConfigurations, filter],
-    async () => window.GitConfigFilesList.invoke({ filter }),
+    async () => {
+      return await window.GitConfigFilesList.invoke({ filter })
+    },
     {
       staleTime: Infinity,
-
-      //enabled: debouncedFilter[0] !== undefined
+      retry: false,
     }
   )
 }
@@ -36,7 +37,8 @@ export function useResetCache() {
       },
       onSuccess: () => {
         console.log('Reset git caches successful, clearing cache.')
-        queryClient.invalidateQueries([wellKnownQueries.getGitConfigurations])
+        queryClient.resetQueries([wellKnownQueries.getGitConfigurations])
+        // queryClient.refetchQueries([wellKnownQueries.getGitConfigurations])
       },
     }
   )

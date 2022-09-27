@@ -1,9 +1,8 @@
-import { IpcMainEvent } from 'electron'
+import { app, IpcMainEvent } from 'electron'
 import { SaveSettingsMessage, SettingsResponse } from './MessageTypes'
 import { ApplicationSettingService } from '../services/ApplicationSettingService'
 import { SaveSettingsChannelPub } from './SaveSettingsChannelPub'
 import { IIpcMainInvokeEventSub } from '../../IpcChannelTypes/IIpcMainInvokeEventSub'
-import Main from '../../main'
 
 export class SaveSettingsChannelSub
   extends SaveSettingsChannelPub
@@ -26,7 +25,7 @@ export class SaveSettingsChannelSub
       settings: request.settings,
       meta: {
         appSettingsFileLocation: ApplicationSettingService.filePath,
-        appVersion: Main.version,
+        appVersion: app.getVersion(),
       },
     }
   }

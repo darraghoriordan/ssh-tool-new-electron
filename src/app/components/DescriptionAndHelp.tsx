@@ -1,5 +1,8 @@
 import { Disclosure } from '@headlessui/react'
-import { ChevronUpIcon } from '@heroicons/react/24/outline'
+import {
+  ChevronUpIcon,
+  QuestionMarkCircleIcon,
+} from '@heroicons/react/24/outline'
 import React from 'react'
 
 export const DescriptionAndHelp = (
@@ -13,7 +16,10 @@ export const DescriptionAndHelp = (
       {({ open }) => (
         <>
           <Disclosure.Button className="flex w-full justify-between rounded-lg bg-indigo-400 px-4 py-2 text-left text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus-visible:ring focus-visible:ring-indigo-500 focus-visible:ring-opacity-75">
-            <span>{props.title || 'Description and FAQ'} </span>
+            <span className="flex">
+              <QuestionMarkCircleIcon className="h-5 w-5 mr-2" />{' '}
+              {props.title || 'Description and FAQ'}{' '}
+            </span>
             <ChevronUpIcon
               className={`${
                 open ? 'rotate-180 transform' : ''

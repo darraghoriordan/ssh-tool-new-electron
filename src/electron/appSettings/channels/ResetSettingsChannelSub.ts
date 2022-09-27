@@ -1,9 +1,8 @@
-import { IpcMainEvent } from 'electron'
+import { app, IpcMainEvent } from 'electron'
 import { ApplicationSettingService } from '../services/ApplicationSettingService'
 import { IIpcMainInvokeEventSub } from '../../IpcChannelTypes/IIpcMainInvokeEventSub'
 import { ResetSettingsChannelPub } from './ResetSettingsChannelPub'
 import { SettingsResponse } from './MessageTypes'
-import Main from '../../main'
 
 export class ResetSettingsChannelSub
   extends ResetSettingsChannelPub
@@ -18,7 +17,7 @@ export class ResetSettingsChannelSub
         settings,
         meta: {
           appSettingsFileLocation: ApplicationSettingService.filePath,
-          appVersion: Main.version,
+          appVersion: app.getVersion(),
         },
       }
     } catch (error) {

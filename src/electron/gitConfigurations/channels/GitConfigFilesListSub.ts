@@ -18,6 +18,7 @@ export class GitConfigFilesListSub
   ): Promise<GitConfigListResponse> {
     const settings = await ApplicationSettingService.getSettings()
     const configData = await GitConfigsService.loadGitConfigs()
+
     console.log('configData', configData)
     const filteredConfigs = configData.configList.filter(config => {
       if (request.filter === undefined) {

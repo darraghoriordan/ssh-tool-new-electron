@@ -7,6 +7,7 @@ import { useGetGitConfigurationList, useResetCache } from './ReactQueryWrappers'
 import { useDebounce } from 'use-debounce'
 import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
 import { useNavigate } from 'react-router-dom'
+import { isError } from '@tanstack/react-query'
 
 export function GitConfigurationListScreen() {
   const faqs = [
@@ -42,10 +43,8 @@ export function GitConfigurationListScreen() {
 
   const debouncedFilter = useDebounce(filter, 500)
 
-  const { isLoading, data, error } = useGetGitConfigurationList(
-    debouncedFilter,
-    filter
-  )
+  const { isLoading, data, error, isRefetchError, isError, isLoadingError } =
+    useGetGitConfigurationList(debouncedFilter, filter)
   let control: ReactElement | undefined = undefined
   if (isLoading) {
     control = <>Loading...</>
@@ -63,7 +62,13 @@ export function GitConfigurationListScreen() {
     if ((data?.configList || []).length <= 0) {
       control = (
         <>
-          {error && <span>Error...{error.message}</span>}
+          {(isRefetchError || isError || isLoadingError) && error && (
+            <span>Error...{error.message}</span>
+          )}
+          {resetCachesMutation.isError && (
+            <span>Error...{resetCachesMutation.error.message}</span>
+          )}
+
           <button
             type="button"
             onClick={e => {

@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain, Menu } from 'electron'
 import {
   ChannelConfigurationSubs,
   ChannelConfigurationTypeSub,
@@ -14,8 +14,6 @@ declare const MAIN_WINDOW_WEBPACK_ENTRY: string
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
 
 export default class Main {
-  static version = '1.11.2' // lazy but I'll use this for versioning the front end for now
-
   private mainWindow!: BrowserWindow | null
 
   public async init(config: ChannelConfigurationTypeSub) {
@@ -114,6 +112,73 @@ export default class Main {
       )
       console.log(`added BE channel ${channel.getChannelName()}`)
     })
+  }
+
+  setMenu() {
+    const isMac = process.platform === 'darwin'
+    const macMenu = isMac
+      ? {
+          label: app.name,
+          submenu: [
+            { role: 'about' },
+            { type: 'separator' },
+            { role: 'services' },
+            { type: 'separator' },
+            { role: 'hide' },
+            { role: 'hideOthers' },
+            { role: 'unhide' },
+            { type: 'separator' },
+            { role: 'quit' },
+          ],
+        }
+      : {}
+    const template = [
+      macMenu,
+      // { role: 'fileMenu' }
+      {
+        label: 'File',
+        submenu: [isMac ? { role: 'close' } : { role: 'quit' }],
+      },
+      // { role: 'editMenu' }
+      {
+        label: 'Edit',
+        submenu: [
+          { role: 'undo' },
+          { role: 'redo' },
+          { type: 'separator' },
+          { role: 'cut' },
+          { role: 'copy' },
+          { role: 'paste' },
+          ...(isMac
+            ? [
+                { role: 'pasteAndMatchStyle' },
+                { role: 'delete' },
+                { role: 'selectAll' },
+                { type: 'separator' },
+                {
+                  label: 'Speech',
+                  submenu: [
+                    { role: 'startSpeaking' },
+                    { role: 'stopSpeaking' },
+                  ],
+                },
+              ]
+            : [
+                { role: 'delete' },
+                { type: 'separator' },
+                { role: 'selectAll' },
+              ]),
+        ],
+      },
+      {
+        label: 'View',
+        submenu: [{ role: 'togglefullscreen' }],
+      },
+    ]
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const menu = Menu.buildFromTemplate(template as any)
+    Menu.setApplicationMenu(menu)
   }
 }
 

@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { IpcMainEvent } from 'electron'
+import { app, IpcMainEvent } from 'electron'
 import { SettingsResponse } from './MessageTypes'
 import { ApplicationSettingService } from '../services/ApplicationSettingService'
 import { LoadSettingsChannelPub } from './LoadSettingsChannelPub'
 import { IIpcMainInvokeEventSub } from '../../IpcChannelTypes/IIpcMainInvokeEventSub'
-import Main from '../../main'
 
 export class LoadSettingsChannelSub
   extends LoadSettingsChannelPub
@@ -18,7 +17,7 @@ export class LoadSettingsChannelSub
       settings: settingsFile,
       meta: {
         appSettingsFileLocation: ApplicationSettingService.filePath,
-        appVersion: Main.version,
+        appVersion: app.getVersion(),
       },
     }
   }
