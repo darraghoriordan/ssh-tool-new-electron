@@ -63,14 +63,11 @@ export default class Main {
     })
   }
 
-  // const assetsPath =
-  //   process.env.NODE_ENV === 'production'
-  //     ? process.resourcesPath
-  //     : app.getAppPath()
-
   private createWindow() {
+    const assetsPath = app.getAppPath()
+    console.log('Assets path', assetsPath)
     this.mainWindow = new BrowserWindow({
-      // icon: path.join(assetsPath, 'assets', 'icon.png'),
+      icon: path.join(assetsPath, 'assets', 'icons', 'icon.png'),
       minWidth: 1400,
       minHeight: 800,
       width: 1400,
@@ -89,7 +86,9 @@ export default class Main {
       this.mainWindow = null
     })
     // Open the DevTools.
-    this.mainWindow.webContents.openDevTools()
+    if (process.env.NODE_ENV === 'development') {
+      this.mainWindow.webContents.openDevTools()
+    }
   }
 
   registerIpChannels(
