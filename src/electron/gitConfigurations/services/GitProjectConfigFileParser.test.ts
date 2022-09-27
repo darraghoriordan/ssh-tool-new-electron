@@ -3,6 +3,7 @@ import { GitProjectConfigFileParser } from './GitProjectConfigFileParser'
 import ini from 'ini'
 import { GitProtocolTypeEnum } from '../models/GitProtocolTypeEnum'
 import { GitUser } from '../models/GitUser'
+import os from 'os'
 
 const sampleGlobalConfig = `[user]
 name = Darragh ORiordan
@@ -49,10 +50,7 @@ email = darragh@emailer.com`,
       },
     ],
     isProjectUserSet: true,
-    userAsIniString: `[user]
-name = Darragh ORiordan
-email = darragh@emailer.com
-`,
+    userAsIniString: `[user]${os.EOL}name = Darragh ORiordan${os.EOL}email = darragh@emailer.com${os.EOL}`,
     user: {
       name: 'Darragh ORiordan',
       email: 'darragh@emailer.com',
@@ -97,10 +95,7 @@ email = darragh@emailer.com`,
       },
     ],
     isProjectUserSet: true,
-    userAsIniString: `[user]
-name = Darragh ORiordan
-email = darragh@emailer.com
-`,
+    userAsIniString: `[user]${os.EOL}name = Darragh ORiordan${os.EOL}email = darragh@emailer.com${os.EOL}`,
     user: {
       name: 'Darragh ORiordan',
       email: 'darragh@emailer.com',
@@ -129,10 +124,7 @@ email = darragh@emailer.com`,
     id: 'L1VzZXJzL2RhcnJhZ2gvZ2l0cHJvamVjdC5naXQ=',
     remotes: [],
     isProjectUserSet: true,
-    userAsIniString: `[user]
-name = Darragh ORiordan
-email = darragh@emailer.com
-`,
+    userAsIniString: `[user]${os.EOL}name = Darragh ORiordan${os.EOL}email = darragh@emailer.com${os.EOL}`,
     user: {
       name: 'Darragh ORiordan',
       email: 'darragh@emailer.com',
@@ -158,10 +150,7 @@ const sampleUsingGlobalUser = {
     id: 'L1VzZXJzL2RhcnJhZ2gvZ2l0cHJvamVjdC5naXQ=',
     remotes: [],
     isProjectUserSet: false,
-    userAsIniString: `[user]
-  name = Darragh ORiordan
-  email = darragh@emailer.com
-  `,
+    userAsIniString: `[user]${os.EOL}name = Darragh ORiordan${os.EOL}email = darragh@emailer.com${os.EOL}`,
     user: {
       name: 'Darragh Global',
       email: 'darragh@global.com',
