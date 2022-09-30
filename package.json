@@ -4,21 +4,50 @@
   "version": "1.11.2",
   "description": "Local offline tools for developers",
   "main": ".webpack/main",
+  "author": {
+    "name": "Darragh ORiordan",
+    "email": "darragh.oriordan@gmail.com",
+    "url": "https://darraghoriordan.com"
+  },
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
+    "release": "npx semantic-release",
+    "semantic-release": "semantic-release",
     "lint": "eslint --ext .ts,.tsx .",
     "test": "npx jest --runInBand --color --reporters=default --no-cache --coverage=false --passWithNoTests",
     "test:nix": "export NODE_OPTIONS=\"--max-old-space-size=8192\" && npx jest --runInBand --color --reporters=default --no-cache --coverage=false --passWithNoTests"
   },
   "keywords": [],
-  "author": {
-    "name": "Darragh ORiordan",
-    "email": "darragh.oriordan@gmail.com"
-  },
   "license": "MIT",
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/exec",
+        {
+          "prepareCmd": "echo \"Preparing release ${nextRelease.version}\""
+        }
+      ],
+      [
+        "@semantic-release/github",
+        {
+          "assets": [
+            {
+              "path": "tmp/release-assets.zip",
+              "label": "Scripts Distribution"
+            }
+          ]
+        }
+      ]
+    ]
+  },
   "config": {
     "forge": {
       "packagerConfig": {
@@ -88,6 +117,10 @@
     }
   },
   "devDependencies": {
+    "@semantic-release/changelog": "6.0.1",
+    "@semantic-release/exec": "6.0.3",
+    "semantic-release": "19.0.5",
+    "@semantic-release/github": "8.0.6",
     "@electron-forge/cli": "6.0.0-beta.66",
     "@electron-forge/maker-deb": "6.0.0-beta.66",
     "@electron-forge/maker-rpm": "6.0.0-beta.66",
