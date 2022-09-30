@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IIpcMainInvokeEventPub } from './IpcChannelTypes/IIpcMainInvokeEventPub'
 import { IIpcMainSendEventPub } from './IpcChannelTypes/IIpcMainSendEventPub'
 
