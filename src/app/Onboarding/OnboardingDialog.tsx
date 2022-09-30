@@ -56,12 +56,12 @@ export default function OnboardingDialog(props: OnboardingDialogProps) {
                     </Dialog.Title>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500 mb-4">
-                        It looks like this is your first time using the
+                        It looks like this is your first time running the
                         application on this machine.{' '}
                       </p>
                       <p className="text-sm text-gray-500 mb-2">
-                        It's a good idea to visit the settings page and verify
-                        that the paths match your system setup.
+                        You should visit the settings page and verify that the
+                        default paths match your development setup.
                       </p>
                     </div>
                   </div>
