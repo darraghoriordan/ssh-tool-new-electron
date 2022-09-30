@@ -17,6 +17,7 @@ export class ApplicationSettingService {
 
   static async getSettings(): Promise<AppSettingsResponse> {
     if (this.loadedSettings === undefined) {
+      console.log('cached app settings not found, loading from file...')
       this.loadedSettings = await this.loadFile(
         this.runtimeSettings.appSettingsFileLocation
       )

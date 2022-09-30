@@ -7,7 +7,6 @@ import { useGetGitConfigurationList, useResetCache } from './ReactQueryWrappers'
 import { useDebounce } from 'use-debounce'
 import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
 import { useNavigate } from 'react-router-dom'
-import { isError } from '@tanstack/react-query'
 
 export function GitConfigurationListScreen() {
   const faqs = [
@@ -36,6 +35,7 @@ export function GitConfigurationListScreen() {
         'There are settings in App Settings where you can adjust the paths.',
     },
   ]
+
   const navigateRoute = useNavigate()
   const resetCachesMutation = useResetCache()
 

@@ -3,39 +3,16 @@ import { UserSettings } from '../../electron/userSettings/models/UserSettings'
 import { UserSettingsResponse } from '../../electron/userSettings/channels/MessageTypes'
 
 export const wellKnownQueries = {
-  getSettings: 'get-settings',
-  saveSettings: 'save-settings',
-  resetSettings: 'reset-settings',
-  updateFirstUsage: 'update-first-usage',
+  getUserSettings: 'get-user-settings',
+  saveUserSettings: 'save-user-settings',
+  resetUserSettings: 'reset-user-settings',
 }
 
 export function useGetSettings() {
   return useQuery<UserSettingsResponse, { message: string }>(
-    [wellKnownQueries.getSettings],
+    [wellKnownQueries.getUserSettings],
     async () => window.LoadUserSettings.invoke(),
     { staleTime: Infinity }
-  )
-}
-
-export function useSetFirstUsageDate() {
-  const queryClient = useQueryClient()
-
-  return useMutation<void, { message: string }, void, unknown>(
-    [wellKnownQueries.updateFirstUsage],
-    async () => {
-      return window.SetFirstAppUsageDate.invoke()
-    },
-    {
-      onError: error => {
-        console.log(error.message)
-      },
-      onSuccess: () => {
-        console.log(
-          'Updating first usage date successful, invalidating current settings cache...'
-        )
-        queryClient.invalidateQueries([wellKnownQueries.getSettings])
-      },
-    }
   )
 }
 
@@ -48,7 +25,7 @@ export function useSaveSettings() {
     UserSettings,
     unknown
   >(
-    [wellKnownQueries.saveSettings],
+    [wellKnownQueries.saveUserSettings],
     async (settings: UserSettings) => {
       return window.SaveUserSettings.invoke({ settings })
     },
@@ -60,7 +37,7 @@ export function useSaveSettings() {
         console.log(
           'Saving settings successful, invalidating current settings cache...'
         )
-        queryClient.invalidateQueries([wellKnownQueries.getSettings])
+        queryClient.invalidateQueries([wellKnownQueries.getUserSettings])
       },
     }
   )
@@ -70,7 +47,7 @@ export function useResetSettings() {
   const queryClient = useQueryClient()
 
   return useMutation<UserSettingsResponse, { message: string }, void, unknown>(
-    [wellKnownQueries.resetSettings],
+    [wellKnownQueries.resetUserSettings],
     async (): Promise<UserSettingsResponse> => {
       return window.ResetUserSettings.invoke()
     },
@@ -80,7 +57,7 @@ export function useResetSettings() {
       },
       onSuccess: () => {
         console.log('Reset settings successful, clearing cache.')
-        queryClient.invalidateQueries([wellKnownQueries.getSettings])
+        queryClient.invalidateQueries([wellKnownQueries.getUserSettings])
       },
     }
   )

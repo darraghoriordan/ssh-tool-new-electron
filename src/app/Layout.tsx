@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   ArrowUpCircleIcon,
   DocumentMagnifyingGlassIcon,
@@ -9,11 +9,9 @@ import {
   LinkIcon,
 } from '@heroicons/react/24/outline'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
-//import logo from '../assets/logo-tp.png'
 import logo from '../assets/logo-grey800-prompt.png'
 import { MenuFooter } from './components/MenuFooter'
 import { useGetAppSettings } from './AppSettings/ReactQueryWrappers'
-import { QueryClientWrapper } from './QueryClientWrapper'
 
 const navigation = [
   {
@@ -72,68 +70,76 @@ function classNames(...classes: string[]) {
 }
 
 export const Layout = () => {
-  //   const { isLoading, data, error } = useGetAppSettings()
-  //   const navigateRoute = useNavigate()
-  //   if (isLoading) {
-  //     return <div>Loading...</div>
-  //   }
-  //   if (data && data.storedApplicationSettings.firstRunDate === undefined) {
-  //     navigateRoute('/settings') // change to welcome screen
-  //   }
+  const {
+    isLoading: isLoadingGetAppSettings,
+    data: appSettingsData,
+    error: getAppSettings,
+  } = useGetAppSettings()
+  const navigateRoute = useNavigate()
+  // REDIRECT IF FIRST TIME!
+  useEffect(() => {
+    if (
+      appSettingsData &&
+      appSettingsData.storedApplicationSettings.firstRunDate === undefined
+    ) {
+      navigateRoute('/onboarding') // change to welcome screen
+    }
+  }, [appSettingsData, navigateRoute])
 
-  //   if (error) {
-  //     return <>Error...{error.message}</>
-  //   }
+  if (getAppSettings) {
+    return <>Error...{getAppSettings.message}</>
+  }
+  if (isLoadingGetAppSettings) {
+    return <>Loading...</>
+  }
 
   return (
-    <QueryClientWrapper>
-      <div>
-        {/* Static sidebar for desktop */}
-        <div className="flex w-64 flex-col fixed inset-y-0 bg-gray-800">
-          {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex-1 flex flex-col min-h-0">
-            <div className="flex items-center h-18 flex-shrink-0 px-4 my-4">
-              <img src={logo} alt="Local Dev Tools" />
-            </div>
-            <div className="flex-1 flex flex-col overflow-y-auto">
-              <nav className="flex-1 px-2 py-4 space-y-1">
-                {navigation.map(item => (
-                  <NavLink
-                    end={item.end}
-                    key={item.name}
-                    to={item.href}
-                    className={props => {
-                      if (props.isActive) {
-                        return classNames(
-                          'bg-gray-900 text-white',
-                          'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
-                        )
-                      }
+    <div>
+      {/* Static sidebar for desktop */}
+      <div className="flex w-64 flex-col fixed inset-y-0 bg-gray-800">
+        {/* Sidebar component, swap this element with another sidebar if you like */}
+        <div className="flex-1 flex flex-col min-h-0">
+          <div className="flex items-center h-18 flex-shrink-0 px-4 my-4">
+            <img src={logo} alt="Local Dev Tools" />
+          </div>
+          <div className="flex-1 flex flex-col overflow-y-auto">
+            <nav className="flex-1 px-2 py-4 space-y-1">
+              {navigation.map(item => (
+                <NavLink
+                  end={item.end}
+                  key={item.name}
+                  to={item.href}
+                  className={props => {
+                    if (props.isActive) {
                       return classNames(
-                        'text-gray-300 hover:bg-gray-700 hover:text-white',
+                        'bg-gray-900 text-white',
                         'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
                       )
-                    }}
-                  >
-                    <item.icon
-                      className={'mr-3 flex-shrink-0 h-6 w-6'}
-                      aria-hidden="true"
-                    />
-                    {item.name}
-                  </NavLink>
-                ))}
-              </nav>
-            </div>
-
-            <MenuFooter />
+                    }
+                    return classNames(
+                      'text-gray-300 hover:bg-gray-700 hover:text-white',
+                      'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
+                    )
+                  }}
+                >
+                  <item.icon
+                    className={'mr-3 flex-shrink-0 h-6 w-6'}
+                    aria-hidden="true"
+                  />
+                  {item.name}
+                </NavLink>
+              ))}
+            </nav>
           </div>
-        </div>
-        <div className="pl-64 mx-8 mt-8">
-          <main className="">
-            <Outlet />
-          </main>
+
+          <MenuFooter />
         </div>
       </div>
-    </QueryClientWrapper>
+      <div className="pl-64 mx-8 mt-8">
+        <main className="">
+          <Outlet />
+        </main>
+      </div>
+    </div>
   )
 }

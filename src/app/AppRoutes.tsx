@@ -4,15 +4,16 @@ import { NotFound } from './components/NotFound'
 import { GitConfigurationListScreen } from './GitConfiguration/GitConfigurationListScreen'
 import { JsonEscaperScreen } from './JsonEscaper/JsonEscaperScreen'
 import { JwtDecoderScreen } from './JwtDecoder/JwtDecoderScreen'
-import { Layout } from './Layout'
 import { SettingsScreen } from './UserSettings/SettingsScreen'
 import { SshUrlConverterScreen } from './SshUrlConverter/SshUrlConverterScreen'
 import { TimestampConverterScreen } from './TimestampConverter/TimeStampConverterScreen'
+import { QueryClientWrapper } from './QueryClientWrapper'
+import { OnboardingScreen } from './Onboarding/OnboardingScreen'
 
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
+      <Route path="/" element={<QueryClientWrapper />}>
         <Route index element={<GitConfigurationListScreen />} />
         <Route
           path="git-configuration"
@@ -27,7 +28,7 @@ function AppRoutes() {
           path="unix-time-converter"
           element={<TimestampConverterScreen />}
         />
-
+        <Route path="onboarding" element={<OnboardingScreen />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
