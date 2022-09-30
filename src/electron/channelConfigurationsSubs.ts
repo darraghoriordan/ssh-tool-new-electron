@@ -1,32 +1,37 @@
-import { LoadSettingsChannelSub } from './appSettings/channels/LoadSettingsChannelSub'
-import { OpenFileLocationSub } from './appSettings/channels/OpenFileLocationSub'
-import { OpenSubmitFeedbackSub } from './appSettings/channels/OpenSubmitFeedbackSub'
-import { ResetSettingsChannelSub } from './appSettings/channels/ResetSettingsChannelSub'
-import { SaveSettingsChannelSub } from './appSettings/channels/SaveSettingsChannelSub'
+import { OpenFileLocationSub } from './appSupport/OpenFileLocationSub'
+import { OpenSubmitFeedbackSub } from './appSupport/OpenSubmitFeedbackSub'
+import { LoadAppSettingsChannelSub } from './appSettings/channels/LoadAppSettingsChannelSub'
+import { SetFirstAppUsageDateSub } from './appSettings/channels/SetFirstAppUsageDateSub'
+import { LoadUserSettingsChannelSub } from './userSettings/channels/LoadUserSettingsChannelSub'
+import { ResetUserSettingsChannelSub } from './userSettings/channels/ResetUserSettingsChannelSub'
+import { SaveUserSettingsChannelSub } from './userSettings/channels/SaveUserSettingsChannelSub'
 import { Base64EncoderChannelSub } from './base64Encoder/channels/Base64EncoderChannelSub'
 import { GitConfigFilesListSub } from './gitConfigurations/channels/GitConfigFilesListSub'
 import { RescanGitConfigsChannelSub } from './gitConfigurations/channels/RescanGitConfigsChannelSub'
-import { IIpcMainInvokeEventSub } from './IpcChannelTypes/IIpcMainInvokeEventSub'
-import { IIpcMainSendEventSub } from './IpcChannelTypes/IIpcMainSendEventSub'
 import { EscapeJsonChannelSub } from './jsonEncoder/channels/EscapeJsonChannelSub'
 import { DecodeJwtChannelSub } from './jwtDecoder/channels/DecodeJwtChannelSub'
 import { SshUrlConverterChannelSub } from './sshConfigFile/channels/SshUrlConverterChannelSub'
 import { UnixTimeConverterChannelSub } from './unixTimeConverter/channels/UnixTimeConverterChannelSub'
-
-export type ChannelConfigurationTypeSub = {
-  rtmSendChannels: IIpcMainSendEventSub<unknown>[]
-  rtmInvokeChannels: IIpcMainInvokeEventSub<unknown, unknown>[]
-}
+import { ChannelConfigurationTypeSub } from './ChannelConfigurationTypeSub'
 
 export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
-  rtmSendChannels: [new OpenFileLocationSub(), new OpenSubmitFeedbackSub()],
+  rtmSendChannels: [
+    //appSupport
+    new OpenFileLocationSub(),
+    new OpenSubmitFeedbackSub(),
+  ],
   rtmInvokeChannels: [
+    //userSettings
+    new LoadUserSettingsChannelSub(),
+    new SaveUserSettingsChannelSub(),
+    new ResetUserSettingsChannelSub(),
+    //appSettings
+    new LoadAppSettingsChannelSub(),
+    new SetFirstAppUsageDateSub(),
+    // features
     new GitConfigFilesListSub(),
-    new SshUrlConverterChannelSub(),
-    new LoadSettingsChannelSub(),
-    new SaveSettingsChannelSub(),
-    new ResetSettingsChannelSub(),
     new RescanGitConfigsChannelSub(),
+    new SshUrlConverterChannelSub(),
     new DecodeJwtChannelSub(),
     new EscapeJsonChannelSub(),
     new Base64EncoderChannelSub(),

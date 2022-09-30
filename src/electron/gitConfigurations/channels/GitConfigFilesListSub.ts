@@ -3,7 +3,7 @@ import { IIpcMainInvokeEventSub } from '../../IpcChannelTypes/IIpcMainInvokeEven
 import { GitConfigFilesListPub } from './GitConfigFilesListPub'
 import { GitConfigListRequest, GitConfigListResponse } from './MessageTypes'
 import { GitConfigsService } from '../services/GitConfigsService'
-import { ApplicationSettingService } from '../../appSettings/services/ApplicationSettingService'
+import { UserSettingsService } from '../../userSettings/services/UserSettingsService'
 
 export class GitConfigFilesListSub
   extends GitConfigFilesListPub
@@ -16,7 +16,7 @@ export class GitConfigFilesListSub
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     request: GitConfigListRequest
   ): Promise<GitConfigListResponse> {
-    const settings = await ApplicationSettingService.getSettings()
+    const settings = await UserSettingsService.getSettings()
     const configData = await GitConfigsService.loadGitConfigs()
 
     console.log('configData', configData)

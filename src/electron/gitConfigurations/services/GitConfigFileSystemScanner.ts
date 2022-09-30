@@ -2,13 +2,13 @@ import fs from 'fs'
 import fsp from 'fs/promises'
 import { GitProjectConfigFileParser } from './GitProjectConfigFileParser'
 import { GitConfigInfo } from '../models/GitConfigInfo'
-import { ApplicationSettingService } from '../../appSettings/services/ApplicationSettingService'
 import { GitConfigsModel } from '../models/GitConfigFileListCacheModel'
 import path from 'path'
 import { GitUser } from '../models/GitUser'
 import FileListResolverNix from './FileListResolverNix'
 import FileListResolverWindows from './FileListResolverWindows'
 import os from 'os'
+import { UserSettingsService } from '../../userSettings/services/UserSettingsService'
 /**
  * Used when the cache is empty or missing
  * Will rescan the file system for git config files and
@@ -21,7 +21,7 @@ export default class GitConfigFileSystemScanner {
   ]
 
   static async scan(scanStartPath: string): Promise<GitConfigsModel> {
-    const settings = await ApplicationSettingService.getSettings()
+    const settings = await UserSettingsService.getSettings()
     console.log('starting scan')
     const response: GitConfigsModel = {
       configList: [],

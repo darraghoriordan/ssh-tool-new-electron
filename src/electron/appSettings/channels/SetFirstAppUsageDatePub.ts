@@ -1,8 +1,8 @@
 import { SendChannelBasePub } from '../../IpcChannelTypes/SendChannelBasePub'
 import { AppSettingsChannels } from './AppSettingsChannelEnum'
 
-export class OpenSubmitFeedbackPub extends SendChannelBasePub {
+export class SetFirstAppUsageDatePub extends SendChannelBasePub {
   constructor() {
-    super('OpenSubmitFeedback', AppSettingsChannels.OPEN_SUBMIT_FEEDBACK)
+    super('SetFirstAppUsageDate', AppSettingsChannels.SET_FIRST_APP_USAGE_DATE)
   }
 }

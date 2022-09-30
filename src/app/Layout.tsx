@@ -8,11 +8,12 @@ import {
   CommandLineIcon,
   LinkIcon,
 } from '@heroicons/react/24/outline'
-import { NavLink, Outlet } from 'react-router-dom'
+import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 //import logo from '../assets/logo-tp.png'
 import logo from '../assets/logo-grey800-prompt.png'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { MenuFooter } from './components/MenuFooter'
+import { useGetAppSettings } from './AppSettings/ReactQueryWrappers'
+import { QueryClientWrapper } from './QueryClientWrapper'
 
 const navigation = [
   {
@@ -69,10 +70,23 @@ const navigation = [
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
-const queryClient = new QueryClient()
+
 export const Layout = () => {
+  //   const { isLoading, data, error } = useGetAppSettings()
+  //   const navigateRoute = useNavigate()
+  //   if (isLoading) {
+  //     return <div>Loading...</div>
+  //   }
+  //   if (data && data.storedApplicationSettings.firstRunDate === undefined) {
+  //     navigateRoute('/settings') // change to welcome screen
+  //   }
+
+  //   if (error) {
+  //     return <>Error...{error.message}</>
+  //   }
+
   return (
-    <QueryClientProvider client={queryClient}>
+    <QueryClientWrapper>
       <div>
         {/* Static sidebar for desktop */}
         <div className="flex w-64 flex-col fixed inset-y-0 bg-gray-800">
@@ -120,6 +134,6 @@ export const Layout = () => {
           </main>
         </div>
       </div>
-    </QueryClientProvider>
+    </QueryClientWrapper>
   )
 }

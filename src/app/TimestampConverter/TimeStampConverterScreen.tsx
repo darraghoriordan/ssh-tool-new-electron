@@ -53,7 +53,7 @@ export function TimestampConverterScreen() {
       <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
         <div className="mb-8">
           <label
-            htmlFor="sshCertPath"
+            htmlFor="data"
             className="block text-sm font-medium text-gray-700"
           >
             Enter a timestamp - ISO8601 or Unix format

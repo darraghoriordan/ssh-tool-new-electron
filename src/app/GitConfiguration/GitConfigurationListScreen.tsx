@@ -59,7 +59,10 @@ export function GitConfigurationListScreen() {
   }
 
   if (!isLoading && control === undefined) {
-    if ((data?.configList || []).length <= 0) {
+    if (
+      (data?.configList || []).length <= 0 &&
+      (filter === undefined || filter === '')
+    ) {
       control = (
         <>
           {(isRefetchError || isError || isLoadingError) && error && (

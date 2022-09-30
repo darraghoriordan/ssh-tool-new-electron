@@ -5,9 +5,9 @@ import {
 } from '../../electron/sshConfigFile/channels/MessageTypes'
 
 import {
-  SaveSettingsMessage,
-  SettingsResponse,
-} from '../../electron/appSettings/channels/MessageTypes'
+  SaveUserSettingsMessage,
+  UserSettingsResponse,
+} from '../../electron/userSettings/channels/MessageTypes'
 import {
   GitConfigListRequest,
   GitConfigListResponse,
@@ -28,6 +28,7 @@ import {
   UnixTimeConverterMessage,
   UnixTimeConverterResponse,
 } from '../../electron/unixTimeConverter/channels/MessageTypes'
+import { AppSettingsResponse } from '../../electron/appSettings/channels/MessageTypes'
 
 declare global {
   // eslint-disable-next-line
@@ -39,12 +40,14 @@ declare global {
     SimpleMessage: { invoke: (message: string) => void }
     OpenFileLocation: { invoke: (filePath: string) => void }
 
-    LoadSettings: { invoke: () => Promise<SettingsResponse> }
-    SaveSettings: {
-      invoke: (message: SaveSettingsMessage) => Promise<SettingsResponse>
+    LoadUserSettings: { invoke: () => Promise<UserSettingsResponse> }
+    SaveUserSettings: {
+      invoke: (
+        message: SaveUserSettingsMessage
+      ) => Promise<UserSettingsResponse>
     }
-    ResetSettings: {
-      invoke: () => Promise<SettingsResponse>
+    ResetUserSettings: {
+      invoke: () => Promise<UserSettingsResponse>
     }
     RescanGithubConfigs: {
       invoke: () => Promise<void>
@@ -69,5 +72,7 @@ declare global {
       ) => Promise<SshUrlConverterChannelResponse>
     }
     OpenSubmitFeedback: { invoke: () => void }
+    LoadAppSettings: { invoke: () => Promise<AppSettingsResponse> }
+    SetFirstAppUsageDate: { invoke: () => Promise<void> }
   }
 }

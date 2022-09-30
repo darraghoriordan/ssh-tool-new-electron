@@ -2,16 +2,14 @@ import fsp from 'fs/promises'
 import fs from 'fs'
 import { instanceToPlain, plainToInstance } from 'class-transformer'
 import { GitConfigsModel } from '../models/GitConfigFileListCacheModel'
+import { RuntimeApplicationSettings } from '../../appSettings/models/RuntimeApplicationSettings'
 
 export class GitConfigsFileCacheService {
   private static gitConfigCachePath: string
 
-  static init({
-    gitConfigurationCacheFilePath,
-  }: {
-    gitConfigurationCacheFilePath: string
-  }): void {
-    this.gitConfigCachePath = gitConfigurationCacheFilePath
+  static init(runtimeApplicationSettings: RuntimeApplicationSettings): void {
+    this.gitConfigCachePath =
+      runtimeApplicationSettings.gitConfigurationCacheFilePath
   }
 
   static async loadFromFile(): Promise<GitConfigsModel> {

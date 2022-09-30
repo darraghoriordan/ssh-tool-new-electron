@@ -1,8 +1,8 @@
 import { EnvelopeIcon } from '@heroicons/react/24/outline'
-import { useGetSettings } from '../Settings/ReactQueryWrappers'
+import { useGetAppSettings } from '../AppSettings/ReactQueryWrappers'
 
 export const MenuFooter = () => {
-  const { isLoading, data, error } = useGetSettings()
+  const { isLoading, data, error } = useGetAppSettings()
 
   const openSubmitFeedback = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
@@ -28,7 +28,7 @@ export const MenuFooter = () => {
         Submit Feedback
       </button>
       <p className="text-center text-gray-300 font-mono">
-        version {data.meta.appVersion || 'unknown'}
+        version {data.runtimeApplicationSettings.appVersion || 'unknown'}
       </p>
     </div>
   )

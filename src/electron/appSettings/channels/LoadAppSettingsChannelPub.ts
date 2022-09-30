@@ -1,8 +1,8 @@
 import { AppSettingsChannels } from './AppSettingsChannelEnum'
 import { InvokeChannelBasePub } from '../../IpcChannelTypes/InvokeChannelBasePub'
 
-export class ResetSettingsChannelPub extends InvokeChannelBasePub {
+export class LoadAppSettingsChannelPub extends InvokeChannelBasePub {
   constructor() {
-    super('ResetSettings', AppSettingsChannels.RESET_SETTINGS)
+    super('LoadAppSettings', AppSettingsChannels.LOAD_APP_SETTINGS)
   }
 }

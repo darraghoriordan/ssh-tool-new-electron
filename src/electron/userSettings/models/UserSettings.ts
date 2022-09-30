@@ -1,12 +1,7 @@
 import { Expose } from 'class-transformer'
 import { IsString, MinLength } from 'class-validator'
 
-export class ApplicationSettings {
-  @Expose()
-  @IsString()
-  @MinLength(1)
-  sshCertPath!: string
-
+export class UserSettings {
   @Expose()
   @IsString()
   @MinLength(1)

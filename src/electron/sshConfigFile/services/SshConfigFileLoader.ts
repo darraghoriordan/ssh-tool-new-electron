@@ -1,10 +1,10 @@
 import SshConfigFileDiskLoader from '../../sshConfigFile/services/SshConfigFileDiskLoader'
 import { AvailableHost, SshConfigFileParser } from './SshConfigFileParser'
-import { ApplicationSettingService } from '../../appSettings/services/ApplicationSettingService'
+import { UserSettingsService } from '../../userSettings/services/UserSettingsService'
 
 export class SshConfigFileLoader {
   static async load(): Promise<AvailableHost[]> {
-    const settings = await ApplicationSettingService.getSettings()
+    const settings = await UserSettingsService.getSettings()
     const sshFilePath = settings.sshConfigFilePath
 
     const rawFileContents = SshConfigFileDiskLoader.loadFromPath(sshFilePath)

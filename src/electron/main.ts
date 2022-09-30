@@ -1,14 +1,14 @@
 import 'reflect-metadata'
 import { app, BrowserWindow, ipcMain, Menu } from 'electron'
-import {
-  ChannelConfigurationSubs,
-  ChannelConfigurationTypeSub,
-} from './channelConfigurationsSubs'
+import { ChannelConfigurationSubs } from './channelConfigurationsSubs'
+import { ChannelConfigurationTypeSub } from './ChannelConfigurationTypeSub'
 import { IIpcMainSendEventSub } from './IpcChannelTypes/IIpcMainSendEventSub'
 import { IIpcMainInvokeEventSub } from './IpcChannelTypes/IIpcMainInvokeEventSub'
-import { ApplicationSettingService } from './appSettings/services/ApplicationSettingService'
 import path from 'path'
 import { GitConfigsFileCacheService } from './gitConfigurations/services/GitConfigsFileCacheService'
+import { UserSettingsService } from './userSettings/services/UserSettingsService'
+import { ApplicationSettingService } from './appSettings/services/ApplicationSettingService'
+import { RuntimeApplicationSettingsService } from './appSettings/services/RuntimeApplicationSettingsService'
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
@@ -20,19 +20,10 @@ export default class Main {
     try {
       // Initialise some static shit. This is a bit of a hack, but it works.
       // should really add some kind of DI framework to make this cleaner.
-
-      ApplicationSettingService.init({
-        settingsFilePath: path.join(
-          app.getPath('userData'),
-          'appSettings.json'
-        ),
-      })
-      GitConfigsFileCacheService.init({
-        gitConfigurationCacheFilePath: path.join(
-          app.getPath('userData'),
-          'gitConfigurationCache.json'
-        ),
-      })
+      const runtimeSettings = RuntimeApplicationSettingsService.getSettings()
+      ApplicationSettingService.init(runtimeSettings)
+      UserSettingsService.init(runtimeSettings)
+      GitConfigsFileCacheService.init(runtimeSettings)
 
       await app.on('ready', this.createWindow).whenReady()
       console.log(`

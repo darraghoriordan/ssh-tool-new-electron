@@ -8,7 +8,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { useConvertSshUrl } from './ReactQueryWrappers'
 import { SshConverterResults } from '../../electron/sshConfigFile/models/SshConverterResults'
-import { useGetSettings } from '../Settings/ReactQueryWrappers'
+import { useGetSettings } from '../UserSettings/ReactQueryWrappers'
 import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
 
 export function SshUrlConverterScreen() {
@@ -92,7 +92,7 @@ export function SshUrlConverterScreen() {
         <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
           <div className="mb-8">
             <label
-              htmlFor="sshCertPath"
+              htmlFor="data"
               className="block text-sm font-medium text-gray-700"
             >
               Enter an ssh or http git url
@@ -147,9 +147,9 @@ export function SshUrlConverterScreen() {
   return (
     <div className="max-w-10xl mx-auto">
       <PageHeader pageTitle={'Git Url Converter'}>
-        {data?.settings.sshConfigFilePath && (
+        {data?.sshConfigFilePath && (
           <button
-            onClick={e => onOpenFolderClick(e, data.settings.sshConfigFilePath)}
+            onClick={e => onOpenFolderClick(e, data.sshConfigFilePath)}
             type="button"
             className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >

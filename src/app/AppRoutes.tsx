@@ -5,7 +5,7 @@ import { GitConfigurationListScreen } from './GitConfiguration/GitConfigurationL
 import { JsonEscaperScreen } from './JsonEscaper/JsonEscaperScreen'
 import { JwtDecoderScreen } from './JwtDecoder/JwtDecoderScreen'
 import { Layout } from './Layout'
-import { SettingsScreen } from './Settings/SettingsScreen'
+import { SettingsScreen } from './UserSettings/SettingsScreen'
 import { SshUrlConverterScreen } from './SshUrlConverter/SshUrlConverterScreen'
 import { TimestampConverterScreen } from './TimestampConverter/TimeStampConverterScreen'
 

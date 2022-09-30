@@ -13,14 +13,37 @@ import {
   FolderOpenIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline'
+import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
+import { useGetAppSettings } from '../AppSettings/ReactQueryWrappers'
 
 export function SettingsScreen() {
+  const faqs = [
+    {
+      id: 1,
+      question: 'Git Projects Path',
+      answer:
+        'This setting controls where the app will look for git projects. It will look in this folder and all subfolders. You should make sure this setting is correct before using the Git Project Tool.',
+    },
+    {
+      id: 2,
+      question: 'Global Git Config File',
+      answer:
+        "This setting controls where the app will look for your global git config file. It's used to determine your global git username and email address.",
+    },
+    {
+      id: 3,
+      question: 'Ssh Config File',
+      answer:
+        "This setting controls where the app will look for your ssh config file. It's used to determine your local ssh aliases. You should make sure this setting is correct before using the Git Url Tool.",
+    },
+  ]
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isDirty },
   } = useForm()
+  const { data: appSettings } = useGetAppSettings()
 
   const { isLoading, data, error } = useGetSettings()
   const saveMutation = useSaveSettings()
@@ -30,7 +53,7 @@ export function SettingsScreen() {
     event.preventDefault()
     const settingsResponse = await resetMutation.mutateAsync()
     // UNLESS THE ABOVE RETURNS DATA THIS BREAKS
-    reset(settingsResponse.settings)
+    reset(settingsResponse)
   }
 
   const onOpenSettingsFolderClick = (
@@ -38,7 +61,9 @@ export function SettingsScreen() {
   ) => {
     event.preventDefault()
     // shell.showItemInFolder(data!.meta.appSettingsFileLocation)
-    window.OpenFileLocation.invoke(data!.meta.appSettingsFileLocation)
+    window.OpenFileLocation.invoke(
+      appSettings!.runtimeApplicationSettings.userSettingsFileLocation
+    )
   }
   let control: ReactElement | undefined = undefined
   if (isLoading || data === undefined) {
@@ -77,7 +102,7 @@ export function SettingsScreen() {
                   <input
                     {...register('projectsPath', { required: true, min: 1 })}
                     className="block w-full rounded-md border border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                    defaultValue={data.settings.projectsPath}
+                    defaultValue={data.projectsPath}
                   />
                 </div>
                 {errors.projectsPath && (
@@ -98,7 +123,7 @@ export function SettingsScreen() {
                       min: 1,
                     })}
                     className="block w-full rounded-md border border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                    defaultValue={data.settings.globalGitConfigFile}
+                    defaultValue={data.globalGitConfigFile}
                   />
                 </div>
                 {errors.globalGitConfigFile && (
@@ -121,25 +146,6 @@ export function SettingsScreen() {
             <div className="grid grid-cols-3 gap-6">
               <div className="col-span-3 ">
                 <label
-                  htmlFor="sshCertPath"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  SSH certs path to scan
-                </label>
-                <div className="mt-1 flex rounded-md shadow-sm">
-                  <input
-                    {...register('sshCertPath', { required: true, min: 1 })}
-                    className="block w-full rounded-md border border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                    defaultValue={data.settings.sshCertPath}
-                  />
-                </div>
-                {errors.sshCertPath && (
-                  <span className="text-red-600">This field is required</span>
-                )}
-              </div>
-
-              <div className="col-span-3 ">
-                <label
                   htmlFor="sshConfigFilePath"
                   className="block text-sm font-medium text-gray-700"
                 >
@@ -152,7 +158,7 @@ export function SettingsScreen() {
                       min: 1,
                     })}
                     className="block w-full rounded-md border border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                    defaultValue={data.settings.sshConfigFilePath}
+                    defaultValue={data.sshConfigFilePath}
                   />
                 </div>
 
@@ -178,7 +184,6 @@ export function SettingsScreen() {
         onSubmit={handleSubmit(data => {
           console.log('data', data)
           saveMutation.mutate({
-            sshCertPath: data['sshCertPath']!,
             projectsPath: data['projectsPath']!,
             globalGitConfigFile: data['globalGitConfigFile'],
             sshConfigFilePath: data['sshConfigFilePath'],
@@ -227,7 +232,7 @@ export function SettingsScreen() {
             Save
           </button>
         </PageHeader>
-
+        <DescriptionAndHelp faqs={faqs} />
         {control}
       </form>
     </div>

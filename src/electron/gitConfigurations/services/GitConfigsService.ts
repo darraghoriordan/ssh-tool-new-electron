@@ -1,11 +1,11 @@
-import { ApplicationSettingService } from '../../appSettings/services/ApplicationSettingService'
 import { GitConfigsModel } from '../models/GitConfigFileListCacheModel'
 import { GitConfigsFileCacheService } from './GitConfigsFileCacheService'
 import GitConfigFileSystemScanner from './GitConfigFileSystemScanner'
+import { UserSettingsService } from '../../userSettings/services/UserSettingsService'
 
 export class GitConfigsService {
   static async loadGitConfigs(): Promise<GitConfigsModel> {
-    const settings = await ApplicationSettingService.getSettings()
+    const settings = await UserSettingsService.getSettings()
 
     // try to find data in filesystem cache first
     let cacheData = await GitConfigsFileCacheService.loadFromFile()

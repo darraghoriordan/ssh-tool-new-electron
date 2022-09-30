@@ -1,5 +1,5 @@
 import { IpcMainEvent, shell } from 'electron'
-import { IIpcMainSendEventSub } from '../../IpcChannelTypes/IIpcMainSendEventSub'
+import { IIpcMainSendEventSub } from '../IpcChannelTypes/IIpcMainSendEventSub'
 import { OpenSubmitFeedbackPub } from './OpenSubmitFeedbackPub'
 
 export class OpenSubmitFeedbackSub
