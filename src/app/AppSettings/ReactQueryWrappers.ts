@@ -30,7 +30,7 @@ export function useSetFirstUsageDate() {
         console.log(
           'Updating first usage date successful, invalidating current settings cache...'
         )
-        queryClient.invalidateQueries([wellKnownQueries.getAppSettings])
+        queryClient.resetQueries([wellKnownQueries.getAppSettings])
       },
     }
   )

@@ -1,44 +1,36 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-//import { useSetFirstUsageDate } from '../AppSettings/ReactQueryWrappers'
+import { useSetFirstUsageDate } from '../AppSettings/ReactQueryWrappers'
 import PageHeader from '../components/PageHeader'
 import OnboardingDialog from './OnboardingDialog'
 
 export function OnboardingScreen() {
   const navigation = useNavigate()
-  //const setFirstUsage = useSetFirstUsageDate()
+  const setFirstUsage = useSetFirstUsageDate()
   const [closed, setClosed] = useState(false)
 
   useEffect(() => {
     if (
-      closed
-      //&&
-      //   !setFirstUsage.isLoading &&
-      //   setFirstUsage.failureCount <= 0 &&
-      //   !setFirstUsage.isSuccess &&
-      //   !setFirstUsage.isError
+      closed &&
+      !setFirstUsage.isSuccess &&
+      !setFirstUsage.isLoading &&
+      !setFirstUsage.isError
+      //&& data?.storedApplicationSettings.firstRunDate === undefined
     ) {
-      //   setFirstUsage.mutateAsync(undefined, {
-      //     onSuccess: () => {
-      //       console.log('navigation in on success')
-      //       navigation('/settings')
-      //     },
-      //   })
-      console.log('running in useEffect')
-      if (closed) {
-        console.log('running in useEffect return')
-        navigation('/settings')
-      }
+      setFirstUsage.mutateAsync(undefined, {
+        onSuccess: () => {
+          console.log('redirecting to settings page')
+          navigation('/settings')
+        },
+      })
     }
     return
   }, [
     closed,
-    // setFirstUsage.isLoading,
-    // setFirstUsage.failureCount,
-    // setFirstUsage.isSuccess,
-    // setFirstUsage.isError,
-    navigation,
+    setFirstUsage.isSuccess,
+    setFirstUsage.isLoading,
+    setFirstUsage.isError,
   ])
 
   return (

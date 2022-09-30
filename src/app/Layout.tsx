@@ -82,6 +82,9 @@ export const Layout = () => {
       appSettingsData &&
       appSettingsData.storedApplicationSettings.firstRunDate === undefined
     ) {
+      console.log(
+        `redirecting to onboarding. First run is: ${appSettingsData.storedApplicationSettings.firstRunDate}`
+      )
       navigateRoute('/onboarding') // change to welcome screen
     }
   }, [appSettingsData, navigateRoute])
