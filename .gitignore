@@ -89,3 +89,4 @@ typings/
 out/
 
 .jest_cache
+tmpBuild

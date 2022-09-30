@@ -32,7 +32,7 @@
       [
         "@semantic-release/exec",
         {
-          "prepareCmd": "echo \"Preparing release ${nextRelease.version}\""
+          "prepareCmd": "echo \"Preparing release ${nextRelease.version}...\""
         }
       ],
       [
@@ -40,7 +40,7 @@
         {
           "assets": [
             {
-              "path": "tmp/release-assets.zip",
+              "path": "tmpBuild/*",
               "label": "Scripts Distribution"
             }
           ]
