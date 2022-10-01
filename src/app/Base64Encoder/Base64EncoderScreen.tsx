@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useContext, useState } from 'react'
 import PageHeader from '../components/PageHeader'
 import { ArrowDownIcon, DocumentCheckIcon } from '@heroicons/react/24/outline'
 import { useEncodeBase64 } from './ReactQueryWrappers'
+import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 
 export function Base64EncoderScreen() {
+  const [logMessages, logAMessage] = useContext(ConsoleContext)
   const encodeBase64Mutation = useEncodeBase64()
   const [inputValue, setInputValue] = useState('')
   const [encodeToggleValue, setEncodeToggleValue] = useState(false)
@@ -19,7 +21,11 @@ export function Base64EncoderScreen() {
     }
 
     if (!input.data) {
-      setOutputValue('You must enter some content')
+      logAMessage({
+        level: 'error',
+        message: 'You must enter some data to encode or decode',
+      })
+
       return
     }
 
@@ -31,7 +37,7 @@ export function Base64EncoderScreen() {
     setInputValue('VGhpcyBpcyBhbiBlbmNvZGVkIHNlbnRlbmNlLg==')
   }
 
-  if (encodeBase64Mutation && !encodeBase64Mutation.isError) {
+  if (encodeBase64Mutation) {
     control = (
       <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
         <div className=" mb-8">

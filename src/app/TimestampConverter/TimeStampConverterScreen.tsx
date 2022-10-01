@@ -17,7 +17,6 @@ export function TimestampConverterScreen() {
     utcDate: '',
   } as UnixTimeConverterResponse)
 
-  let control: ReactElement | undefined = undefined
   const onSubmitClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
 
@@ -47,12 +46,28 @@ export function TimestampConverterScreen() {
     setInputValue('1663944991')
   }
 
-  if (mutation.isError && mutation.error) {
-    logAMessage({ message: mutation.error.message, level: 'error' })
-  }
+  return (
+    <div className="max-w-10xl mx-auto">
+      <PageHeader pageTitle={'Timestamp converter'}>
+        <button
+          onClick={e => insertSampleValue(e)}
+          type="button"
+          className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+          <ArrowDownIcon className="h-5 w-5 mr-2" />
+          Try with sample data
+        </button>
+        <button
+          type="button"
+          onClick={e => onSubmitClick(e)}
+          disabled={mutation.isLoading}
+          className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+          <DocumentCheckIcon className="h-5 w-5 mr-2 " />
+          Submit
+        </button>
+      </PageHeader>
 
-  if (mutation && !mutation.isError) {
-    control = (
       <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
         <div className="mb-8">
           <label
@@ -118,31 +133,6 @@ export function TimestampConverterScreen() {
           </dl>
         </div>
       </div>
-    )
-  }
-  return (
-    <div className="max-w-10xl mx-auto">
-      <PageHeader pageTitle={'Timestamp converter'}>
-        <button
-          onClick={e => insertSampleValue(e)}
-          type="button"
-          className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-        >
-          <ArrowDownIcon className="h-5 w-5 mr-2" />
-          Try with sample data
-        </button>
-        <button
-          type="button"
-          onClick={e => onSubmitClick(e)}
-          disabled={mutation.isLoading}
-          className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-        >
-          <DocumentCheckIcon className="h-5 w-5 mr-2 " />
-          Submit
-        </button>
-      </PageHeader>
-
-      {control}
     </div>
   )
 }

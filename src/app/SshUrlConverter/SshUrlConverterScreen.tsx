@@ -5,6 +5,7 @@ import {
   DocumentCheckIcon,
   FolderOpenIcon,
   ArrowDownIcon,
+  DocumentDuplicateIcon,
 } from '@heroicons/react/24/outline'
 import { useConvertSshUrl } from './ReactQueryWrappers'
 import { SshConverterResults } from '../../electron/sshConfigFile/models/SshConverterResults'
@@ -49,6 +50,19 @@ export const SshUrlConverterScreen = () => {
 
   let control: ReactElement | undefined = undefined
   const { isLoading, data, error } = useGetSettings()
+
+  const onCopyClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    value: string
+  ) => {
+    event.preventDefault()
+
+    navigator.clipboard.writeText(value)
+    logAMessage({
+      message: 'Copied to clipboard.',
+      level: 'info',
+    })
+  }
 
   const onSubmitClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
@@ -107,33 +121,68 @@ export const SshUrlConverterScreen = () => {
 
             {outputValue?.httpUrl && (
               <>
-                <p className="text-sm leading-5 text-gray-500 mt-8">
+                <p className="text-md leading-5 text-gray-500 mt-8 mb-2">
                   http direct url
                 </p>
-
-                <span className="font-mono">
-                  git clone {outputValue?.httpUrl}
-                </span>
+                <div className="flex items-center">
+                  <button
+                    type="button"
+                    // disabled={resetMutation.isLoading}
+                    onClick={e =>
+                      onCopyClick(e, `git clone ${outputValue?.httpUrl}`)
+                    }
+                    className="mr-8 inline-flex items-center rounded-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  >
+                    <DocumentDuplicateIcon className="h-5 w-5 mr-2" />
+                    Copy
+                  </button>
+                  <span className="font-mono">
+                    git clone {outputValue?.httpUrl}
+                  </span>
+                </div>
               </>
             )}
             {outputValue?.sshUrl && (
               <>
-                <p className="text-sm leading-5 text-gray-500 mt-4">
+                <p className="text-md leading-5 text-gray-500 mt-4 mb-2">
                   ssh direct url
                 </p>
-
-                <span className="font-mono">
-                  git clone {outputValue?.sshUrl}
-                </span>
+                <div className="flex items-center">
+                  <button
+                    type="button"
+                    // disabled={resetMutation.isLoading}
+                    onClick={e =>
+                      onCopyClick(e, `git clone ${outputValue?.sshUrl}`)
+                    }
+                    className="mr-8 inline-flex items-center rounded-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  >
+                    <DocumentDuplicateIcon className="h-5 w-5 mr-2" />
+                    Copy
+                  </button>
+                  <span className="font-mono">
+                    git clone {outputValue?.sshUrl}
+                  </span>
+                </div>
               </>
             )}
 
             {outputValue?.sshAliases.map((x, i) => (
               <div key={i}>
-                <p className="text-sm leading-5 text-gray-500 mt-4">
+                <p className="text-md leading-5 text-gray-500 mt-4 mb-2">
                   {x.alias}
                 </p>
-                <span className="font-mono">git clone {x.url}</span>
+                <div className="flex items-center">
+                  <button
+                    type="button"
+                    // disabled={resetMutation.isLoading}
+                    onClick={e => onCopyClick(e, `git clone ${x.url}`)}
+                    className="mr-8 inline-flex items-center rounded-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  >
+                    <DocumentDuplicateIcon className="h-5 w-5 mr-2" />
+                    Copy
+                  </button>
+                  <span className="font-mono">git clone {x.url}</span>
+                </div>
               </div>
             ))}
           </div>

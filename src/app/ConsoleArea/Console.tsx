@@ -17,19 +17,28 @@ export const Console = () => {
   }, [logMessages])
 
   return (
-    <>
+    <div className="h-1/5 overflow-y-clip">
       <div className="text-white bg-neutral-800 border-neutral-600 border-t-2 w-100 border-b-2 pl-4 flex items-center">
         <CommandLineIcon className="h-4 w-4 text-white" aria-hidden="true" />
         <span className="font-mono ml-2">console</span>
       </div>
-      <div className="bg-neutral-800 h-1/5 overflow-auto w-full">
+      <div className="bg-neutral-800 h-full overflow-auto w-full pb-8">
         <div
-          className="font-mono pl-4 pt-1 text-sm whitespace-pre align-top"
+          className="font-mono pl-4 text-sm whitespace-pre align-top"
           aria-readonly={true}
           aria-label="message console"
         >
           {logMessages.map((x, i) => {
-            const message = `[${x.level.toUpperCase()}] $> ${x.message}`
+            // electron prepends every thrown error with its own message
+            // this is a hack to remove that
+            let withoutElectronPart: string
+            if (x.message.includes("': ")) {
+              withoutElectronPart = x.message.split("': ")[1]
+            } else {
+              withoutElectronPart = x.message
+            }
+
+            const message = `[${x.level.toUpperCase()}] $> ${withoutElectronPart}`
 
             switch (x.level) {
               case 'error':
@@ -58,7 +67,7 @@ export const Console = () => {
           })}
           <div ref={consoleScrollRef} />
         </div>
-      </div>{' '}
-    </>
+      </div>
+    </div>
   )
 }
