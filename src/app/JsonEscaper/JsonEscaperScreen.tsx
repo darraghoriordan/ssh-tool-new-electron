@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useContext, useState } from 'react'
 import PageHeader from '../components/PageHeader'
 import { useEscapeJson } from './ReactQueryWrappers'
 import { ArrowDownIcon, DocumentCheckIcon } from '@heroicons/react/24/outline'
+import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 
 export function JsonEscaperScreen() {
   const escapeJsonMutation = useEscapeJson()
   const [inputValue, setInputValue] = useState('')
   const [unescapeToggleValue, setUnescapeToggleValue] = useState(true)
   const [outputValue, setOutputValue] = useState('')
+  const [logMessages, logAMessage] = useContext(ConsoleContext)
 
   let control: ReactElement | undefined = undefined
   const onDecodeClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -17,9 +19,9 @@ export function JsonEscaperScreen() {
       data: inputValue,
       unescape: unescapeToggleValue,
     }
-    console.log('input', input)
 
     if (!input.data) {
+      logAMessage({ message: 'You must enter some content', level: 'error' })
       setOutputValue('You must enter some content')
       return
     }
@@ -37,9 +39,9 @@ export function JsonEscaperScreen() {
       `{\\"this\\":\\"isescaped\\"}`
     )
   }
-  if (escapeJsonMutation.isError) {
+  if (escapeJsonMutation.isError && escapeJsonMutation.error) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    control = <>Error...{escapeJsonMutation.error.message}</>
+    logAMessage({ message: escapeJsonMutation.error.message, level: 'error' })
   }
 
   if (escapeJsonMutation && !escapeJsonMutation.isError) {

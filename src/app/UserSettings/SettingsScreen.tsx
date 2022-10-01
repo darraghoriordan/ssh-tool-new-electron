@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useContext } from 'react'
 import PageHeader from '../components/PageHeader'
 import { useForm } from 'react-hook-form'
 import {
@@ -15,28 +15,30 @@ import {
 } from '@heroicons/react/24/outline'
 import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
 import { useGetAppSettings } from '../AppSettings/ReactQueryWrappers'
+import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 
-export function SettingsScreen() {
-  const faqs = [
-    {
-      id: 1,
-      question: 'Git Projects Path',
-      answer:
-        'This setting controls where the app will look for git projects. It will look in this folder and all subfolders. You should make sure this setting is correct before using the Git Project Tool.',
-    },
-    {
-      id: 2,
-      question: 'Global Git Config File',
-      answer:
-        "This setting controls where the app will look for your global git config file. It's used to determine your global git username and email address.",
-    },
-    {
-      id: 3,
-      question: 'Ssh Config File',
-      answer:
-        "This setting controls where the app will look for your ssh config file. It's used to determine your local ssh aliases. You should make sure this setting is correct before using the Git Url Tool.",
-    },
-  ]
+const faqs = [
+  {
+    id: 1,
+    question: 'Git Projects Path',
+    answer:
+      'This setting controls where the app will look for git projects. It will look in this folder and all subfolders. You should make sure this setting is correct before using the Git Project Tool.',
+  },
+  {
+    id: 2,
+    question: 'Global Git Config File',
+    answer:
+      "This setting controls where the app will look for your global git config file. It's used to determine your global git username and email address.",
+  },
+  {
+    id: 3,
+    question: 'Ssh Config File',
+    answer:
+      "This setting controls where the app will look for your ssh config file. It's used to determine your local ssh aliases. You should make sure this setting is correct before using the Git Url Tool.",
+  },
+]
+
+export const SettingsScreen = () => {
   const {
     register,
     handleSubmit,
@@ -48,6 +50,7 @@ export function SettingsScreen() {
   const { isLoading, data, error } = useGetSettings()
   const saveMutation = useSaveSettings()
   const resetMutation = useResetSettings()
+  const [logMessages, logAMessage] = useContext(ConsoleContext)
 
   const onResetClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
@@ -70,11 +73,10 @@ export function SettingsScreen() {
     control = <>Loading...</>
   }
   if (error) {
-    control = <>Error...{error.message}</>
+    logAMessage({ message: error.message, level: 'error' })
   }
   if (saveMutation.isError) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    control = <>Error...{saveMutation.error.message}</>
+    logAMessage({ message: saveMutation.error.message, level: 'error' })
   }
 
   if (!isLoading && data && control === undefined) {
@@ -179,10 +181,9 @@ export function SettingsScreen() {
         action="#"
         method="POST"
         onError={e => {
-          throw new Error('FORM SAVE ERROR')
+          logAMessage({ message: `Form error at ${e.target}`, level: 'error' })
         }}
         onSubmit={handleSubmit(data => {
-          console.log('data', data)
           saveMutation.mutate({
             projectsPath: data['projectsPath']!,
             globalGitConfigFile: data['globalGitConfigFile'],

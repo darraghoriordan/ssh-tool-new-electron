@@ -1,13 +1,17 @@
 import { useMutation } from '@tanstack/react-query'
+import { useContext } from 'react'
 import {
   SshUrlConverterChannelResponse,
   SshUrlConverterChannelMessage,
 } from '../../electron/sshConfigFile/channels/MessageTypes'
+import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 
 export const wellKnownQueries = {
   convertSshUrl: 'convert-ssh-url',
 }
 export function useConvertSshUrl() {
+  const [logMessages, logAMessage] = useContext(ConsoleContext)
+
   return useMutation<
     SshUrlConverterChannelResponse,
     { message: string },
@@ -20,10 +24,13 @@ export function useConvertSshUrl() {
     },
     {
       onError: error => {
-        console.log(error.message)
+        logAMessage({ message: error.message, level: 'error' })
       },
       onSuccess: () => {
-        console.log('Url conversion completed successfully.')
+        logAMessage({
+          message: `${wellKnownQueries.convertSshUrl} completed successfully.`,
+          level: 'info',
+        })
       },
     }
   )

@@ -4,15 +4,16 @@ import {
   FolderOpenIcon,
   DocumentDuplicateIcon,
 } from '@heroicons/react/24/outline'
+import { useContext } from 'react'
+import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 
 export class GitConfigurationViewCardProps {
   gitConfigInfo!: GitConfigInfo
   globalUser?: GitUser
 }
 
-export default function GitConfigurationViewCard(
-  props: GitConfigurationViewCardProps
-) {
+const GitConfigurationViewCard = (props: GitConfigurationViewCardProps) => {
+  const [logMessages, logAMessage] = useContext(ConsoleContext)
   const origin = props.gitConfigInfo.remotes.find(x =>
     x.remoteName?.includes('origin')
   )
@@ -20,9 +21,12 @@ export default function GitConfigurationViewCard(
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault()
-    console.log('clicked', props.gitConfigInfo.path)
-    // shell.showItemInFolder(data!.meta.appSettingsFileLocation)
+
     window.OpenFileLocation.invoke(props.gitConfigInfo.path)
+    logAMessage({
+      message: 'Opened settings file path.',
+      level: 'info',
+    })
   }
 
   const onCopyForGitConfigClick = (
@@ -30,8 +34,12 @@ export default function GitConfigurationViewCard(
     value: string
   ) => {
     event.preventDefault()
-    console.log('clicked', props.gitConfigInfo.userAsIniString)
+
     navigator.clipboard.writeText(value)
+    logAMessage({
+      message: 'Copied to clipboard.',
+      level: 'info',
+    })
   }
 
   return (
@@ -102,3 +110,5 @@ export default function GitConfigurationViewCard(
     </div>
   )
 }
+
+export default GitConfigurationViewCard

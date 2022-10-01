@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useContext, useState } from 'react'
 import PageHeader from '../components/PageHeader'
 import { ArrowDownIcon, DocumentCheckIcon } from '@heroicons/react/24/outline'
 import { useTimestampConverter } from './ReactQueryWrappers'
 import { UnixTimeConverterResponse } from '../../electron/unixTimeConverter/channels/MessageTypes'
+import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 
 export function TimestampConverterScreen() {
+  const [logMessages, logAMessage] = useContext(ConsoleContext)
   const mutation = useTimestampConverter()
   const [inputValue, setInputValue] = useState('')
   const [outputValue, setOutputValue] = useState({
@@ -18,12 +20,13 @@ export function TimestampConverterScreen() {
   let control: ReactElement | undefined = undefined
   const onSubmitClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
-    const input = {
-      unixTimestamp: inputValue,
-    }
-    console.log('input', input)
 
-    if (!input.unixTimestamp) {
+    if (!inputValue || inputValue.length < 4) {
+      // there is a regex on the "backend"
+      logAMessage({
+        message: 'You must enter a unix timestamp or an ISO timestamp',
+        level: 'error',
+      })
       setOutputValue({
         differenceFromNow: 'Invalid input',
         isoDate: 'Invalid input',
@@ -34,8 +37,9 @@ export function TimestampConverterScreen() {
       return
     }
 
-    const result = await mutation.mutateAsync(input)
-    console.log(result)
+    const result = await mutation.mutateAsync({
+      unixTimestamp: inputValue,
+    })
     setOutputValue(result)
   }
   const insertSampleValue = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -43,9 +47,8 @@ export function TimestampConverterScreen() {
     setInputValue('1663944991')
   }
 
-  if (mutation.isError) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    control = <>Error...{mutation.error.message}</>
+  if (mutation.isError && mutation.error) {
+    logAMessage({ message: mutation.error.message, level: 'error' })
   }
 
   if (mutation && !mutation.isError) {

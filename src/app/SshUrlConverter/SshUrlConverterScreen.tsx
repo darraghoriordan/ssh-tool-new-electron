@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useContext, useState } from 'react'
 import PageHeader from '../components/PageHeader'
 import {
   DocumentCheckIcon,
@@ -10,39 +10,42 @@ import { useConvertSshUrl } from './ReactQueryWrappers'
 import { SshConverterResults } from '../../electron/sshConfigFile/models/SshConverterResults'
 import { useGetSettings } from '../UserSettings/ReactQueryWrappers'
 import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
+import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 
-export function SshUrlConverterScreen() {
-  const faqs = [
-    {
-      id: 1,
-      question: 'What is this tool for?',
-      answer:
-        'If you copy a URL from a git repository, it will have a generic ssh url. This tool is aware of any local ssh aliases you have configured.',
-    },
-    {
-      id: 2,
-      question: 'Why use it?',
-      answer:
-        "This is useful when cloning git repositories if you use local ssh aliases. It's also useful if you quickly want to see what the ssh or http url is for a repository.",
-    },
-    {
-      id: 3,
-      question: 'What are local ssh aliases?',
-      answer:
-        "If you have a local ssh alias configured, you can use the alias in place of the full ssh url. For example, if you have an alias called 'pgh' configured with your private github ssh certificate, you can use 'git clone git@pgh:username/repo' instead of of 'git clone git@github.com:username/repo'.",
-    },
-    {
-      id: 4,
-      question: 'How do I adjust the ssh config file location?',
-      answer:
-        'There are settings in App Settings where you can adjust the paths.',
-    },
-  ]
+const faqs = [
+  {
+    id: 1,
+    question: 'What is this tool for?',
+    answer:
+      'If you copy a URL from a git repository, it will have a generic ssh url. This tool is aware of any local ssh aliases you have configured.',
+  },
+  {
+    id: 2,
+    question: 'Why use it?',
+    answer:
+      "This is useful when cloning git repositories if you use local ssh aliases. It's also useful if you quickly want to see what the ssh or http url is for a repository.",
+  },
+  {
+    id: 3,
+    question: 'What are local ssh aliases?',
+    answer:
+      "If you have a local ssh alias configured, you can use the alias in place of the full ssh url. For example, if you have an alias called 'pgh' configured with your private github ssh certificate, you can use 'git clone git@pgh:username/repo' instead of of 'git clone git@github.com:username/repo'.",
+  },
+  {
+    id: 4,
+    question: 'How do I adjust the ssh config file location?',
+    answer:
+      'There are settings in App Settings where you can adjust the paths.',
+  },
+]
+
+export const SshUrlConverterScreen = () => {
   const mutation = useConvertSshUrl()
   const [inputValue, setInputValue] = useState('')
   const [outputValue, setOutputValue] = useState<
     SshConverterResults | undefined
   >(undefined)
+  const [logMessages, logAMessage] = useContext(ConsoleContext)
 
   let control: ReactElement | undefined = undefined
   const { isLoading, data, error } = useGetSettings()
@@ -52,14 +55,12 @@ export function SshUrlConverterScreen() {
     const input = {
       gitUrl: inputValue,
     }
-    console.log('input', input)
 
-    if (!input.gitUrl) {
-      // throw an error
+    if (!input.gitUrl || input.gitUrl.length < 4) {
+      logAMessage({ message: 'You must enter a git url', level: 'error' })
     }
 
     const result = await mutation.mutateAsync(input)
-    console.log(result)
     setOutputValue(result.possibleGitUrls)
   }
   const onOpenFolderClick = (

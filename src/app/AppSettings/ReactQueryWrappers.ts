@@ -1,5 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useContext } from 'react'
 import { AppSettingsResponse } from '../../electron/appSettings/channels/MessageTypes'
+import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 
 export const wellKnownQueries = {
   getAppSettings: 'get-app-settings',
@@ -16,6 +18,7 @@ export function useGetAppSettings() {
 
 export function useSetFirstUsageDate() {
   const queryClient = useQueryClient()
+  const [logMessages, logAMessage] = useContext(ConsoleContext)
 
   return useMutation<void, { message: string }, void, unknown>(
     [wellKnownQueries.updateFirstUsage],
@@ -24,12 +27,17 @@ export function useSetFirstUsageDate() {
     },
     {
       onError: error => {
-        console.log(error.message)
+        logAMessage({ message: error.message, level: 'error' })
       },
       onSuccess: () => {
-        console.log(
-          'Updating first usage date successful, invalidating current settings cache...'
-        )
+        logAMessage({
+          message: `${wellKnownQueries.updateFirstUsage} completed successfully.`,
+          level: 'info',
+        })
+        logAMessage({
+          message: 'invalidating current settings cache.',
+          level: 'info',
+        })
         queryClient.resetQueries([wellKnownQueries.getAppSettings])
       },
     }

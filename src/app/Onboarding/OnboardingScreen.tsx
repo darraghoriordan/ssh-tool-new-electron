@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSetFirstUsageDate } from '../AppSettings/ReactQueryWrappers'
 import PageHeader from '../components/PageHeader'
+import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 import OnboardingDialog from './OnboardingDialog'
 
 export function OnboardingScreen() {
   const navigation = useNavigate()
   const setFirstUsage = useSetFirstUsageDate()
   const [closed, setClosed] = useState(false)
+  const [logMessages, logAMessage] = useContext(ConsoleContext)
 
   useEffect(() => {
     if (
@@ -19,7 +21,11 @@ export function OnboardingScreen() {
     ) {
       setFirstUsage.mutateAsync(undefined, {
         onSuccess: () => {
-          console.log('redirecting to settings page')
+          logAMessage({
+            message: 'redirecting to settings page',
+            level: 'info',
+          })
+
           navigation('/settings')
         },
       })

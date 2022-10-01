@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useContext } from 'react'
 import { ArrowPathIcon } from '@heroicons/react/24/solid'
 import { Cog6ToothIcon, FolderOpenIcon } from '@heroicons/react/24/outline'
 import PageHeader from '../components/PageHeader'
@@ -7,6 +7,7 @@ import { useGetGitConfigurationList, useResetCache } from './ReactQueryWrappers'
 import { useDebounce } from 'use-debounce'
 import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
 import { useNavigate } from 'react-router-dom'
+import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 
 export function GitConfigurationListScreen() {
   const faqs = [
@@ -35,7 +36,7 @@ export function GitConfigurationListScreen() {
         'There are settings in App Settings where you can adjust the paths.',
     },
   ]
-
+  const [logMessages, logAMessage] = useContext(ConsoleContext)
   const navigateRoute = useNavigate()
   const resetCachesMutation = useResetCache()
 
@@ -47,7 +48,7 @@ export function GitConfigurationListScreen() {
     useGetGitConfigurationList(debouncedFilter, filter)
   let control: ReactElement | undefined = undefined
   if (isLoading) {
-    control = <>Loading...</>
+    control = <>Loading configuration...</>
   }
 
   const onOpenFolderClick = (
@@ -55,7 +56,19 @@ export function GitConfigurationListScreen() {
     location: string
   ) => {
     event.preventDefault()
+    logAMessage({ level: 'info', message: `Opening folder ${location}` })
     window.OpenFileLocation.invoke(location)
+  }
+
+  if ((isRefetchError || isError || isLoadingError) && error) {
+    logAMessage({ level: 'error', message: error.message })
+  }
+
+  if (resetCachesMutation.isError && resetCachesMutation.error) {
+    logAMessage({
+      level: 'error',
+      message: resetCachesMutation.error.message,
+    })
   }
 
   if (!isLoading && control === undefined) {
@@ -65,13 +78,6 @@ export function GitConfigurationListScreen() {
     ) {
       control = (
         <>
-          {(isRefetchError || isError || isLoadingError) && error && (
-            <span>Error...{error.message}</span>
-          )}
-          {resetCachesMutation.isError && (
-            <span>Error...{resetCachesMutation.error.message}</span>
-          )}
-
           <button
             type="button"
             onClick={e => {

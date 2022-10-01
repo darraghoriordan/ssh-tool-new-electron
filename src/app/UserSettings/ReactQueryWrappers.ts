@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { UserSettings } from '../../electron/userSettings/models/UserSettings'
 import { UserSettingsResponse } from '../../electron/userSettings/channels/MessageTypes'
+import { useContext } from 'react'
+import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 
 export const wellKnownQueries = {
   getUserSettings: 'get-user-settings',
@@ -9,15 +11,23 @@ export const wellKnownQueries = {
 }
 
 export function useGetSettings() {
+  const [logMessages, logAMessage] = useContext(ConsoleContext)
+
   return useQuery<UserSettingsResponse, { message: string }>(
     [wellKnownQueries.getUserSettings],
     async () => window.LoadUserSettings.invoke(),
-    { staleTime: Infinity }
+    {
+      staleTime: Infinity,
+      onError: error => {
+        logAMessage({ message: error.message, level: 'error' })
+      },
+    }
   )
 }
 
 export function useSaveSettings() {
   const queryClient = useQueryClient()
+  const [logMessages, logAMessage] = useContext(ConsoleContext)
 
   return useMutation<
     UserSettingsResponse,
@@ -31,12 +41,17 @@ export function useSaveSettings() {
     },
     {
       onError: error => {
-        console.log(error.message)
+        logAMessage({ message: error.message, level: 'error' })
       },
       onSuccess: () => {
-        console.log(
-          'Saving settings successful, invalidating current settings cache...'
-        )
+        logAMessage({
+          message: `${wellKnownQueries.saveUserSettings} completed successfully.`,
+          level: 'info',
+        })
+        logAMessage({
+          message: 'invalidating current settings cache.',
+          level: 'info',
+        })
         queryClient.invalidateQueries([wellKnownQueries.getUserSettings])
       },
     }
@@ -45,6 +60,7 @@ export function useSaveSettings() {
 
 export function useResetSettings() {
   const queryClient = useQueryClient()
+  const [logMessages, logAMessage] = useContext(ConsoleContext)
 
   return useMutation<UserSettingsResponse, { message: string }, void, unknown>(
     [wellKnownQueries.resetUserSettings],
@@ -53,11 +69,18 @@ export function useResetSettings() {
     },
     {
       onError: error => {
-        console.log(error.message)
+        logAMessage({ message: error.message, level: 'error' })
       },
       onSuccess: () => {
-        console.log('Reset settings successful, clearing cache.')
-        queryClient.invalidateQueries([wellKnownQueries.getUserSettings])
+        logAMessage({
+          message: `${wellKnownQueries.resetUserSettings} completed successfully.`,
+          level: 'info',
+        })
+        logAMessage({
+          message: 'invalidating current settings cache.',
+          level: 'info',
+        })
+        queryClient.resetQueries([wellKnownQueries.getUserSettings])
       },
     }
   )

@@ -1,19 +1,21 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useContext, useState } from 'react'
 import PageHeader from '../components/PageHeader'
 import { useDecodeJwt } from './ReactQueryWrappers'
 import { ArrowDownIcon, DocumentCheckIcon } from '@heroicons/react/24/outline'
+import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 
 export function JwtDecoderScreen() {
   const decodeJwtMutation = useDecodeJwt()
   const [inputValue, setInputValue] = useState('')
   const [outputValue, setOutputValue] = useState('')
+  const [logMessages, logAMessage] = useContext(ConsoleContext)
 
   let control: ReactElement | undefined = undefined
   const onDecodeClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     if (!inputValue || inputValue.split('.').length !== 3) {
-      setOutputValue('Invalid JWT')
+      logAMessage({ message: 'Invalid JWT detected.', level: 'error' })
       return
     }
 
@@ -33,9 +35,8 @@ export function JwtDecoderScreen() {
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0b3B0YWwuY29tIiwiZXhwIjoxNDI2NDIwODAwLCJodHRwOi8vdG9wdGFsLmNvbS9qd3RfY2xhaW1zL2lzX2FkbWluIjp0cnVlLCJjb21wYW55IjoiVG9wdGFsIiwiYXdlc29tZSI6dHJ1ZX0.yRQYnWzskCZUxPwaQupWkiUzKELZ49eM7oWxAQK_ZXw'
     )
   }
-  if (decodeJwtMutation.isError) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    control = <>Error...{decodeJwtMutation.error.message}</>
+  if (decodeJwtMutation.isError && decodeJwtMutation.error) {
+    logAMessage({ message: decodeJwtMutation.error.message, level: 'error' })
   }
 
   if (decodeJwtMutation && !decodeJwtMutation.isError) {

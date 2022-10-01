@@ -1,8 +1,11 @@
 import { EnvelopeIcon } from '@heroicons/react/24/outline'
+import { useContext } from 'react'
 import { useGetAppSettings } from '../AppSettings/ReactQueryWrappers'
+import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 
 export const MenuFooter = () => {
   const { isLoading, data, error } = useGetAppSettings()
+  const [logMessages, logAMessage] = useContext(ConsoleContext)
 
   const openSubmitFeedback = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
@@ -13,7 +16,7 @@ export const MenuFooter = () => {
     return <div>Loading...</div>
   }
   if (error) {
-    return <div>Error...{error.message}</div>
+    logAMessage({ message: error.message, level: 'error' })
   }
 
   return (
@@ -28,7 +31,7 @@ export const MenuFooter = () => {
         Submit Feedback
       </button>
       <p className="text-center text-gray-300 font-mono">
-        version {data.runtimeApplicationSettings.appVersion || 'unknown'}
+        version {data?.runtimeApplicationSettings.appVersion || 'unknown'}
       </p>
     </div>
   )

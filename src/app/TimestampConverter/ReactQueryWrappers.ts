@@ -1,13 +1,17 @@
 import { useMutation } from '@tanstack/react-query'
+import { useContext } from 'react'
 import {
   UnixTimeConverterMessage,
   UnixTimeConverterResponse,
 } from '../../electron/unixTimeConverter/channels/MessageTypes'
+import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 
 export const wellKnownQueries = {
   convertTime: 'convert-time',
 }
 export function useTimestampConverter() {
+  const [logMessages, logAMessage] = useContext(ConsoleContext)
+
   return useMutation<
     UnixTimeConverterResponse,
     { message: string },
@@ -20,10 +24,13 @@ export function useTimestampConverter() {
     },
     {
       onError: error => {
-        console.log(error.message)
+        logAMessage({ message: error.message, level: 'error' })
       },
       onSuccess: () => {
-        console.log('Timestamp conversion completed successfully.')
+        logAMessage({
+          message: `${wellKnownQueries.convertTime} completed successfully.`,
+          level: 'info',
+        })
       },
     }
   )
