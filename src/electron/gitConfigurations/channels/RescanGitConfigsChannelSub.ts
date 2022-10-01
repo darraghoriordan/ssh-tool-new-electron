@@ -8,7 +8,6 @@ export class RescanGitConfigsChannelSub
   implements IIpcMainInvokeEventSub<void, void>
 {
   async handle(event: IpcMainEvent, request: void): Promise<void> {
-    console.log(request)
     try {
       return GitConfigsService.clearAllCaches()
     } catch (error) {

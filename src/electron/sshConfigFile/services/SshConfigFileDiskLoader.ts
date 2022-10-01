@@ -28,7 +28,7 @@ export default class SshConfigFileDiskLoader {
       })
       response.contents = file
     }
-    console.log('returning response', response)
+
     return response
   }
 }

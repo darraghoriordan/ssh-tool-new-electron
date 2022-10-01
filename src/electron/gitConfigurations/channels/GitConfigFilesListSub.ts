@@ -19,7 +19,6 @@ export class GitConfigFilesListSub
     const settings = await UserSettingsService.getSettings()
     const configData = await GitConfigsService.loadGitConfigs()
 
-    console.log('configData', configData)
     const filteredConfigs = configData.configList.filter(config => {
       if (request.filter === undefined) {
         return true
@@ -27,6 +26,7 @@ export class GitConfigFilesListSub
 
       return config.path.includes(request.filter)
     })
+
     return {
       ...configData,
       configList: filteredConfigs,

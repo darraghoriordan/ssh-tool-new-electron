@@ -26,11 +26,7 @@ export default class Main {
       GitConfigsFileCacheService.init(runtimeSettings)
 
       await app.on('ready', this.createWindow).whenReady()
-      console.log(`
-      
-      App ready, starting config
-      
-      `)
+
       console.log('registering channels...')
       await this.registerIpChannels(
         config.rtmSendChannels,
@@ -56,7 +52,7 @@ export default class Main {
 
   private createWindow() {
     const assetsPath = app.getAppPath()
-    console.log('Assets path', assetsPath)
+
     this.mainWindow = new BrowserWindow({
       icon: path.join(assetsPath, 'assets', 'icons', 'icon.png'),
       minWidth: 1400,
@@ -88,19 +84,15 @@ export default class Main {
   ) {
     // set up the handlers on the main process side
     rtmSendChannels.forEach(channel => {
-      console.log(`adding BE channel ${channel.getChannelName()}...`)
       ipcMain.on(channel.getChannelName(), (event, request) =>
         channel.handle(event, request)
       )
-      console.log(`added BE channel ${channel.getChannelName()}`)
     })
 
     rtmInvokeChannels.forEach(channel => {
-      console.log(`adding BE channel ${channel.getChannelName()}...`)
       ipcMain.handle(channel.getChannelName(), (event, request) =>
         channel.handle(event, request)
       )
-      console.log(`added BE channel ${channel.getChannelName()}`)
     })
   }
 

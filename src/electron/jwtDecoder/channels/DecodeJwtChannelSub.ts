@@ -14,9 +14,8 @@ export class DecodeJwtChannelSub
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     request: DecodeJwtMessage
   ): Promise<DecodeJwtResponse> {
-    console.log('Decoding jwt...', request)
     const result = JwtDecoder.decode(request.jwt)
-    console.log('Decoded jwt', result)
+
     return result
   }
 }

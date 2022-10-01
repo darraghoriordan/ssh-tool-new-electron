@@ -56,28 +56,30 @@ const GitConfigurationViewCard = (props: GitConfigurationViewCardProps) => {
             {props.gitConfigInfo.path}
           </dd>
         </div>
-        <div className="mb-4">
-          <dt className="text-sm font-medium text-gray-500">Git Origin</dt>
-          <dd className="mt-1 text-sm text-gray-900">{origin?.url}</dd>
-        </div>
-        <div className="">
-          <dt className="text-sm font-medium text-gray-500">
-            Git User
-            {!props.gitConfigInfo.isProjectUserSet &&
-              '(🌏 currently using global user 🌎)'}
-          </dt>
-          {props.gitConfigInfo.user ? (
-            <dd className="mt-1 text-sm text-gray-900">
-              {props.gitConfigInfo.user.name}
-              <br />
-              {props.gitConfigInfo.user.email}
-            </dd>
-          ) : (
-            <dd className="mt-1 text-sm text-gray-900">
-              No Git user set (you should at least set the [user] in the global
-              configuration)
-            </dd>
-          )}
+        <div className="flex space-x-12">
+          <div className="mb-4">
+            <dt className="text-sm font-medium text-gray-500">Git Origin</dt>
+            <dd className="mt-1 text-sm text-gray-900">{origin?.url}</dd>
+          </div>
+          <div className="">
+            <dt className="text-sm font-medium text-gray-500">
+              Git User
+              {!props.gitConfigInfo.isProjectUserSet &&
+                '(🌏 currently using global user 🌎)'}
+            </dt>
+            {props.gitConfigInfo.user ? (
+              <dd className="mt-1 text-sm text-gray-900">
+                {props.gitConfigInfo.user.name}
+                <br />
+                {props.gitConfigInfo.user.email}
+              </dd>
+            ) : (
+              <dd className="mt-1 text-sm text-gray-900">
+                No Git user set (you should at least set the [user] in the
+                global configuration)
+              </dd>
+            )}
+          </div>
         </div>
       </div>
       <div className="border-t border-gray-200 px-4 py-5 sm:px-6 flex justify-start space-x-3">

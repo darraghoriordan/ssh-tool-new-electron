@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useContext } from 'react'
-import { ControlFunctions } from 'use-debounce'
 import { GitConfigListResponse } from '../../electron/gitConfigurations/channels/MessageTypes'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 
@@ -9,10 +8,7 @@ export const wellKnownQueries = {
   resetGitConfiguration: 'reset-git-configuration',
 }
 
-export function useGetGitConfigurationList(
-  debouncedFilter: [string | undefined, ControlFunctions],
-  filter: string | undefined
-) {
+export function useGetGitConfigurationList(filter: string | undefined) {
   return useQuery<GitConfigListResponse, { message: string }>(
     [wellKnownQueries.getGitConfigurations, filter],
     async () => {

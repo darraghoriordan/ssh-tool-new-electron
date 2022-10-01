@@ -23,7 +23,11 @@ class Bridge {
         config.rtmSendChannels,
         config.rtmInvokeChannels
       )
-      console.log(`All FE bridge methods registered`)
+      console.log(
+        `${
+          config.rtmInvokeChannels.length + config.rtmSendChannels.length
+        } FE bridge methods registered`
+      )
     } catch (error) {
       console.error(error)
     }
@@ -38,20 +42,16 @@ class Bridge {
     })
     // set up bridge methods to be added on the window object in react app
     rtmInvokeChannels.forEach(channel => {
-      console.log(`adding FE bridge for ${channel.getExposedApiName()}`)
       contextBridge.exposeInMainWorld(channel.getExposedApiName(), {
         invoke: (message: any) =>
           ipcRenderer.invoke(channel.getChannelName(), message),
       })
-      console.log(`added FE bridge for ${channel.getExposedApiName()}`)
     })
     rtmSendChannels.forEach(channel => {
-      console.log(`adding FE bridge for ${channel.getExposedApiName()}`)
       contextBridge.exposeInMainWorld(channel.getExposedApiName(), {
         invoke: (message: any) =>
           ipcRenderer.send(channel.getChannelName(), message),
       })
-      console.log(`added FE bridge for ${channel.getExposedApiName()}`)
     })
 
     // add a generic handler for messages from main back to renderer
