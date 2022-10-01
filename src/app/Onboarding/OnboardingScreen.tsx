@@ -16,7 +16,6 @@ export function OnboardingScreen() {
       !setFirstUsage.isSuccess &&
       !setFirstUsage.isLoading &&
       !setFirstUsage.isError
-      //&& data?.storedApplicationSettings.firstRunDate === undefined
     ) {
       setFirstUsage.mutateAsync(undefined, {
         onSuccess: () => {

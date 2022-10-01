@@ -22,7 +22,7 @@ export const MenuFooter = () => {
         onClick={e => openSubmitFeedback(e)}
         title="Submit Feedback - opens in a browser"
         type="button"
-        className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        className="font-mono inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
       >
         <EnvelopeIcon className="h-5 w-5 mr-2" />
         Submit Feedback
