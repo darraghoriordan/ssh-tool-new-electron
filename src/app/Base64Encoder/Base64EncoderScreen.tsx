@@ -1,16 +1,14 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { ReactElement, useContext, useState } from 'react'
+import React, { ReactElement, useState } from 'react'
 import PageHeader from '../components/PageHeader'
 import { ArrowDownIcon, DocumentCheckIcon } from '@heroicons/react/24/outline'
 import { useEncodeBase64 } from './ReactQueryWrappers'
-import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 
 export function Base64EncoderScreen() {
   const encodeBase64Mutation = useEncodeBase64()
   const [inputValue, setInputValue] = useState('')
   const [encodeToggleValue, setEncodeToggleValue] = useState(false)
   const [outputValue, setOutputValue] = useState('')
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
 
   let control: ReactElement | undefined = undefined
   const onDecodeClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -31,9 +29,6 @@ export function Base64EncoderScreen() {
   const insertSampleValue = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     setInputValue('VGhpcyBpcyBhbiBlbmNvZGVkIHNlbnRlbmNlLg==')
-  }
-  if (encodeBase64Mutation.isError) {
-    logAMessage({ message: encodeBase64Mutation.error.message, level: 'error' })
   }
 
   if (encodeBase64Mutation && !encodeBase64Mutation.isError) {

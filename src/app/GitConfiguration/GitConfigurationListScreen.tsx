@@ -44,8 +44,7 @@ export function GitConfigurationListScreen() {
   const [filter, setFilter] = React.useState<string | undefined>(undefined)
   const [debouncedFilter, debounceControl] = useDebounce(filter, 500)
 
-  const { isLoading, data, error, isRefetchError, isError, isLoadingError } =
-    useGetGitConfigurationList(debouncedFilter)
+  const { isLoading, data } = useGetGitConfigurationList(debouncedFilter)
 
   let control: ReactElement | undefined = undefined
   if (isLoading) {
@@ -59,17 +58,6 @@ export function GitConfigurationListScreen() {
     event.preventDefault()
     logAMessage({ level: 'info', message: `Opening folder ${location}` })
     window.OpenFileLocation.invoke(location)
-  }
-
-  if ((isRefetchError || isError || isLoadingError) && error) {
-    logAMessage({ level: 'error', message: error.message })
-  }
-
-  if (resetCachesMutation.isError && resetCachesMutation.error) {
-    logAMessage({
-      level: 'error',
-      message: resetCachesMutation.error.message,
-    })
   }
 
   if (!isLoading && control === undefined) {

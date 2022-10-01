@@ -58,6 +58,7 @@ export const SshUrlConverterScreen = () => {
 
     if (!input.gitUrl || input.gitUrl.length < 4) {
       logAMessage({ message: 'You must enter a git url', level: 'error' })
+      return
     }
 
     const result = await mutation.mutateAsync(input)
@@ -85,11 +86,6 @@ export const SshUrlConverterScreen = () => {
   if (mutation) {
     control = (
       <>
-        {error && <span>Error...{error.message}</span>}
-        {mutation.isError && (
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          <span>Error...{(mutation as any).error?.message}</span>
-        )}
         <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
           <div className="mb-8">
             <label

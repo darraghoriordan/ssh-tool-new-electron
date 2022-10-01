@@ -47,7 +47,7 @@ export const SettingsScreen = () => {
   } = useForm()
   const { data: appSettings } = useGetAppSettings()
 
-  const { isLoading, data, error } = useGetSettings()
+  const { isLoading, data } = useGetSettings()
   const saveMutation = useSaveSettings()
   const resetMutation = useResetSettings()
   const [logMessages, logAMessage] = useContext(ConsoleContext)
@@ -71,12 +71,6 @@ export const SettingsScreen = () => {
   let control: ReactElement | undefined = undefined
   if (isLoading || data === undefined) {
     control = <>Loading...</>
-  }
-  if (error) {
-    logAMessage({ message: error.message, level: 'error' })
-  }
-  if (saveMutation.isError) {
-    logAMessage({ message: saveMutation.error.message, level: 'error' })
   }
 
   if (!isLoading && data && control === undefined) {

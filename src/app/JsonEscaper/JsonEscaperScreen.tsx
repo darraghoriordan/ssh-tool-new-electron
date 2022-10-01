@@ -39,10 +39,6 @@ export function JsonEscaperScreen() {
       `{\\"this\\":\\"isescaped\\"}`
     )
   }
-  if (escapeJsonMutation.isError && escapeJsonMutation.error) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    logAMessage({ message: escapeJsonMutation.error.message, level: 'error' })
-  }
 
   if (escapeJsonMutation && !escapeJsonMutation.isError) {
     control = (

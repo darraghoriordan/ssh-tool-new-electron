@@ -10,7 +10,7 @@ export const ConsoleContext = React.createContext(
 
 export const ConsoleProvider = (props: PropsWithChildren) => {
   const [logMessages, setLogMessages] = useState([
-    { message: 'Starting up...', level: 'info' },
+    { message: 'Started Console.', level: 'info' },
   ])
 
   const logAMessage = (message: ConsoleLogMessage) => {
