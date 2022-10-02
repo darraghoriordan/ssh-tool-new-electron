@@ -18,7 +18,7 @@ export class PaidLicensingService {
     const applicationSettings = await ApplicationSettingService.getSettings()
 
     // and now generate the licence dto to return to customers
-    return this.createPaidLicenseDto(
+    const result = this.createPaidLicenseDto(
       applicationSettings.storedApplicationSettings,
       this.getRemainingDaysOfUpdates(
         applicationSettings.storedApplicationSettings.licenseCreatedOn,
@@ -29,6 +29,12 @@ export class PaidLicensingService {
         applicationSettings.storedApplicationSettings.licenseCreatedOn
       )
     )
+    if (!result.licenseKey) {
+      throw new Error(
+        'License key not accepted. Please check your key and try again.'
+      )
+    }
+    return result
   }
 
   static trialPeriodDays = 14

@@ -80,5 +80,6 @@ declare global {
     SetLicenseKey: {
       invoke: (message: SetLicenseKeyRequest) => Promise<LicenseDataDto>
     }
+    OpenStorePage: { invoke: () => void }
   }
 }

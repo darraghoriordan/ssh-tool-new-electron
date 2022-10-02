@@ -2,6 +2,7 @@ import { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useGetAppSettings } from '../AppSettings/ReactQueryWrappers'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
+import { useGetLicensing } from '../Licensing/ReactQueryWrappers'
 
 export const useFirstRunRedirect = (): {
   isLoading: boolean
@@ -14,6 +15,8 @@ export const useFirstRunRedirect = (): {
     error: getAppSettingsError,
     isError: getAppSettingsIsError,
   } = useGetAppSettings()
+
+  const { data: licenceData, isLoading: licIsLd } = useGetLicensing()
 
   const navigateRoute = useNavigate()
   const [logMessages, logAMessage] = useContext(ConsoleContext)
@@ -31,10 +34,18 @@ export const useFirstRunRedirect = (): {
 
       navigateRoute('/onboarding') // change to welcome screen
     }
-  }, [appSettingsData, navigateRoute])
+    if (licenceData && licenceData.mustEnterLicenseKey === true) {
+      logAMessage({
+        message: `License not found. Redirecting to purchase page.`,
+        level: 'info',
+      })
+
+      navigateRoute('/licensing') // change to welcome screen
+    }
+  }, [appSettingsData, licenceData, navigateRoute])
 
   return {
-    isLoading: isLoadingGetAppSettings,
+    isLoading: isLoadingGetAppSettings || licIsLd,
     error: getAppSettingsError,
     isError: getAppSettingsIsError,
   }

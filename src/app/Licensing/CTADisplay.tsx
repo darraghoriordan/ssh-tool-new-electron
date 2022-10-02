@@ -33,6 +33,12 @@ export const CTADisplay = () => {
         'You can paste your json and JWTs with confidence. Stop using random internet sites.',
     },
   ]
+
+  const openOpenStore = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault()
+    window.OpenStorePage.invoke()
+  }
+
   return (
     <div className="bg-white shadow rounded-lg mt-8">
       <div className="mx-auto py-16 px-4">
@@ -45,10 +51,11 @@ export const CTADisplay = () => {
             <a
               className="underline mx-1 p-1 text-blue-700 bg-pink-200 rounded-md"
               href="https://devshell.darraghoriordan.com"
+              onClick={e => openOpenStore(e)}
             >
               http://devshell.darraghoriordan.com
             </a>{' '}
-            to get your license
+            to get a license
           </p>
         </div>
         <dl className="mt-12 gap-y-6 grid grid-cols-3 gap-x-6">

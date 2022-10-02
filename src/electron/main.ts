@@ -27,9 +27,6 @@ export default class Main {
       UserSettingsService.init(runtimeSettings)
       GitConfigsFileCacheService.init(runtimeSettings)
 
-      console.log('incrementing run count...')
-      await IncrementApplicationRuns.increment()
-
       await app.on('ready', this.createWindow).whenReady()
 
       console.log('registering channels...')
@@ -41,6 +38,8 @@ export default class Main {
     } catch (error) {
       console.error(error)
     }
+    console.log('incrementing run count...')
+    await IncrementApplicationRuns.increment()
 
     app.on('window-all-closed', () => {
       if (process.platform !== 'darwin') {

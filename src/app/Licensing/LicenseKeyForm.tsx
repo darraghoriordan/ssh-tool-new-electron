@@ -34,10 +34,17 @@ export const LicenseKeyForm = () => {
               level: 'error',
             })
           }}
-          onSubmit={handleSubmit(data => {
-            setLicense.mutate({
+          onSubmit={handleSubmit(async data => {
+            const result = await setLicense.mutateAsync({
               licenseKey: data['license-key'],
             })
+
+            // if (!result.licenseKey) {
+            //   logAMessage({
+            //     message: `License key not accepted`,
+            //     level: 'error',
+            //   })
+            // }
           })}
         >
           <label htmlFor="license-key" className="sr-only">

@@ -1,6 +1,7 @@
 import { plainToInstance } from 'class-transformer'
 import { ApplicationSettingService } from '../../appSettings/services/ApplicationSettingService'
 import { GumRoadLicenseResponse } from '../models/GumRoadLicenseResponse'
+import fetch from 'node-fetch'
 
 export class GumRoadLicenseService {
   static productPermalink = 'localtools'

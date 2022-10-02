@@ -40,8 +40,6 @@ export const MenuFooter = () => {
 
     return (
       <p className="text-xs text-center text-gray-300 font-mono">
-        {`Licenced `}
-
         <NavLink
           to="/licensing"
           className="text-xs text-gray-300 hover:text-gray-100 underline"

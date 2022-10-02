@@ -15,12 +15,14 @@ import { UnixTimeConverterChannelSub } from './unixTimeConverter/channels/UnixTi
 import { ChannelConfigurationTypeSub } from './ChannelConfigurationTypeSub'
 import { LoadLicensingChannelSub } from './licencing/channels/LoadLicensingChannelSub'
 import { SetLicenseKeyChannelSub } from './licencing/channels/SetLicenseKeyChannelSub'
+import { OpenStorePageSub } from './licencing/channels/OpenStorePageSub'
 
 export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
   rtmSendChannels: [
     //appSupport
     new OpenFileLocationSub(),
     new OpenSubmitFeedbackSub(),
+    new OpenStorePageSub(),
   ],
   rtmInvokeChannels: [
     //userSettings
@@ -33,6 +35,7 @@ export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
     // licencing
     new LoadLicensingChannelSub(),
     new SetLicenseKeyChannelSub(),
+
     // features
     new GitConfigFilesListSub(),
     new RescanGitConfigsChannelSub(),

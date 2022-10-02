@@ -15,12 +15,14 @@ import { LoadAppSettingsChannelPub } from './appSettings/channels/LoadAppSetting
 import { SetFirstAppUsageDatePub } from './appSettings/channels/SetFirstAppUsageDatePub'
 import { LoadLicensingChannelPub } from './licencing/channels/LoadLicensingChannelPub'
 import { SetLicenseKeyChannelPub } from './licencing/channels/SetLicenceKeyChannelPub'
+import { OpenStorePagePub } from './licencing/channels/OpenStorePagePub'
 
 export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
   rtmSendChannels: [
     // appSupport
     new OpenFileLocationPub(),
     new OpenSubmitFeedbackPub(),
+    new OpenStorePagePub(),
   ],
   rtmInvokeChannels: [
     // userSettings
