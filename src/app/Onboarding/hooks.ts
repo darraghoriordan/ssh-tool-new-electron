@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useGetAppSettings } from '../AppSettings/ReactQueryWrappers'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 
-export const useStartupRedirects = (): {
+export const useFirstRunRedirect = (): {
   isLoading: boolean
   error: { message: string } | null
   isError: boolean
@@ -14,6 +14,7 @@ export const useStartupRedirects = (): {
     error: getAppSettingsError,
     isError: getAppSettingsIsError,
   } = useGetAppSettings()
+
   const navigateRoute = useNavigate()
   const [logMessages, logAMessage] = useContext(ConsoleContext)
 

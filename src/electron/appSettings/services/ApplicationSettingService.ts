@@ -63,8 +63,6 @@ export class ApplicationSettingService {
       settings
     )
 
-    // would probably want to validate the settings here
-    //validateOrReject(settings)
     const validationErrors = await validate(
       plainToInstance(StoredApplicationSettings, settings)
     )
@@ -77,7 +75,7 @@ export class ApplicationSettingService {
       this.runtimeSettings.appSettingsFileLocation,
       JSON.stringify(instanceToPlain(settings))
     )
-
+    // update the cached settings
     this.loadedSettings = settings
   }
 

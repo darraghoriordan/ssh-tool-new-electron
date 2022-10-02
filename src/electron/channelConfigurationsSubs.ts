@@ -13,6 +13,8 @@ import { DecodeJwtChannelSub } from './jwtDecoder/channels/DecodeJwtChannelSub'
 import { SshUrlConverterChannelSub } from './sshConfigFile/channels/SshUrlConverterChannelSub'
 import { UnixTimeConverterChannelSub } from './unixTimeConverter/channels/UnixTimeConverterChannelSub'
 import { ChannelConfigurationTypeSub } from './ChannelConfigurationTypeSub'
+import { LoadLicensingChannelSub } from './licencing/channels/LoadLicensingChannelSub'
+import { SetLicenseKeyChannelSub } from './licencing/channels/SetLicenseKeyChannelSub'
 
 export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
   rtmSendChannels: [
@@ -28,6 +30,9 @@ export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
     //appSettings
     new LoadAppSettingsChannelSub(),
     new SetFirstAppUsageDateSub(),
+    // licencing
+    new LoadLicensingChannelSub(),
+    new SetLicenseKeyChannelSub(),
     // features
     new GitConfigFilesListSub(),
     new RescanGitConfigsChannelSub(),

@@ -9,6 +9,7 @@ import { SshUrlConverterScreen } from './SshUrlConverter/SshUrlConverterScreen'
 import { TimestampConverterScreen } from './TimestampConverter/TimeStampConverterScreen'
 import { QueryClientWrapper } from './QueryClientWrapper'
 import { OnboardingScreen } from './Onboarding/OnboardingScreen'
+import { LicensingScreen } from './Licensing/LicensingScreen'
 
 function AppRoutes() {
   return (
@@ -29,6 +30,7 @@ function AppRoutes() {
           element={<TimestampConverterScreen />}
         />
         <Route path="onboarding" element={<OnboardingScreen />} />
+        <Route path="licensing" element={<LicensingScreen />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

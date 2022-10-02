@@ -13,6 +13,8 @@ import { UnixTimeConverterChannelPub } from './unixTimeConverter/channels/UnixTi
 import { OpenSubmitFeedbackPub } from './appSupport/OpenSubmitFeedbackPub'
 import { LoadAppSettingsChannelPub } from './appSettings/channels/LoadAppSettingsChannelPub'
 import { SetFirstAppUsageDatePub } from './appSettings/channels/SetFirstAppUsageDatePub'
+import { LoadLicensingChannelPub } from './licencing/channels/LoadLicensingChannelPub'
+import { SetLicenseKeyChannelPub } from './licencing/channels/SetLicenceKeyChannelPub'
 
 export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
   rtmSendChannels: [
@@ -28,6 +30,9 @@ export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
     // appSettings
     new LoadAppSettingsChannelPub(),
     new SetFirstAppUsageDatePub(),
+    // licencing
+    new LoadLicensingChannelPub(),
+    new SetLicenseKeyChannelPub(),
     // features
     new GitConfigFilesListPub(),
     new RescanGitConfigsChannelPub(),

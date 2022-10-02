@@ -1,4 +1,4 @@
-import { CheckLicence } from './checkLicence'
+import { GumRoadLicenseService } from './gumRoadLicenceService'
 
 describe('integrationLicenseOnGumroad', () => {
   const testKey = 'A7D129B3-53C34643-809BDAC4-C2521AC1'
@@ -6,9 +6,9 @@ describe('integrationLicenseOnGumroad', () => {
   // skip because not a unit test - this has to call
   // gumroad to check the license
   it.skip('should return true if license is valid', async () => {
-    const license = await CheckLicence.getLicenseOnGumRoad(
+    const license = await GumRoadLicenseService.getLicenseOnGumRoad(
       testKey,
-      CheckLicence.productPermalink
+      GumRoadLicenseService.productPermalink
     )
     console.log('license', license)
     expect(license.purchase.license_key).toEqual(testKey)

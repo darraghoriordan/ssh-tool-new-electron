@@ -9,6 +9,7 @@ import { GitConfigsFileCacheService } from './gitConfigurations/services/GitConf
 import { UserSettingsService } from './userSettings/services/UserSettingsService'
 import { ApplicationSettingService } from './appSettings/services/ApplicationSettingService'
 import { RuntimeApplicationSettingsService } from './appSettings/services/RuntimeApplicationSettingsService'
+import { IncrementApplicationRuns } from './licencing/services/incrementApplicationRuns'
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
@@ -20,10 +21,14 @@ export default class Main {
     try {
       // Initialise some static shit. This is a bit of a hack, but it works.
       // should really add some kind of DI framework to make this cleaner.
+
       const runtimeSettings = RuntimeApplicationSettingsService.getSettings()
       ApplicationSettingService.init(runtimeSettings)
       UserSettingsService.init(runtimeSettings)
       GitConfigsFileCacheService.init(runtimeSettings)
+
+      console.log('incrementing run count...')
+      await IncrementApplicationRuns.increment()
 
       await app.on('ready', this.createWindow).whenReady()
 
