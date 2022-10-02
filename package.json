@@ -56,12 +56,7 @@
       [
         "@semantic-release/github",
         {
-          "assets": [
-            {
-              "path": "tmpBuild/*",
-              "label": "Scripts Distribution"
-            }
-          ]
+          "assets": []
         }
       ]
     ]
