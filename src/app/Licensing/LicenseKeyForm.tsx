@@ -14,7 +14,7 @@ export const LicenseKeyForm = () => {
   } = useForm()
 
   return (
-    <div className="bg-white rounded-lg shadow">
+    <div className="mx-auto bg-white rounded-lg shadow">
       <div className="max-w-3xl pt-12 pb-0 mx-auto text-center">
         <h2 className="text-3xl font-bold tracking-tight text-gray-900 ">
           Already have a license?

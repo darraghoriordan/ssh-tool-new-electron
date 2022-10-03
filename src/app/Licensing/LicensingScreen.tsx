@@ -8,6 +8,9 @@ import { UnLicenseDisplay } from './UnLicenseDisplay'
 import { LicenseDisplay } from './LicenseDisplay'
 import { TrialDisplay } from './TrialDisplay'
 import { CTADisplay } from './CTADisplay'
+import { CTADisplayFlex } from './CTADisplayFlex'
+import { CTAFromLicense } from './CTAFromLicense'
+import { CTADisplayOld } from './CTADisplayOld'
 export const LicensingScreen = () => {
   const [logMessages, logAMessage] = useContext(ConsoleContext)
 
@@ -18,19 +21,32 @@ export const LicensingScreen = () => {
   }
 
   return (
-    <div className="mx-auto max-w-10xl">
+    <div className="">
       <PageHeader pageTitle={'Your License Details'}></PageHeader>
-      <div className="flex flex-col space-y-8">
-        {data.licenseKey && !data.mustEnterLicenseKey && (
+      {data.licenseKey && !data.mustEnterLicenseKey && (
+        <div className="mt-8">
           <LicenseDisplay licence={data!} />
-        )}
-        {data.isTrialling && <TrialDisplay licence={data!} />}
-        {data.licenseKey && data.mustEnterLicenseKey && (
+        </div>
+      )}
+      {data.isTrialling && (
+        <div className="mt-8">
+          <TrialDisplay licence={data!} />{' '}
+        </div>
+      )}
+      {data.licenseKey && data.mustEnterLicenseKey && (
+        <div className="mt-8">
           <UnLicenseDisplay licence={data} />
-        )}
-        <CTADisplay />
-        {(data.isTrialling || data.mustEnterLicenseKey) && <LicenseKeyForm />}
+        </div>
+      )}
+
+      <div className="mt-8">
+        <CTADisplayOld />
       </div>
+      {(data.isTrialling || data.mustEnterLicenseKey) && (
+        <div className="mt-8">
+          <LicenseKeyForm />{' '}
+        </div>
+      )}
     </div>
   )
 }

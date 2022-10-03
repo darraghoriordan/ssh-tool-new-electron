@@ -17,20 +17,17 @@ export const Layout = () => {
 
   return (
     <div className="">
-      <div className="fixed inset-y-0 flex w-64 bg-gray-800">
+      <div className="fixed inset-y-0 z-50 flex w-64 bg-gray-800">
         <SidebarMenu />
       </div>
-      <div className="flex flex-col h-screen pl-64">
-        <div className="overflow-y-scroll h-4/5 max-h-4/5">
-          <main className="pt-8 mx-8 mb-auto min-h-10">
+      <div className="">
+        <div className="h-screen pl-64 overflow-auto pb-44">
+          <main className="pt-8 mx-8 mb-auto ">
             <Outlet />
           </main>
         </div>
-        <div className="flex items-center h-6 text-white border-t-2 border-b-2 bg-neutral-800 border-neutral-600 w-100">
-          <CommandLineIcon className="w-4 h-4 text-white" aria-hidden="true" />
-          <span className="ml-2 font-mono">console</span>
-        </div>
-        <div className="overflow-auto h-1/5 max-h-1/5">
+
+        <div className="absolute bottom-0 right-0 w-full pl-64">
           <Console />
         </div>
       </div>

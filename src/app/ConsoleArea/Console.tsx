@@ -17,8 +17,12 @@ export const Console = () => {
   }, [logMessages])
 
   return (
-    <div className="h-full bg-neutral-800">
-      <div className="pt-2 pl-2 bg-neutral-800 overflow-auto max-h-full">
+    <div className="h-40 bg-neutral-800">
+      <div className="h-8 flex items-center h-6 text-white border-t-2 border-b-2 bg-neutral-800 border-neutral-600 w-100">
+        <CommandLineIcon className="w-4 h-4 text-white" aria-hidden="true" />
+        <span className="ml-2 font-mono">console</span>
+      </div>
+      <div className="h-32 pt-2 pl-2 overflow-auto bg-neutral-800">
         <div
           className="font-mono text-sm whitespace-pre align h-100 bg-neutral-800"
           aria-readonly={true}
