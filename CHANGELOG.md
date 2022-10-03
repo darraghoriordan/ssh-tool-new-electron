@@ -1,3 +1,10 @@
+# [1.39.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.38.0...v1.39.0) (2022-10-03)
+
+
+### Features
+
+* added app specific menus ([2399ac8](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/2399ac813a6678b659e0e124be52d10d610e56e5))
+
 # [1.38.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.37.2...v1.38.0) (2022-10-03)
 
 
