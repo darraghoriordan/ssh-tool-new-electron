@@ -1,3 +1,13 @@
+## [1.37.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.37.0...v1.37.1) (2022-10-03)
+
+
+### Bug Fixes
+
+* all major linting issues ([fd23cf3](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/fd23cf37eb0aa112e6ef05fd2dbd6ee879e1c057))
+* all the layout issues - still in wip ([ceb100a](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/ceb100aae5179fff22a7429dd7ebfde3b9e3f94b))
+* delete old cta controls ([9d4263c](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/9d4263c7da3edcc6676afada8f438a5ed0537053))
+* set the min screen to pretty large - must test ([90cb226](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/90cb226751bb97e980e0f1aadff354089bab0d05))
+
 # [1.37.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.36.1...v1.37.0) (2022-10-02)
 
 
