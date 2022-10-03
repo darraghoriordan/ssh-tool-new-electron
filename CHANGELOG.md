@@ -1,3 +1,10 @@
+## [1.37.2](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.37.1...v1.37.2) (2022-10-03)
+
+
+### Bug Fixes
+
+* reset the height ([0eb7641](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/0eb7641d5352d8ba8cd731b759b1c261aec3eddf))
+
 ## [1.37.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.37.0...v1.37.1) (2022-10-03)
 
 
