@@ -60,9 +60,9 @@ export default class Main {
     this.mainWindow = new BrowserWindow({
       icon: path.join(assetsPath, 'assets', 'icons', 'icon.png'),
       minWidth: 1400,
-      minHeight: 1150,
+      minHeight: 800,
       width: 1400,
-      height: 1150,
+      height: 800,
       backgroundColor: '#191622',
       webPreferences: {
         nodeIntegration: false,
