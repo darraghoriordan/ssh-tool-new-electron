@@ -75,10 +75,10 @@ export const SettingsScreen = () => {
 
   if (!isLoading && data && control === undefined) {
     control = (
-      <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
+      <div className="px-4 py-5 bg-white shadow sm:rounded-lg sm:p-6">
         <div className="md:grid md:grid-cols-3 md:gap-6">
           <div className="md:col-span-1">
-            <h3 className="text-lg font-medium leading-6 text-gray-900">
+            <h3 className="text-lg font-medium text-gray-900 leading-6">
               Git Settings
             </h3>
             <p className="mt-1 text-sm text-gray-500">
@@ -94,10 +94,10 @@ export const SettingsScreen = () => {
                 >
                   Git project path to scan for repositories
                 </label>
-                <div className="mt-1 flex rounded-md shadow-sm">
+                <div className="flex mt-1 rounded-md shadow-sm">
                   <input
                     {...register('projectsPath', { required: true, min: 1 })}
-                    className="block w-full rounded-md border border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                    className="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                     defaultValue={data.projectsPath}
                   />
                 </div>
@@ -112,13 +112,13 @@ export const SettingsScreen = () => {
                 >
                   Global Git Config File
                 </label>
-                <div className="mt-1 flex rounded-md shadow-sm">
+                <div className="flex mt-1 rounded-md shadow-sm">
                   <input
                     {...register('globalGitConfigFile', {
                       required: true,
                       min: 1,
                     })}
-                    className="block w-full rounded-md border border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                    className="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                     defaultValue={data.globalGitConfigFile}
                   />
                 </div>
@@ -131,7 +131,7 @@ export const SettingsScreen = () => {
         </div>
         <div className="mt-8 md:grid md:grid-cols-3 md:gap-6">
           <div className="md:col-span-1">
-            <h3 className="text-lg font-medium leading-6 text-gray-900">
+            <h3 className="text-lg font-medium text-gray-900 leading-6">
               Ssh Settings
             </h3>
             <p className="mt-1 text-sm text-gray-500">
@@ -147,13 +147,13 @@ export const SettingsScreen = () => {
                 >
                   SSH Config File
                 </label>
-                <div className="mt-1 flex rounded-md shadow-sm">
+                <div className="flex mt-1 rounded-md shadow-sm">
                   <input
                     {...register('sshConfigFilePath', {
                       required: true,
                       min: 1,
                     })}
-                    className="block w-full rounded-md border border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                    className="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                     defaultValue={data.sshConfigFilePath}
                   />
                 </div>
@@ -169,11 +169,13 @@ export const SettingsScreen = () => {
     )
   }
   return (
-    <div className="max-w-10xl mx-auto">
+    <div className="mx-auto max-w-10xl">
+      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
       <form
         className="space-y-6"
         action="#"
         method="POST"
+        // eslint-disable-next-line react/no-unknown-property
         onError={e => {
           logAMessage({ message: `Form error at ${e.target}`, level: 'error' })
         }}
@@ -191,9 +193,9 @@ export const SettingsScreen = () => {
               type="button"
               disabled={resetMutation.isLoading}
               onClick={e => onOpenSettingsFolderClick(e)}
-              className="invisible inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="inline-flex items-center invisible px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
-              <FolderOpenIcon className="h-5 w-5 mr-2" />
+              <FolderOpenIcon className="w-5 h-5 mr-2" />
               Edit settings as JSON...
             </button>
           )}
@@ -202,9 +204,9 @@ export const SettingsScreen = () => {
             type="button"
             disabled={resetMutation.isLoading}
             onClick={e => onResetClick(e)}
-            className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
-            <ArrowPathIcon className="h-5 w-5 mr-2 " />
+            <ArrowPathIcon className="w-5 h-5 mr-2" />
             Reset All To Defaults
           </button>
 
@@ -212,18 +214,18 @@ export const SettingsScreen = () => {
             type="button"
             onClick={() => reset()}
             disabled={!isDirty}
-            className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
-            <XMarkIcon className="h-5 w-5 mr-2 " />
+            <XMarkIcon className="w-5 h-5 mr-2" />
             Cancel Changes
           </button>
 
           <button
             type="submit"
             disabled={saveMutation.isLoading}
-            className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
-            <DocumentCheckIcon className="h-5 w-5 mr-2 " />
+            <DocumentCheckIcon className="w-5 h-5 mr-2" />
             Save
           </button>
         </PageHeader>

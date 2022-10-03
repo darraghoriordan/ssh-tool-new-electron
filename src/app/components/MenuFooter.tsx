@@ -23,13 +23,13 @@ export const MenuFooter = () => {
     if (dataLL.isTrialling) {
       return (
         <>
-          <p className="text-xs text-center text-gray-300 font-mono">
+          <p className="font-mono text-xs text-center text-gray-300">
             {`Trial (${dataLL.trialRemainingDays} days remaining)`}
           </p>
           <p>
             <NavLink
               to="/licensing"
-              className="text-pink-400 hover:text-gray-100 underline"
+              className="text-pink-400 underline hover:text-gray-100"
             >
               Buy now
             </NavLink>
@@ -39,10 +39,10 @@ export const MenuFooter = () => {
     }
 
     return (
-      <p className="text-xs text-center text-gray-300 font-mono">
+      <p className="font-mono text-xs text-center text-gray-300">
         <NavLink
           to="/licensing"
-          className="text-xs text-gray-300 hover:text-gray-100 underline"
+          className="text-xs text-gray-300 underline hover:text-gray-100"
         >
           View license details
         </NavLink>
@@ -56,12 +56,12 @@ export const MenuFooter = () => {
         onClick={e => openSubmitFeedback(e)}
         title="Submit Feedback - opens in a browser"
         type="button"
-        className="font-mono inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        className="inline-flex items-center px-4 py-2 font-mono text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
       >
-        <EnvelopeIcon className="h-5 w-5 mr-2" />
+        <EnvelopeIcon className="w-5 h-5 mr-2" />
         Submit Feedback
       </button>
-      <p className="text-center text-gray-300 font-mono">
+      <p className="font-mono text-center text-gray-300">
         version {data?.runtimeApplicationSettings.appVersion || 'unknown'}
       </p>
 

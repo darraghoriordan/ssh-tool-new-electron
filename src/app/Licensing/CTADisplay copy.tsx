@@ -40,16 +40,16 @@ export const CTADisplay = () => {
   }
 
   return (
-    <div className="mt-8 bg-white rounded-lg shadow min-h-max">
-      <div className="inline-block px-4 mx-auto">
-        <div className="max-w-3xl pt-12 mx-auto text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 ">
+    <div className="mt-8 bg-white rounded-lg shadow">
+      <div className="px-4 py-16 mx-auto">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900">
             Ready to purchase a License?
           </h2>
-          <p className="pt-4 text-lg">
+          <p className="mt-4 text-lg">
             Visit{' '}
             <a
-              className="mx-1 text-blue-700 underline bg-pink-200 rounded-md"
+              className="p-1 mx-1 text-blue-700 underline bg-pink-200 rounded-md"
               href="https://devshell.darraghoriordan.com"
               onClick={e => openOpenStore(e)}
             >
@@ -58,26 +58,24 @@ export const CTADisplay = () => {
             to get a license
           </p>
         </div>
-        <div>
-          <dl className="gap-y-6 grid grid-cols-3 gap-x-6">
-            {features.map(feature => (
-              <div key={feature.name} className="relative">
-                <dt>
-                  <CheckIcon
-                    className="absolute w-6 h-6 text-green-500"
-                    aria-hidden="true"
-                  />
-                  <p className="text-lg font-medium text-gray-900 ml-9 leading-6">
-                    {feature.name}
-                  </p>
-                </dt>
-                <dd className="text-base text-gray-500 ml-9">
-                  {feature.description}
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </div>
+        <dl className="mt-12 gap-y-6 grid grid-cols-3 gap-x-6">
+          {features.map(feature => (
+            <div key={feature.name} className="relative">
+              <dt>
+                <CheckIcon
+                  className="absolute w-6 h-6 text-green-500"
+                  aria-hidden="true"
+                />
+                <p className="text-lg font-medium text-gray-900 ml-9 leading-6">
+                  {feature.name}
+                </p>
+              </dt>
+              <dd className="mt-2 text-base text-gray-500 ml-9">
+                {feature.description}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </div>
   )

@@ -17,14 +17,14 @@ export const Console = () => {
   }, [logMessages])
 
   return (
-    <div className="h-1/5 overflow-y-clip">
-      <div className="text-white bg-neutral-800 border-neutral-600 border-t-2 w-100 border-b-2 pl-4 flex items-center">
-        <CommandLineIcon className="h-4 w-4 text-white" aria-hidden="true" />
-        <span className="font-mono ml-2">console</span>
+    <div className="h-100">
+      <div className="flex items-center pl-4 text-white border-t-2 border-b-2 bg-neutral-800 border-neutral-600 w-100 h-1/6">
+        <CommandLineIcon className="w-4 h-4 text-white" aria-hidden="true" />
+        <span className="ml-2 font-mono">console</span>
       </div>
-      <div className="bg-neutral-800 h-full overflow-auto w-full pb-8">
+      <div className="w-full pb-8 overflow-auto bg-neutral-800 h-5/6">
         <div
-          className="font-mono pl-4 text-sm whitespace-pre align-top"
+          className="pl-4 font-mono text-sm whitespace-pre align-top"
           aria-readonly={true}
           aria-label="message console"
         >

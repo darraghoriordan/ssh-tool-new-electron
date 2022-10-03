@@ -47,28 +47,28 @@ export function TimestampConverterScreen() {
   }
 
   return (
-    <div className="max-w-10xl mx-auto">
+    <div className="mx-auto max-w-10xl">
       <PageHeader pageTitle={'Timestamp converter'}>
         <button
           onClick={e => insertSampleValue(e)}
           type="button"
-          className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         >
-          <ArrowDownIcon className="h-5 w-5 mr-2" />
+          <ArrowDownIcon className="w-5 h-5 mr-2" />
           Try with sample data
         </button>
         <button
           type="button"
           onClick={e => onSubmitClick(e)}
           disabled={mutation.isLoading}
-          className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         >
-          <DocumentCheckIcon className="h-5 w-5 mr-2 " />
+          <DocumentCheckIcon className="w-5 h-5 mr-2" />
           Submit
         </button>
       </PageHeader>
 
-      <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
+      <div className="px-4 py-5 bg-white shadow sm:rounded-lg sm:p-6">
         <div className="mb-8">
           <label
             htmlFor="data"
@@ -76,19 +76,19 @@ export function TimestampConverterScreen() {
           >
             Enter a timestamp - ISO8601 or Unix format
           </label>
-          <div className="mt-1 flex rounded-md shadow-sm">
+          <div className="flex mt-1 rounded-md shadow-sm">
             <input
               name="data"
               id="data"
               onChange={e => setInputValue(e.target.value)}
               placeholder="Unix or ISO timestamp"
-              className="block w-full rounded-md border border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+              className="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               value={inputValue}
             />
           </div>
         </div>
-        <p className="block text-sm font-medium text-gray-700 mb-4">Result</p>
-        <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
+        <p className="block mb-4 text-sm font-medium text-gray-700">Result</p>
+        <div className="px-4 py-5 border-t border-gray-200 sm:p-0">
           <dl className="sm:divide-y sm:divide-gray-200">
             <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
               <dt className="text-sm font-medium text-gray-500">

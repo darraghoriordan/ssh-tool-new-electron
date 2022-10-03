@@ -74,20 +74,20 @@ export function GitConfigurationListScreen() {
               // go to new url
               navigateRoute('/settings')
             }}
-            className="mt-8 relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="relative block w-full p-12 mt-8 text-center border-2 border-gray-300 border-dashed rounded-lg hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
             <Cog6ToothIcon
               className={'block mx-auto h-40 w-40'}
               aria-hidden="true"
             />
 
-            <span className="mt-2 block text-sm font-medium text-gray-900">
+            <span className="block mt-2 text-sm font-medium text-gray-900">
               No Git configuration files found. <br />
               Click here to go to the App Settings screen and verify the Git
               project paths.
             </span>
-            <span className="mt-8 block text-sm font-medium text-gray-900">
-              When you're done, return here and click on the rescan button.
+            <span className="block mt-8 text-sm font-medium text-gray-900">
+              When you&apos;re done, return here and click on the rescan button.
             </span>
           </button>
         </>
@@ -95,11 +95,11 @@ export function GitConfigurationListScreen() {
     } else {
       control = (
         <div className="">
-          <ul role="list">
+          <ul>
             {data?.configList
               .sort((x, y) => (x.path > y.path ? 1 : 0))
               .map(gitConfigInfo => (
-                <li key={gitConfigInfo.path} className="py-4 flex-1">
+                <li key={gitConfigInfo.path} className="flex-1 py-4">
                   <GitConfigurationViewCard
                     gitConfigInfo={gitConfigInfo}
                     globalUser={data.globalUser}
@@ -113,7 +113,7 @@ export function GitConfigurationListScreen() {
   }
 
   return (
-    <div className="max-w-10xl mx-auto">
+    <div className="mx-auto max-w-10xl">
       <PageHeader pageTitle={'Git Project Configurations'}>
         <div className="">
           <input
@@ -127,9 +127,9 @@ export function GitConfigurationListScreen() {
           <button
             onClick={e => onOpenFolderClick(e, data.globalGitConfigPath)}
             type="button"
-            className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
-            <FolderOpenIcon className="h-5 w-5 mr-2" />
+            <FolderOpenIcon className="w-5 h-5 mr-2" />
             Open global Git config...
           </button>
         )}
@@ -138,9 +138,9 @@ export function GitConfigurationListScreen() {
           onClick={() => resetCachesMutation.mutate()}
           disabled={isLoading}
           type="button"
-          className="inline-flex items-center px-2.5 py-1.5 border border-transparent text-sm font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="inline-flex items-center text-sm font-medium text-white bg-indigo-600 border border-transparent rounded px-2.5 py-1.5 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
-          <ArrowPathIcon className="h-5 w-5 mr-2 " />
+          <ArrowPathIcon className="w-5 h-5 mr-2" />
           Rescan for projects
         </button>
       </PageHeader>

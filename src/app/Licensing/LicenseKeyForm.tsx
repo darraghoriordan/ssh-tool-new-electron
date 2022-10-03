@@ -14,37 +14,26 @@ export const LicenseKeyForm = () => {
   } = useForm()
 
   return (
-    <div className="mt-8 overflow-hidden bg-white shadow rounded-lg">
-      <div className="px-4 pt-5">
-        <h3 className="text-lg font-medium leading-6 text-gray-900">
+    <div className="overflow-hidden bg-white rounded-lg shadow">
+      <div className="max-w-3xl pt-12 pb-0 mx-auto text-center">
+        <h2 className="text-3xl font-bold tracking-tight text-gray-900 ">
           Already have a license?
-        </h3>
-        <p className="mt-1 max-w-2xl text-sm text-gray-500">
+        </h2>
+        <p className="pt-4 pb-0 text-lg">
           Thanks for your purchase! Please enter your license key below.
         </p>
       </div>
+
       <div className="px-4 py-5">
+        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
         <form
           className="mb-8 "
           action="#"
           method="POST"
-          onError={e => {
-            logAMessage({
-              message: `Form error at ${e.target}`,
-              level: 'error',
-            })
-          }}
           onSubmit={handleSubmit(async data => {
             const result = await setLicense.mutateAsync({
               licenseKey: data['license-key'],
             })
-
-            // if (!result.licenseKey) {
-            //   logAMessage({
-            //     message: `License key not accepted`,
-            //     level: 'error',
-            //   })
-            // }
           })}
         >
           <label htmlFor="license-key" className="sr-only">
@@ -53,13 +42,13 @@ export const LicenseKeyForm = () => {
           <input
             {...register('license-key', { required: true, min: 4 })}
             required
-            className="w-full rounded-md border border-gray-800 px-5 py-3 placeholder-gray-500 focus:border-indigo-500 focus:ring-indigo-500"
+            className="w-full px-5 py-3 placeholder-gray-500 border border-gray-800 rounded-md focus:border-indigo-500 focus:ring-indigo-500"
             placeholder="Enter your license key"
           />
-          <div className="mt-3 rounded-md shadow">
+          <div className="mt-3 shadow rounded-md">
             <button
               type="submit"
-              className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-5 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="flex items-center justify-center w-full px-5 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               Set License Key
             </button>

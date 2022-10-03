@@ -16,16 +16,18 @@ export const Layout = () => {
 
   return (
     <div className="">
-      <div className="flex w-64 fixed inset-y-0 bg-gray-800">
+      <div className="fixed inset-y-0 flex w-64 bg-gray-800">
         <SidebarMenu />
       </div>
-      <div className="pl-64 h-screen justify-between">
+      <div className="justify-between h-screen pl-64">
         <div className="pt-8 overflow-y-scroll h-4/5">
           <main className="mx-8 mb-auto min-h-10">
             <Outlet />
           </main>
         </div>
-        <Console />
+        <div className="overflow-y-hidden h-1/5">
+          <Console />
+        </div>
       </div>
     </div>
   )

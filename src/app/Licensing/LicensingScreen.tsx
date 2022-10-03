@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { ReactElement, useContext, useState } from 'react'
-import PageHeader, { PageHeaderProps } from '../components/PageHeader'
+import React, { useContext } from 'react'
+import PageHeader from '../components/PageHeader'
 import { useGetLicensing } from './ReactQueryWrappers'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 import { LicenseKeyForm } from './LicenseKeyForm'
@@ -18,7 +18,7 @@ export const LicensingScreen = () => {
   }
 
   return (
-    <div className="max-w-10xl mx-auto">
+    <div className="mx-auto max-w-10xl">
       <PageHeader pageTitle={'Your License Details'}></PageHeader>
       <div className="">
         {data.licenseKey && !data.mustEnterLicenseKey && (

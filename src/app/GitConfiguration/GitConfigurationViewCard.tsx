@@ -43,13 +43,13 @@ const GitConfigurationViewCard = (props: GitConfigurationViewCardProps) => {
   }
 
   return (
-    <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+    <div className="overflow-hidden bg-white shadow sm:rounded-lg">
       <div className="px-4 py-5 sm:px-6">
-        <h3 className="text-lg leading-6 font-medium text-gray-900">
+        <h3 className="text-lg font-medium text-gray-900 leading-6">
           {origin?.repoName}
         </h3>
       </div>
-      <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
+      <div className="px-4 py-5 border-t border-gray-200 sm:px-6">
         <div className="mb-4">
           <dt className="text-sm font-medium text-gray-500">Config Location</dt>
           <dd className="mt-1 text-sm text-gray-900">
@@ -82,14 +82,14 @@ const GitConfigurationViewCard = (props: GitConfigurationViewCardProps) => {
           </div>
         </div>
       </div>
-      <div className="border-t border-gray-200 px-4 py-5 sm:px-6 flex justify-start space-x-3">
+      <div className="flex justify-start px-4 py-5 border-t border-gray-200 sm:px-6 space-x-3">
         <button
           type="button"
           // disabled={resetMutation.isLoading}
           onClick={e => onOpenSettingsFolderClick(e)}
-          className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         >
-          <FolderOpenIcon className="h-5 w-5 mr-2" />
+          <FolderOpenIcon className="w-5 h-5 mr-2" />
           Open config location...
         </button>
         {props.gitConfigInfo.userAsIniString && (
@@ -102,9 +102,9 @@ const GitConfigurationViewCard = (props: GitConfigurationViewCardProps) => {
                 props.gitConfigInfo.userAsIniString || ''
               )
             }
-            className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
-            <DocumentDuplicateIcon className="h-5 w-5 mr-2" />
+            <DocumentDuplicateIcon className="w-5 h-5 mr-2" />
             Copy user in git config format
           </button>
         )}

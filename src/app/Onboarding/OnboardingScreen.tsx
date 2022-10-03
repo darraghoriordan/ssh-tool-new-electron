@@ -39,7 +39,7 @@ export function OnboardingScreen() {
   ])
 
   return (
-    <div className="max-w-10xl mx-auto">
+    <div className="mx-auto max-w-10xl">
       <PageHeader pageTitle={''}></PageHeader>
       <OnboardingDialog closed={closed} setClosed={setClosed} />
     </div>

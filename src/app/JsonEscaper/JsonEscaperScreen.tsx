@@ -42,12 +42,15 @@ export function JsonEscaperScreen() {
 
   if (escapeJsonMutation && !escapeJsonMutation.isError) {
     control = (
-      <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
+      <div className="px-4 py-5 bg-white shadow sm:rounded-lg sm:p-6">
         <div className=" mb-8">
-          <label className="text-base font-medium text-gray-900">
+          <label
+            htmlFor="escaping"
+            className="text-base font-medium text-gray-900"
+          >
             Escape or Unescape
           </label>
-          <p className="text-sm leading-5 text-gray-500">
+          <p className="text-sm text-gray-500 leading-5">
             Are you escaping or unescaping your json?
           </p>
           <fieldset className="mt-4">
@@ -61,11 +64,11 @@ export function JsonEscaperScreen() {
                   onChange={e =>
                     setUnescapeToggleValue(e.currentTarget.id === 'unescape')
                   }
-                  className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                  className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
                 />
                 <label
                   htmlFor="escaping"
-                  className="ml-3 block text-sm font-medium text-gray-700"
+                  className="block ml-3 text-sm font-medium text-gray-700"
                 >
                   Escape
                 </label>
@@ -79,11 +82,11 @@ export function JsonEscaperScreen() {
                     setUnescapeToggleValue(e.currentTarget.id === 'unescape')
                   }
                   type="radio"
-                  className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                  className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
                 />
                 <label
                   htmlFor="unescape"
-                  className="ml-3 block text-sm font-medium text-gray-700"
+                  className="block ml-3 text-sm font-medium text-gray-700"
                 >
                   Unescape
                 </label>
@@ -97,7 +100,7 @@ export function JsonEscaperScreen() {
           id="data"
           onChange={e => setInputValue(e.target.value)}
           placeholder="Paste your content here"
-          className="mb-4 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          className="block w-full mb-4 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           value={inputValue}
         />
         <label
@@ -112,30 +115,30 @@ export function JsonEscaperScreen() {
           disabled={true}
           id="decoded"
           placeholder="Click the submit button"
-          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          className="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           value={outputValue}
         />
       </div>
     )
   }
   return (
-    <div className="max-w-10xl mx-auto">
+    <div className="mx-auto max-w-10xl">
       <PageHeader pageTitle={'Json Escaper'}>
         <button
           onClick={e => insertSampleValue(e)}
           type="button"
-          className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         >
-          <ArrowDownIcon className="h-5 w-5 mr-2" />
+          <ArrowDownIcon className="w-5 h-5 mr-2" />
           Try with sample data
         </button>
         <button
           type="button"
           onClick={e => onDecodeClick(e)}
           disabled={escapeJsonMutation.isLoading}
-          className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         >
-          <DocumentCheckIcon className="h-5 w-5 mr-2 " />
+          <DocumentCheckIcon className="w-5 h-5 mr-2" />
           Submit
         </button>
       </PageHeader>

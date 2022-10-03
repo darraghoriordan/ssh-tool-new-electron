@@ -100,7 +100,7 @@ export const SshUrlConverterScreen = () => {
   if (mutation) {
     control = (
       <>
-        <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
+        <div className="px-4 py-5 bg-white shadow sm:rounded-lg sm:p-6">
           <div className="mb-8">
             <label
               htmlFor="data"
@@ -108,20 +108,20 @@ export const SshUrlConverterScreen = () => {
             >
               Enter an ssh or http git url
             </label>
-            <div className="mt-1 flex rounded-md shadow-sm">
+            <div className="flex mt-1 rounded-md shadow-sm">
               <input
                 name="data"
                 id="data"
                 value={inputValue}
                 onChange={e => setInputValue(e.target.value)}
                 placeholder="paste a git url here"
-                className="block w-full rounded-md border border-gray-300 py-3 px-4 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                className="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               />
             </div>
 
             {outputValue?.httpUrl && (
               <>
-                <p className="text-md leading-5 text-gray-500 mt-8 mb-2">
+                <p className="mt-8 mb-2 text-gray-500 text-md leading-5">
                   http direct url
                 </p>
                 <div className="flex items-center">
@@ -131,9 +131,9 @@ export const SshUrlConverterScreen = () => {
                     onClick={e =>
                       onCopyClick(e, `git clone ${outputValue?.httpUrl}`)
                     }
-                    className="mr-8 inline-flex items-center rounded-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="inline-flex items-center px-2 py-2 mr-8 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >
-                    <DocumentDuplicateIcon className="h-5 w-5 mr-2" />
+                    <DocumentDuplicateIcon className="w-5 h-5 mr-2" />
                     Copy
                   </button>
                   <span className="font-mono">
@@ -144,7 +144,7 @@ export const SshUrlConverterScreen = () => {
             )}
             {outputValue?.sshUrl && (
               <>
-                <p className="text-md leading-5 text-gray-500 mt-4 mb-2">
+                <p className="mt-4 mb-2 text-gray-500 text-md leading-5">
                   ssh direct url
                 </p>
                 <div className="flex items-center">
@@ -154,9 +154,9 @@ export const SshUrlConverterScreen = () => {
                     onClick={e =>
                       onCopyClick(e, `git clone ${outputValue?.sshUrl}`)
                     }
-                    className="mr-8 inline-flex items-center rounded-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="inline-flex items-center px-2 py-2 mr-8 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >
-                    <DocumentDuplicateIcon className="h-5 w-5 mr-2" />
+                    <DocumentDuplicateIcon className="w-5 h-5 mr-2" />
                     Copy
                   </button>
                   <span className="font-mono">
@@ -168,7 +168,7 @@ export const SshUrlConverterScreen = () => {
 
             {outputValue?.sshAliases.map((x, i) => (
               <div key={i}>
-                <p className="text-md leading-5 text-gray-500 mt-4 mb-2">
+                <p className="mt-4 mb-2 text-gray-500 text-md leading-5">
                   {x.alias}
                 </p>
                 <div className="flex items-center">
@@ -176,9 +176,9 @@ export const SshUrlConverterScreen = () => {
                     type="button"
                     // disabled={resetMutation.isLoading}
                     onClick={e => onCopyClick(e, `git clone ${x.url}`)}
-                    className="mr-8 inline-flex items-center rounded-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="inline-flex items-center px-2 py-2 mr-8 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >
-                    <DocumentDuplicateIcon className="h-5 w-5 mr-2" />
+                    <DocumentDuplicateIcon className="w-5 h-5 mr-2" />
                     Copy
                   </button>
                   <span className="font-mono">git clone {x.url}</span>
@@ -191,33 +191,33 @@ export const SshUrlConverterScreen = () => {
     )
   }
   return (
-    <div className="max-w-10xl mx-auto">
+    <div className="mx-auto max-w-10xl">
       <PageHeader pageTitle={'Git Url Converter'}>
         {data?.sshConfigFilePath && (
           <button
             onClick={e => onOpenFolderClick(e, data.sshConfigFilePath)}
             type="button"
-            className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
-            <FolderOpenIcon className="h-5 w-5 mr-2" />
+            <FolderOpenIcon className="w-5 h-5 mr-2" />
             Open global ssh config...
           </button>
         )}
         <button
           onClick={e => insertSampleValue(e)}
           type="button"
-          className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         >
-          <ArrowDownIcon className="h-5 w-5 mr-2" />
+          <ArrowDownIcon className="w-5 h-5 mr-2" />
           Try with sample data
         </button>
         <button
           type="button"
           onClick={e => onSubmitClick(e)}
           disabled={mutation.isLoading}
-          className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         >
-          <DocumentCheckIcon className="h-5 w-5 mr-2 " />
+          <DocumentCheckIcon className="w-5 h-5 mr-2" />
           Submit
         </button>
       </PageHeader>
