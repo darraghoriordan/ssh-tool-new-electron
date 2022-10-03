@@ -1,7 +1,7 @@
 import { CheckIcon } from '@heroicons/react/24/outline'
 const features = [
   {
-    name: 'Perpetual License',
+    name: 'A Perpetual License',
     description:
       'You buy a license and you own the tools forever. No more subscriptions.',
   },
@@ -16,17 +16,17 @@ const features = [
       'Useful tools that I built for myself and I use them every day.',
   },
   {
-    name: '1 year of updates',
+    name: '1 Year of Updates',
     description:
       'You get 1 year of free updates with your license. You can still use the last version if your updates expire.',
   },
   {
-    name: 'Use on 5 computers',
+    name: 'Use on 5 Computers',
     description:
       'Your license is valid for 5 computers. There is team licensing available for your business.',
   },
   {
-    name: 'Offline tools',
+    name: 'Safe Offline Tools',
     description:
       'You can paste your json and JWTs with confidence. Stop using random internet sites.',
   },
@@ -39,13 +39,13 @@ export const CTADisplayOld = () => {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow">
-      <div className="px-4 mx-auto">
-        <div className="flex flex-col max-w-3xl mx-auto text-center">
-          <h2 className="inline-block text-3xl font-bold tracking-tight text-gray-900 ">
+    <div className="px-4 py-10 mx-auto bg-white rounded-lg shadow">
+      <div className=" ">
+        <div className="max-w-3xl pb-0 mx-auto text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900 ">
             Ready to purchase a License?
           </h2>
-          <span className="">
+          <p className="pb-0 my-8 text-lg">
             Visit{' '}
             <a
               className="mx-1 text-blue-700 underline bg-pink-200 rounded-md"
@@ -55,7 +55,7 @@ export const CTADisplayOld = () => {
               http://devshell.darraghoriordan.com
             </a>{' '}
             to get a license
-          </span>
+          </p>
         </div>
         <div>
           <dl className="gap-y-6 grid grid-cols-3 gap-x-6">
