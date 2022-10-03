@@ -38,8 +38,8 @@ export const CTADisplayManualElements = () => {
                 </p>
               </dt>
               <dd className="text-base text-gray-500 ml-9">
-                You buy a license and you own the tools forever. No more
-                subscriptions.
+                You buy a license and you own the tools forever. No
+                subscriptions for offline tools.
               </dd>
             </div>
             <div className="relative">
@@ -53,8 +53,8 @@ export const CTADisplayManualElements = () => {
                 </p>
               </dt>
               <dd className="text-base text-gray-500 ml-9">
-                Local dev tools is universal. You can use the tools on work and
-                home computers.
+                Local dev tools is universal. You can use the tools on Windows
+                or Mac computers.
               </dd>
             </div>
             <div className="relative">
@@ -93,12 +93,12 @@ export const CTADisplayManualElements = () => {
                   aria-hidden="true"
                 />
                 <p className="text-lg font-medium text-gray-900 ml-9 leading-6">
-                  Use on 5 Computers
+                  Use on all your Computers
                 </p>
               </dt>
               <dd className="text-base text-gray-500 ml-9">
-                Your license is valid for 5 computers. There is team licensing
-                available for your business.
+                Your license is valid for multiple computers. You can use the
+                tools on work and home computers or purchase for a team.
               </dd>
             </div>
             <div className="relative">
