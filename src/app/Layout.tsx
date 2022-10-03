@@ -16,18 +16,18 @@ export const Layout = () => {
   }
 
   return (
-    <div className="">
+    <div className="overflow-hidden">
       <div className="fixed inset-y-0 z-50 flex w-64 bg-gray-800">
         <SidebarMenu />
       </div>
       <div className="">
-        <div className="h-screen pl-64 overflow-auto pb-44">
-          <main className="pt-8 mx-8 mb-auto ">
+        <div className="pl-64 pb-44">
+          <main className="h-full pt-8 mx-8 mb-auto overflow-clip">
             <Outlet />
           </main>
         </div>
 
-        <div className="absolute bottom-0 right-0 w-full pl-64">
+        <div className="fixed bottom-0 right-0 w-full pl-64">
           <Console />
         </div>
       </div>

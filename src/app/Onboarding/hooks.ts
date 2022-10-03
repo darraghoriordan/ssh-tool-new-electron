@@ -36,13 +36,13 @@ export const useFirstRunRedirect = (): {
     }
     if (licenceData && licenceData.mustEnterLicenseKey === true) {
       logAMessage({
-        message: `License not found. Redirecting to purchase page.`,
+        message: `License not found. Redirecting to license screen.`,
         level: 'info',
       })
 
       navigateRoute('/licensing') // change to welcome screen
     }
-  }, [appSettingsData, licenceData, navigateRoute])
+  }, [appSettingsData, licenceData])
 
   return {
     isLoading: isLoadingGetAppSettings || licIsLd,

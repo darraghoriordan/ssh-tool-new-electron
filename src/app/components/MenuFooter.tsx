@@ -1,4 +1,4 @@
-import { EnvelopeIcon } from '@heroicons/react/24/outline'
+import { HeartIcon } from '@heroicons/react/24/solid'
 import { ReactElement } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useGetAppSettings } from '../AppSettings/ReactQueryWrappers'
@@ -56,12 +56,12 @@ export const MenuFooter = () => {
         onClick={e => openSubmitFeedback(e)}
         title="Submit Feedback - opens in a browser"
         type="button"
-        className="inline-flex items-center px-4 py-2 font-mono text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        className="inline-flex items-center px-4 py-2 mb-2 font-mono text-sm font-medium text-black bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
       >
-        <EnvelopeIcon className="w-5 h-5 mr-2" />
+        <HeartIcon className="w-5 h-5 mr-2 text-pink-500" />
         Submit Feedback
       </button>
-      <p className="font-mono text-center text-gray-300">
+      <p className="font-mono text-xs text-center text-gray-300">
         version {data?.runtimeApplicationSettings.appVersion || 'unknown'}
       </p>
 

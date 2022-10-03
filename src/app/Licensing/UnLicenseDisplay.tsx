@@ -4,10 +4,10 @@ import React from 'react'
 export const UnLicenseDisplay = (props: { licence: LicenseDataDto }) => {
   return (
     <div className="overflow-hidden bg-white shadow sm:rounded-lg">
-      <div className="px-4 sm:px-6">
-        <h3 className="text-lg font-medium text-gray-900 leading-6">
+      <div className="px-4 py-6 sm:px-6">
+        <h2 className="text-3xl font-bold tracking-tight text-gray-900 ">
           No License
-        </h3>
+        </h2>
         <p className="max-w-2xl mt-1 text-sm text-gray-500">
           The license found is not valid
         </p>
