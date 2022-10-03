@@ -17,14 +17,10 @@ export const Console = () => {
   }, [logMessages])
 
   return (
-    <div className="h-100">
-      <div className="flex items-center pl-4 text-white border-t-2 border-b-2 bg-neutral-800 border-neutral-600 w-100 h-1/6">
-        <CommandLineIcon className="w-4 h-4 text-white" aria-hidden="true" />
-        <span className="ml-2 font-mono">console</span>
-      </div>
-      <div className="w-full pb-8 overflow-auto bg-neutral-800 h-5/6">
+    <div className="h-full bg-neutral-800">
+      <div className="pt-2 pl-2 bg-neutral-800 overflow-auto max-h-full">
         <div
-          className="pl-4 font-mono text-sm whitespace-pre align-top"
+          className="font-mono text-sm whitespace-pre align h-100 bg-neutral-800"
           aria-readonly={true}
           aria-label="message console"
         >
@@ -65,7 +61,7 @@ export const Console = () => {
                 )
             }
           })}
-          <div ref={consoleScrollRef} />
+          <div ref={consoleScrollRef} className="h-0" />
         </div>
       </div>
     </div>

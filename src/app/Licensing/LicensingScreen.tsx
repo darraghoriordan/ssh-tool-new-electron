@@ -20,7 +20,7 @@ export const LicensingScreen = () => {
   return (
     <div className="mx-auto max-w-10xl">
       <PageHeader pageTitle={'Your License Details'}></PageHeader>
-      <div className="">
+      <div className="flex flex-col space-y-8">
         {data.licenseKey && !data.mustEnterLicenseKey && (
           <LicenseDisplay licence={data!} />
         )}

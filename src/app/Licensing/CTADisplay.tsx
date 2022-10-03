@@ -40,13 +40,13 @@ export const CTADisplay = () => {
   }
 
   return (
-    <div className="mt-8 bg-white rounded-lg shadow min-h-max">
-      <div className="inline-block px-4 mx-auto">
-        <div className="max-w-3xl pt-12 mx-auto text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 ">
+    <div className="bg-white rounded-lg shadow">
+      <div className="px-4 mx-auto">
+        <div className="max-w-3xl mx-auto text-center flex flex-col">
+          <h2 className="inline-block text-3xl font-bold tracking-tight text-gray-900 ">
             Ready to purchase a License?
           </h2>
-          <p className="pt-4 text-lg">
+          <span className="">
             Visit{' '}
             <a
               className="mx-1 text-blue-700 underline bg-pink-200 rounded-md"
@@ -56,7 +56,7 @@ export const CTADisplay = () => {
               http://devshell.darraghoriordan.com
             </a>{' '}
             to get a license
-          </p>
+          </span>
         </div>
         <div>
           <dl className="gap-y-6 grid grid-cols-3 gap-x-6">
