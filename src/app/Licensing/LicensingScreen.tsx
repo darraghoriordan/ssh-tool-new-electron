@@ -7,9 +7,6 @@ import { LicenseKeyForm } from './LicenseKeyForm'
 import { UnLicenseDisplay } from './UnLicenseDisplay'
 import { LicenseDisplay } from './LicenseDisplay'
 import { TrialDisplay } from './TrialDisplay'
-import { CTADisplay } from './CTADisplay'
-import { CTADisplayFlex } from './CTADisplayFlex'
-import { CTAFromLicense } from './CTAFromLicense'
 import { CTADisplayOld } from './CTADisplayOld'
 export const LicensingScreen = () => {
   const [logMessages, logAMessage] = useContext(ConsoleContext)
@@ -44,7 +41,7 @@ export const LicensingScreen = () => {
       </div>
       {(data.isTrialling || data.mustEnterLicenseKey) && (
         <div className="mt-8">
-          <LicenseKeyForm />{' '}
+          <LicenseKeyForm />
         </div>
       )}
     </div>
