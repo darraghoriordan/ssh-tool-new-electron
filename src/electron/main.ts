@@ -30,10 +30,7 @@ export default class Main {
       await app.on('ready', this.createWindow).whenReady()
 
       console.log('registering channels...')
-      await this.registerIpChannels(
-        config.rtmSendChannels,
-        config.rtmInvokeChannels
-      )
+      this.registerIpChannels(config.rtmSendChannels, config.rtmInvokeChannels)
       console.log('channels registered')
     } catch (error) {
       console.error(error)
@@ -65,6 +62,7 @@ export default class Main {
       height: 800,
       backgroundColor: '#191622',
       webPreferences: {
+        devTools: !app.isPackaged,
         nodeIntegration: false,
         contextIsolation: true,
         preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
@@ -72,6 +70,10 @@ export default class Main {
     })
 
     this.mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
+
+    if (process.env.NODE_ENV !== 'development') {
+      Main.setMenu()
+    }
 
     this.mainWindow.on('closed', () => {
       this.mainWindow = null
@@ -82,7 +84,7 @@ export default class Main {
     }
   }
 
-  registerIpChannels(
+  private registerIpChannels(
     rtmSendChannels: IIpcMainSendEventSub<unknown>[],
     rtmInvokeChannels: IIpcMainInvokeEventSub<unknown, unknown>[]
   ) {
@@ -100,26 +102,24 @@ export default class Main {
     })
   }
 
-  setMenu() {
+  private static setMenu() {
     const isMac = process.platform === 'darwin'
-    const macMenu = isMac
-      ? {
-          label: app.name,
-          submenu: [
-            { role: 'about' },
-            { type: 'separator' },
-            { role: 'services' },
-            { type: 'separator' },
-            { role: 'hide' },
-            { role: 'hideOthers' },
-            { role: 'unhide' },
-            { type: 'separator' },
-            { role: 'quit' },
-          ],
-        }
-      : {}
+    const macMenu = {
+      label: app.name,
+      submenu: [
+        { role: 'about' },
+        { type: 'separator' },
+        { role: 'services' },
+        { type: 'separator' },
+        { role: 'hide' },
+        { role: 'hideOthers' },
+        { role: 'unhide' },
+        { type: 'separator' },
+        { role: 'quit' },
+      ],
+    }
+
     const template = [
-      macMenu,
       // { role: 'fileMenu' }
       {
         label: 'File',
@@ -156,12 +156,26 @@ export default class Main {
               ]),
         ],
       },
+      // { role: 'viewMenu' }
       {
         label: 'View',
-        submenu: [{ role: 'togglefullscreen' }],
+        submenu: [
+          //   { role: 'reload' },
+          //   { role: 'forceReload' },
+          //   { role: 'toggleDevTools' },
+          //   { type: 'separator' },
+          { role: 'resetZoom' },
+          { role: 'zoomIn' },
+          { role: 'zoomOut' },
+          { type: 'separator' },
+          { role: 'togglefullscreen' },
+        ],
       },
     ]
 
+    if (isMac) {
+      template.unshift(macMenu)
+    }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const menu = Menu.buildFromTemplate(template as any)
     Menu.setApplicationMenu(menu)

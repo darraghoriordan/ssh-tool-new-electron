@@ -18,6 +18,7 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "make:win": "electron-forge make --platform=win32 --arch=ia32 && electron-forge make --platform=win32 --arch=x64",
+    "make:win64": " electron-forge make --platform=win32 --arch=x64",
     "make:mac": "electron-forge make --platform=darwin --arch=arm64 && electron-forge make --platform=darwin --arch=x64",
     "publish": "electron-forge publish",
     "release": "npx semantic-release",

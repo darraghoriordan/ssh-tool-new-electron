@@ -11,7 +11,8 @@ export class PaidLicensingService {
     // it won't clear any data
     await GumRoadLicenseService.updateStoredLicence(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      licenseKey
+      licenseKey,
+      true
     )
 
     // refresh the settings because we may have updated them
@@ -71,7 +72,8 @@ export class PaidLicensingService {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       await GumRoadLicenseService.updateStoredLicence(
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        applicationSettings.storedApplicationSettings.licenseKey!
+        applicationSettings.storedApplicationSettings.licenseKey!,
+        false
       )
     }
 

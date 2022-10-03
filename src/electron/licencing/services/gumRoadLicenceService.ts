@@ -5,7 +5,10 @@ import fetch from 'node-fetch'
 
 export class GumRoadLicenseService {
   static productPermalink = 'localtools'
-  static updateStoredLicence = async (licenceKey: string) => {
+  static updateStoredLicence = async (
+    licenceKey: string,
+    incrementUses: boolean
+  ) => {
     const { storedApplicationSettings } =
       await ApplicationSettingService.getSettings()
     try {
@@ -13,7 +16,8 @@ export class GumRoadLicenseService {
         // we know license is available from a previous check so we can use ! here
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         licenceKey,
-        this.productPermalink
+        this.productPermalink,
+        incrementUses
       )
 
       // ok so update the local settings with all the gumroad data
@@ -37,7 +41,8 @@ export class GumRoadLicenseService {
 
   static async getLicenseOnGumRoad(
     licenseKey: string,
-    productPermaLink: string
+    productPermaLink: string,
+    incrementUses: boolean
   ): Promise<GumRoadLicenseResponse> {
     try {
       // call gumroad api to validate license
@@ -46,7 +51,7 @@ export class GumRoadLicenseService {
         body: JSON.stringify({
           product_permalink: productPermaLink,
           license_key: licenseKey,
-          increment_uses_count: false,
+          increment_uses_count: incrementUses,
         }),
         headers: { 'Content-Type': 'application/json' },
       })

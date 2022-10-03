@@ -8,7 +8,8 @@ describe('integrationLicenseOnGumroad', () => {
   it.skip('should return true if license is valid', async () => {
     const license = await GumRoadLicenseService.getLicenseOnGumRoad(
       testKey,
-      GumRoadLicenseService.productPermalink
+      GumRoadLicenseService.productPermalink,
+      false
     )
     console.log('license', license)
     expect(license.purchase.license_key).toEqual(testKey)
