@@ -1,3 +1,10 @@
+# [1.38.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.37.2...v1.38.0) (2022-10-03)
+
+
+### Features
+
+* final changes to CTA ([bb32f5b](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/bb32f5b86a116b34e38842d0067d9188e087aa0f))
+
 ## [1.37.2](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.37.1...v1.37.2) (2022-10-03)
 
 
