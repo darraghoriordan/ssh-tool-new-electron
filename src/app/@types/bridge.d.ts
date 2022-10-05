@@ -31,6 +31,18 @@ import {
 import { AppSettingsResponse } from '../../electron/appSettings/channels/MessageTypes'
 import { LicenseDataDto } from '../../electron/licencing/models/LicenseDataDto'
 import { SetLicenseKeyRequest } from '../../electron/licencing/channels/SetLicenseKeyChannelSub'
+import {
+  StringCaseMessage,
+  StringCaseResponse,
+} from '../../electron/stringCase/channels/MessageTypes'
+import {
+  StringSorterMessage,
+  StringSorterResponse,
+} from '../../electron/stringSorter/channels/MessageTypes'
+import {
+  UrlEncoderMessage,
+  UrlEncoderResponse,
+} from '../../electron/urlEncoder/channels/MessageTypes'
 
 declare global {
   // eslint-disable-next-line
@@ -81,5 +93,14 @@ declare global {
       invoke: (message: SetLicenseKeyRequest) => Promise<LicenseDataDto>
     }
     OpenStorePage: { invoke: () => void }
+    UrlEncoder: {
+      invoke: (message: UrlEncoderMessage) => Promise<UrlEncoderResponse>
+    }
+    StringSorter: {
+      invoke: (message: StringSorterMessage) => Promise<StringSorterResponse>
+    }
+    StringCase: {
+      invoke: (message: StringCaseMessage) => Promise<StringCaseResponse>
+    }
   }
 }

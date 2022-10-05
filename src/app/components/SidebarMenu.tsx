@@ -6,6 +6,9 @@ import {
   FunnelIcon,
   CommandLineIcon,
   LinkIcon,
+  CursorArrowRippleIcon,
+  ChevronUpDownIcon,
+  BarsArrowDownIcon,
 } from '@heroicons/react/24/outline'
 import { NavLink } from 'react-router-dom'
 import logo from '../../assets/logo-grey800-prompt.png'
@@ -51,16 +54,29 @@ const navigation = [
     current: false,
   },
   {
+    name: 'String Case Converter',
+    href: '/string-case',
+    icon: ChevronUpDownIcon,
+    current: false,
+  },
+  {
+    name: 'Uri Encoder',
+    href: '/url-encoder',
+    icon: CursorArrowRippleIcon,
+    current: false,
+  },
+  {
+    name: 'String Sort',
+    href: '/string-sort',
+    icon: BarsArrowDownIcon,
+    current: false,
+  },
+  {
     name: 'App Settings',
     href: '/settings',
     icon: Cog6ToothIcon,
     current: false,
   },
-  //   { name: 'Team', href: '#', icon: UsersIcon, current: false },
-  //   { name: 'Projects', href: '#', icon: FolderIcon, current: false },
-  //   { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-  //   { name: 'Documents', href: '#', icon: InboxIcon, current: false },
-  //   { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
 ]
 
 function classNames(...classes: string[]) {

@@ -16,6 +16,9 @@ import { SetFirstAppUsageDatePub } from './appSettings/channels/SetFirstAppUsage
 import { LoadLicensingChannelPub } from './licencing/channels/LoadLicensingChannelPub'
 import { SetLicenseKeyChannelPub } from './licencing/channels/SetLicenceKeyChannelPub'
 import { OpenStorePagePub } from './licencing/channels/OpenStorePagePub'
+import { UrlEncoderChannelPub } from './urlEncoder/channels/UrlEncoderChannelPub'
+import { StringCaseChannelPub } from './stringCase/channels/StringCaseChannelPub'
+import { StringSorterChannelPub } from './stringSorter/channels/StringSorterChannelPub'
 
 export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
   rtmSendChannels: [
@@ -43,5 +46,8 @@ export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
     new EscapeJsonChannelPub(),
     new Base64EncoderChannelPub(),
     new UnixTimeConverterChannelPub(),
+    new StringCaseChannelPub(),
+    new StringSorterChannelPub(),
+    new UrlEncoderChannelPub(),
   ],
 }

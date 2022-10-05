@@ -10,6 +10,9 @@ import { TimestampConverterScreen } from './TimestampConverter/TimeStampConverte
 import { QueryClientWrapper } from './QueryClientWrapper'
 import { OnboardingScreen } from './Onboarding/OnboardingScreen'
 import { LicensingScreen } from './Licensing/LicensingScreen'
+import { UrlEncoderScreen } from './UrlEscaper/UrlEncoderScreen'
+import { StringSorterScreen } from './StringSorter/StringSorterScreen'
+import { StringCaseConverterScreen } from './StringCaseConverter/StringCaseConverterScreen'
 
 function AppRoutes() {
   return (
@@ -31,6 +34,9 @@ function AppRoutes() {
         />
         <Route path="onboarding" element={<OnboardingScreen />} />
         <Route path="licensing" element={<LicensingScreen />} />
+        <Route path="string-case" element={<StringCaseConverterScreen />} />
+        <Route path="url-encoder" element={<UrlEncoderScreen />} />
+        <Route path="string-sort" element={<StringSorterScreen />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

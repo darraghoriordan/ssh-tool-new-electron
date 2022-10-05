@@ -3,7 +3,6 @@ import React from 'react'
 import { Outlet } from 'react-router-dom'
 import { SidebarMenu } from './components/SidebarMenu'
 import { useFirstRunRedirect } from './Onboarding/hooks'
-import { CommandLineIcon } from '@heroicons/react/24/outline'
 
 export const Layout = () => {
   const { isError, isLoading, error } = useFirstRunRedirect()

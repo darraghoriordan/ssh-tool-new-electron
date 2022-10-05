@@ -16,6 +16,9 @@ import { ChannelConfigurationTypeSub } from './ChannelConfigurationTypeSub'
 import { LoadLicensingChannelSub } from './licencing/channels/LoadLicensingChannelSub'
 import { SetLicenseKeyChannelSub } from './licencing/channels/SetLicenseKeyChannelSub'
 import { OpenStorePageSub } from './licencing/channels/OpenStorePageSub'
+import { UrlEncoderChannelSub } from './urlEncoder/channels/UrlEncoderChannelSub'
+import { StringSorterChannelSub } from './stringSorter/channels/StringSorterChannelSub'
+import { StringCaseChannelSub } from './stringCase/channels/StringCaseChannelSub'
 
 export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
   rtmSendChannels: [
@@ -44,5 +47,8 @@ export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
     new EscapeJsonChannelSub(),
     new Base64EncoderChannelSub(),
     new UnixTimeConverterChannelSub(),
+    new UrlEncoderChannelSub(),
+    new StringSorterChannelSub(),
+    new StringCaseChannelSub(),
   ],
 }
