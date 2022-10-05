@@ -1,3 +1,10 @@
+# [1.40.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.39.1...v1.40.0) (2022-10-05)
+
+
+### Features
+
+* add url converter and string manipulators ([1b607f0](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/1b607f0726ed24bebda30b337c7851e15fa94649))
+
 ## [1.39.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.39.0...v1.39.1) (2022-10-03)
 
 
