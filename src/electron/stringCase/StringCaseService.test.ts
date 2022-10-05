@@ -15,13 +15,9 @@ describe('UrlEncoderService', () => {
     [`abcd 1234 abcd`, StringCases.title, `Abcd 1234 Abcd`],
     [`abcd 1234`, StringCases.upper, `ABCD 1234`],
     [
-      `THIS IS A SAMPLE VALUE
-    and_another_sample_value
-    none more sample value`,
+      `THIS IS A SAMPLE VALUE\nand_another_sample_value\none-more-sample-value`,
       StringCases.lower,
-      `THIS IS A SAMPLE VALUE
-    and_another_sample_value
-    none more sample value`,
+      `this is a sample value\nand another sample value\none more sample value`,
     ],
   ])(
     'is an expected response when changing case',
