@@ -1,3 +1,10 @@
+## [1.39.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.39.0...v1.39.1) (2022-10-03)
+
+
+### Bug Fixes
+
+* added name explicitly ([977e639](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/977e6398b3efb470ee205aff9ae8d83258b59431))
+
 # [1.39.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.38.0...v1.39.0) (2022-10-03)
 
 

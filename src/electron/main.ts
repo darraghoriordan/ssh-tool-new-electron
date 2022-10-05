@@ -105,7 +105,7 @@ export default class Main {
   private static setMenu() {
     const isMac = process.platform === 'darwin'
     const macMenu = {
-      label: app.name,
+      label: 'Local Dev Tools',
       submenu: [
         { role: 'about' },
         { type: 'separator' },
