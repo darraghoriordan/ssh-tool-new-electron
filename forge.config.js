@@ -37,7 +37,7 @@ const forgeConfig = {
             appleIdPassword: process.env.APPLE_ID_PASS,
           }
         : false,
-    extraResource: ['src/assets/icons/icon.code.icns'],
+    extraResource: ['src/assets/icons/icon.icns'],
   },
   makers: [
     {
