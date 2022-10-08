@@ -1,3 +1,11 @@
+# [1.42.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.41.0...v1.42.0) (2022-10-08)
+
+
+### Features
+
+* add a pr check ([55e4755](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/55e4755a633a11bee9eadb53ea414cda95c84a30))
+* remove semantic check ([c08be84](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/c08be84adadbc6301bbcec4642dad6b0d4844b0f))
+
 # [1.41.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.40.1...v1.41.0) (2022-10-08)
 
 
