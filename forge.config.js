@@ -7,10 +7,10 @@ const forgeConfig = {
     darwinDarkModeSupport: 'false',
     // Electron-forge automatically adds the file extension based on OS
 
-    // The binary name should always be uppercase Zettlr. As we cannot specify
+    // The binary name should always be uppercase. As we cannot specify
     // this on a per-maker basis, we need to output everything this way. With
-    // this property, macOS builds are named Zettlr.app, Windows builds
-    // Zettlr.exe and the linux binaries are called Zettlr (albeit on Linux,
+    // this property, macOS builds are named Appname.app, Windows builds
+    // Appname.exe and the linux binaries are called Appname (albeit on Linux,
     // lowercase is preferred). Due to the last issue (Linux binaries being
     // with capital Z) we have to explicitly set executableName on the Linux
     // target.
@@ -53,7 +53,11 @@ const forgeConfig = {
     },
     {
       name: '@electron-forge/maker-zip',
-      platforms: ['darwin', 'win32'],
+      platforms: [],
+    },
+    {
+      name: '@electron-forge/maker-appx',
+      platforms: ['win32'],
     },
     {
       name: '@electron-forge/maker-deb',

@@ -2,8 +2,9 @@ import { ApplicationSettingService } from '../../appSettings/services/Applicatio
 import { differenceInDays, differenceInHours } from 'date-fns'
 import { LicenseDataDto } from '../models/LicenseDataDto'
 import { GumRoadLicenseService } from './gumRoadLicenceService'
-import { buildDate } from '../buildDate'
+import { buildDate } from '../buildSettings'
 import { StoredApplicationSettings } from '../../appSettings/models/StoredApplicationSettings'
+import { licensingLimits } from './licensingLimits'
 
 export class PaidLicensingService {
   static async setLicenseKey(licenseKey: string): Promise<LicenseDataDto> {
@@ -37,10 +38,6 @@ export class PaidLicensingService {
     }
     return result
   }
-
-  static trialPeriodDays = 14
-  static licenceRecheckPeriodInHours = 24
-  static licenceValidForNewBuildsInDays = 366
 
   static async getCurrentLicenseState(): Promise<LicenseDataDto> {
     // is there a local license?
@@ -99,6 +96,8 @@ export class PaidLicensingService {
     isLicenceValidForCurrentBuild: boolean
   ): LicenseDataDto {
     const licenseData = new LicenseDataDto()
+    licenseData.licenseTermSentence =
+      'Perpetual use license. Mac and Windows. 1 year of updates.'
     licenseData.licenseKey = applicationSettings.licenseKey
     licenseData.licensedUserEmail = applicationSettings.licensedUserEmail
     licenseData.licenceCreatedDate = applicationSettings.licenseCreatedOn
@@ -138,7 +137,7 @@ export class PaidLicensingService {
     }
     return (
       differenceInHours(nowDate, licenceLastChecked) >
-      this.licenceRecheckPeriodInHours
+      licensingLimits.licenceRecheckPeriodInHours
     )
   }
   private static isLicensePresent(licenseKey: string | undefined): boolean {
@@ -153,7 +152,7 @@ export class PaidLicensingService {
       return 366 // if this breaks don't break the app for customers
     }
     const value =
-      this.licenceValidForNewBuildsInDays -
+      licensingLimits.licenceValidForNewBuildsInDays -
       differenceInDays(nowDate, licenceCreatedDate)
     return value > 0 ? value : 0
   }
@@ -166,7 +165,7 @@ export class PaidLicensingService {
       return true // if this breaks don't break the app for customers
     }
     const diffDays = differenceInDays(buildDate, licenceCreated)
-    return diffDays <= this.licenceValidForNewBuildsInDays
+    return diffDays <= licensingLimits.licenceValidForNewBuildsInDays
   }
 
   static getRemainingDaysInTrialPeriod(
@@ -174,10 +173,11 @@ export class PaidLicensingService {
     nowDate: Date
   ): number {
     if (firstRunDate === undefined) {
-      return this.trialPeriodDays
+      return licensingLimits.trialPeriodDays
     }
 
-    const value = this.trialPeriodDays - differenceInDays(nowDate, firstRunDate)
+    const value =
+      licensingLimits.trialPeriodDays - differenceInDays(nowDate, firstRunDate)
 
     return value > 0 ? value : 0
   }
