@@ -15,14 +15,17 @@
   },
   "scripts": {
     "start": "electron-forge start",
+    "prepBuildSettings:win": "cross-env USE_STORE_LICENSE=false powershell -NoProfile -ExecutionPolicy Unrestricted -File ./buildTools/release-prepare.ps1",
+    "prepBuildSettings:win-store": "cross-env USE_STORE_LICENSE=true powershell -NoProfile -ExecutionPolicy Unrestricted -File ./buildTools/release-prepare.ps1",
+    "prepBuildSettings:bash": "cross-env USE_STORE_LICENSE=false && chmod +x ./buildTools/release-prepare.sh && ./buildTools/release-prepare.sh",
     "package": "cross-env NODE_ENV=production SKIP_TYPECHECKING=true electron-forge package",
-    "package:mac-x64": "cross-env NODE_ENV=production electron-forge package --platform=darwin --arch=x64",
-    "package:mac-arm": "cross-env NODE_ENV=production electron-forge package --platform=darwin --arch=arm64",
-    "package:win-x64": "cross-env NODE_ENV=production electron-forge package --platform=win32 --arch=x64",
-    "package:win-x64-store": "cross-env USE_STORE_LICENSE=false bash ./buildTools/release-prepare.sh && cross-env NODE_ENV=production electron-forge package --platform=win32 --arch=x64",
-    "package:win-arm": "cross-env NODE_ENV=production electron-forge package --platform=win32 --arch=arm64",
-    "package:linux-x64": "cross-env NODE_ENV=production electron-forge package --platform=linux --arch=x64",
-    "package:linux-arm": "cross-env NODE_ENV=production electron-forge package --platform=linux --arch=arm64",
+    "package:mac-x64": "yarn prepBuildSettings:bash && cross-env NODE_ENV=production electron-forge package --platform=darwin --arch=x64",
+    "package:mac-arm": "yarn prepBuildSettings:bash &&cross-env NODE_ENV=production electron-forge package --platform=darwin --arch=arm64",
+    "package:win-x64": "yarn prepBuildSettings:win && cross-env NODE_ENV=production electron-forge package --platform=win32 --arch=x64",
+    "package:win-x64-store": "yarn prepBuildSettings:win-store && cross-env NODE_ENV=production electron-forge package --platform=win32 --arch=x64",
+    "package:win-arm": "yarn prepBuildSettings:win && cross-env NODE_ENV=production electron-forge package --platform=win32 --arch=arm64",
+    "package:linux-x64": "yarn prepBuildSettings:bash &&cross-env NODE_ENV=production electron-forge package --platform=linux --arch=x64",
+    "package:linux-arm": "yarn prepBuildSettings:bash &&cross-env NODE_ENV=production electron-forge package --platform=linux --arch=arm64",
     "release:mac-x64": "electron-builder --mac --x64 --publish never --prepackaged out/LocalDevTools-darwin-x64/LocalDevTools.app",
     "release:mac-arm": "electron-builder --mac --arm64 --publish never --prepackaged out/LocalDevTools-darwin-arm64/LocalDevTools.app",
     "release:win-x64": "electron-builder --win --x64 --publish never --prepackaged out/LocalDevTools-win32-x64",
@@ -49,12 +52,6 @@
     "plugins": [
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
-      [
-        "@semantic-release/exec",
-        {
-          "prepareCmd": "chmod +x ./buildTools/release-prepare.sh && ./buildTools/release-prepare.sh"
-        }
-      ],
       "@semantic-release/changelog",
       "@semantic-release/npm",
       [

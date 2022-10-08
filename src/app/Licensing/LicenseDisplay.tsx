@@ -8,7 +8,7 @@ export const LicenseDisplay = (props: { licence: LicenseDataDto }) => {
           Paid License
         </h2>
         <p className="max-w-2xl mt-1 text-sm text-gray-500">
-          Perpetual use license. 1 year of updates.
+          {props.licence.licenseTermSentence}
         </p>
       </div>
       <div className="px-4 py-5 border-t border-gray-200 sm:p-0">
