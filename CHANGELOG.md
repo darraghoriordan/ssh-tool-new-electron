@@ -1,3 +1,16 @@
+# [1.41.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.40.1...v1.41.0) (2022-10-08)
+
+
+### Bug Fixes
+
+* the forge config ([ff14526](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/ff145266a8923ac6f1b3620d857f80a88b384519))
+
+
+### Features
+
+* add a build config ([98bb874](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/98bb874abf3fed01baee84902d035a8f38337e45))
+* update the builds ([ebcd909](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/ebcd909f09f8eaaf9970ab6ebe398af6dba232b9))
+
 ## [1.40.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.40.0...v1.40.1) (2022-10-05)
 
 
