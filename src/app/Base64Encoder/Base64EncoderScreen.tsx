@@ -15,6 +15,10 @@ export function Base64EncoderScreen() {
   let control: ReactElement | undefined = undefined
   const onDecodeClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
+    return runAction()
+  }
+
+  const runAction = async () => {
     const input = {
       data: inputValue,
       encode: encodeToggleValue,
@@ -31,6 +35,13 @@ export function Base64EncoderScreen() {
 
     const result = await encodeBase64Mutation.mutateAsync(input)
     setOutputValue(result.result)
+  }
+  const handleInputKeyDown = async (
+    event: React.KeyboardEvent<HTMLTextAreaElement>
+  ) => {
+    if (event.key === 'Enter') {
+      return runAction()
+    }
   }
   const insertSampleValue = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
@@ -95,6 +106,7 @@ export function Base64EncoderScreen() {
           rows={4}
           name="data"
           id="data"
+          onKeyDown={handleInputKeyDown}
           onChange={e => setInputValue(e.target.value)}
           placeholder="Paste your content here"
           className="block w-full mb-4 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"

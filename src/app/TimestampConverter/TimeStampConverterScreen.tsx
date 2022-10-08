@@ -16,10 +16,18 @@ export function TimestampConverterScreen() {
     localeDate: '',
     utcDate: '',
   } as UnixTimeConverterResponse)
-
+  const handleInputKeyDown = async (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (event.key === 'Enter') {
+      return runAction()
+    }
+  }
   const onSubmitClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
-
+    return runAction()
+  }
+  const runAction = async () => {
     if (!inputValue || inputValue.length < 4) {
       // there is a regex on the "backend"
       logAMessage({
@@ -80,6 +88,7 @@ export function TimestampConverterScreen() {
             <input
               name="data"
               id="data"
+              onKeyDown={handleInputKeyDown}
               onChange={e => setInputValue(e.target.value)}
               placeholder="Unix or ISO timestamp"
               className="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"

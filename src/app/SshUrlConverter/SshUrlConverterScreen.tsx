@@ -66,6 +66,9 @@ export const SshUrlConverterScreen = () => {
 
   const onSubmitClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
+    return runAction()
+  }
+  const runAction = async () => {
     const input = {
       gitUrl: inputValue,
     }
@@ -77,6 +80,13 @@ export const SshUrlConverterScreen = () => {
 
     const result = await mutation.mutateAsync(input)
     setOutputValue(result.possibleGitUrls)
+  }
+  const handleInputKeyDown = async (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (event.key === 'Enter') {
+      return runAction()
+    }
   }
   const onOpenFolderClick = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -112,6 +122,7 @@ export const SshUrlConverterScreen = () => {
               <input
                 name="data"
                 id="data"
+                onKeyDown={handleInputKeyDown}
                 value={inputValue}
                 onChange={e => setInputValue(e.target.value)}
                 placeholder="paste a git url here"
