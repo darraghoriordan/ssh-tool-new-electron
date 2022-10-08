@@ -1,0 +1,106 @@
+# Electron Builder configuration file: Directs Electron builder to produce
+# packages for our officially supported distributions.
+#
+# Formerly the "build" key in the package.json.
+appId: com.darraghor.localdevtools
+productName: LocalDevTools
+npmRebuild: false
+copyright: Darragh ORiordan
+# fileAssociations:
+#   - ext: md
+#     name: Markdown
+#     description: Markdown document
+#     mimeType: text/markdown
+#     role: Editor
+#     isPackage: false
+#   - ext: markdown
+#     name: Markdown
+#     description: Markdown document
+#     mimeType: text/markdown
+#     role: Editor
+#     isPackage: false
+#   - ext: rmd
+#     name: RMarkdown
+#     description: RMarkdown document
+#     mimeType: text/markdown
+#     role: Editor
+#     isPackage: false
+directories:
+  output: release
+#
+# Generic macOS options
+#
+mac:
+  category: 'public.app-category.developer-tools'
+  target:
+    - dmg
+  artifactName: 'LocalDevTools-${version}-${arch}.${ext}'
+  icon: './src/assets/icons/icon.icns'
+  darkModeSupport: false
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  entitlements: './src/assets/mac-store-meta/entitlements.plist'
+  entitlementsInherit: './src/assets/mac-store-meta/entitlements.plist'
+#
+# Generic Windows options
+#
+win:
+  target:
+    - nsis
+  artifactName: 'LocalDevTools-${version}-${arch}.${ext}'
+  icon: './src/assets/icons/icon.ico'
+#
+# Generic Linux options
+#
+linux:
+  target:
+    - AppImage
+    - deb
+    - rpm
+    - zip
+  artifactName: 'LocalDevTools-${version}-${arch}.${ext}'
+  executableName: LocalDevTools
+  synopsis: Local Dev Tools
+  category: Office
+  icon: './src/assets/icons/png'
+  desktop:
+    StartupWMClass: localDevTools
+#
+# Configuration for DMG builds
+#
+dmg:
+  # background: './resources/icons/dmg/dmg_back.tiff'
+  icon: './src/assets/icons/icon.icns'
+  contents:
+    - x: 130
+      y: 220
+    - x: 410
+      y: 220
+      type: link
+      path: '/Applications'
+  window:
+    width: 540
+    height: 400
+#
+# Configuration for NSIS builds
+#
+nsis:
+  oneClick: false
+  perMachine: false
+  allowElevation: true
+  allowToChangeInstallationDirectory: true
+  uninstallDisplayName: ${productName}
+  # installerHeader: './resources/NSIS/NSISinstallerHeader.bmp'
+  # installerSidebar: './resources/NSIS/NSISinstallerSidebar.bmp'
+  license: ./LICENSE
+#
+# Configuration for Debian builds
+#
+deb:
+  priority: optional
+  compression: xz
+#
+# Configuration for Fedora builds
+#
+rpm:
+  compression: xz
