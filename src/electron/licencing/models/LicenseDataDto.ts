@@ -9,4 +9,5 @@ export class LicenseDataDto {
   trialRemainingDays!: number
   paidUpdatesRemainingDays!: number
   isLicenceValidForCurrentBuild!: boolean
+  licenseTermSentence!: string
 }

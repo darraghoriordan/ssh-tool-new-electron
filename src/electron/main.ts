@@ -10,6 +10,9 @@ import { UserSettingsService } from './userSettings/services/UserSettingsService
 import { ApplicationSettingService } from './appSettings/services/ApplicationSettingService'
 import { RuntimeApplicationSettingsService } from './appSettings/services/RuntimeApplicationSettingsService'
 import { IncrementApplicationRuns } from './licencing/services/incrementApplicationRuns'
+import installExtension, {
+  REACT_DEVELOPER_TOOLS,
+} from 'electron-devtools-installer'
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
@@ -51,8 +54,31 @@ export default class Main {
     })
   }
 
-  private createWindow() {
+  private async createWindow() {
     const assetsPath = app.getAppPath()
+    if (!app.isPackaged) {
+      try {
+        await installExtension(REACT_DEVELOPER_TOOLS)
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err: any) {
+        console.error(
+          `Could not install DevTools extension: ${String(err.message)}`,
+          err
+        )
+      }
+    }
+    app.setAboutPanelOptions({
+      applicationName: 'Local Dev Tools',
+      applicationVersion: app.getVersion(),
+      copyright: `Copyright (c) 2021 - ${new Date().getFullYear()} by Darragh ORiordan`,
+      // version: If we ever introduce a build number. This defaults to the Electron version.
+      credits:
+        'Thanks to all the contributors to open source projects that make an app like possible for one person to build.',
+      authors: ['Darragh ORiordan'], // TODO: Somehow generate the contributors list.
+      website: 'https://www.darraghoriordan.com/',
+      iconPath: process.execPath,
+    })
 
     this.mainWindow = new BrowserWindow({
       icon: path.join(assetsPath, 'assets', 'icons', 'icon.png'),
@@ -181,5 +207,11 @@ export default class Main {
     Menu.setApplicationMenu(menu)
   }
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+process.on('unhandledRejection', (err: any) => {
+  // Just log to console.
+  console.error('[Application] Unhandled rejection received', err)
+})
 
 new Main().init(ChannelConfigurationSubs)
