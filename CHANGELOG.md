@@ -1,3 +1,10 @@
+# [1.43.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.42.0...v1.43.0) (2022-10-08)
+
+
+### Features
+
+* use enter key to submit where it makes sense ([b9e8fe2](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/b9e8fe2a8e4244d0e9eb477e7749b4f90aab0cf3))
+
 # [1.42.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.41.0...v1.42.0) (2022-10-08)
 
 
