@@ -1,3 +1,10 @@
+## [1.43.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.43.0...v1.43.1) (2022-10-09)
+
+
+### Bug Fixes
+
+* remove code signing from windows builds ([1716462](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/171646257c2c8341378e5af7d35f5665a5d07660))
+
 # [1.43.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.42.0...v1.43.0) (2022-10-08)
 
 
