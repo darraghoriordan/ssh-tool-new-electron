@@ -17,7 +17,7 @@
     "start": "electron-forge start",
     "prepBuildSettings:win": "cross-env USE_STORE_LICENSE=false powershell -NoProfile -ExecutionPolicy Unrestricted -File ./buildTools/release-prepare.ps1",
     "prepBuildSettings:win-store": "cross-env USE_STORE_LICENSE=true powershell -NoProfile -ExecutionPolicy Unrestricted -File ./buildTools/release-prepare.ps1",
-    "prepBuildSettings:bash": "cross-env USE_STORE_LICENSE=false && chmod +x ./buildTools/release-prepare.sh && ./buildTools/release-prepare.sh",
+    "prepBuildSettings:bash": "chmod +x ./buildTools/release-prepare.sh && cross-env USE_STORE_LICENSE=false  ./buildTools/release-prepare.sh",
     "package": "cross-env NODE_ENV=production SKIP_TYPECHECKING=true electron-forge package",
     "package:mac-x64": "yarn prepBuildSettings:bash && cross-env NODE_ENV=production electron-forge package --platform=darwin --arch=x64",
     "package:mac-arm": "yarn prepBuildSettings:bash && cross-env NODE_ENV=production electron-forge package --platform=darwin --arch=arm64",
