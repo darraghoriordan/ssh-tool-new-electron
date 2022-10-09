@@ -1,3 +1,10 @@
+## [1.49.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.49.0...v1.49.1) (2022-10-09)
+
+
+### Bug Fixes
+
+* typo ([9b7921f](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/9b7921f85ac84d490f49b41a1223e4b1c5c26537))
+
 # [1.49.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.48.0...v1.49.0) (2022-10-09)
 
 
