@@ -1,3 +1,10 @@
+# [1.47.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.46.0...v1.47.0) (2022-10-09)
+
+
+### Features
+
+* use do action ([5ec2893](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/5ec2893e5ca2a66c10759adb2324e08642e8d8f0))
+
 # [1.46.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.45.0...v1.46.0) (2022-10-09)
 
 
