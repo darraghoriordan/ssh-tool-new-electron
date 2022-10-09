@@ -41,11 +41,7 @@ jobs:
         # env:
         # CSC_LINK: ${{ secrets.WIN_CERT_2025_03_15 }}
         # CSC_KEY_PASSWORD: ${{ secrets.WIN_CERT_PASS_2025_03_15 }}
-      # The ARM64 artifact is being output simply as .exe w/o arch, since we
-      # have to include --ia32 in the build flags for ARM builds (thus,
-      # strictly speaking it has two architectures).
-      - name: Rename arm64 artifact
-        run: mv ./release/LocalDevTools-${{steps.extract_version.outputs.version}}.exe ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-arm64.exe
+
       # Now we need to cache all artifacts. We create one artifact per build
       # step. It should be noted that "artifacts" are more like file shares.
       # Thus they can contain multiple files.
@@ -95,27 +91,35 @@ jobs:
       #   with:
       #     name: linux
       #     path: ./release
-
-      # OTHERWISE: Create a new release draft
-      - name: Create release draft
-        uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: shallwefootball/s3-upload-action@master
+        name: Upload to Store
+        id: DOUpload
         with:
-          # Populate the inputs of the release we already know
-          tag_name: v${{steps.extract_version.outputs.version}}
-          name: Release v${{steps.extract_version.outputs.version}}
-          body: If you can read this, we have forgotten to fill in the changelog. Sorry!
-          draft: true # Always create as draft, so that we can populate the remaining values easily
-          # Gosh, is that convenient as opposed to earlier!
-          files: |
-            ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-x64.exe
-            ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-arm64.exe
-          # ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-x64.dmg
-          # ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-arm64.dmg
-          # ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-amd64.deb
-          # ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-x86_64.rpm
-          # ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-x86_64.AppImage
-          # ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-arm64.deb
-          # ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-aarch64.rpm
-          # ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-arm64.AppImage
+          aws_key_id: ${{ secrets.SPACE_KEY }}
+          aws_secret_access_key: ${{ secrets.SPACE_SECRET_ACCESS_KEY}}
+          aws_bucket: ${{ secrets.SPACE_NAME }}
+          source_dir: 'release'
+          destination_dir: 'localDevTools/gr-hosting/${{steps.extract_version.outputs.version}}'
+      # OTHERWISE: Create a new release draft
+      # - name: Create release draft
+      #   uses: softprops/action-gh-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     # Populate the inputs of the release we already know
+      #     tag_name: v${{steps.extract_version.outputs.version}}-installers
+      #     name: Release v${{steps.extract_version.outputs.version}}
+      #     body: If you can read this, we have forgotten to fill in the changelog. Sorry!
+      #     draft: true # Always create as draft, so that we can populate the remaining values easily
+      #     # Gosh, is that convenient as opposed to earlier!
+      #     files: |
+      #       ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-x64.exe
+      #       ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-arm64.exe
+      # ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-x64.dmg
+      # ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-arm64.dmg
+      # ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-amd64.deb
+      # ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-x86_64.rpm
+      # ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-x86_64.AppImage
+      # ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-arm64.deb
+      # ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-aarch64.rpm
+      # ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-arm64.AppImage
