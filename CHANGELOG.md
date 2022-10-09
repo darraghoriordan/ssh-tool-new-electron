@@ -1,3 +1,10 @@
+# [1.46.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.45.0...v1.46.0) (2022-10-09)
+
+
+### Features
+
+* trigger release ([b55edee](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/b55edeebdfe8ae10dd94ecb0020b325a6c5fa5f0))
+
 # [1.45.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.44.0...v1.45.0) (2022-10-09)
 
 
