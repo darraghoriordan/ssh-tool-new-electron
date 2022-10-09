@@ -1,3 +1,10 @@
+# [1.44.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.43.2...v1.44.0) (2022-10-09)
+
+
+### Features
+
+* messages wip ([b509575](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/b5095754ce1458ee738f8b5c6001d26805125eb0))
+
 ## [1.43.2](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.43.1...v1.43.2) (2022-10-09)
 
 
