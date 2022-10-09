@@ -1,3 +1,10 @@
+# [1.45.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.44.0...v1.45.0) (2022-10-09)
+
+
+### Features
+
+* update the scanner ([9d34856](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/9d348562a66c9a7ce8c56c5f920de48fd3161d61))
+
 # [1.44.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.43.2...v1.44.0) (2022-10-09)
 
 
