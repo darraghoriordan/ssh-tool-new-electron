@@ -1,3 +1,10 @@
+## [1.49.2](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.49.1...v1.49.2) (2022-10-09)
+
+
+### Bug Fixes
+
+* the mac build script ([d4fe22e](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/d4fe22e49a9ac4b97ab3f689721c27f4566f0031))
+
 ## [1.49.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.49.0...v1.49.1) (2022-10-09)
 
 
