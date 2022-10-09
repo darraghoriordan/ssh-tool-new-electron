@@ -55,11 +55,65 @@ jobs:
           path: |
             ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-x64.exe
             ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-arm64.exe
+  build_macos:
+    name: macOS build
+    runs-on: macos-latest
+    steps:
+      # Check out master for a regular release, or develop branch for a nightly
+      - name: Clone repository (master branch)
+        uses: actions/checkout@v3
+        with:
+          ref: 'master'
+      - name: Setup NodeJS ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Set up build environment
+        run: yarn install --frozen-lockfile
+
+      - name: Extract version
+        id: extract_version
+        uses: Saionaro/extract-package-version@v1.0.6
+      # Save the macOS certificate on this runner for forge to access it in the
+      # next step below.
+      - name: Retrieve code signing certificate
+        run: ./buildTools/install-appstore-cert.sh
+        env:
+          MACOS_CERT: ${{ secrets.MACOS_CERT }}
+          MACOS_CERT_PASS: ${{ secrets.MACOS_CERT_PASS }}
+      # Now, finally build the app itself. This is done in four steps: First,
+      # two steps make sure that the app is correctly bundled in ./out, then
+      # the next two steps use electron builder to create the DMG files.
+      # This step also signs and notarizes the app. NOTE that forge does this,
+      # as we shall not notarize and/or sign the resulting DMG file as well!
+      - name: Package macOS (arm64)
+        run: yarn package:mac-arm
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS }}
+      - name: Package macOS (x64)
+        run: yarn package:mac-x64
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS }}
+      - name: Build macOS image file (arm64)
+        run: yarn release:mac-arm
+      - name: Build macOS image file (x64)
+        run: yarn release:mac-x64
+      # Finally upload both
+      - name: Cache image files
+        uses: actions/upload-artifact@v2
+        with:
+          name: darwin
+          path: |
+            ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-x64.dmg
+            ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-arm64.dmg
+
   prepare_release:
     name: Prepare release draft
     # Make sure (and wait until) the builds have succeeded
     #needs: [build_win, build_macos, build_linux]
-    needs: [build_win]
+    needs: [build_win, build_macos]
     runs-on: ubuntu-latest
     steps:
       # NOTE: Here we do not care about which branch is checked out since we
