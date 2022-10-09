@@ -143,45 +143,46 @@ export default class GitConfigFileSystemScanner {
 
     // generate warnings for any parsedIniFiles where the user does not match
     // this is inefficient but it's a small list so it's fine
-    const warnings: { originPath: string; message: string }[] = []
+    const warnings: { originSource: string; message: string }[] = []
 
     parsedIniFiles.forEach(iniFile => {
-      const originPath = iniFile.remotes.find(r =>
+      const originSource = iniFile.remotes.find(r =>
         r.remoteName.includes('origin')
-      )?.pathname
-      console.log('originPath', originPath)
+      )?.source
+      console.log('originSource', originSource)
       console.log('iniFile.user?.email', iniFile.user?.email)
       console.log('r0 pathname', iniFile.remotes[0]?.pathname)
       console.log('r0 source', iniFile.remotes[0]?.source)
       console.log('r0 reponame', iniFile.remotes[0]?.repoName)
-      if (!originPath) {
+      if (!originSource) {
         // no origin found - can't do anything here
         return
       }
 
-      if (warnings.some(w => w.originPath === originPath)) {
+      if (warnings.some(w => w.originSource === originSource)) {
         return // already have a warning for this origin
       }
 
       // find the number of ini files where the remote path is the same but the user email is different
       const numberOfReposWithSameHostDifferentUser = parsedIniFiles.filter(
         f =>
-          f.remotes.some(r => r.pathname === originPath) &&
+          f.remotes.some(r => r.source === originSource) &&
           f.user?.email !== iniFile.user?.email
       ).length
       const numberOfReposWithSameHostSameUser = parsedIniFiles.filter(
         f =>
-          f.remotes.some(r => r.pathname === originPath) &&
+          f.remotes.some(r => r.source === originSource) &&
           f.user?.email !== iniFile.user?.email
       ).length
 
       if (
+        numberOfReposWithSameHostDifferentUser > 0 &&
         numberOfReposWithSameHostDifferentUser >=
-        numberOfReposWithSameHostSameUser
+          numberOfReposWithSameHostSameUser
       ) {
         warnings.push({
-          originPath,
-          message: `There is a mismatch between the user set for ${iniFile.path} and the user set for other repositories with the same origin. Is this intentional?`,
+          originSource,
+          message: `There is a mismatch between the user set for ${iniFile.originRepositoryFileName} and the user set for other repositories with the same origin. Is this intentional?`,
         })
       }
     })
