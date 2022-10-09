@@ -97,12 +97,23 @@ jobs:
       #   with:
       #     name: linux
       #     path: ./release
-      - uses: shallwefootball/s3-upload-action@master
-        name: Upload to Store
-        id: DOUpload
+
+      - uses: BetaHuhn/do-spaces-action@v2
         with:
-          aws_key_id: ${{ secrets.SPACE_KEY }}
-          aws_secret_access_key: ${{ secrets.SPACE_SECRET_ACCESS_KEY}}
-          aws_bucket: ${{ secrets.SPACE_NAME }}
-          source_dir: 'release'
-          destination_dir: 'localDevTools/gr-hosting/${{steps.extract_version.outputs.version}}'
+          access_key: ${{ secrets.SPACE_KEY}}
+          secret_key: ${{ secrets.SPACE_SECRET_ACCESS_KEY }}
+          space_name: ${{ secrets.SPACE_NAME }}
+          out_dir: localDevTools/gr-hosting/${{steps.extract_version.outputs.version}}
+          permission: public-read
+          space_region: sfo3
+          source: release
+
+      # - uses: shallwefootball/s3-upload-action@master
+      #   name: Upload to Store
+      #   id: DOUpload
+      #   with:
+      #     aws_key_id: ${{ secrets.SPACE_KEY }}
+      #     aws_secret_access_key: ${{ secrets.SPACE_SECRET_ACCESS_KEY}}
+      #     aws_bucket: ${{ secrets.SPACE_NAME }}
+      #     source_dir: 'release'
+      #     destination_dir: 'localDevTools/gr-hosting/${{steps.extract_version.outputs.version}}'
