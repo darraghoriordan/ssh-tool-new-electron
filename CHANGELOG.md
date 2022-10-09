@@ -1,3 +1,10 @@
+# [1.49.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.48.0...v1.49.0) (2022-10-09)
+
+
+### Features
+
+* add chmod to command ([8302b95](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/8302b954b40978117e1ea065814d817e2e9e4697))
+
 # [1.48.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.47.0...v1.48.0) (2022-10-09)
 
 
