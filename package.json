@@ -20,7 +20,7 @@
     "prepBuildSettings:bash": "cross-env USE_STORE_LICENSE=false && chmod +x ./buildTools/release-prepare.sh && ./buildTools/release-prepare.sh",
     "package": "cross-env NODE_ENV=production SKIP_TYPECHECKING=true electron-forge package",
     "package:mac-x64": "yarn prepBuildSettings:bash && cross-env NODE_ENV=production electron-forge package --platform=darwin --arch=x64",
-    "package:mac-arm": "yarn prepBuildSettings:bash &&cross-env NODE_ENV=production electron-forge package --platform=darwin --arch=arm64",
+    "package:mac-arm": "yarn prepBuildSettings:bash && cross-env NODE_ENV=production electron-forge package --platform=darwin --arch=arm64",
     "package:win-x64": "yarn prepBuildSettings:win && cross-env NODE_ENV=production electron-forge package --platform=win32 --arch=x64",
     "package:win-x64-store": "yarn prepBuildSettings:win-store && cross-env NODE_ENV=production electron-forge package --platform=win32 --arch=x64",
     "package:win-arm": "yarn prepBuildSettings:win && cross-env NODE_ENV=production electron-forge package --platform=win32 --arch=arm64",
