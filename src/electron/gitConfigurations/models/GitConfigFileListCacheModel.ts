@@ -14,6 +14,8 @@ export class GitConfigsModel {
   //    */
   //   @Type(() => GitUser)
   //   globalUser?: GitUser
+  @Type(() => String)
+  warningsList!: string[]
 
   searchedPath!: string
 }

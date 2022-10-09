@@ -96,6 +96,13 @@ export function GitConfigurationListScreen() {
       control = (
         <div className="">
           <ul>
+            {data?.warningsList.map((warning, index) => (
+              <li key={index} className="text-red-500">
+                {warning}
+              </li>
+            ))}
+          </ul>
+          <ul>
             {data?.configList
               .sort((x, y) => (x.path > y.path ? 1 : 0))
               .map(gitConfigInfo => (

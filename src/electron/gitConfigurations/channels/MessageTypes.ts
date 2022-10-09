@@ -4,6 +4,7 @@ import { GitConfigInfo } from '../models/GitConfigInfo'
 export type GitConfigListResponse = {
   searchedPath: string
   configList: GitConfigInfo[]
+  warningsList: string[]
   globalUser?: GitUser | undefined
   globalGitConfigPath: string
 }
