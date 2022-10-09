@@ -1,3 +1,10 @@
+## [1.43.2](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.43.1...v1.43.2) (2022-10-09)
+
+
+### Bug Fixes
+
+* cant have empty env ([7bb28ca](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/7bb28cab10765839cf6126c3a1285367e27ca7c3))
+
 ## [1.43.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.43.0...v1.43.1) (2022-10-09)
 
 
