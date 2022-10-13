@@ -1,3 +1,10 @@
+## [1.50.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.50.0...v1.50.1) (2022-10-13)
+
+
+### Bug Fixes
+
+* add mac output back to digital ocean ([d4e8c8d](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/d4e8c8d3cffaf523374dd515afef6b576c4c385b))
+
 # [1.50.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.49.2...v1.50.0) (2022-10-13)
 
 
