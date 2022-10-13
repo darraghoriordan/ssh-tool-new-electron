@@ -1,3 +1,10 @@
+## [1.50.2](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.50.1...v1.50.2) (2022-10-13)
+
+
+### Bug Fixes
+
+* messages on ui ([0941908](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/09419086766eca988a51c3bdea91c837baef9748))
+
 ## [1.50.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.50.0...v1.50.1) (2022-10-13)
 
 
