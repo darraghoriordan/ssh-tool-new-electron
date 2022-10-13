@@ -1,3 +1,10 @@
+# [1.50.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.49.2...v1.50.0) (2022-10-13)
+
+
+### Features
+
+* update libs and fix one startup bug ([35801bc](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/35801bcf7523b6f2a886ad9342c12eed62cd8bf7))
+
 ## [1.49.2](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.49.1...v1.49.2) (2022-10-09)
 
 
