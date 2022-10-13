@@ -1,3 +1,10 @@
+# [1.51.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.50.2...v1.51.0) (2022-10-13)
+
+
+### Features
+
+* add cron clean up ([76d5bfd](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/76d5bfd833e746eebe05caf69bf71c7a60f9c759))
+
 ## [1.50.2](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.50.1...v1.50.2) (2022-10-13)
 
 
