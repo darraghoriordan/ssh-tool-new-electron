@@ -116,11 +116,10 @@ jobs:
     needs: [build_win, build_macos]
     runs-on: ubuntu-latest
     steps:
-      # NOTE: Here we do not care about which branch is checked out since we
-      # just need the two scripts which are present in both.
       - name: Clone repository
         uses: actions/checkout@v3
-
+        with:
+          ref: 'master'
       - name: Setup NodeJS ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v2
         with:
@@ -141,11 +140,11 @@ jobs:
         with:
           name: win32
           path: ./release
-      # - name: Retrieve macOS images
-      #   uses: actions/download-artifact@v2
-      #   with:
-      #     name: darwin
-      #     path: ./release
+      - name: Retrieve macOS images
+        uses: actions/download-artifact@v2
+        with:
+          name: darwin
+          path: ./release
       # - name: Retrieve Linux installers
       #   uses: actions/download-artifact@v2
       #   with:
