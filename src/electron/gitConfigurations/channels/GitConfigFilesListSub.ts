@@ -26,11 +26,11 @@ export class GitConfigFilesListSub
 
       return config.path.includes(request.filter)
     })
-
-    return {
+    const returnModel: GitConfigListResponse = {
       ...configData,
       configList: filteredConfigs,
       globalGitConfigPath: settings.globalGitConfigFile,
     }
+    return returnModel
   }
 }

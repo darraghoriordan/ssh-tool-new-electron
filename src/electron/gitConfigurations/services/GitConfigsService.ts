@@ -21,6 +21,13 @@ export class GitConfigsService {
       // cache the data for next time
       await GitConfigsFileCacheService.saveToFile(cacheData)
     }
+    // guards for array properties that were added after a file could have been written
+    if (cacheData.configList?.length <= 0) {
+      cacheData.configList = []
+    }
+    if (cacheData.warningsList?.length <= 0) {
+      cacheData.warningsList = []
+    }
 
     return cacheData
   }

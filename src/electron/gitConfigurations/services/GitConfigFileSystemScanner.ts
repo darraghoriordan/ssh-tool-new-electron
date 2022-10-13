@@ -186,7 +186,7 @@ export default class GitConfigFileSystemScanner {
         })
       }
     })
-    response.warningsList = warnings.map(x => x.message)
+    response.warningsList = warnings.map(x => x.message) || []
     response.configList = parsedIniFiles
 
     return response
