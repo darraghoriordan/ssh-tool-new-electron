@@ -99,7 +99,7 @@ export function JsonEscaperScreen() {
           name="data"
           id="data"
           onChange={e => setInputValue(e.target.value)}
-          placeholder="Paste your content here"
+          placeholder="Paste your JSON content here and press Submit"
           className="block w-full mb-4 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           value={inputValue}
         />

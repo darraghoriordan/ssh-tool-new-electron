@@ -1,0 +1,77 @@
+[
+  {
+    "path": "/Users/darraghoriordan/Documents/public-projects/qmk_firmware/.git/config",
+    "potentialOrigins": [],
+    "id": "L1VzZXJzL2RhcnJhZ2hvcmlvcmRhbi9Eb2N1bWVudHMvcHVibGljLXByb2plY3RzL3Fta19maXJtd2FyZS8uZ2l0L2NvbmZpZw==",
+    "remotes": [
+      {
+        "type": "HTTP",
+        "remoteName": "origin",
+        "url": "https://github.com/qmk/qmk_firmware.git",
+        "owner": "qmk",
+        "pathname": "/qmk/qmk_firmware.git",
+        "protocol": "https",
+        "source": "github.com",
+        "user": "",
+        "repoName": "qmk_firmware"
+      }
+    ],
+    "isProjectUserSet": false,
+    "user": {
+      "name": "Darragh ORiordan",
+      "email": "darragh.oriordan@gmail.com"
+    },
+    "userAsIniString": "[user]\nname = Darragh ORiordan\nemail = darragh.oriordan@gmail.com\n",
+    "originRepositoryFileName": "qmk_firmware"
+  },
+  {
+    "path": "/Users/darraghoriordan/Documents/multitudes-projects/multitudes-core/.git/config",
+    "potentialOrigins": [],
+    "id": "L1VzZXJzL2RhcnJhZ2hvcmlvcmRhbi9Eb2N1bWVudHMvbXVsdGl0dWRlcy1wcm9qZWN0cy9tdWx0aXR1ZGVzLWNvcmUvLmdpdC9jb25maWc=",
+    "remotes": [
+      {
+        "type": "SSH",
+        "remoteName": "origin",
+        "url": "git@pgh:MultitudesCo/multitudes-core.git",
+        "owner": "MultitudesCo",
+        "pathname": "/MultitudesCo/multitudes-core.git",
+        "protocol": "ssh",
+        "source": "pgh",
+        "user": "git",
+        "repoName": "multitudes-core"
+      }
+    ],
+    "isProjectUserSet": false,
+    "user": {
+      "name": "Darragh ORiordan",
+      "email": "darragh.oriordan@gmail.com"
+    },
+    "userAsIniString": "[user]\nname = Darragh ORiordan\nemail = darragh.oriordan@gmail.com\n",
+    "originRepositoryFileName": "multitudes-core"
+  },
+  {
+    "path": "/Users/darraghoriordan/Documents/multitudes-projects/payments-service/.git/config",
+    "potentialOrigins": [],
+    "id": "L1VzZXJzL2RhcnJhZ2hvcmlvcmRhbi9Eb2N1bWVudHMvbXVsdGl0dWRlcy1wcm9qZWN0cy9wYXltZW50cy1zZXJ2aWNlLy5naXQvY29uZmln",
+    "remotes": [
+      {
+        "type": "SSH",
+        "remoteName": "origin",
+        "url": "git@pgh:MultitudesCo/payments-service.git",
+        "owner": "MultitudesCo",
+        "pathname": "/MultitudesCo/payments-service.git",
+        "protocol": "ssh",
+        "source": "pgh",
+        "user": "git",
+        "repoName": "payments-service"
+      }
+    ],
+    "isProjectUserSet": false,
+    "user": {
+      "name": "Darragh ORiordan",
+      "email": "darragh.oriordan@gmail.com"
+    },
+    "userAsIniString": "[user]\nname = Darragh ORiordan\nemail = darragh.oriordan@gmail.com\n",
+    "originRepositoryFileName": "payments-service"
+  }
+]

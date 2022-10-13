@@ -78,19 +78,13 @@ export function TimestampConverterScreen() {
 
       <div className="px-4 py-5 bg-white shadow sm:rounded-lg sm:p-6">
         <div className="mb-8">
-          <label
-            htmlFor="data"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Enter a timestamp - ISO8601 or Unix format
-          </label>
           <div className="flex mt-1 rounded-md shadow-sm">
             <input
               name="data"
               id="data"
               onKeyDown={handleInputKeyDown}
               onChange={e => setInputValue(e.target.value)}
-              placeholder="Unix or ISO timestamp"
+              placeholder="Enter a timestamp - ISO8601 or Unix format - and press enter/submit"
               className="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               value={inputValue}
             />

@@ -112,35 +112,17 @@ export default class GitConfigFileSystemScanner {
       .filter(r => r.status === 'fulfilled')
       .map(r => (r as PromiseFulfilledResult<GitConfigInfo>).value)
 
-    // REMOVE# FOR NOW
-    // now parse potential origins from the ssh connections
-    // const namedSshConnections = await SshConfigFileLoader.load()
-    // const iniFilesWithRemotes = parsedIniFiles.map(iniFile => {
-    //   try {
-    //     const possibleRemotes =
-    //       GitProjectConfigFileParser.findPotentialRemoteOrigins(
-    //         iniFile,
-    //         namedSshConnections
-    //       )
-    //     iniFile.potentialOrigins = possibleRemotes
-    //   } catch (error) {
-    //     console.warn("Couldn't find a remote", iniFile.path)
-    //   }
-    // })
+    response.warningsList = await this.mapWarningMessagesForCommitNames(
+      parsedIniFiles
+    )
+    response.configList = parsedIniFiles
 
-    // REMOVED FOR NOW
-    // now parse all the individual custom users from each config
-    //   response.allCustomUsers = parsedIniFiles
-    //     .filter(gitConfig => gitConfig.user?.email || gitConfig.user?.name)
-    //     .map(gitConfig => gitConfig.user)
-    //     .filter((value, index, self) => {
-    //       return (
-    //         self.findIndex(
-    //           v => v.email === value.email && v.name === value.name
-    //         ) === index
-    //       )
-    //     })
+    return response
+  }
 
+  static async mapWarningMessagesForCommitNames(
+    parsedIniFiles: GitConfigInfo[]
+  ): Promise<string[]> {
     // generate warnings for any parsedIniFiles where the user does not match
     // this is inefficient but it's a small list so it's fine
     const warnings: { originSource: string; message: string }[] = []
@@ -186,11 +168,9 @@ export default class GitConfigFileSystemScanner {
         })
       }
     })
-    response.warningsList = warnings.map(x => x.message) || []
-    response.configList = parsedIniFiles
-
-    return response
+    return warnings.map(x => x.message) || []
   }
+
   static async getListOfPathsToGitConfigFiles(
     stdout: string,
     globalGitConfigFilePath: string

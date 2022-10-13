@@ -10,13 +10,14 @@ const faqs = [
   {
     id: 1,
     question: 'What is this tool for?',
-    answer: 'Sorting strings! It should respect your locale.',
+    answer:
+      'This tool will sort a list of strings but unlike a simple "a > b" sort, it will respect your locale.',
   },
   {
     id: 2,
     question: 'What is the delimiter?',
     answer:
-      'It uses line breaks as the delimiter. It should detect if you are using Windows or Unix line breaks.',
+      'This tool uses line breaks as the delimiter. It will detect both Windows and Unix/Mac line breaks.',
   },
 ]
 

@@ -14,13 +14,13 @@ const faqs = [
     id: 1,
     question: 'What is this tool for?',
     answer:
-      'Developers often have many Git projects on their systems. This tool provides an easy way to scan a location recursively for Git configuration files.',
+      'Developers often have many Git projects on their systems. This tool provides an easy way to scan a location recursively for Git configuration files. You can easily see a summary of each configuration and edit the config for a repo.',
   },
   {
     id: 2,
     question: 'Why use it?',
     answer:
-      'You can easily see which origin and which user is being used for a repository. This is useful if you use multiple Git accounts or if you have a global Git user configured.',
+      "You can easily see which origin and which user is being used for a repository. You will also get warnings if the user you will commit with for a repo doesn't match all the other repos for the same git host. This is useful if you use multiple Git accounts or if you have a global Git user configured.",
   },
   {
     id: 3,
@@ -32,7 +32,7 @@ const faqs = [
     id: 4,
     question: 'How do I adjust the scanned folder?',
     answer:
-      'There are settings in App Settings where you can adjust the paths.',
+      'There are settings in the "App Settings" section where you can adjust the paths.',
   },
 ]
 

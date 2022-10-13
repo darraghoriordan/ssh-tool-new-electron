@@ -19,7 +19,9 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Set up build environment
-        run: yarn install --frozen-lockfile
+        run: |
+          yarn config set network-timeout 300000
+          yarn install --frozen-lockfile
       - name: Extract version
         id: extract_version
         uses: Saionaro/extract-package-version@v1.0.6
@@ -69,7 +71,9 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Set up build environment
-        run: yarn install --frozen-lockfile
+        run: |
+          yarn config set network-timeout 300000
+          yarn install --frozen-lockfile
 
       - name: Extract version
         id: extract_version
@@ -125,8 +129,8 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Set up build environment
-        run: yarn install --frozen-lockfile
+      # - name: Set up build environment
+      #   run: yarn install --frozen-lockfile
 
       - name: Extract version
         id: extract_version

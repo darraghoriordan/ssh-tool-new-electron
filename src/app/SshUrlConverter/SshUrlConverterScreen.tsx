@@ -112,12 +112,6 @@ export const SshUrlConverterScreen = () => {
       <>
         <div className="px-4 py-5 bg-white shadow sm:rounded-lg sm:p-6">
           <div className="mb-8">
-            <label
-              htmlFor="data"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Enter an ssh or http git url
-            </label>
             <div className="flex mt-1 rounded-md shadow-sm">
               <input
                 name="data"
@@ -125,7 +119,7 @@ export const SshUrlConverterScreen = () => {
                 onKeyDown={handleInputKeyDown}
                 value={inputValue}
                 onChange={e => setInputValue(e.target.value)}
-                placeholder="paste a git url here"
+                placeholder="Paste a git ssh or http url here and press Enter/Submit"
                 className="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               />
             </div>

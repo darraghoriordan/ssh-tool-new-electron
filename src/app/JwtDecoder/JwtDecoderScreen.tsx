@@ -63,7 +63,7 @@ export function JwtDecoderScreen() {
           name="rawJwt"
           id="rawJwt"
           onChange={e => setInputValue(e.target.value)}
-          placeholder="paste your JWT here"
+          placeholder="Paste a valid JWT here and press Submit"
           className="block w-full mb-4 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           value={inputValue}
         />
