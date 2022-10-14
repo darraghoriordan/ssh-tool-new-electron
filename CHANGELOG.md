@@ -1,3 +1,10 @@
+## [1.52.2](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.52.1...v1.52.2) (2022-10-14)
+
+
+### Bug Fixes
+
+* update plist with xcode ([e2b989c](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/e2b989c1a04918f11d9b4a9c37f15fc41fa635cc))
+
 ## [1.52.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.52.0...v1.52.1) (2022-10-14)
 
 
