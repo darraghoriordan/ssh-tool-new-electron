@@ -20,11 +20,14 @@ export const DescriptionAndHelp = (
               <QuestionMarkCircleIcon className="w-5 h-5 mr-2" />{' '}
               {props.title || 'Description and FAQ'}{' '}
             </span>
-            <ChevronUpIcon
-              className={`${
-                open ? 'rotate-180 transform' : ''
-              } h-5 w-5 text-white`}
-            />
+            <div className="flex">
+              {open ? 'Close' : 'Open'}
+              <ChevronUpIcon
+                className={`${
+                  open ? '' : 'rotate-180 transform'
+                } h-5 w-5 text-white`}
+              />
+            </div>
           </Disclosure.Button>
           <Disclosure.Panel className="px-4 py-4 overflow-auto bg-white shadow sm:rounded-lg">
             <dl className="space-y-10 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-12 md:space-y-0">

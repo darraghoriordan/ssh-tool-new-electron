@@ -1,6 +1,10 @@
 import React, { ReactElement, useContext, useEffect } from 'react'
 import { ArrowPathIcon } from '@heroicons/react/24/solid'
-import { Cog6ToothIcon, FolderOpenIcon } from '@heroicons/react/24/outline'
+import {
+  Cog6ToothIcon,
+  ExclamationTriangleIcon,
+  FolderOpenIcon,
+} from '@heroicons/react/24/outline'
 import PageHeader from '../components/PageHeader'
 import GitConfigurationViewCard from './GitConfigurationViewCard'
 import { useGetGitConfigurationList, useResetCache } from './ReactQueryWrappers'
@@ -95,13 +99,31 @@ export function GitConfigurationListScreen() {
     } else {
       control = (
         <div className="">
-          <ul>
-            {data?.warningsList.map((warning, index) => (
-              <li key={index} className="text-red-500">
-                {warning}
-              </li>
-            ))}
-          </ul>
+          <div className="p-4 rounded-md bg-yellow-50">
+            <div className="flex">
+              <div className="flex-shrink-0">
+                <ExclamationTriangleIcon
+                  className="w-5 h-5 text-yellow-400"
+                  aria-hidden="true"
+                />
+              </div>
+              <div className="ml-3">
+                <h3 className="text-sm font-medium text-yellow-800">
+                  Attention needed
+                </h3>
+                <div className="mt-2 text-sm text-yellow-700">
+                  <ul>
+                    {data?.warningsList.map((warning, index) => (
+                      <li key={index} className="">
+                        {warning}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <ul>
             {data?.configList
               .sort((x, y) => (x.path > y.path ? 1 : 0))

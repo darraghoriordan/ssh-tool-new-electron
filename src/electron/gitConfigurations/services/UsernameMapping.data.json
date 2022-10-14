@@ -11,7 +11,7 @@
                 "owner": "darraghoriordan",
                 "pathname": "/darraghoriordan/darragh-oriordan-com.git",
                 "protocol": "ssh",
-                "source": "pgh",
+                "source": "wgh",
                 "user": "git",
                 "repoName": "darragh-oriordan-com"
             }
@@ -36,7 +36,7 @@
                 "owner": "darraghoriordan",
                 "pathname": "/darraghoriordan/candidate-response.git",
                 "protocol": "ssh",
-                "source": "pgh",
+                "source": "wgh",
                 "user": "git",
                 "repoName": "candidate-response"
             }
@@ -44,9 +44,9 @@
         "isProjectUserSet": true,
         "user": {
             "name": "Darragh ORiordan",
-            "email": "darragh.oriordan@gmail.com"
+            "email": "darragh.oriordan@rd.com"
         },
-        "userAsIniString": "[user]\nname = Darragh ORiordan\nemail = darragh.oriordan@gmail.com\n",
+        "userAsIniString": "[user]\nname = Darragh ORiordan\nemail = darragh.oriordan@rd.com\n",
         "originRepositoryFileName": "candidate-response"
     },
     {
@@ -61,7 +61,7 @@
                 "owner": "darraghoriordan",
                 "pathname": "/darraghoriordan/backstage-personal.git",
                 "protocol": "ssh",
-                "source": "pgh",
+                "source": "wgh",
                 "user": "git",
                 "repoName": "backstage-personal"
             }
@@ -86,7 +86,7 @@
                 "owner": "darraghoriordan",
                 "pathname": "/darraghoriordan/learn_databases.git",
                 "protocol": "ssh",
-                "source": "pgh",
+                "source": "wgh",
                 "user": "git",
                 "repoName": "learn_databases"
             }
@@ -94,7 +94,7 @@
         "isProjectUserSet": false,
         "user": {
             "name": "Darragh ORiordan",
-            "email": "darragh.oriordan@gmail.com"
+            "email": "darragh.oriordan@rd.com"
         },
         "userAsIniString": "[user]\nname = Darragh ORiordan\nemail = darragh.oriordan@roamdigital.com\n",
         "originRepositoryFileName": "learn_databases"
@@ -136,7 +136,7 @@
                 "owner": "darraghoriordan",
                 "pathname": "/darraghoriordan/how-many-avos.git",
                 "protocol": "ssh",
-                "source": "pgh",
+                "source": "wgh",
                 "user": "git",
                 "repoName": "how-many-avos"
             }
@@ -144,9 +144,9 @@
         "isProjectUserSet": true,
         "user": {
             "name": "Darragh ORiordan",
-            "email": "darragh.oriordan@gmail.com"
+            "email": "darragh.oriordan@rd.com"
         },
-        "userAsIniString": "[user]\nname = Darragh ORiordan\nemail = darragh.oriordan@gmail.com\n",
+        "userAsIniString": "[user]\nname = Darragh ORiordan\nemail = darragh.oriordan@rd.com\n",
         "originRepositoryFileName": "how-many-avos"
     },
     {
@@ -169,9 +169,9 @@
         "isProjectUserSet": true,
         "user": {
             "name": "Darragh ORiordan",
-            "email": "darragh.oriordan@gmail.com"
+            "email": "darragh.oriordan@notgmail.com"
         },
-        "userAsIniString": "[user]\nname = Darragh ORiordan\nemail = darragh.oriordan@gmail.com\n",
+        "userAsIniString": "[user]\nname = Darragh ORiordan\nemail = darragh.oriordan@notgmail.com\n",
         "originRepositoryFileName": "nest-backend-libs"
     }
 ]

@@ -1,7 +1,4 @@
-import { plainToClass, plainToInstance } from 'class-transformer'
-import { GitConfigInfo } from '../models/GitConfigInfo'
 import GitConfigFileSystemScanner from './GitConfigFileSystemScanner'
-import data from './GitConfigFileSystemScanner.data.json'
 
 describe('GitConfigFileSystemScanner', () => {
   //prettier-ignore
@@ -21,10 +18,4 @@ describe('GitConfigFileSystemScanner', () => {
       expect(result.length).toEqual(length)
     }
   )
-
-  it('can parse the warning messages as expected', () => {
-    const ghIniFiles: GitConfigInfo[] = plainToInstance(GitConfigInfo, data)
-
-    // now test the broken method
-  })
 })
