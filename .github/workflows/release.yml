@@ -1,4 +1,4 @@
-name: CreateRelease
+name: Release new version
 on:
   push:
     branches:
