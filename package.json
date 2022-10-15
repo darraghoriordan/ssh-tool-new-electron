@@ -1,154 +1,156 @@
 {
-    "name": "local-dev-tools",
-    "productName": "LocalDevTools",
-    "private": true,
-    "version": "1.52.2",
-    "description": "Local offline tools for developers",
-    "main": ".webpack/main",
-    "local-dev-tools": {
-        "releaseDate": "2020-10-01"
-    },
-    "author": {
-        "name": "Darragh ORiordan",
-        "email": "hello@filteredreduced.dev",
-        "url": "https://darraghoriordan.com"
-    },
-    "scripts": {
-        "start": "electron-forge start",
-        "prepBuildSettings:win": "cross-env USE_STORE_LICENSE=false powershell -NoProfile -ExecutionPolicy Unrestricted -File ./buildTools/release-prepare.ps1",
-        "prepBuildSettings:win-store": "cross-env USE_STORE_LICENSE=true powershell -NoProfile -ExecutionPolicy Unrestricted -File ./buildTools/release-prepare.ps1",
-        "prepBuildSettings:bash": "chmod +x ./buildTools/release-prepare.sh && cross-env USE_STORE_LICENSE=false  ./buildTools/release-prepare.sh",
-        "package": "cross-env NODE_ENV=production SKIP_TYPECHECKING=true electron-forge package",
-        "package:mac-x64": "yarn prepBuildSettings:bash && cross-env NODE_ENV=production electron-forge package --platform=darwin --arch=x64",
-        "package:mac-arm": "yarn prepBuildSettings:bash && cross-env NODE_ENV=production electron-forge package --platform=darwin --arch=arm64",
-        "package:win-x64": "yarn prepBuildSettings:win && cross-env NODE_ENV=production electron-forge package --platform=win32 --arch=x64",
-        "package:win-x64-store": "yarn prepBuildSettings:win-store && cross-env NODE_ENV=production electron-forge package --platform=win32 --arch=x64",
-        "package:win-arm": "yarn prepBuildSettings:win && cross-env NODE_ENV=production electron-forge package --platform=win32 --arch=arm64",
-        "package:linux-x64": "yarn prepBuildSettings:bash &&cross-env NODE_ENV=production electron-forge package --platform=linux --arch=x64",
-        "package:linux-arm": "yarn prepBuildSettings:bash &&cross-env NODE_ENV=production electron-forge package --platform=linux --arch=arm64",
-        "release:mac-x64": "electron-builder --mac --x64 --publish never --prepackaged out/LocalDevTools-darwin-x64/LocalDevTools.app",
-        "release:mac-arm": "electron-builder --mac --arm64 --publish never --prepackaged out/LocalDevTools-darwin-arm64/LocalDevTools.app",
-        "release:win-x64": "electron-builder --win --x64 --publish never --prepackaged out/LocalDevTools-win32-x64",
-        "release:win-arm": "electron-builder --win --ia32 --arm64 --publish never --prepackaged out/LocalDevTools-win32-arm64",
-        "release:linux-x64": "electron-builder --linux AppImage deb rpm zip --x64 --publish never --prepackaged out/LocalDevTools-linux-x64",
-        "release:linux-arm": "electron-builder --linux AppImage deb rpm zip --arm64 --publish never --prepackaged out/LocalDevTools-linux-arm64",
-        "make": "electron-forge make",
-        "make:win": "electron-forge make --platform=win32 --arch=ia32 && electron-forge make --platform=win32 --arch=x64",
-        "make:win64": " electron-forge make --platform=win32 --arch=x64",
-        "make:mac": "electron-forge make --platform=darwin --arch=arm64 && electron-forge make --platform=darwin --arch=x64",
-        "publish": "electron-forge publish",
-        "release": "npx semantic-release",
-        "semantic-release": "semantic-release",
-        "lint": "eslint --ext .ts,.tsx .",
-        "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules\" && npx jest --runInBand --color --reporters=default --silent=false --no-cache --coverage=false --passWithNoTests",
-        "test:nix": "cross-env NODE_OPTIONS=\"--max-old-space-size=8192 --experimental-vm-modules\" && npx jest --runInBand --color --reporters=default --no-cache --coverage=false --passWithNoTests"
-    },
-    "keywords": [],
-    "license": "MIT",
-    "release": {
-        "branches": [
-            "master"
-        ],
-        "plugins": [
-            "@semantic-release/commit-analyzer",
-            "@semantic-release/release-notes-generator",
-            "@semantic-release/changelog",
-            "@semantic-release/npm",
-            [
-                "@semantic-release/git",
-                {
-                    "assets": [
-                        "CHANGELOG.md",
-                        "package.json",
-                        "package-lock.json",
-                        "npm-shrinkwrap.json",
-                        "src/electron/licencing/buildDate.ts"
-                    ]
-                }
-            ],
-            [
-                "@semantic-release/github",
-                {
-                    "assets": []
-                }
-            ]
-        ]
-    },
-    "config": {
-        "forge": "./forge.config.js"
-    },
-    "devDependencies": {
-        "@electron-forge/cli": "6.0.0-beta.67",
-        "@electron-forge/maker-appx": "^6.0.0-beta.67",
-        "@electron-forge/maker-deb": "6.0.0-beta.67",
-        "@electron-forge/maker-dmg": "6.0.0-beta.67",
-        "@electron-forge/maker-rpm": "6.0.0-beta.67",
-        "@electron-forge/maker-squirrel": "6.0.0-beta.67",
-        "@electron-forge/maker-zip": "6.0.0-beta.67",
-        "@electron-forge/plugin-webpack": "6.0.0-beta.67",
-        "@semantic-release/changelog": "6.0.1",
-        "@semantic-release/exec": "6.0.3",
-        "@semantic-release/git": "10.0.1",
-        "@semantic-release/github": "8.0.6",
-        "@testing-library/jest-dom": "5.16.5",
-        "@testing-library/react": "13.4.0",
-        "@types/electron-devtools-installer": "2.2.2",
-        "@types/git-url-parse": "9.0.1",
-        "@types/ini": "1.3.31",
-        "@types/jest": "29.1.2",
-        "@types/node": "18.8.5",
-        "@types/node-fetch": "2.6.2",
-        "@types/react": "18.0.21",
-        "@types/react-dom": "18.0.6",
-        "@typescript-eslint/eslint-plugin": "5.40.0",
-        "@typescript-eslint/parser": "5.40.0",
-        "@vercel/webpack-asset-relocator-loader": "1.7.3",
-        "cross-env": "^7.0.3",
-        "css-loader": "6.7.1",
-        "electron": "21.1.1",
-        "electron-builder": "23.6.0",
-        "electron-devtools-installer": "3.2.0",
-        "electron-notarize": "1.2.1",
-        "eslint": "8.25.0",
-        "eslint-plugin-import": "2.26.0",
-        "eslint-plugin-jsx-a11y": "6.6.1",
-        "eslint-plugin-react": "7.31.10",
-        "eslint-plugin-tailwind": "0.2.1",
-        "fork-ts-checker-webpack-plugin": "7.2.13",
-        "jest": "29.1.2",
-        "node-loader": "2.0.0",
-        "prettier": "2.7.1",
-        "reflect-metadata": "0.1.13",
-        "semantic-release": "19.0.5",
-        "style-loader": "3.3.1",
-        "ts-jest": "29.0.3",
-        "ts-loader": "9.4.1",
-        "typescript": "4.8.4"
-    },
-    "dependencies": {
-        "@headlessui/react": "1.7.3",
-        "@heroicons/react": "2.0.12",
-        "@tailwindcss/forms": "0.5.3",
-        "@tanstack/react-query": "4.10.3",
-        "autoprefixer": "10.4.12",
-        "case": "1.6.3",
-        "class-transformer": "0.5.1",
-        "class-validator": "0.13.2",
-        "date-fns": "2.29.3",
-        "date-fns-tz": "1.3.7",
-        "electron-squirrel-startup": "1.0.0",
-        "file-loader": "6.2.0",
-        "git-url-parse": "13.1.0",
-        "ini": "3.0.1",
-        "jose": "4.10.0",
-        "postcss": "8.4.18",
-        "postcss-loader": "7.0.1",
-        "react": "18.2.0",
-        "react-dom": "18.2.0",
-        "react-hook-form": "7.37.0",
-        "react-router": "6.4.2",
-        "react-router-dom": "6.4.2",
-        "tailwindcss": "3.1.8",
-        "use-debounce": "8.0.4"
-    }
+  "name": "local-dev-tools",
+  "productName": "LocalDevTools",
+  "private": true,
+  "version": "1.52.2",
+  "description": "Local offline tools for developers",
+  "main": ".webpack/main",
+  "local-dev-tools": {
+    "releaseDate": "2020-10-01"
+  },
+  "author": {
+    "name": "Darragh ORiordan",
+    "email": "hello@filteredreduced.dev",
+    "url": "https://darraghoriordan.com"
+  },
+  "scripts": {
+    "start": "electron-forge start",
+    "prepBuildSettings:win": "cross-env USE_STORE_LICENSE=false powershell -NoProfile -ExecutionPolicy Unrestricted -File ./buildTools/release-prepare.ps1",
+    "prepBuildSettings:win-store": "cross-env USE_STORE_LICENSE=true powershell -NoProfile -ExecutionPolicy Unrestricted -File ./buildTools/release-prepare.ps1",
+    "prepBuildSettings:bash": "chmod +x ./buildTools/release-prepare.sh && cross-env USE_STORE_LICENSE=false  ./buildTools/release-prepare.sh",
+    "package": "cross-env NODE_ENV=production SKIP_TYPECHECKING=true electron-forge package",
+    "package:mac-x64": "yarn prepBuildSettings:bash && cross-env NODE_ENV=production electron-forge package --platform=darwin --arch=x64",
+    "package:mac-arm": "yarn prepBuildSettings:bash && cross-env NODE_ENV=production electron-forge package --platform=darwin --arch=arm64",
+    "package:mac-universal": "yarn prepBuildSettings:bash && cross-env NODE_ENV=production electron-forge package --platform=darwin --arch=universal",
+    "package:win-x64": "yarn prepBuildSettings:win && cross-env NODE_ENV=production electron-forge package --platform=win32 --arch=x64",
+    "package:win-x64-store": "yarn prepBuildSettings:win-store && cross-env NODE_ENV=production electron-forge package --platform=win32 --arch=x64",
+    "package:win-arm": "yarn prepBuildSettings:win && cross-env NODE_ENV=production electron-forge package --platform=win32 --arch=arm64",
+    "package:linux-x64": "yarn prepBuildSettings:bash &&cross-env NODE_ENV=production electron-forge package --platform=linux --arch=x64",
+    "package:linux-arm": "yarn prepBuildSettings:bash &&cross-env NODE_ENV=production electron-forge package --platform=linux --arch=arm64",
+    "release:mac-x64": "electron-builder --mac --x64 --publish never --prepackaged out/LocalDevTools-darwin-x64/LocalDevTools.app",
+    "release:mac-arm": "electron-builder --mac --arm64 --publish never --prepackaged out/LocalDevTools-darwin-arm64/LocalDevTools.app",
+    "release:mac-universal": "electron-builder --mac --universal --publish never --prepackaged out/LocalDevTools-darwin-universal/LocalDevTools.app",
+    "release:win-x64": "electron-builder --win --x64 --publish never --prepackaged out/LocalDevTools-win32-x64",
+    "release:win-arm": "electron-builder --win --ia32 --arm64 --publish never --prepackaged out/LocalDevTools-win32-arm64",
+    "release:linux-x64": "electron-builder --linux AppImage deb rpm zip --x64 --publish never --prepackaged out/LocalDevTools-linux-x64",
+    "release:linux-arm": "electron-builder --linux AppImage deb rpm zip --arm64 --publish never --prepackaged out/LocalDevTools-linux-arm64",
+    "make": "electron-forge make",
+    "make:win": "electron-forge make --platform=win32 --arch=ia32 && electron-forge make --platform=win32 --arch=x64",
+    "make:win64": " electron-forge make --platform=win32 --arch=x64",
+    "make:mac": "electron-forge make --platform=darwin --arch=arm64 && electron-forge make --platform=darwin --arch=x64",
+    "publish": "electron-forge publish",
+    "release": "npx semantic-release",
+    "semantic-release": "semantic-release",
+    "lint": "eslint --ext .ts,.tsx .",
+    "test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules\" && npx jest --runInBand --color --reporters=default --silent=false --no-cache --coverage=false --passWithNoTests",
+    "test:nix": "cross-env NODE_OPTIONS=\"--max-old-space-size=8192 --experimental-vm-modules\" && npx jest --runInBand --color --reporters=default --no-cache --coverage=false --passWithNoTests"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "release": {
+    "branches": [
+      "master"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "CHANGELOG.md",
+            "package.json",
+            "package-lock.json",
+            "npm-shrinkwrap.json",
+            "src/electron/licencing/buildDate.ts"
+          ]
+        }
+      ],
+      [
+        "@semantic-release/github",
+        {
+          "assets": []
+        }
+      ]
+    ]
+  },
+  "config": {
+    "forge": "./forge.config.js"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "6.0.0-beta.67",
+    "@electron-forge/maker-appx": "^6.0.0-beta.67",
+    "@electron-forge/maker-deb": "6.0.0-beta.67",
+    "@electron-forge/maker-dmg": "6.0.0-beta.67",
+    "@electron-forge/maker-rpm": "6.0.0-beta.67",
+    "@electron-forge/maker-squirrel": "6.0.0-beta.67",
+    "@electron-forge/maker-zip": "6.0.0-beta.67",
+    "@electron-forge/plugin-webpack": "6.0.0-beta.67",
+    "@semantic-release/changelog": "6.0.1",
+    "@semantic-release/exec": "6.0.3",
+    "@semantic-release/git": "10.0.1",
+    "@semantic-release/github": "8.0.6",
+    "@testing-library/jest-dom": "5.16.5",
+    "@testing-library/react": "13.4.0",
+    "@types/electron-devtools-installer": "2.2.2",
+    "@types/git-url-parse": "9.0.1",
+    "@types/ini": "1.3.31",
+    "@types/jest": "29.1.2",
+    "@types/node": "18.8.5",
+    "@types/node-fetch": "2.6.2",
+    "@types/react": "18.0.21",
+    "@types/react-dom": "18.0.6",
+    "@typescript-eslint/eslint-plugin": "5.40.0",
+    "@typescript-eslint/parser": "5.40.0",
+    "@vercel/webpack-asset-relocator-loader": "1.7.3",
+    "cross-env": "^7.0.3",
+    "css-loader": "6.7.1",
+    "electron": "21.1.1",
+    "electron-builder": "23.6.0",
+    "electron-devtools-installer": "3.2.0",
+    "electron-notarize": "1.2.1",
+    "eslint": "8.25.0",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-jsx-a11y": "6.6.1",
+    "eslint-plugin-react": "7.31.10",
+    "eslint-plugin-tailwind": "0.2.1",
+    "fork-ts-checker-webpack-plugin": "7.2.13",
+    "jest": "29.1.2",
+    "node-loader": "2.0.0",
+    "prettier": "2.7.1",
+    "reflect-metadata": "0.1.13",
+    "semantic-release": "19.0.5",
+    "style-loader": "3.3.1",
+    "ts-jest": "29.0.3",
+    "ts-loader": "9.4.1",
+    "typescript": "4.8.4"
+  },
+  "dependencies": {
+    "@headlessui/react": "1.7.3",
+    "@heroicons/react": "2.0.12",
+    "@tailwindcss/forms": "0.5.3",
+    "@tanstack/react-query": "4.10.3",
+    "autoprefixer": "10.4.12",
+    "case": "1.6.3",
+    "class-transformer": "0.5.1",
+    "class-validator": "0.13.2",
+    "date-fns": "2.29.3",
+    "date-fns-tz": "1.3.7",
+    "electron-squirrel-startup": "1.0.0",
+    "file-loader": "6.2.0",
+    "git-url-parse": "13.1.0",
+    "ini": "3.0.1",
+    "jose": "4.10.0",
+    "postcss": "8.4.18",
+    "postcss-loader": "7.0.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-hook-form": "7.37.0",
+    "react-router": "6.4.2",
+    "react-router-dom": "6.4.2",
+    "tailwindcss": "3.1.8",
+    "use-debounce": "8.0.4"
+  }
 }

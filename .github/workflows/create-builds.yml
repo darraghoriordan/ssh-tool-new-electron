@@ -90,29 +90,34 @@ jobs:
       # the next two steps use electron builder to create the DMG files.
       # This step also signs and notarizes the app. NOTE that forge does this,
       # as we shall not notarize and/or sign the resulting DMG file as well!
-      - name: Package macOS (arm64)
-        run: yarn package:mac-arm
+      # - name: Package macOS (arm64)
+      #   run: yarn package:mac-arm
+      #   env:
+      #     APPLE_ID: ${{ secrets.APPLE_ID }}
+      #     APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS }}
+      # - name: Package macOS (x64)
+      #   run: yarn package:mac-x64
+      #   env:
+      #     APPLE_ID: ${{ secrets.APPLE_ID }}
+      #     APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS }}
+      - name: Package macOS (Universal)
+        run: yarn package:mac-universal
         env:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS }}
-      - name: Package macOS (x64)
-        run: yarn package:mac-x64
-        env:
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS }}
-      - name: Build macOS image file (arm64)
-        run: yarn release:mac-arm
-      - name: Build macOS image file (x64)
-        run: yarn release:mac-x64
+      # - name: Build macOS image file (arm64)
+      #   run: yarn release:mac-arm
+      # - name: Build macOS image file (x64)
+      #   run: yarn release:mac-x64
+      - name: Build macOS image file (Universal)
+        run: yarn release:mac-universal
       # Finally upload both
       - name: Cache image files
         uses: actions/upload-artifact@v2
         with:
           name: darwin
           path: |
-            ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-x64.dmg
-            ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-arm64.dmg
-
+            ./release/LocalDevTools-${{steps.extract_version.outputs.version}}-universal.dmg
   prepare_release:
     name: Prepare release draft
     # Make sure (and wait until) the builds have succeeded
