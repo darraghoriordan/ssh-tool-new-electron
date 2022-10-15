@@ -1,3 +1,10 @@
+## [1.52.3](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.52.2...v1.52.3) (2022-10-15)
+
+
+### Bug Fixes
+
+* hide warning when there's no warning ([536966e](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/536966ee384887b18f7eb66b205928aa3fa76849))
+
 ## [1.52.2](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.52.1...v1.52.2) (2022-10-14)
 
 
