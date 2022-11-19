@@ -67,7 +67,7 @@ export function UrlEncoderScreen() {
               Encode or Decode
             </label>
             <p className="text-sm text-gray-500 leading-5">
-              Are you encoding or decoding base64?
+              Are you encoding or decoding?
             </p>
             <fieldset className="mt-4">
               <legend className="sr-only">Encoding or decoding method</legend>
