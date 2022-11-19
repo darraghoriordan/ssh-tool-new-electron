@@ -1,3 +1,10 @@
+# [1.53.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.52.3...v1.53.0) (2022-11-19)
+
+
+### Features
+
+* use axios for http requests ([d4ea7f5](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/d4ea7f542cdfc08d8495d6894606cbeb27a046d1))
+
 ## [1.52.3](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.52.2...v1.52.3) (2022-10-15)
 
 
