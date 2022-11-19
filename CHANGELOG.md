@@ -1,3 +1,10 @@
+## [1.53.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.53.0...v1.53.1) (2022-11-19)
+
+
+### Bug Fixes
+
+* tyop on url screen encode decode ([96b314b](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/96b314b3ee28c3bc4eab6127eef7a27e0bed9822))
+
 # [1.53.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.52.3...v1.53.0) (2022-11-19)
 
 
