@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { plainToInstance } from 'class-transformer'
 import { ApplicationSettingService } from '../../appSettings/services/ApplicationSettingService'
 import { GumRoadLicenseResponse } from '../models/GumRoadLicenseResponse'
@@ -45,19 +46,28 @@ export class GumRoadLicenseService {
   ): Promise<GumRoadLicenseResponse> {
     try {
       // call gumroad api to validate license
-      const result = await fetch('https://api.gumroad.com/v2/licenses/verify', {
-        method: 'POST',
-        body: JSON.stringify({
+      // post to url with axios
+      const result = await axios.post(
+        'https://api.gumroad.com/v2/licenses/verify',
+        {
           product_permalink: productPermaLink,
           license_key: licenseKey,
           increment_uses_count: incrementUses,
-        }),
-        headers: { 'Content-Type': 'application/json' },
-      })
+        }
+      )
+      //   const result = await fetch('', {
+      //     method: 'POST',
+      //     body: JSON.stringify({
+      //       product_permalink: productPermaLink,
+      //       license_key: licenseKey,
+      //       increment_uses_count: incrementUses,
+      //     }),
+      //     headers: { 'Content-Type': 'application/json' },
+      //   })
       if (result.status !== 200) {
         throw new Error('Api returned status code ' + result.status)
       }
-      const body = await result.json()
+      const body = await result.data
 
       // parse result
       const parsedResult = plainToInstance(GumRoadLicenseResponse, body)
