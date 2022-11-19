@@ -1,3 +1,10 @@
+## [1.53.2](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.53.1...v1.53.2) (2022-11-19)
+
+
+### Bug Fixes
+
+* use node 18 for builds ([fa71ec2](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/fa71ec2a9db4a6387f97e0a0d1384f49c760ab24))
+
 ## [1.53.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.53.0...v1.53.1) (2022-11-19)
 
 
