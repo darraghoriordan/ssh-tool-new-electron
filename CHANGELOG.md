@@ -1,3 +1,10 @@
+# [1.54.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.53.2...v1.54.0) (2022-11-20)
+
+
+### Features
+
+* use 18 for this build ([72a76fa](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/72a76fa24e5ab15c37e962b6f751c2013d627ccb))
+
 ## [1.53.2](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.53.1...v1.53.2) (2022-11-19)
 
 
