@@ -3,7 +3,7 @@ on: workflow_dispatch
 
 env:
   # Easy way to set the node version
-  NODE_VERSION: '16'
+  NODE_VERSION: '18'
 
 jobs:
   build_win:
