@@ -8,7 +8,7 @@ describe('UnixTimeConverterService', () => {
       new Date('2020-09-24T02:18:40+10:00'), // "now" in the past so future difference
       {
         utcDate: '2022-09-23T14:56:31.000Z',
-        localeDate: '24/09/2022, 12:56:31 am',
+        localeDate: '24/09/2022, 12:56:31 am',
         isoDate: '2022-09-24T00:56:31+10:00',
         unixTimestamp: 1663944991,
         differenceFromNow: 'in almost 2 years',
@@ -19,7 +19,7 @@ describe('UnixTimeConverterService', () => {
       new Date('2020-09-24T02:18:40+10:00'), // "now" in the past so future difference
       {
         utcDate: '2022-09-23T14:56:31.000Z',
-        localeDate: '24/09/2022, 12:56:31 am',
+        localeDate: '24/09/2022, 12:56:31 am',
         isoDate: '2022-09-24T00:56:31+10:00',
         unixTimestamp: 1663944991,
         differenceFromNow: 'in almost 2 years',
@@ -30,7 +30,7 @@ describe('UnixTimeConverterService', () => {
       new Date('2020-09-24T02:18:40+10:00'), // "now" in the past so future difference
       {
         utcDate: '2022-09-23T14:56:31.000Z',
-        localeDate: '24/09/2022, 12:56:31 am',
+        localeDate: '24/09/2022, 12:56:31 am',
         isoDate: '2022-09-24T00:56:31+10:00',
         unixTimestamp: 1663944991,
         differenceFromNow: 'in almost 2 years',
@@ -42,7 +42,7 @@ describe('UnixTimeConverterService', () => {
 
       {
         utcDate: '2022-09-23T14:56:31.000Z',
-        localeDate: '24/09/2022, 12:56:31 am',
+        localeDate: '24/09/2022, 12:56:31 am',
         isoDate: '2022-09-24T00:56:31+10:00',
         unixTimestamp: 1663944991,
         differenceFromNow: 'in almost 2 years',
@@ -54,7 +54,7 @@ describe('UnixTimeConverterService', () => {
 
       {
         utcDate: '2022-09-23T14:56:31.000Z',
-        localeDate: '24/09/2022, 12:56:31 am',
+        localeDate: '24/09/2022, 12:56:31 am',
         isoDate: '2022-09-24T00:56:31+10:00',
         unixTimestamp: 1663944991,
         differenceFromNow: 'about 100 years ago', // so difference is in the past
@@ -65,7 +65,7 @@ describe('UnixTimeConverterService', () => {
       new Date('2022-09-24T02:18:40+10:00'), // "now" very close to date
       {
         utcDate: '2022-09-23T16:18:40.000Z',
-        localeDate: '24/09/2022, 2:18:40 am',
+        localeDate: '24/09/2022, 2:18:40 am',
         isoDate: '2022-09-24T02:18:40+10:00',
         unixTimestamp: 1663949920,
         differenceFromNow: 'less than 5 seconds ago',

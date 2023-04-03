@@ -7,12 +7,16 @@ describe('GitConfigFilesListSub', () => {
   noCacheFileFound.configList = []
   const cacheItemsFound = new GitConfigsModel()
   cacheItemsFound.configList = [new GitConfigInfo()]
+  const cacheItemsFoundWithRecentScan = new GitConfigsModel()
+  cacheItemsFoundWithRecentScan.created = new Date()
+  cacheItemsFoundWithRecentScan.configList = [new GitConfigInfo()]
 
   test.each([
     [noCacheFileFound, true],
-    [cacheItemsFound, false],
+    [cacheItemsFound, true],
+    [cacheItemsFoundWithRecentScan, false],
   ])('is an expected response', (input: GitConfigsModel, expected: boolean) => {
     const result = GitConfigsService.shouldRescan(input)
-    expect(result).toEqual(expected)
+    expect(result).toBe(expected)
   })
 })
