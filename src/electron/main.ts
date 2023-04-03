@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { app, BrowserWindow, ipcMain, Menu } from 'electron'
+import { app, BrowserWindow, ipcMain, Menu, screen } from 'electron'
 import { ChannelConfigurationSubs } from './channelConfigurationsSubs'
 import { ChannelConfigurationTypeSub } from './ChannelConfigurationTypeSub'
 import { IIpcMainSendEventSub } from './IpcChannelTypes/IIpcMainSendEventSub'
@@ -79,13 +79,18 @@ export default class Main {
       website: 'https://www.darraghoriordan.com/',
       iconPath: process.execPath,
     })
-
+    const primaryDisplay = screen.getPrimaryDisplay()
+    const initialHeight =
+      (primaryDisplay.size.height * 0.8) / primaryDisplay.scaleFactor
+    const initialWidth =
+      (primaryDisplay.size.width < 1400 ? primaryDisplay.size.width : 1400) /
+      primaryDisplay.scaleFactor
     this.mainWindow = new BrowserWindow({
       icon: path.join(assetsPath, 'assets', 'icons', 'icon.png'),
-      minWidth: 1400,
-      minHeight: 800,
-      width: 1400,
-      height: 800,
+      minWidth: 1400 / primaryDisplay.scaleFactor,
+      minHeight: 800 / primaryDisplay.scaleFactor,
+      width: initialWidth,
+      height: initialHeight,
       backgroundColor: '#191622',
       webPreferences: {
         devTools: !app.isPackaged,
@@ -94,7 +99,7 @@ export default class Main {
         preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       },
     })
-
+    this.mainWindow.center()
     this.mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
 
     if (process.env.NODE_ENV !== 'development') {
