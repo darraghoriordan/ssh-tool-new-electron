@@ -1,11 +1,12 @@
 import { GitUser } from '..//models/GitUser'
-import { GitConfigInfo } from '../models/GitConfigInfo'
+import { GitConfigsModel } from '../models/GitConfigFileListCacheModel'
 
-export type GitConfigListResponse = {
-  searchedPath: string
-  configList: GitConfigInfo[]
-  warningsList: string[]
-  globalUser?: GitUser | undefined
+export class GitConfigListResponse extends GitConfigsModel {
+  constructor(globalGitConfigPath: string) {
+    super()
+    this.globalGitConfigPath = globalGitConfigPath
+  }
+  globalUser: GitUser | undefined
   globalGitConfigPath: string
 }
 

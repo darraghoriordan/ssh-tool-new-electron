@@ -14,9 +14,8 @@ export class GitConfigsFileCacheService {
 
   static async loadFromFile(): Promise<GitConfigsModel> {
     if (!fs.existsSync(GitConfigsFileCacheService.gitConfigCachePath)) {
-      const emptyResult = new GitConfigsModel()
-      emptyResult.configList = []
-      return emptyResult
+      console.debug('no git config file cache found.')
+      return this.createEmptyResult()
     }
 
     try {
@@ -24,16 +23,38 @@ export class GitConfigsFileCacheService {
         GitConfigsFileCacheService.gitConfigCachePath
       )
 
-      return GitConfigsFileCacheService.transformToInstance(buffer.toString())
+      const latestCache = GitConfigsFileCacheService.transformToInstance(
+        buffer.toString()
+      )
+      // if the cache was created before some properties were added, we need to fake them
+      GitConfigsFileCacheService.handleOldCachedFiles(latestCache)
+
+      return latestCache
     } catch (error) {
-      console.log(
+      console.warn(
         `Error when reading file ${GitConfigsFileCacheService.gitConfigCachePath}. Will return new instance instead.`,
         error
       )
-      const emptyResult = new GitConfigsModel()
-      emptyResult.configList = []
-      return emptyResult
+
+      return this.createEmptyResult()
     }
+  }
+  static handleOldCachedFiles(latestCache: GitConfigsModel): void {
+    if (latestCache.created === undefined) {
+      latestCache.created = new Date(2000, 1, 1)
+    }
+    if (latestCache.configList === undefined) {
+      latestCache.configList = []
+    }
+    if (latestCache.warningsList === undefined) {
+      latestCache.warningsList = []
+    }
+  }
+  static createEmptyResult(): GitConfigsModel {
+    const emptyResult = new GitConfigsModel()
+    emptyResult.configList = []
+    emptyResult.warningsList = []
+    return emptyResult
   }
 
   static transformToInstance(rawObject: string): GitConfigsModel {
@@ -57,7 +78,7 @@ export class GitConfigsFileCacheService {
         force: true,
       })
     } catch (error) {
-      console.log(
+      console.warn(
         `Error when deleting file ${GitConfigsFileCacheService.gitConfigCachePath}.`,
         error
       )

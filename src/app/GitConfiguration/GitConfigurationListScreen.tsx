@@ -12,6 +12,8 @@ import { useDebounce } from 'use-debounce'
 import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
 import { useNavigate } from 'react-router-dom'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
+import EmptyList from './EmptyList'
+import WarningList from './WarningList'
 
 const faqs = [
   {
@@ -42,7 +44,7 @@ const faqs = [
 
 export function GitConfigurationListScreen() {
   const [logMessages, logAMessage] = useContext(ConsoleContext)
-  const navigateRoute = useNavigate()
+
   const resetCachesMutation = useResetCache()
 
   const [filter, setFilter] = React.useState<string | undefined>(undefined)
@@ -64,83 +66,34 @@ export function GitConfigurationListScreen() {
     window.OpenFileLocation.invoke(location)
   }
 
-  if (!isLoading && control === undefined) {
-    if (
-      (data?.configList || []).length <= 0 &&
-      (filter === undefined || filter === '')
-    ) {
-      control = (
-        <>
-          <button
-            type="button"
-            onClick={e => {
-              e.preventDefault()
-              // go to new url
-              navigateRoute('/settings')
-            }}
-            className="relative block w-full p-12 mt-8 text-center border-2 border-gray-300 border-dashed rounded-lg hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-          >
-            <Cog6ToothIcon
-              className={'block mx-auto h-40 w-40'}
-              aria-hidden="true"
-            />
+  if (isLoading) {
+    control = <div>Scanning your system...</div>
+  } else if (
+    (data?.configList || []).length <= 0 &&
+    (filter === undefined || filter === '')
+  ) {
+    control = <EmptyList />
+  } else {
+    control = (
+      <div>
+        {data?.warningsList && data?.warningsList.length > 0 && (
+          <WarningList warnings={data.warningsList} />
+        )}
 
-            <span className="block mt-2 text-sm font-medium text-gray-900">
-              No Git configuration files found. <br />
-              Click here to go to the App Settings screen and verify the Git
-              project paths.
-            </span>
-            <span className="block mt-8 text-sm font-medium text-gray-900">
-              When you&apos;re done, return here and click on the rescan button.
-            </span>
-          </button>
-        </>
-      )
-    } else {
-      control = (
-        <div className="">
-          {data?.warningsList && data?.warningsList.length > 0 && (
-            <div className="p-4 rounded-md bg-yellow-50">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <ExclamationTriangleIcon
-                    className="w-5 h-5 text-yellow-400"
-                    aria-hidden="true"
-                  />
-                </div>
-                <div className="ml-3">
-                  <h3 className="text-sm font-medium text-yellow-800">
-                    Attention needed
-                  </h3>
-                  <div className="mt-2 text-sm text-yellow-700">
-                    <ul>
-                      {data?.warningsList.map((warning, index) => (
-                        <li key={index} className="">
-                          {warning}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          <ul>
-            {data?.configList
-              .sort((x, y) => (x.path > y.path ? 1 : 0))
-              .map(gitConfigInfo => (
-                <li key={gitConfigInfo.path} className="flex-1 py-4">
-                  <GitConfigurationViewCard
-                    gitConfigInfo={gitConfigInfo}
-                    globalUser={data.globalUser}
-                  />
-                </li>
-              ))}
-          </ul>
-        </div>
-      )
-    }
+        <ul>
+          {data?.configList
+            .sort((x, y) => (x.path > y.path ? 1 : 0))
+            .map(gitConfigInfo => (
+              <li key={gitConfigInfo.path} className="flex-1 py-4">
+                <GitConfigurationViewCard
+                  gitConfigInfo={gitConfigInfo}
+                  globalUser={data.globalUser}
+                />
+              </li>
+            ))}
+        </ul>
+      </div>
+    )
   }
 
   return (
@@ -172,12 +125,17 @@ export function GitConfigurationListScreen() {
           className="inline-flex items-center text-sm font-medium text-white bg-indigo-600 border border-transparent rounded px-2.5 py-1.5 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           <ArrowPathIcon className="w-5 h-5 mr-2" />
-          Rescan for projects
+          Rescan git projects
         </button>
+        <div className="text-xs">
+          Last scan
+          <br />
+          {new Date(data?.created || 0).toLocaleDateString()}
+        </div>
       </PageHeader>
 
       <DescriptionAndHelp faqs={faqs} />
-      <div className="">{control}</div>
+      <div>{control}</div>
     </div>
   )
 }

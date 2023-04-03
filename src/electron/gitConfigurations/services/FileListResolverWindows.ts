@@ -1,4 +1,6 @@
-import { execPromise } from '../../PromisifiedNodeUtilities/ExecPromise'
+import { exec } from 'child_process'
+import { promisify } from 'util'
+const execPromise = promisify(exec)
 
 /**
  * Used when the cache is empty or missing
@@ -17,7 +19,9 @@ export default class FileListResolverWindows {
    * @returns
    */
   public async scanFileSystem(scanStartPath: string): Promise<string> {
-    const stdout = await execPromise(`dir /s /b /a:d /s .git`, scanStartPath)
-    return stdout
+    const output = await execPromise(`dir /s /b /a:d /s .git`, {
+      cwd: scanStartPath,
+    })
+    return output.stdout
   }
 }

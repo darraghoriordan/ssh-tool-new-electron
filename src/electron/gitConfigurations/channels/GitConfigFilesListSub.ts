@@ -17,9 +17,9 @@ export class GitConfigFilesListSub
     request: GitConfigListRequest
   ): Promise<GitConfigListResponse> {
     const settings = await UserSettingsService.getSettings()
-    const configData = await GitConfigsService.loadGitConfigs()
+    const gitConfigFileData = await GitConfigsService.loadGitConfigs()
 
-    const filteredConfigs = configData.configList.filter(config => {
+    const filteredConfigs = gitConfigFileData.configList.filter(config => {
       if (request.filter === undefined) {
         return true
       }
@@ -27,8 +27,9 @@ export class GitConfigFilesListSub
       return config.path.includes(request.filter)
     })
     const returnModel: GitConfigListResponse = {
-      ...configData,
+      ...gitConfigFileData,
       configList: filteredConfigs,
+      globalUser: undefined,
       globalGitConfigPath: settings.globalGitConfigFile,
     }
     return returnModel

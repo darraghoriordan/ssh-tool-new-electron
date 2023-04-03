@@ -28,8 +28,8 @@ export default class GitConfigFileSystemScanner {
     const response: GitConfigsModel = {
       configList: [],
       warningsList: [],
+      created: new Date(),
       searchedPath: settings.projectsPath,
-      // globalUser: undefined,
     }
     // check project path exists
     if (!fs.existsSync(scanStartPath)) {
@@ -54,7 +54,7 @@ export default class GitConfigFileSystemScanner {
         stdout,
         settings.globalGitConfigFile
       )
-    console.log('gitConfigFilePaths', gitConfigFilePaths)
+    console.debug('Found git config file paths', gitConfigFilePaths)
 
     if (gitConfigFilePaths.length <= 0) {
       return response

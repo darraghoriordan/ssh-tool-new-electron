@@ -21,23 +21,28 @@ export class GitConfigsService {
       // cache the data for next time
       await GitConfigsFileCacheService.saveToFile(cacheData)
     }
-    // guards for array properties that were added after a file could have been written
-    if (cacheData.configList?.length <= 0) {
-      cacheData.configList = []
-    }
-    if (cacheData.warningsList?.length <= 0) {
-      cacheData.warningsList = []
-    }
 
     return cacheData
   }
 
   static async clearAllCaches(): Promise<void> {
-    // delete the file
     return GitConfigsFileCacheService.deleteFile()
   }
 
   static shouldRescan(cacheData: GitConfigsModel): boolean {
+    return (
+      GitConfigsService.noData(cacheData) ||
+      GitConfigsService.dataIsOld(cacheData)
+    )
+  }
+  static noData(cacheData: GitConfigsModel): boolean {
     return cacheData?.configList?.length <= 0
+  }
+  static dataIsOld(cacheData: GitConfigsModel): boolean {
+    return (
+      cacheData.created === undefined ||
+      new Date(cacheData.created).getTime() <
+        new Date().getTime() - 1000 * 60 * 60 * 24 * 7
+    )
   }
 }

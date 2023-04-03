@@ -16,6 +16,6 @@ export class GitConfigsModel {
   //   globalUser?: GitUser
   @Type(() => String)
   warningsList!: string[]
-
+  created!: Date
   searchedPath!: string
 }
