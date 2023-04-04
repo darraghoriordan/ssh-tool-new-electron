@@ -70,7 +70,7 @@ export const SshUrlConverterScreen = () => {
   }
   const runAction = async () => {
     const input = {
-      gitUrl: inputValue,
+      gitUrl: inputValue?.replace('git clone', '').trim(),
     }
 
     if (!input.gitUrl || input.gitUrl.length < 4) {
@@ -197,7 +197,7 @@ export const SshUrlConverterScreen = () => {
   }
   return (
     <div className="mx-auto max-w-10xl">
-      <PageHeader pageTitle={'Git Url Converter'}>
+      <PageHeader pageTitle={'Git/ssh Url Converter'}>
         {data?.sshConfigFilePath && (
           <button
             onClick={e => onOpenFolderClick(e, data.sshConfigFilePath)}

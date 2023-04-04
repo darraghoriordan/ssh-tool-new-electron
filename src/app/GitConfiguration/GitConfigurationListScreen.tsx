@@ -10,7 +10,6 @@ import GitConfigurationViewCard from './GitConfigurationViewCard'
 import { useGetGitConfigurationList, useResetCache } from './ReactQueryWrappers'
 import { useDebounce } from 'use-debounce'
 import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
-import { useNavigate } from 'react-router-dom'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 import EmptyList from './EmptyList'
 import WarningList from './WarningList'
@@ -30,12 +29,18 @@ const faqs = [
   },
   {
     id: 3,
+    question: 'Using [includeIf]',
+    answer:
+      'If you keep all associated projects in a folder tree, you can use the [includeIf] directive in your global Git config to include a config file with a different user per folder path. This tool will not show the included config file values.',
+  },
+  {
+    id: 4,
     question: 'What is the rescan button?',
     answer:
       "The tool doesn't monitor your filesystem for changes or new projects. If you add a new Git project or edit a config file in a text editor, you need to click the rescan button to have it appear in the list.",
   },
   {
-    id: 4,
+    id: 5,
     question: 'How do I adjust the scanned folder?',
     answer:
       'There are settings in the "App Settings" section where you can adjust the paths.',

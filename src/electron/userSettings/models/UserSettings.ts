@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer'
-import { IsString, MinLength } from 'class-validator'
+import { IsOptional, IsString, MinLength } from 'class-validator'
 
 export class UserSettings {
   @Expose()
@@ -16,4 +16,10 @@ export class UserSettings {
   @IsString()
   @MinLength(1)
   globalGitConfigFile!: string
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  @MinLength(1)
+  openApiChatGptKey?: string
 }

@@ -17,6 +17,7 @@ import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
 import { useGetAppSettings } from '../AppSettings/ReactQueryWrappers'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 
+import SettingsFormSection from './SettingsFormSection'
 const faqs = [
   {
     id: 1,
@@ -35,6 +36,12 @@ const faqs = [
     question: 'Ssh Config File',
     answer:
       "This setting controls where the app will look for your ssh config file. It's used to determine your local ssh aliases. You should make sure this setting is correct before using the Git Url Tool.",
+  },
+  {
+    id: 4,
+    question: 'ChatGPT Api Key',
+    answer:
+      'The ChatGPT Api Key is used to access the ChatGPT API. You can get a free API key by signing up at https://chatgpt.com.',
   },
 ]
 
@@ -75,96 +82,51 @@ export const SettingsScreen = () => {
 
   if (!isLoading && data && control === undefined) {
     control = (
-      <div className="px-4 py-5 bg-white shadow sm:rounded-lg sm:p-6">
-        <div className="md:grid md:grid-cols-3 md:gap-6">
-          <div className="md:col-span-1">
-            <h3 className="text-lg font-medium text-gray-900 leading-6">
-              Git Settings
-            </h3>
-            <p className="mt-1 text-sm text-gray-500">
-              Used for working with your git repositories.
-            </p>
-          </div>
-          <div className="mt-5 space-y-6 md:col-span-2 md:mt-0">
-            <div className="grid grid-cols-3 gap-6">
-              <div className="col-span-3 ">
-                <label
-                  htmlFor="projectsPath"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Git project path to scan for repositories
-                </label>
-                <div className="flex mt-1 rounded-md shadow-sm">
-                  <input
-                    {...register('projectsPath', { required: true, min: 1 })}
-                    className="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                    defaultValue={data.projectsPath}
-                  />
-                </div>
-                {errors.projectsPath && (
-                  <span className="text-red-600">This field is required</span>
-                )}
-              </div>
-              <div className="col-span-3 ">
-                <label
-                  htmlFor="globalGitConfigFile"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Global Git Config File
-                </label>
-                <div className="flex mt-1 rounded-md shadow-sm">
-                  <input
-                    {...register('globalGitConfigFile', {
-                      required: true,
-                      min: 1,
-                    })}
-                    className="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                    defaultValue={data.globalGitConfigFile}
-                  />
-                </div>
-                {errors.globalGitConfigFile && (
-                  <span className="text-red-600">This field is required</span>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="mt-8 md:grid md:grid-cols-3 md:gap-6">
-          <div className="md:col-span-1">
-            <h3 className="text-lg font-medium text-gray-900 leading-6">
-              Ssh Settings
-            </h3>
-            <p className="mt-1 text-sm text-gray-500">
-              Used for working with ssh certificates
-            </p>
-          </div>
-          <div className="mt-5 space-y-6 md:col-span-2 md:mt-0">
-            <div className="grid grid-cols-3 gap-6">
-              <div className="col-span-3 ">
-                <label
-                  htmlFor="sshConfigFilePath"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  SSH Config File
-                </label>
-                <div className="flex mt-1 rounded-md shadow-sm">
-                  <input
-                    {...register('sshConfigFilePath', {
-                      required: true,
-                      min: 1,
-                    })}
-                    className="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                    defaultValue={data.sshConfigFilePath}
-                  />
-                </div>
-
-                {errors.sshConfigFilePath && (
-                  <span className="text-red-600">This field is required</span>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
+      <div className="px-4 py-5 bg-white shadow sm:rounded-lg sm:p-6 space-y-16">
+        <SettingsFormSection
+          header="Git Settings"
+          subHeader="Used for working with your git repositories."
+          sections={[
+            {
+              propertyKey: 'projectsPath',
+              labelText: 'Git project path to scan for repositories',
+            },
+            {
+              propertyKey: 'globalGitConfigFile',
+              labelText: 'Global Git Config File',
+            },
+          ]}
+          register={register}
+          errors={errors}
+          data={data}
+        />
+        <SettingsFormSection
+          header="Ssh Settings"
+          subHeader="Used for working with ssh certificates"
+          sections={[
+            {
+              propertyKey: 'sshConfigFilePath',
+              labelText: 'SSH Config File',
+            },
+          ]}
+          register={register}
+          errors={errors}
+          data={data}
+        />
+        <SettingsFormSection
+          header="Open Api Settings"
+          subHeader="Used for working with Open Api"
+          sections={[
+            {
+              propertyKey: 'openApiChatGptKey',
+              labelText: 'ChatGPT Api Key',
+              isRequired: false,
+            },
+          ]}
+          register={register}
+          errors={errors}
+          data={data}
+        />
       </div>
     )
   }
@@ -184,6 +146,7 @@ export const SettingsScreen = () => {
             projectsPath: data['projectsPath']!,
             globalGitConfigFile: data['globalGitConfigFile'],
             sshConfigFilePath: data['sshConfigFilePath'],
+            openApiChatGptKey: data['openApiChatGptKey'],
           })
         })}
       >
