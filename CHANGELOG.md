@@ -1,3 +1,16 @@
+# [1.55.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.54.0...v1.55.0) (2023-04-03)
+
+
+### Bug Fixes
+
+* the tests ([52bedab](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/52bedab4d4d58c764454a32554c6f29e8fd33050))
+
+
+### Features
+
+* use exec to run scanner ([3e0a15f](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/3e0a15f96a6078633ac07bc408a06c2a4cf34c61))
+* window center and dynamic size ([d9f174f](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/d9f174fc3ff6c9521983c8186bf7fc4de97617aa))
+
 # [1.54.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.53.2...v1.54.0) (2022-11-20)
 
 
