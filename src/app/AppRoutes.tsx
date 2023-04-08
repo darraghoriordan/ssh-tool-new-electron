@@ -13,6 +13,7 @@ import { LicensingScreen } from './Licensing/LicensingScreen'
 import { UrlEncoderScreen } from './UrlEscaper/UrlEncoderScreen'
 import { StringSorterScreen } from './StringSorter/StringSorterScreen'
 import { StringCaseConverterScreen } from './StringCaseConverter/StringCaseConverterScreen'
+import { EslintRuleGeneratorScreen } from './EslintRuleHelper/EslintRuleGeneratorScreen'
 
 function AppRoutes() {
   return (
@@ -28,6 +29,10 @@ function AppRoutes() {
         <Route path="json-escaper" element={<JsonEscaperScreen />} />
         <Route path="base64-encoder" element={<Base64EncoderScreen />} />
         <Route path="git-url-converter" element={<SshUrlConverterScreen />} />
+        <Route
+          path="eslint-rule-generator"
+          element={<EslintRuleGeneratorScreen />}
+        />
         <Route
           path="unix-time-converter"
           element={<TimestampConverterScreen />}

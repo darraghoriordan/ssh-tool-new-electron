@@ -43,6 +43,8 @@ import {
   UrlEncoderMessage,
   UrlEncoderResponse,
 } from '../../electron/urlEncoder/channels/MessageTypes'
+import EslintRuleGeneratorMeta from '../../electron/eslintRuleHelper/models/EslintRuleGeneratorMeta'
+import EslintRuleGenerationRecord from '../../electron/eslintRuleHelper/models/EslintRuleGeneration'
 
 declare global {
   // eslint-disable-next-line
@@ -101,6 +103,11 @@ declare global {
     }
     StringCase: {
       invoke: (message: StringCaseMessage) => Promise<StringCaseResponse>
+    }
+    EslintRuleGenerator: {
+      invoke: (
+        message: EslintRuleGeneratorMeta
+      ) => Promise<EslintRuleGenerationRecord>
     }
   }
 }

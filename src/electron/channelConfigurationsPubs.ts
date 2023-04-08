@@ -19,6 +19,7 @@ import { OpenStorePagePub } from './licencing/channels/OpenStorePagePub'
 import { UrlEncoderChannelPub } from './urlEncoder/channels/UrlEncoderChannelPub'
 import { StringCaseChannelPub } from './stringCase/channels/StringCaseChannelPub'
 import { StringSorterChannelPub } from './stringSorter/channels/StringSorterChannelPub'
+import { EslintRuleHelperChannelPub } from './eslintRuleHelper/channels/EslintRuleGeneratorChannelPub'
 
 export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
   rtmSendChannels: [
@@ -49,5 +50,6 @@ export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
     new StringCaseChannelPub(),
     new StringSorterChannelPub(),
     new UrlEncoderChannelPub(),
+    new EslintRuleHelperChannelPub(),
   ],
 }

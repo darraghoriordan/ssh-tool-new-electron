@@ -22,4 +22,10 @@ export class UserSettings {
   @IsString()
   @MinLength(1)
   openApiChatGptKey?: string
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  @MinLength(1)
+  openApiOrgId?: string
 }

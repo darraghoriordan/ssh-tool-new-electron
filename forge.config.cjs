@@ -86,9 +86,9 @@ const forgeConfig = {
     {
       name: '@electron-forge/plugin-webpack',
       config: {
-        mainConfig: './webpack.main.config.js',
+        mainConfig: './webpack.main.config.cjs',
         renderer: {
-          config: './webpack.renderer.config.js',
+          config: './webpack.renderer.config.cjs',
           entryPoints: [
             {
               html: './src/public/index.html',

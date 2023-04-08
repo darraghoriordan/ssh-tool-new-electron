@@ -81,6 +81,7 @@ export class UserSettingsService {
       throw new Error(`The settings are invalid. ${''.concat(...errors)}`)
     }
     console.log('validation errors', validationErrors)
+    console.log('writing settings', { path: this.filePath, settings })
     await fsp.writeFile(
       this.filePath,
       JSON.stringify(instanceToPlain(settings))

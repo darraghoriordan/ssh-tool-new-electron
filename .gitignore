@@ -91,3 +91,6 @@ out/
 .jest_cache
 tmpBuild
 release/
+
+.vite/
+tmp-file.ts

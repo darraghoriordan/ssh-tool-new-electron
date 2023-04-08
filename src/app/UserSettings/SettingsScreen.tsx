@@ -119,7 +119,14 @@ export const SettingsScreen = () => {
           sections={[
             {
               propertyKey: 'openApiChatGptKey',
-              labelText: 'ChatGPT Api Key',
+              labelText:
+                'ChatGPT Api Key ( https://platform.openai.com/account/api-keys )',
+              isRequired: false,
+            },
+            {
+              propertyKey: 'openApiOrgId',
+              labelText:
+                'Open Api Org Id ( https://platform.openai.com/account/org-settings )',
               isRequired: false,
             },
           ]}

@@ -9,6 +9,7 @@ import {
   CursorArrowRippleIcon,
   ChevronUpDownIcon,
   BarsArrowDownIcon,
+  VariableIcon,
 } from '@heroicons/react/24/outline'
 import { NavLink } from 'react-router-dom'
 import logo from '../../assets/logo-grey800-prompt.png'
@@ -28,6 +29,12 @@ const navigation = [
     icon: LinkIcon,
     current: false,
   },
+  //   {
+  //     name: 'Eslint Rule Generator',
+  //     href: '/eslint-rule-generator',
+  //     icon: VariableIcon,
+  //     current: false,
+  //   },
   {
     name: 'JWT Decoder',
     href: '/jwt-decoder',

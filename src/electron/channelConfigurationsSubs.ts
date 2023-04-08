@@ -19,6 +19,7 @@ import { OpenStorePageSub } from './licencing/channels/OpenStorePageSub'
 import { UrlEncoderChannelSub } from './urlEncoder/channels/UrlEncoderChannelSub'
 import { StringSorterChannelSub } from './stringSorter/channels/StringSorterChannelSub'
 import { StringCaseChannelSub } from './stringCase/channels/StringCaseChannelSub'
+import { EslintRuleHelperChannelSub } from './eslintRuleHelper/channels/EslintRuleGeneratorChannelSub'
 
 export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
   rtmSendChannels: [
@@ -50,5 +51,6 @@ export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
     new UrlEncoderChannelSub(),
     new StringSorterChannelSub(),
     new StringCaseChannelSub(),
+    new EslintRuleHelperChannelSub(),
   ],
 }
