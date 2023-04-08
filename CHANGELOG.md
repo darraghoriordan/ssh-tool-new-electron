@@ -1,3 +1,16 @@
+# [1.56.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.55.0...v1.56.0) (2023-04-08)
+
+
+### Bug Fixes
+
+* wip adding the eslint rule tester ([3833a2b](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/3833a2b2fe7648151c06e65cfa526db66e279219))
+
+
+### Features
+
+* add new user settings for openapi key ([c0d4fff](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/c0d4fffd7662cd3c61ee32a1ffc9e0f28d2dadb0))
+* change icon to circle ([5b6f005](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/5b6f00575927eea5a1c3b3aee4c68b81ba3a1ae7))
+
 # [1.55.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.54.0...v1.55.0) (2023-04-03)
 
 
