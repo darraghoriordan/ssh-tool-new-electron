@@ -14,6 +14,7 @@ import { UrlEncoderScreen } from './UrlEscaper/UrlEncoderScreen'
 import { StringSorterScreen } from './StringSorter/StringSorterScreen'
 import { StringCaseConverterScreen } from './StringCaseConverter/StringCaseConverterScreen'
 import { EslintRuleGeneratorScreen } from './EslintRuleHelper/EslintRuleGeneratorScreen'
+import { HtmlEncoderScreen } from './HtmlEncoder/HtmlEncoderScreen'
 
 function AppRoutes() {
   return (
@@ -33,6 +34,8 @@ function AppRoutes() {
           path="eslint-rule-generator"
           element={<EslintRuleGeneratorScreen />}
         />
+        <Route path="html-char-encoding" element={<HtmlEncoderScreen />} />
+
         <Route
           path="unix-time-converter"
           element={<TimestampConverterScreen />}

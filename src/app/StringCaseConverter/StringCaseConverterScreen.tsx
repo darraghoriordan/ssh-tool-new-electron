@@ -75,7 +75,7 @@ export function StringCaseConverterScreen() {
           name="data"
           id="data"
           onChange={e => setInputValue(e.target.value)}
-          placeholder="Paste your content here"
+          placeholder="Paste your content here. New lines will be treated as separator."
           className="block w-full mb-4 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           value={inputValue}
         />

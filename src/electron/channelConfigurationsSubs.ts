@@ -22,6 +22,7 @@ import { StringCaseChannelSub } from './stringCase/channels/StringCaseChannelSub
 import { EslintRuleHelperChannelSub } from './eslintRuleHelper/channels/EslintRuleGeneratorChannelSub'
 import { ListPastGenerationsChannelSub } from './eslintRuleHelper/channels/ListPastGenerationsChannelSub'
 import { GetPastGenerationChannelSub } from './eslintRuleHelper/channels/GetPastGenerationChannelSub'
+import { HtmlEncoderChannelSub } from './htmlEncoder/channels/HtmlEncoderChannelSub'
 
 export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
   rtmSendChannels: [
@@ -56,5 +57,6 @@ export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
     new EslintRuleHelperChannelSub(),
     new ListPastGenerationsChannelSub(),
     new GetPastGenerationChannelSub(),
+    new HtmlEncoderChannelSub(),
   ],
 }

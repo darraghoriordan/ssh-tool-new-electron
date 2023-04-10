@@ -2,40 +2,30 @@
 import React, { ReactElement, useContext, useState } from 'react'
 import PageHeader from '../components/PageHeader'
 import { ArrowDownIcon, DocumentCheckIcon } from '@heroicons/react/24/outline'
+import { useEncodeHtmlCharacter } from './ReactQueryWrappers'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
-import { useUrlEncoder } from './ReactQueryWrappers'
-import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
+import { HtmlEncoderType } from '../../electron/htmlEncoder/HtmlEncoderService'
 
-const faqs = [
-  {
-    id: 1,
-    question: 'What is this tool for?',
-    answer: 'This tool is for encoding and decoding URLs.',
-  },
-  {
-    id: 2,
-    question: 'Whats the difference between encoding a uri and component?',
-    answer:
-      'Encoding a URI will not encode special url characters like /, ?, =, etc. Encoding a component will encode those characters so that you could encode a url to pass as a query string parameter.',
-  },
-]
-
-export function UrlEncoderScreen() {
+export function HtmlEncoderScreen() {
   const [logMessages, logAMessage] = useContext(ConsoleContext)
-  const runMutation = useUrlEncoder()
+  const encodeHtmlMutation = useEncodeHtmlCharacter()
   const [inputValue, setInputValue] = useState('')
   const [encodeToggleValue, setEncodeToggleValue] = useState(true)
-  const [encodeComponentToggleValue, setEncodeComponentToggleValue] =
-    useState(false)
+  const [encodeTypeValue, setEncodeTypeValue] =
+    useState<HtmlEncoderType>('html-entity')
   const [outputValue, setOutputValue] = useState('')
 
   let control: ReactElement | undefined = undefined
-  const onSubmitClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  const onDecodeClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
+    return runAction()
+  }
+
+  const runAction = async () => {
     const input = {
       data: inputValue,
       encode: encodeToggleValue,
-      component: encodeComponentToggleValue,
+      type: encodeTypeValue,
     }
 
     if (!input.data) {
@@ -47,15 +37,22 @@ export function UrlEncoderScreen() {
       return
     }
 
-    const result = await runMutation.mutateAsync(input)
+    const result = await encodeHtmlMutation.mutateAsync(input)
     setOutputValue(result.result)
+  }
+  const handleInputKeyDown = async (
+    event: React.KeyboardEvent<HTMLTextAreaElement>
+  ) => {
+    if (event.key === 'Enter') {
+      return runAction()
+    }
   }
   const insertSampleValue = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
-    setInputValue('https://www.google.com/search?q=hello+wo rld')
+    setInputValue('Should encode < and >')
   }
 
-  if (runMutation) {
+  if (encodeHtmlMutation) {
     control = (
       <div className="px-4 py-5 bg-white shadow sm:rounded-lg sm:p-6">
         <div className="flex flex-wrap justify-start space-x-16">
@@ -76,8 +73,8 @@ export function UrlEncoderScreen() {
                   <input
                     id="encoding"
                     name="encoding-method"
-                    type="radio"
                     defaultChecked={true}
+                    type="radio"
                     onChange={e =>
                       setEncodeToggleValue(e.currentTarget.id === 'encoding')
                     }
@@ -112,54 +109,51 @@ export function UrlEncoderScreen() {
           </div>
           <div className=" mb-8">
             <label
-              htmlFor="component-method"
+              htmlFor="encoding"
               className="text-base font-medium text-gray-900"
             >
-              Uri or Component
+              Html Entity or Unicode
             </label>
             <p className="text-sm text-gray-500 leading-5">
-              Are you encoding a uri or the value of a query string param?
+              {encodeToggleValue ? 'Do you want to output' : 'Is your input'}{' '}
+              Html Entity or Unicode ?
             </p>
             <fieldset className="mt-4">
-              <legend className="sr-only">Encode for a component</legend>
+              <legend className="sr-only">Choose the type of input data</legend>
               <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
-                <div key="forUri" className="flex items-center">
+                <div key="html-entity" className="flex items-center">
                   <input
-                    id="forUri"
-                    name="component-method"
+                    id="html-entity"
+                    name="encoding-type"
+                    type="radio"
                     defaultChecked={true}
                     onChange={e =>
-                      setEncodeComponentToggleValue(
-                        e.currentTarget.id === 'forComponent'
-                      )
+                      setEncodeTypeValue(e.currentTarget.id as HtmlEncoderType)
                     }
-                    type="radio"
                     className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
                   />
                   <label
-                    htmlFor="forUri"
+                    htmlFor="html-entity"
                     className="block ml-3 text-sm font-medium text-gray-700"
                   >
-                    A Uri
+                    Html Entity (<pre className="inline">&abcd;</pre>)
                   </label>
                 </div>
-                <div key="forComponent" className="flex items-center">
+                <div key="unicode" className="flex items-center">
                   <input
-                    id="forComponent"
-                    name="component-method"
-                    type="radio"
+                    id="unicode"
+                    name="encoding-type"
                     onChange={e =>
-                      setEncodeComponentToggleValue(
-                        e.currentTarget.id === 'forComponent'
-                      )
+                      setEncodeTypeValue(e.currentTarget.id as HtmlEncoderType)
                     }
+                    type="radio"
                     className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
                   />
                   <label
-                    htmlFor="forComponent"
+                    htmlFor="unicode"
                     className="block ml-3 text-sm font-medium text-gray-700"
                   >
-                    For Query Component
+                    Unicode (<pre className="inline">\u1234</pre>)
                   </label>
                 </div>
               </div>
@@ -170,6 +164,7 @@ export function UrlEncoderScreen() {
           rows={4}
           name="data"
           id="data"
+          onKeyDown={handleInputKeyDown}
           onChange={e => setInputValue(e.target.value)}
           placeholder="Paste your content here"
           className="block w-full mb-4 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -195,7 +190,7 @@ export function UrlEncoderScreen() {
   }
   return (
     <div className="mx-auto max-w-10xl">
-      <PageHeader pageTitle={'Uri Encoder'}>
+      <PageHeader pageTitle={'Html Char Encoder'}>
         <button
           onClick={e => insertSampleValue(e)}
           type="button"
@@ -206,15 +201,15 @@ export function UrlEncoderScreen() {
         </button>
         <button
           type="button"
-          onClick={e => onSubmitClick(e)}
-          disabled={runMutation.isLoading}
+          onClick={e => onDecodeClick(e)}
+          disabled={encodeHtmlMutation.isLoading}
           className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         >
           <DocumentCheckIcon className="w-5 h-5 mr-2" />
           Submit
         </button>
       </PageHeader>
-      <DescriptionAndHelp faqs={faqs} />
+
       {control}
     </div>
   )

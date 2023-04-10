@@ -22,6 +22,7 @@ import { StringSorterChannelPub } from './stringSorter/channels/StringSorterChan
 import { EslintRuleHelperChannelPub } from './eslintRuleHelper/channels/EslintRuleGeneratorChannelPub'
 import { GetPastGenerationChannelPub } from './eslintRuleHelper/channels/GetPastGenerationChannelPub'
 import { ListPastGenerationsChannelPub } from './eslintRuleHelper/channels/ListPastGenerationsChannelPub'
+import { HtmlEncoderChannelPub } from './htmlEncoder/channels/HtmlEncoderChannelPub'
 
 export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
   rtmSendChannels: [
@@ -55,5 +56,6 @@ export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
     new EslintRuleHelperChannelPub(),
     new ListPastGenerationsChannelPub(),
     new GetPastGenerationChannelPub(),
+    new HtmlEncoderChannelPub(),
   ],
 }

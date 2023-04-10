@@ -10,6 +10,7 @@ import {
   ChevronUpDownIcon,
   BarsArrowDownIcon,
   VariableIcon,
+  HashtagIcon,
 } from '@heroicons/react/24/outline'
 import { NavLink } from 'react-router-dom'
 import logo from '../../assets/logo-grey800-prompt.png'
@@ -35,6 +36,12 @@ const navigation = [
   //     icon: VariableIcon,
   //     current: false,
   //   },
+  {
+    name: 'Html Char Encoding',
+    href: '/html-char-encoding',
+    icon: HashtagIcon,
+    current: false,
+  },
   //   {
   //     name: 'Color Tools',
   //     href: '/color-tools',

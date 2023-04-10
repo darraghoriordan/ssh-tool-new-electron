@@ -73,17 +73,16 @@ export function JwtDecoderScreen() {
         >
           Decoded JWT
         </label>
-        {decodeJwtMutation.isSuccess && (
-          <textarea
-            rows={16}
-            name="decoded"
-            disabled={true}
-            id="decoded"
-            placeholder="click the button to decode"
-            className="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            value={outputValue}
-          />
-        )}
+
+        <textarea
+          rows={16}
+          name="decoded"
+          disabled={true}
+          id="decoded"
+          placeholder="click the button to decode"
+          className="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          value={outputValue}
+        />
       </div>
     </div>
   )

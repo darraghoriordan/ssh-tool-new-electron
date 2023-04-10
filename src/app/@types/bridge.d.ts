@@ -46,6 +46,10 @@ import {
 import EslintRuleGeneratorMeta from '../../electron/eslintRuleHelper/models/EslintRuleGeneratorMeta'
 import EslintRuleGenerationRecord from '../../electron/eslintRuleHelper/models/EslintRuleGeneration'
 import { PastGenerationFile } from '../../electron/eslintRuleHelper/channels/ListPastGenerationsChannelSub'
+import {
+  HtmlEncoderMessage,
+  HtmlEncoderResponse,
+} from '../../electron/htmlEncoder/channels/MessageTypes'
 
 declare global {
   // eslint-disable-next-line
@@ -77,6 +81,9 @@ declare global {
     }
     Base64Encoder: {
       invoke: (message: Base64EncoderMessage) => Promise<Base64EncoderResponse>
+    }
+    HtmlEncoder: {
+      invoke: (message: HtmlEncoderMessage) => Promise<HtmlEncoderResponse>
     }
     UnixTimeConverter: {
       invoke: (
