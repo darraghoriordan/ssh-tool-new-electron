@@ -1,3 +1,10 @@
+## [1.56.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.56.0...v1.56.1) (2023-04-10)
+
+
+### Bug Fixes
+
+* improve the ui for eslint rule generation ([2f8cb30](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/2f8cb300baad246446aece838320981eab1f36c1))
+
 # [1.56.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.55.0...v1.56.0) (2023-04-08)
 
 
