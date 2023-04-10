@@ -1,3 +1,10 @@
+# [1.59.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.58.0...v1.59.0) (2023-04-10)
+
+
+### Features
+
+* update to use docker file ([cdb0327](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/cdb032751c90027d442f8aca14e26f984a8b3e91))
+
 # [1.58.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.57.0...v1.58.0) (2023-04-10)
 
 
