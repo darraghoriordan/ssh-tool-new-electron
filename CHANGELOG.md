@@ -1,3 +1,10 @@
+# [1.57.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.56.1...v1.57.0) (2023-04-10)
+
+
+### Features
+
+* add html encoder ([88f805d](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/88f805d787e0c78ff69c1953260bf358ef09f3a6))
+
 ## [1.56.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.56.0...v1.56.1) (2023-04-10)
 
 
