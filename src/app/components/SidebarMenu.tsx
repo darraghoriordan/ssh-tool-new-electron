@@ -11,6 +11,7 @@ import {
   BarsArrowDownIcon,
   VariableIcon,
   HashtagIcon,
+  PaintBrushIcon,
 } from '@heroicons/react/24/outline'
 import { NavLink } from 'react-router-dom'
 import logo from '../../assets/logo-grey800-prompt.png'
@@ -42,12 +43,12 @@ const navigation = [
     icon: HashtagIcon,
     current: false,
   },
-  //   {
-  //     name: 'Color Tools',
-  //     href: '/color-tools',
-  //     icon: VariableIcon,
-  //     current: false,
-  //   },
+  {
+    name: 'Color Tools',
+    href: '/color-tools',
+    icon: PaintBrushIcon,
+    current: false,
+  },
   {
     name: 'JWT Decoder',
     href: '/jwt-decoder',

@@ -50,6 +50,10 @@ import {
   HtmlEncoderMessage,
   HtmlEncoderResponse,
 } from '../../electron/htmlEncoder/channels/MessageTypes'
+import {
+  ColorConverterMessage,
+  ColorConverterResponse,
+} from '../../electron/colorConverter/channels/MessageTypes'
 
 declare global {
   // eslint-disable-next-line
@@ -122,6 +126,11 @@ declare global {
     }
     EslintGetPastGeneration: {
       invoke: (message: string) => Promise<EslintRuleGenerationRecord>
+    }
+    ColorConverter: {
+      invoke: (
+        message: ColorConverterMessage
+      ) => Promise<ColorConverterResponse>
     }
   }
 }

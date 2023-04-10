@@ -15,6 +15,7 @@ import { StringSorterScreen } from './StringSorter/StringSorterScreen'
 import { StringCaseConverterScreen } from './StringCaseConverter/StringCaseConverterScreen'
 import { EslintRuleGeneratorScreen } from './EslintRuleHelper/EslintRuleGeneratorScreen'
 import { HtmlEncoderScreen } from './HtmlEncoder/HtmlEncoderScreen'
+import { ColorConverterScreen } from './ColorConverter/ColorConverterScreen'
 
 function AppRoutes() {
   return (
@@ -40,6 +41,7 @@ function AppRoutes() {
           path="unix-time-converter"
           element={<TimestampConverterScreen />}
         />
+        <Route path="color-tools" element={<ColorConverterScreen />} />
         <Route path="onboarding" element={<OnboardingScreen />} />
         <Route path="licensing" element={<LicensingScreen />} />
         <Route path="string-case" element={<StringCaseConverterScreen />} />
