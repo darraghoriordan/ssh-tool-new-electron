@@ -26,6 +26,15 @@ module.exports = [
     },
   },
   {
+    test: /Dockerfile-eslint/i,
+    use: {
+      loader: 'file-loader',
+      options: {
+        name: '[path][name]',
+      },
+    },
+  },
+  {
     test: /\.tsx?$/,
     exclude: /(node_modules|\.webpack)/,
     use: {

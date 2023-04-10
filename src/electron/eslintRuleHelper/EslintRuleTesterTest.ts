@@ -1,12 +1,10 @@
-import path from 'path'
-import EslintRuleGeneratorMeta from './models/EslintRuleGeneratorMeta'
 import runTestEpochs from './EslintRunTestEpochs'
 import EslintRuleGenerationRecord from './models/EslintRuleGeneration'
 
 // this cannot run in the context of a test framework because it's a test itself
 // it must be called by node directly
 const runSampleTest = async () => {
-  const ruleMeta: EslintRuleGeneratorMeta = {
+  const ruleMeta = {
     criteria: ['disallow class names that include the word "Zebra"'],
     maxNumberOfEpochs: 6,
     passingExamples: [`class AAA {}`, `class BBB {}`],
@@ -19,8 +17,9 @@ const runSampleTest = async () => {
   generationRecord.meta = ruleMeta
 
   const epochs = await runTestEpochs(ruleMeta, {
-    openApiApiKey: '',
-    tmpCodeFilePath: path.join(__dirname, 'tmp-file.ts'),
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    openAiApiKey: process.env.OPEN_API_CHAT_GPT_KEY!,
+    tmpCodeFilePath: '/app/ldt-eslint-tmp-code-file.ts', // container path
   })
   return epochs
 }

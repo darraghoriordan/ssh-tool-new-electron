@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import EslintRuleGeneratorMeta from './models/EslintRuleGeneratorMeta'
 import { EslintRuleChatGptService } from './EslintRuleChatGptService'
 import runTest from './EslintRunSingleTest'
@@ -5,11 +6,83 @@ import { EslintRuleEpoch } from './models/EslintRuleEpoch'
 import EslintRuleTestingError, {
   ErrorSource,
 } from './models/EslintRuleTestingError'
+// prettier-ignore
+const sampleCode = `import {
+    RuleContext,
+    RuleListener,
+  } from '@typescript-eslint/utils/dist/ts-eslint'
+  import {
+    ESLintUtils,
+    ASTUtils,
+    AST_NODE_TYPES,
+    AST_TOKEN_TYPES,
+    ParserServices,
+    TSESTree,
+    TSESLint,
+  } from '@typescript-eslint/utils'
+  const dissallowZebraClass = 'dissallowZebraClass';
+
+function hasZebra(word: string): boolean {
+return word.includes('Zebra');
+}
+
+const rule = ESLintUtils.RuleCreator.withoutDocs({
+defaultOptions: [],
+meta: {
+type: 'problem',
+docs: {
+  description: 'Disallow class names that include the word "Zebra"',
+  recommended: true,
+},
+schema: [],
+messages: {
+  [dissallowZebraClass]: 'Class names cannot include the word "Zebra"',
+},
+},
+
+create(context: Readonly<TSESLint.RuleContext<'dissallowZebraClass', []>>) {
+function checkNodeForZebra(node: TSESTree.Node): void {
+  if (node.type === AST_NODE_TYPES.ClassDeclaration) {
+    const className = node.id?.name;
+    if (className && hasZebra(className)) {
+      context.report({
+        node,
+        messageId: dissallowZebraClass,
+      });
+    }
+  }
+}
+
+return {
+  [AST_NODE_TYPES.ClassDeclaration]: checkNodeForZebra,
+};
+},
+});
+
+export default rule;`
 
 async function runTestEpochs(
   ruleMeta: EslintRuleGeneratorMeta,
   options: {
-    openApiApiKey: string
+    openAiApiKey: string
+    tmpCodeFilePath: string
+  }
+): Promise<EslintRuleEpoch[]> {
+  // start a docker container and run docker
+  await runTest(
+    sampleCode,
+    ruleMeta,
+    options.tmpCodeFilePath,
+    options.openAiApiKey
+  )
+  return []
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function runTestEpochsOld(
+  ruleMeta: EslintRuleGeneratorMeta,
+  options: {
+    openAiApiKey: string
     tmpCodeFilePath: string
   }
 ): Promise<EslintRuleEpoch[]> {
@@ -19,7 +92,7 @@ async function runTestEpochs(
   let lastGeneratedCode = await EslintRuleChatGptService.runChatCompletion(
     chatMessages,
     {
-      openAIApiKey: options.openApiApiKey,
+      openAIApiKey: options.openAiApiKey,
     }
   )
 
@@ -37,7 +110,8 @@ async function runTestEpochs(
       await runTest(
         lastGeneratedCode.responseText,
         ruleMeta,
-        options.tmpCodeFilePath
+        options.tmpCodeFilePath,
+        options.openAiApiKey
       )
       isSuccessful = true
     } catch (error) {
@@ -67,7 +141,7 @@ async function runTestEpochs(
       lastGeneratedCode = await EslintRuleChatGptService.runChatCompletion(
         chatMessages,
         {
-          openAIApiKey: options.openApiApiKey,
+          openAIApiKey: options.openAiApiKey,
         }
       )
     }

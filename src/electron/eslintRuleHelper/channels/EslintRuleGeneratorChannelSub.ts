@@ -88,7 +88,7 @@ export class EslintRuleHelperChannelSub
     }
 
     generationRecord.epochs = await runTestEpochs(request, {
-      openApiApiKey: settings.openApiChatGptKey,
+      openAiApiKey: settings.openApiChatGptKey,
       tmpCodeFilePath: path.join(dirPath, 'ldt-eslint-tmp-code-file.ts'),
     })
     // save the record to file system
