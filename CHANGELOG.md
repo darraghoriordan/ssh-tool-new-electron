@@ -1,3 +1,10 @@
+# [1.58.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.57.0...v1.58.0) (2023-04-10)
+
+
+### Features
+
+* add color tools ([f24f9f8](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/f24f9f8befba92591900924261b2faae5631fa8b))
+
 # [1.57.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.56.1...v1.57.0) (2023-04-10)
 
 
