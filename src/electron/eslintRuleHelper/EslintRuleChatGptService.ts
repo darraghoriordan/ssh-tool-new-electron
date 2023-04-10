@@ -13,7 +13,7 @@ export class EslintRuleChatGptService {
       settings.openApiOrgId.length > 0
     )
   }
-  static async addToChat(
+  static async runChatCompletion(
     messages: ChatMessage[],
     options: { openAIApiKey: string }
   ): Promise<{
@@ -87,7 +87,7 @@ export class EslintRuleChatGptService {
     }
   }
 
-  static getEslintRuleGeneratorChatMessages = (
+  static getInitialChatMessages = (
     meta: EslintRuleGeneratorMeta
   ): ChatMessage[] => {
     const st = `
@@ -114,7 +114,10 @@ export class EslintRuleChatGptService {
       .filter((v, i, a) => a.indexOf(v) === i)
 
     const message = `Write an eslint rule in typescript that meets the following criteria. Do not explain the rule.
-
+    An example template would be:
+    \`\`\`
+    ${st}
+    \`\`\`
     The ESLint rule should ensure that the following criteria are met: ${meta.criteria
       .map((c, i) => `${i + 1}. ${c}.`)
       .join('\n')}
@@ -131,6 +134,7 @@ export class EslintRuleChatGptService {
       ${distinctErrorMessageIds.join('\n')}
       \`\`\`
       Write any additional helper functions you need in the rule.
+      Only respond with code.
       You must use "ESLintUtils.RuleCreator.withoutDocs".
       You must complete the rule with an "export default rule" statement.`
 
@@ -139,11 +143,8 @@ export class EslintRuleChatGptService {
       {
         role: 'system',
         content: `You are an expert typescript abstract syntax tree developer. You are writing an eslint rule withoutDocs in typescript.
-          Think through it step by step. An example template would be:
-          \`\`\`
-          ${st}
-          \`\`\`
-          Do not explain any code. Do not apologise. Only write code.`,
+          Think through it step by step.
+          Do not explain any code with english. Do not apologise. Only response with code.`,
       },
       {
         role: 'user',

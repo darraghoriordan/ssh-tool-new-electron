@@ -35,6 +35,12 @@ const navigation = [
   //     icon: VariableIcon,
   //     current: false,
   //   },
+  //   {
+  //     name: 'Color Tools',
+  //     href: '/color-tools',
+  //     icon: VariableIcon,
+  //     current: false,
+  //   },
   {
     name: 'JWT Decoder',
     href: '/jwt-decoder',

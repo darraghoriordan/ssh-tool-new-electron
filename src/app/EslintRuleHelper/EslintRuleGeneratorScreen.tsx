@@ -1,64 +1,107 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { ReactElement, useContext, useState } from 'react'
 import PageHeader from '../components/PageHeader'
-import {
-  ArrowDownIcon,
-  DocumentCheckIcon,
-  TrashIcon,
-} from '@heroicons/react/24/outline'
+import { ArrowDownIcon, DocumentCheckIcon } from '@heroicons/react/24/outline'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
-import { useEslintRuleGenerator } from './ReactQueryWrappers'
+import {
+  useEslintRuleGenerator,
+  useGetPastGenerations,
+} from './ReactQueryWrappers'
 import EslintRuleGeneratorMeta from '../../electron/eslintRuleHelper/models/EslintRuleGeneratorMeta'
-import EslintRuleGenerationRecord from '../../electron/eslintRuleHelper/models/EslintRuleGeneration'
 import { PanelGroup, Panel } from 'react-resizable-panels'
 import ResizeHandle from '../components/ResizeHandle'
 import clsx from 'clsx'
 import { RemoveButton } from './RemoveButton'
+import { GenerationResult } from './GenerationResult'
 
 export function EslintRuleGeneratorScreen() {
   const [logMessages, logAMessage] = useContext(ConsoleContext)
-  const runMutation = useEslintRuleGenerator()
-  const [inputValue, setInputValue] = useState<EslintRuleGeneratorMeta>(
-    new EslintRuleGeneratorMeta()
-  )
-  const [selectedEpoch, setSelectedEpoch] = useState<number>(0)
+  // form fields
   const [criteriaEntry, setCriteriaEntry] = useState<string>('')
   const [passingExampleEntry, setPassingExampleEntry] = useState<string>('')
   const [failingMessageId, setFailingMessageIdEntry] = useState<string>('')
   const [failingCode, setFailingCodeEntry] = useState<string>('')
-  const [outputValue, setOutputValue] = useState<
-    EslintRuleGenerationRecord | undefined
-  >()
 
+  const runMutation = useEslintRuleGenerator()
+  const [inputValue, setInputValue] = useState<EslintRuleGeneratorMeta>(
+    new EslintRuleGeneratorMeta()
+  )
+
+  const [selectedGenerationRecordKey, setCurrentGenerationRecordKey] = useState<
+    string | undefined
+  >()
+  const {
+    data: pastGenerations,
+    isLoading: pastGenerationsLoading,
+    isError: pastGenerationsError,
+  } = useGetPastGenerations()
   let control: ReactElement | undefined = undefined
   const onSubmitClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
+    if (
+      inputValue.criteria.length === 0 ||
+      inputValue.passingExamples.length === 0 ||
+      inputValue.failingExamples.length === 0
+    ) {
+      logAMessage({
+        message:
+          'You must have at least one criteria, passing example and failing example to generate a rule.',
+        level: 'error',
+      })
+      return
+    }
 
     const result = await runMutation.mutateAsync(inputValue)
-    setOutputValue(result)
-    setSelectedEpoch(result.epochs.length - 1)
+    setCurrentGenerationRecordKey(result.createdForFilename)
   }
+
   const onDeleteCriteriaClick = async (itemText: string) => {
     const newCriteria = inputValue.criteria.filter(c => c !== itemText)
     setInputValue({ ...inputValue, criteria: newCriteria })
+    logAMessage({
+      message: "Deleted criteria '" + itemText + "'",
+      level: 'info',
+    })
   }
   const onDeletePassingExampleClick = async (itemText: string) => {
     const newPassingExamples = inputValue.passingExamples.filter(
       c => c !== itemText
     )
     setInputValue({ ...inputValue, passingExamples: newPassingExamples })
+    logAMessage({
+      message: "Deleted passing example '" + itemText + "'",
+      level: 'info',
+    })
   }
   const onDeleteFailingExampleClick = async (itemText: string) => {
     const newFailingExamples = inputValue.failingExamples.filter(
       c => c.code !== itemText
     )
     setInputValue({ ...inputValue, failingExamples: newFailingExamples })
+    logAMessage({
+      message: "Deleted failing example '" + itemText + "'",
+      level: 'info',
+    })
   }
   const onAddCriteriaClick = async () => {
+    if (criteriaEntry === '') {
+      logAMessage({
+        message: 'Cannot add empty criteria',
+        level: 'error',
+      })
+      return
+    }
     const newCriteria = [...inputValue.criteria, criteriaEntry]
     setInputValue({ ...inputValue, criteria: newCriteria })
   }
   const onAddPassingCodeExampleClick = async () => {
+    if (passingExampleEntry === '') {
+      logAMessage({
+        message: 'Cannot add empty example',
+        level: 'error',
+      })
+      return
+    }
     const newPassingExamples = [
       ...inputValue.passingExamples,
       passingExampleEntry,
@@ -66,6 +109,13 @@ export function EslintRuleGeneratorScreen() {
     setInputValue({ ...inputValue, passingExamples: newPassingExamples })
   }
   const onAddFailingCodeExampleClick = async () => {
+    if (failingCode === '' || failingMessageId === '') {
+      logAMessage({
+        message: 'Cannot add empty code or message id',
+        level: 'error',
+      })
+      return
+    }
     const newFailingExamples = [
       ...inputValue.failingExamples,
       { code: failingCode, errorMessageId: failingMessageId },
@@ -82,7 +132,6 @@ export function EslintRuleGeneratorScreen() {
         { code: `class AZebraA {}`, errorMessageId: 'dissallowZebraClass' },
         { code: `class ZebraA {}`, errorMessageId: 'dissallowZebraClass' },
       ],
-      tmpCodeFilePath: '',
     }
     setInputValue(ruleMeta)
   }
@@ -96,7 +145,7 @@ export function EslintRuleGeneratorScreen() {
             <div className="w-1/2">
               {inputValue.criteria.length <= 0 && (
                 <>
-                  <p className="text-sm text-gray-500 mb-4">
+                  <p className="mb-4 text-sm text-gray-500">
                     No criteria have been added yet. Use the form to add. You
                     can add multiple criteria for your rule.
                   </p>
@@ -136,7 +185,7 @@ export function EslintRuleGeneratorScreen() {
                 name="addCriteria"
                 onChange={e => setCriteriaEntry(e.target.value)}
                 id="addCriteria"
-                className="mb-4 block w-full font-mono"
+                className="block w-full mb-4 font-mono"
               />
               <button
                 type="button"
@@ -151,21 +200,25 @@ export function EslintRuleGeneratorScreen() {
         <div className="flex space-x-4">
           <div className="w-full p-4 mb-8 border rounded-br-lg border-slate-200">
             <h2 className="mb-4 text-lg">Passing Code Examples</h2>
-            <div className="flex">
-              <div className="w-1/2">
+            <div className="flex space-x-4">
+              <div className="w-1/2 ">
                 {inputValue.passingExamples.length <= 0 && (
                   <>
-                    <p className="text-sm text-gray-500 mb-4">
+                    <p className="mb-4 text-sm text-gray-500">
                       No passing code examples have been added yet.
                     </p>
-                    <p className="text-sm text-gray-500 mb-4">
+                    <p className="mb-4 text-sm text-gray-500">
+                      The generated code is verified using eslint and these code
+                      examples.
+                    </p>
+                    <p className="mb-4 text-sm text-gray-500">
                       You must provide at least one code example to verify that
                       your eslint rule passes
                     </p>
                   </>
                 )}
                 {inputValue.passingExamples.length > 0 && (
-                  <ul className="">
+                  <ul className="overflow-x-auto">
                     {inputValue.passingExamples.map((c, i) => {
                       return (
                         <li key={i} className="mb-8">
@@ -208,34 +261,33 @@ export function EslintRuleGeneratorScreen() {
           </div>
           <div className="w-full p-4 mb-8 border rounded-br-lg border-slate-200">
             <h2 className="mb-4 text-lg">Failing Code Examples</h2>
-            <div className="flex">
+            <div className="flex space-x-4">
               <div className="w-1/2">
                 {inputValue.failingExamples.length <= 0 && (
                   <>
-                    <p className="text-sm text-gray-500 mb-4">
+                    <p className="mb-4 text-sm text-gray-500">
                       No failing code examples have been added yet.
                     </p>
-                    <p className="text-sm text-gray-500 mb-4">
+                    <p className="mb-4 text-sm text-gray-500">
                       Failing code examples need to have a code snippet that
-                      will fail the Eslint rule and an error message Id. An
-                      error message id should be descriptive of the error.
+                      will fail with your Eslint rule and an Error Message Id.
+                      An Error Message Id should be descriptive of the error.
                     </p>
-                    <p className="text-sm text-gray-500 mb-4">
+                    <p className="mb-4 text-sm text-gray-500">
                       Examples of error message ids are:
                       &quot;camelCase-only-classes&quot; or
-                      &quot;noI-in-interface-name&quot;
+                      &quot;no-I-in-interface-name&quot;
                     </p>
                   </>
                 )}
                 {inputValue.failingExamples.length > 0 && (
-                  <ul className="">
+                  <ul className="overflow-x-auto">
                     {inputValue.failingExamples.map((c, i) => {
                       return (
-                        <li key={i} className="mb-8">
-                          <pre>{c.code} </pre>
-                          <div>{c.errorMessageId}</div>
+                        <li key={i} className="flex flex-col mb-8 space-y-4">
+                          <pre>{JSON.stringify(c, undefined, 2)} </pre>
                           <RemoveButton
-                            className="mt-2"
+                            className="inline-flex items-center justify-center w-1/2 mt-2 text-center"
                             onClick={() => onDeleteFailingExampleClick(c.code)}
                           ></RemoveButton>
                         </li>
@@ -294,55 +346,39 @@ export function EslintRuleGeneratorScreen() {
               flexDirection: 'column',
             }}
           >
-            <span className="text-sm">Epochs</span>
-            <ul>
-              {outputValue?.epochs?.map((e, i) => {
-                return (
-                  <li key={i}>
-                    <button
-                      className={clsx(
-                        'text-sm font-medium text-gray-900 truncate',
-                        i === selectedEpoch
-                          ? 'text-indigo-600'
-                          : 'text-gray-500'
-                      )}
-                      onClick={() => setSelectedEpoch(i)}
-                    >
-                      Epoch {i}
-                    </button>
-                  </li>
-                )
-              })}
-            </ul>
+            <span className="mb-2 font-semibold">Past Generations</span>
+            {pastGenerationsLoading && <p>loading...</p>}
+            {!pastGenerationsLoading &&
+              pastGenerations &&
+              pastGenerations.length === 0 && <p>No records yet</p>}
+            {!pastGenerationsLoading &&
+              pastGenerations &&
+              pastGenerations.length > 0 && (
+                <ul>
+                  {pastGenerations.map((e, i) => {
+                    return (
+                      <li key={i}>
+                        <button
+                          className={clsx(
+                            'text-sm font-medium text-gray-900 truncate',
+                            e.displayName === selectedGenerationRecordKey
+                              ? 'text-indigo-600'
+                              : 'text-gray-500'
+                          )}
+                          onClick={() =>
+                            setCurrentGenerationRecordKey(e.displayName)
+                          }
+                        >
+                          {e.displayName}
+                        </button>
+                      </li>
+                    )
+                  })}
+                </ul>
+              )}
           </Panel>
           <ResizeHandle className="bg-dark-shade" />
-          <Panel
-            defaultSize={80}
-            minSize={80}
-            style={{
-              display: 'flex',
-              //alignItems: "stretch",
-              flexDirection: 'column',
-            }}
-          >
-            <div className="px-4">
-              <label
-                htmlFor="outputRule"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Generated Rule
-              </label>
-              <textarea
-                rows={16}
-                name="outputRule"
-                disabled={true}
-                id="outputRule"
-                placeholder="Enter rule details and click the submit button"
-                className="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                value={outputValue?.epochs?.[selectedEpoch]?.code || ''}
-              />
-            </div>
-          </Panel>
+          <GenerationResult generationResultKey={selectedGenerationRecordKey} />
         </PanelGroup>
       </div>
     )

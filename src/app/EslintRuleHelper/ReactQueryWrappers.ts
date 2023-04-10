@@ -1,14 +1,18 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useContext } from 'react'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 import EslintRuleGenerationRecord from '../../electron/eslintRuleHelper/models/EslintRuleGeneration'
 import EslintRuleGeneratorMeta from '../../electron/eslintRuleHelper/models/EslintRuleGeneratorMeta'
+import { PastGenerationFile } from '../../electron/eslintRuleHelper/channels/ListPastGenerationsChannelSub'
 
 export const wellKnownQueries = {
   runGenerate: 'eslint-rule-generate',
+  getPastGenerations: 'eslint-rule-past-generations',
+  getPastGeneration: 'eslint-rule-past-generation',
 }
 export function useEslintRuleGenerator() {
   const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const queryClient = useQueryClient()
   return useMutation<
     EslintRuleGenerationRecord,
     { message: string },
@@ -28,7 +32,31 @@ export function useEslintRuleGenerator() {
           message: `${wellKnownQueries.runGenerate} tool completed successfully.`,
           level: 'info',
         })
+        queryClient.invalidateQueries({
+          queryKey: [wellKnownQueries.getPastGenerations],
+        })
       },
     }
+  )
+}
+
+export function useGetPastGenerations() {
+  return useQuery<PastGenerationFile[]>(
+    [wellKnownQueries.getPastGenerations],
+    async () => window.EslintListPastGenerations.invoke(),
+    {
+      retry: false,
+    }
+  )
+}
+export function useGetPastGeneration(fileName: string) {
+  return useQuery<EslintRuleGenerationRecord>(
+    [wellKnownQueries.getPastGeneration, { fileName }],
+    async ({ queryKey }) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const [key, { fileName }] = queryKey as [string, { fileName: string }]
+      return window.EslintGetPastGeneration.invoke(fileName)
+    },
+    { retry: false }
   )
 }

@@ -2,18 +2,21 @@ import EslintRuleGeneratorMeta from './models/EslintRuleGeneratorMeta'
 import { EslintRuleChatGptService } from './EslintRuleChatGptService'
 import runTest from './EslintRunSingleTest'
 import { EslintRuleEpoch } from './models/EslintRuleEpoch'
+import EslintRuleTestingError, {
+  ErrorSource,
+} from './models/EslintRuleTestingError'
 
-async function* runTestEpochs(
+async function runTestEpochs(
   ruleMeta: EslintRuleGeneratorMeta,
   options: {
     openApiApiKey: string
+    tmpCodeFilePath: string
   }
-): AsyncGenerator<EslintRuleEpoch, EslintRuleEpoch[], void> {
+): Promise<EslintRuleEpoch[]> {
   // rule tester gen initial message
-  const chatMessages =
-    EslintRuleChatGptService.getEslintRuleGeneratorChatMessages(ruleMeta)
+  const chatMessages = EslintRuleChatGptService.getInitialChatMessages(ruleMeta)
 
-  let lastGeneratedCode = await EslintRuleChatGptService.addToChat(
+  let lastGeneratedCode = await EslintRuleChatGptService.runChatCompletion(
     chatMessages,
     {
       openAIApiKey: options.openApiApiKey,
@@ -31,14 +34,29 @@ async function* runTestEpochs(
     )
     epochRecord.chatMessages = [...chatMessages]
     try {
-      await runTest(lastGeneratedCode.responseText, ruleMeta)
+      await runTest(
+        lastGeneratedCode.responseText,
+        ruleMeta,
+        options.tmpCodeFilePath
+      )
       isSuccessful = true
     } catch (error) {
-      const errorMessage = (error as Error).message.slice(0, 500)
-      epochRecord.errors.push(errorMessage)
+      let errorSource: ErrorSource = 'system'
+      let errorMessage = 'Unknown error'
+      if (error instanceof EslintRuleTestingError) {
+        errorMessage = error.message.slice(0, 500)
+        errorSource = error.source
+      } else {
+        errorMessage = (error as Error).message.slice(0, 500)
+      }
+
+      epochRecord.errors.push({
+        message: errorMessage,
+        source: errorSource,
+      })
       chatMessages.push({
         role: 'assistant',
-        content: '```' + lastGeneratedCode + '```',
+        content: '```' + lastGeneratedCode.responseText + '```',
       })
       chatMessages.push({
         role: 'user',
@@ -46,7 +64,7 @@ async function* runTestEpochs(
 
         Do not apologize or explain. Only return the code that fixes the error.`,
       })
-      lastGeneratedCode = await EslintRuleChatGptService.addToChat(
+      lastGeneratedCode = await EslintRuleChatGptService.runChatCompletion(
         chatMessages,
         {
           openAIApiKey: options.openApiApiKey,
@@ -55,9 +73,15 @@ async function* runTestEpochs(
     }
 
     allEpochs.push(epochRecord)
-
-    yield epochRecord
     currentEpoch++
+
+    if (
+      epochRecord.errors?.length > 0 &&
+      epochRecord.errors[0].source === 'system'
+    ) {
+      // something went wrong with the system, so we should stop wasting tokens
+      break
+    }
   }
   console.log('returning all epochs', { allEpochs })
   return allEpochs

@@ -12,5 +12,8 @@ export class EslintRuleEpoch {
   tokensUsed: number
   code: string
   chatMessages: ChatMessage[]
-  errors: string[]
+  errors: {
+    message: string
+    source: 'system' | 'tsc' | 'eslint-test'
+  }[]
 }

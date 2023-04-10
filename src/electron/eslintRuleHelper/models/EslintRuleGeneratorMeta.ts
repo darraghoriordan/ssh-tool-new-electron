@@ -7,7 +7,7 @@ class EslintRuleGeneratorMeta {
     this.failingExamples = []
     this.maxNumberOfEpochs = 1
   }
-  tmpCodeFilePath!: string
+
   criteria: string[]
   passingExamples: string[]
   failingExamples: FailingTest[]

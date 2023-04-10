@@ -79,18 +79,35 @@ export default class Main {
       website: 'https://www.darraghoriordan.com/',
       iconPath: process.execPath,
     })
+    function getInitialWindowDimensions(primaryDisplay: Electron.Display): {
+      width: number
+      height: number
+    } {
+      // start off full screen on small screens, otherwise 80% of the screen.
+      const dimensions = {
+        width: primaryDisplay.size.width,
+        height: primaryDisplay.size.height,
+      }
+      // limit the width if the screen is big
+      if (primaryDisplay.size.width > 1720) {
+        dimensions.width = primaryDisplay.size.width * 0.7
+      }
+      // limit the height if the screen is big
+      if (primaryDisplay.size.height > 1080) {
+        dimensions.height = primaryDisplay.size.height * 0.8
+      }
+
+      return dimensions
+    }
     const primaryDisplay = screen.getPrimaryDisplay()
-    const initialHeight =
-      (primaryDisplay.size.height * 0.8) / primaryDisplay.scaleFactor
-    const initialWidth =
-      (primaryDisplay.size.width < 1400 ? primaryDisplay.size.width : 1400) /
-      primaryDisplay.scaleFactor
+    const initialDimensions = getInitialWindowDimensions(primaryDisplay)
+
     this.mainWindow = new BrowserWindow({
       icon: path.join(assetsPath, 'assets', 'icons', 'icon.png'),
       minWidth: 1400 / primaryDisplay.scaleFactor,
       minHeight: 800 / primaryDisplay.scaleFactor,
-      width: initialWidth,
-      height: initialHeight,
+      width: initialDimensions.width,
+      height: initialDimensions.height,
       backgroundColor: '#191622',
       webPreferences: {
         devTools: !app.isPackaged,

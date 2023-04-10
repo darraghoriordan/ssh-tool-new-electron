@@ -18,6 +18,7 @@
     },
     "include": [
         "file.ts",
+        "./**/*.ts"
     ],
     "exclude": [
         "dist",

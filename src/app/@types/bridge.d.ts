@@ -45,6 +45,7 @@ import {
 } from '../../electron/urlEncoder/channels/MessageTypes'
 import EslintRuleGeneratorMeta from '../../electron/eslintRuleHelper/models/EslintRuleGeneratorMeta'
 import EslintRuleGenerationRecord from '../../electron/eslintRuleHelper/models/EslintRuleGeneration'
+import { PastGenerationFile } from '../../electron/eslintRuleHelper/channels/ListPastGenerationsChannelSub'
 
 declare global {
   // eslint-disable-next-line
@@ -108,6 +109,12 @@ declare global {
       invoke: (
         message: EslintRuleGeneratorMeta
       ) => Promise<EslintRuleGenerationRecord>
+    }
+    EslintListPastGenerations: {
+      invoke: () => Promise<PastGenerationFile[]>
+    }
+    EslintGetPastGeneration: {
+      invoke: (message: string) => Promise<EslintRuleGenerationRecord>
     }
   }
 }
