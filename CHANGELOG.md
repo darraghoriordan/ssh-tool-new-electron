@@ -1,3 +1,10 @@
+## [1.60.3](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.60.2...v1.60.3) (2023-04-11)
+
+
+### Bug Fixes
+
+* screen width ([5457c00](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/5457c00b5246501b16b26b414127991b7bf4c513))
+
 ## [1.60.2](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.60.1...v1.60.2) (2023-04-11)
 
 
