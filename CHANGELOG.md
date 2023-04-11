@@ -1,3 +1,10 @@
+## [1.60.2](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.60.1...v1.60.2) (2023-04-11)
+
+
+### Bug Fixes
+
+* paths for docker container ([964ad6f](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/964ad6f48584f02966587208a466b8a1cb8d9222))
+
 ## [1.60.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.60.0...v1.60.1) (2023-04-11)
 
 
