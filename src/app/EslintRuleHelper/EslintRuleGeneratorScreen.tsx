@@ -34,7 +34,7 @@ const faqs = [
     id: 3,
     question: 'YOU MUST PROVIDE:',
     answer:
-      'You must provide an OpenAI api key in App Settings. You must have docker installed - this tool uses docker to run the generated code for security isolation.',
+      'You must provide an OpenAI api key in App Settings. You must have docker installed - this tool uses docker to run the generated code for security isolation. This is an electron app with minimal access to your environment so it depends on docker being installed or aliased in the default location - /usr/local/bin.',
   },
   {
     id: 4,

@@ -39,7 +39,12 @@ export class DockerfileHelper {
     const res = await execAsync(
       `docker pull ${imageName} && docker run -e OPEN_API_CHAT_GPT_KEY=${
         options.openAiApiKey
-      } -v "${path.dirname(options.tmpCodeFilePath)}:/app/usr" ${imageName}`
+      } -v "${path.dirname(options.tmpCodeFilePath)}:/app/usr" ${imageName}`,
+      {
+        env: {
+          path: process.env.PATH + ':/usr/local/bin',
+        },
+      }
     )
     return res
   }
