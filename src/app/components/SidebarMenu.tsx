@@ -31,12 +31,12 @@ const navigation = [
     icon: LinkIcon,
     current: false,
   },
-  //   {
-  //     name: 'Eslint Rule Generator',
-  //     href: '/eslint-rule-generator',
-  //     icon: VariableIcon,
-  //     current: false,
-  //   },
+  {
+    name: 'Eslint Rule Generator',
+    href: '/eslint-rule-generator',
+    icon: VariableIcon,
+    current: false,
+  },
   {
     name: 'Html Char Encoding',
     href: '/html-char-encoding',

@@ -1,18 +1,66 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { ReactElement, useContext, useState } from 'react'
 import PageHeader from '../components/PageHeader'
-import { ArrowDownIcon, DocumentCheckIcon } from '@heroicons/react/24/outline'
+import {
+  ArrowDownIcon,
+  DocumentCheckIcon,
+  VariableIcon,
+} from '@heroicons/react/24/outline'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 import {
   useEslintRuleGenerator,
   useGetPastGenerations,
 } from './ReactQueryWrappers'
 import EslintRuleGeneratorMeta from '../../electron/eslintRuleHelper/models/EslintRuleGeneratorMeta'
-import { PanelGroup, Panel } from 'react-resizable-panels'
-import ResizeHandle from '../components/ResizeHandle'
 import clsx from 'clsx'
 import { RemoveButton } from './RemoveButton'
 import { GenerationResult } from './GenerationResult'
+import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
+
+const faqs = [
+  {
+    id: 1,
+    question: 'What is this tool for?',
+    answer:
+      'ESLint rules are a great way to enforce rules around your code. Many orgs will have a PR checklist that devs go through manually every time they change the code. Some of those items could be enforced by ESLint rules, but writing and testing these rules can be tricky. ',
+  },
+  {
+    id: 2,
+    question: 'Why use it?',
+    answer:
+      'Writing ESLint rules requires knowledge of ESLint, TSESLint and Abstract Syntax Tree for javascript/typescript. This tool uses an AI assistant to write the AST logic. This makes them far more accessible to all engineering teams.',
+  },
+  {
+    id: 3,
+    question: 'YOU MUST PROVIDE:',
+    answer:
+      'You must provide an OpenAI api key in App Settings. You must have docker installed - this tool uses docker to run the generated code for security isolation.',
+  },
+  {
+    id: 4,
+    question: 'What does it do?',
+    answer:
+      'The tool will use the criteria you provide to generate an ESLint rule. It will then test the rule against the passing and failing examples you provide. If the rule fails, it will be regenerated with the error message until it passes or the maximum number of attempts is reached.',
+  },
+  {
+    id: 4,
+    question: 'Limitations',
+    answer:
+      'The tool is limited to 4k total tokens at the moment, this is roughly 6 epochs. This is a limitation of OpenAI GPT 3.5 API. The tools test docker container only has access to @typescript/eslint packages. Dependency on any other package will cause an error, although you might be able to use the generated code as inspiration!',
+  },
+  {
+    id: 4,
+    question: 'How to use the code in your project',
+    answer:
+      'Generally eslint rules must be part of a "plugin" but you can add "rulePaths" to your eslint config to point to your rules. You can consider using eslint-plugin-local-rules to make this easier.',
+  },
+  {
+    id: 4,
+    question: 'Tips',
+    answer:
+      'You can re-run the same criteria multiple times and get a different result every time. It can be worth seeing the different approaches the AI assistant takes.',
+  },
+]
 
 export function EslintRuleGeneratorScreen() {
   const [logMessages, logAMessage] = useContext(ConsoleContext)
@@ -26,7 +74,14 @@ export function EslintRuleGeneratorScreen() {
   const [inputValue, setInputValue] = useState<EslintRuleGeneratorMeta>(
     new EslintRuleGeneratorMeta()
   )
-
+  const fakeMessages = [
+    'Generating rule...',
+    'Generating rule...',
+    'Loading container...',
+    'Running Tests...',
+    'Running Tests...',
+    'Verifying rule...',
+  ]
   const [selectedGenerationRecordKey, setCurrentGenerationRecordKey] = useState<
     string | undefined
   >()
@@ -38,6 +93,11 @@ export function EslintRuleGeneratorScreen() {
   let control: ReactElement | undefined = undefined
   const onSubmitClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
+    let interval: NodeJS.Timer | undefined = undefined
+    logAMessage({
+      message: 'Checking criteria...',
+      level: 'info',
+    })
     if (
       inputValue.criteria.length === 0 ||
       inputValue.passingExamples.length === 0 ||
@@ -51,8 +111,27 @@ export function EslintRuleGeneratorScreen() {
       return
     }
 
-    const result = await runMutation.mutateAsync(inputValue)
-    setCurrentGenerationRecordKey(result.createdForFilename)
+    try {
+      // create a fake log message every x seconds
+      let currentMessage = 0
+      interval = setInterval(() => {
+        logAMessage({
+          message: fakeMessages[currentMessage],
+          level: 'info',
+        })
+        currentMessage++
+        if (currentMessage >= fakeMessages.length) {
+          currentMessage = 0
+        }
+      }, 3000)
+
+      const result = await runMutation.mutateAsync(inputValue)
+      setCurrentGenerationRecordKey(result.createdForFilename)
+    } finally {
+      if (interval) {
+        clearInterval(interval)
+      }
+    }
   }
 
   const onDeleteCriteriaClick = async (itemText: string) => {
@@ -125,12 +204,18 @@ export function EslintRuleGeneratorScreen() {
   const insertSampleValue = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     const ruleMeta: EslintRuleGeneratorMeta = {
-      criteria: ['disallow class names that include the word "Zebra"'],
+      criteria: ['disallow interface names that start with the letter "I"'],
       maxNumberOfEpochs: 6,
-      passingExamples: [`class AAA {}`, `class BBB {}`],
+      passingExamples: [
+        `interface MyInterface {}`,
+        `interface AnotherInterface {}`,
+      ],
       failingExamples: [
-        { code: `class AZebraA {}`, errorMessageId: 'dissallowZebraClass' },
-        { code: `class ZebraA {}`, errorMessageId: 'dissallowZebraClass' },
+        {
+          code: `interface IForNoReason {}`,
+          errorMessageId: 'noIinInterfaceNames',
+        },
+        { code: `interface IWhy {}`, errorMessageId: 'noIinInterfaceNames' },
       ],
     }
     setInputValue(ruleMeta)
@@ -149,10 +234,14 @@ export function EslintRuleGeneratorScreen() {
                     No criteria have been added yet. Use the form to add. You
                     can add multiple criteria for your rule.
                   </p>
-                  <p className="text-sm text-gray-500">
+                  <p className="mb-4 text-sm text-gray-500">
                     Examples of criteria are: &quot;Ensure all class names are
                     camelCase&quot; or &quot;disallow interface names that start
                     with I&quot;
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    It&apos;s best to keep your rules simple and focused rather
+                    than joining many criteria together.
                   </p>
                 </>
               )}
@@ -205,15 +294,16 @@ export function EslintRuleGeneratorScreen() {
                 {inputValue.passingExamples.length <= 0 && (
                   <>
                     <p className="mb-4 text-sm text-gray-500">
-                      No passing code examples have been added yet.
+                      No passing code examples have been added yet. A passing
+                      code example is code that should not trigger your rule.
                     </p>
                     <p className="mb-4 text-sm text-gray-500">
-                      The generated code is verified using eslint and these code
-                      examples.
+                      The generated rule is verified in ESLint with the code
+                      examples provided here.
                     </p>
                     <p className="mb-4 text-sm text-gray-500">
                       You must provide at least one code example to verify that
-                      your eslint rule passes
+                      your ESLint rule passes
                     </p>
                   </>
                 )}
@@ -266,12 +356,13 @@ export function EslintRuleGeneratorScreen() {
                 {inputValue.failingExamples.length <= 0 && (
                   <>
                     <p className="mb-4 text-sm text-gray-500">
-                      No failing code examples have been added yet.
+                      No failing code examples have been added yet. A failing
+                      code example is code that should trigger your rule.
                     </p>
                     <p className="mb-4 text-sm text-gray-500">
-                      Failing code examples need to have a code snippet that
-                      will fail with your Eslint rule and an Error Message Id.
-                      An Error Message Id should be descriptive of the error.
+                      Failing code examples also require an Error Message Id
+                      that ESLint uses for reporting. An Error Message Id should
+                      be descriptive of the error.
                     </p>
                     <p className="mb-4 text-sm text-gray-500">
                       Examples of error message ids are:
@@ -336,17 +427,16 @@ export function EslintRuleGeneratorScreen() {
             </div>
           </div>
         </div>
-        <PanelGroup direction="horizontal" className="overflow-scroll">
-          <Panel
-            defaultSize={20}
-            minSize={20}
+        <div className="flex justify-start space-x-8">
+          <div
+            className="pr-8 border-gray-200 shrink-0 border-r-[6px]"
             style={{
               display: 'flex',
               //alignItems: "stretch",
               flexDirection: 'column',
             }}
           >
-            <span className="mb-2 font-semibold">Past Generations</span>
+            <h3 className="mb-4 font-semibold">Past ESLint Rule Generations</h3>
             {pastGenerationsLoading && <p>loading...</p>}
             {!pastGenerationsLoading &&
               pastGenerations &&
@@ -354,21 +444,29 @@ export function EslintRuleGeneratorScreen() {
             {!pastGenerationsLoading &&
               pastGenerations &&
               pastGenerations.length > 0 && (
-                <ul>
+                <ul className="flex flex-col space-y-3">
                   {pastGenerations.map((e, i) => {
                     return (
-                      <li key={i}>
+                      <li key={i} className="w-full">
                         <button
                           className={clsx(
-                            'text-sm font-medium text-gray-900 truncate',
+                            'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
                             e.displayName === selectedGenerationRecordKey
-                              ? 'text-indigo-600'
-                              : 'text-gray-500'
+                              ? 'bg-gray-50 text-indigo-600'
+                              : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
                           )}
                           onClick={() =>
                             setCurrentGenerationRecordKey(e.displayName)
                           }
                         >
+                          <VariableIcon
+                            className={clsx(
+                              'h-6 w-6 shrink-0',
+                              e.displayName === selectedGenerationRecordKey
+                                ? 'text-indigo-600'
+                                : 'text-gray-400 group-hover:text-indigo-600'
+                            )}
+                          />
                           {e.displayName}
                         </button>
                       </li>
@@ -376,16 +474,16 @@ export function EslintRuleGeneratorScreen() {
                   })}
                 </ul>
               )}
-          </Panel>
-          <ResizeHandle className="bg-dark-shade" />
+          </div>
+
           <GenerationResult generationResultKey={selectedGenerationRecordKey} />
-        </PanelGroup>
+        </div>
       </div>
     )
   }
   return (
     <div className="mx-auto max-w-10xl">
-      <PageHeader pageTitle={'Eslint Rule Generator'}>
+      <PageHeader pageTitle={'ESLint Rule Generator'}>
         <button
           onClick={e => insertSampleValue(e)}
           type="button"
@@ -404,7 +502,10 @@ export function EslintRuleGeneratorScreen() {
           Submit
         </button>
       </PageHeader>
-
+      <DescriptionAndHelp
+        title="Description and FAQ (Please Read!!)"
+        faqs={faqs}
+      />
       {control}
     </div>
   )

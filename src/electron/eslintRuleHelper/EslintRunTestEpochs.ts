@@ -61,7 +61,7 @@ return {
 
 export default rule;`
 
-async function runTestEpochs(
+async function runTestEpochsOld(
   ruleMeta: EslintRuleGeneratorMeta,
   options: {
     openAiApiKey: string
@@ -79,7 +79,7 @@ async function runTestEpochs(
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function runTestEpochsOld(
+async function runTestEpochs(
   ruleMeta: EslintRuleGeneratorMeta,
   options: {
     openAiApiKey: string

@@ -123,7 +123,7 @@ export const SshUrlConverterScreen = () => {
                 className="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               />
             </div>
-
+            <h2 className="mt-8 mb-4 font-semibold">Your SSH alias urls</h2>
             {outputValue?.httpUrl && (
               <>
                 <p className="mt-8 mb-2 text-gray-500 text-md leading-5">
