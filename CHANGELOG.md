@@ -1,3 +1,10 @@
+## [1.60.4](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.60.3...v1.60.4) (2023-04-11)
+
+
+### Bug Fixes
+
+* add more docs url ([70344b6](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/70344b67b28e38c15b828ebf245403b8065ba32c))
+
 ## [1.60.3](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.60.2...v1.60.3) (2023-04-11)
 
 
