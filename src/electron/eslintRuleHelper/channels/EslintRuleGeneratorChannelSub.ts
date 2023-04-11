@@ -89,7 +89,7 @@ export class EslintRuleHelperChannelSub
 
     generationRecord.epochs = await runTestEpochs(request, {
       openAiApiKey: settings.openApiChatGptKey,
-      tmpCodeFilePath: path.join(dirPath, 'ldt-eslint-tmp-code-file.ts'),
+      tmpCodeFilePath: dirPath,
     })
     // save the record to file system
     await fsp.writeFile(

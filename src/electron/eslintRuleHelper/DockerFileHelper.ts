@@ -29,7 +29,7 @@ export class DockerfileHelper {
       tmpCodeFilePath: string
     }
   ): Promise<{ stdout: string; stderr: string }> {
-    const dirPath = path.dirname(options.tmpCodeFilePath)
+    const dirPath = options.tmpCodeFilePath
 
     // these are unique to each run
     this.writefile(dirPath, '.dockerignore', dockerignore)
@@ -37,9 +37,7 @@ export class DockerfileHelper {
     this.writefile(dirPath, 'ldt-eslint-tmp-code-file.ts', generatedCode)
     const imageName = 'darraghoriordan/ldt-eslint:latest'
     const res = await execAsync(
-      `docker pull ${imageName} && docker run -e OPEN_API_CHAT_GPT_KEY=${
-        options.openAiApiKey
-      } -v "${path.dirname(options.tmpCodeFilePath)}:/app/usr" ${imageName}`,
+      `docker pull ${imageName} && docker run -e OPEN_API_CHAT_GPT_KEY=${options.openAiApiKey} -v "${options.tmpCodeFilePath}:/app/usr" ${imageName}`,
       {
         env: {
           path: process.env.PATH + ':/usr/local/bin',
@@ -53,9 +51,6 @@ export class DockerfileHelper {
     fileName: string,
     fileContents: string
   ) {
-    fs.writeFileSync(
-      path.join(path.dirname(tmpCodeFilePath), fileName),
-      fileContents
-    )
+    fs.writeFileSync(path.join(tmpCodeFilePath, fileName), fileContents)
   }
 }

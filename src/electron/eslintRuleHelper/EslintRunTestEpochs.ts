@@ -61,22 +61,22 @@ return {
 
 export default rule;`
 
-async function runTestEpochsOld(
-  ruleMeta: EslintRuleGeneratorMeta,
-  options: {
-    openAiApiKey: string
-    tmpCodeFilePath: string
-  }
-): Promise<EslintRuleEpoch[]> {
-  // start a docker container and run docker
-  await runTest(
-    sampleCode,
-    ruleMeta,
-    options.tmpCodeFilePath,
-    options.openAiApiKey
-  )
-  return []
-}
+// async function runTestEpochsOld(
+//   ruleMeta: EslintRuleGeneratorMeta,
+//   options: {
+//     openAiApiKey: string
+//     tmpCodeFilePath: string
+//   }
+// ): Promise<EslintRuleEpoch[]> {
+//   // start a docker container and run docker
+//   await runTest(
+//     sampleCode,
+//     ruleMeta,
+//     options.tmpCodeFilePath,
+//     options.openAiApiKey
+//   )
+//   return []
+// }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function runTestEpochs(
