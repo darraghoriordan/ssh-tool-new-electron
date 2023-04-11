@@ -1,4 +1,5 @@
 import fs from 'fs'
+import fsp from 'fs/promises'
 import path from 'path'
 import exec from 'child_process'
 import { promisify } from 'util'
@@ -30,7 +31,10 @@ export class DockerfileHelper {
     }
   ): Promise<{ stdout: string; stderr: string }> {
     const dirPath = options.tmpCodeFilePath
-
+    // clean up all files in the directory
+    for (const file of await fsp.readdir(dirPath)) {
+      await fsp.unlink(path.join(dirPath, file))
+    }
     // these are unique to each run
     this.writefile(dirPath, '.dockerignore', dockerignore)
     this.writefile(dirPath, 'ruleMeta.json', JSON.stringify(ruleMeta))

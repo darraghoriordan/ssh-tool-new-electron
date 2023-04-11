@@ -226,6 +226,91 @@ export function EslintRuleGeneratorScreen() {
     }
     setInputValue(ruleMeta)
   }
+  const insertComplexSampleValue = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault()
+    const ruleMeta: EslintRuleGeneratorMeta = {
+      criteria: [
+        'all optional properties should have @IsOptional() decorator',
+        'all required properties should have @IsDefined() decorator',
+        'a property should never have both @IsDefined() and  @IsOptional()',
+      ],
+      maxNumberOfEpochs: 6,
+      passingExamples: [
+        `
+        export const IsOptional = () => true
+        export const IsDefined = () => true
+
+        class A {
+          @IsDefined()
+          b: string
+
+          @IsDefined()
+          c: string
+        }
+        `,
+        `export const IsOptional = () => true
+        export const IsDefined = () => true
+
+        class A {
+
+          @IsOptional()
+          b?: number
+
+          @IsOptional()
+          c?: string
+        }`,
+      ],
+      failingExamples: [
+        {
+          code: `class A {
+            @IsOptional()
+            b: string
+          }
+`,
+          errorMessageId: 'missing-is-defined-decorator',
+        },
+        {
+          code: `
+            class A {
+              @IsOptional()
+              b?: string
+
+              c: string
+            }`,
+          errorMessageId: 'missing-is-defined-decorator',
+        },
+        {
+          code: `
+        class A {
+          @IsInt()
+          b?: string
+        }
+`,
+          errorMessageId: 'missing-is-optional-decorator',
+        },
+        {
+          code: `
+        class A {
+          @IsDefined()
+          b?: string
+        }`,
+          errorMessageId: 'missing-is-optional-decorator',
+        },
+        {
+          code: `
+            class A {
+              @IsDefined()
+              @IsOptional()
+              b?: string
+            }`,
+          errorMessageId: 'conflicting-defined-decorators',
+        },
+      ],
+    }
+    setInputValue(ruleMeta)
+  }
 
   if (runMutation) {
     control = (
@@ -491,13 +576,22 @@ export function EslintRuleGeneratorScreen() {
     <div className="mx-auto max-w-10xl">
       <PageHeader pageTitle={'ESLint Rule Generator'}>
         <button
+          onClick={e => insertComplexSampleValue(e)}
+          type="button"
+          className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+          <ArrowDownIcon className="w-5 h-5 mr-2" />
+          Try complex example
+        </button>
+        <button
           onClick={e => insertSampleValue(e)}
           type="button"
           className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         >
           <ArrowDownIcon className="w-5 h-5 mr-2" />
-          Try with sample data
+          Try easy example
         </button>
+
         <button
           type="button"
           onClick={e => onSubmitClick(e)}

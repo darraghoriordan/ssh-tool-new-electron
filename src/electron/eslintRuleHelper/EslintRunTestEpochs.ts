@@ -115,14 +115,10 @@ async function runTestEpochs(
       )
       isSuccessful = true
     } catch (error) {
-      let errorSource: ErrorSource = 'system'
-      let errorMessage = 'Unknown error'
-      if (error instanceof EslintRuleTestingError) {
-        errorMessage = error.message.slice(0, 500)
-        errorSource = error.source
-      } else {
-        errorMessage = (error as Error).message.slice(0, 500)
-      }
+      const errorSource: ErrorSource =
+        (error as EslintRuleTestingError)?.source || 'system'
+      const errorMessage = (error as Error).message.slice(0, 500)
+      // check if we want to rerun the generation
 
       epochRecord.errors.push({
         message: errorMessage,

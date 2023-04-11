@@ -16,25 +16,38 @@ const runTest = async (
       tmpCodeFilePath,
       openAiApiKey: openAIApiKey,
     })
-    console.log('testFeedback', { testFeedback })
+    console.log('Docker Test Feedback', { testFeedback })
   } catch (error) {
-    let message = (error as Error).message
-    // sanitise the gpt key
-    message = message.replace(/OPEN_API_CHAT_GPT_KEY.*-v/g, '-v')
-    // remove the whole docker command in case it confuses the chat gpt
-    message = message.replace(/docker[\s\S]*?eslint-tester:latest/m, '')
-    // remove everything from messge up to "AssertionError"
-    message = message.replace(/[\s\S]*?AssertionError/gm, 'AssertionError')
-
-    const typescriptErrorNumberMatcher = /error TS\d{4}/g
+    const message = sanitizeErrorMessage((error as Error).message)
     // running the docker command throws rather than return stderr
-    if (typescriptErrorNumberMatcher.test(message)) {
-      throw new EslintRuleTestingError(message, 'tsc')
-    }
-    if (message.includes('AssertionError')) {
-      throw new EslintRuleTestingError(message, 'eslint-test')
-    }
+    throwOnTypescriptError(message)
+    throwOnEslintTestError(message)
+    console.debug('no fixable error found - throwing system error', {
+      message: message,
+    })
     throw new EslintRuleTestingError(message, 'system')
   }
+}
+
+export const sanitizeErrorMessage = (message: string): string => {
+  message = message.replace(/OPEN_API_CHAT_GPT_KEY.*-v/g, '-v')
+  // remove the whole docker command in case it confuses the chat gpt
+  message = message.replace(/docker[\s\S]*:latest/m, '')
+  // remove everything from messge up to "AssertionError"
+  message = message.replace(/[\s\S]*?AssertionError/gm, 'AssertionError')
+  return message
+}
+export const throwOnEslintTestError = (message: string): void => {
+  if (message.includes('AssertionError')) {
+    throw new EslintRuleTestingError(message, 'eslint-test')
+  }
+  console.debug('no eslint test error found', { message: message })
+}
+export const throwOnTypescriptError = (message: string): void => {
+  const typescriptErrorNumberMatcher = /error TS\d{4}/g
+  if (typescriptErrorNumberMatcher.test(message)) {
+    throw new EslintRuleTestingError(message, 'tsc')
+  }
+  console.debug('no typescript error found', { message: message })
 }
 export default runTest

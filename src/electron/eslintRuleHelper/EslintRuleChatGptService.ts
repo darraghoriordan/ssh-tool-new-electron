@@ -123,11 +123,11 @@ export class EslintRuleChatGptService {
       .join('\n')}
       Examples of code that should pass without errors:
       \`\`\`
-      ${meta.passingExamples.join('\n')}
+      ${meta.passingExamples.join('\n\n')}
       \`\`\`
       Examples of code that should be caught by the eslint rule:
       \`\`\`
-      ${meta.failingExamples.join('\n')}
+      ${meta.failingExamples.map(e => e.code).join('\n\n')}
       \`\`\`
       When raising an error, only use the following message Ids:
       \`\`\`
