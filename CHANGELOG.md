@@ -1,3 +1,10 @@
+# [1.60.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.59.0...v1.60.0) (2023-04-11)
+
+
+### Features
+
+* polish the ui ([3560b92](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/3560b92cdb61472c436f34b551b867f2f55f49b5))
+
 # [1.59.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.58.0...v1.59.0) (2023-04-10)
 
 
