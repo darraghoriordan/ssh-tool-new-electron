@@ -43,22 +43,28 @@ const faqs = [
       'The tool will use the criteria you provide to generate an ESLint rule. It will then test the rule against the passing and failing examples you provide. If the rule fails, it will be regenerated with the error message until it passes or the maximum number of attempts is reached.',
   },
   {
-    id: 4,
+    id: 5,
     question: 'Limitations',
     answer:
       'The tool is limited to 4k total tokens at the moment, this is roughly 6 epochs. This is a limitation of OpenAI GPT 3.5 API. The tools test docker container only has access to @typescript/eslint packages. Dependency on any other package will cause an error, although you might be able to use the generated code as inspiration!',
   },
   {
-    id: 4,
+    id: 6,
     question: 'How to use the code in your project',
     answer:
       'Generally eslint rules must be part of a "plugin" but you can add "rulePaths" to your eslint config to point to your rules. You can consider using eslint-plugin-local-rules to make this easier.',
   },
   {
-    id: 4,
+    id: 7,
     question: 'Tips',
     answer:
       'You can re-run the same criteria multiple times and get a different result every time. It can be worth seeing the different approaches the AI assistant takes.',
+  },
+  {
+    id: 8,
+    question: 'Need more help?',
+    answer:
+      'The full docs are available at https://usemiller.dev/docs/local-dev-tools/get-started/quick-start',
   },
 ]
 
@@ -323,7 +329,7 @@ export function EslintRuleGeneratorScreen() {
                   </ul>
                 )}
               </div>
-              <div className="2xl:w-1/2 2xl:pl-4 2xl:border-l border-black">
+              <div className="border-black 2xl:w-1/2 2xl:pl-4 2xl:border-l">
                 <label
                   htmlFor="passingCode"
                   className="block text-sm font-medium text-gray-700"
@@ -336,7 +342,7 @@ export function EslintRuleGeneratorScreen() {
                   name="passingCode"
                   onChange={e => setPassingExampleEntry(e.target.value)}
                   id="passingCode"
-                  className="block mb-4 font-mono w-full"
+                  className="block w-full mb-4 font-mono"
                 />
 
                 <button
@@ -387,7 +393,7 @@ export function EslintRuleGeneratorScreen() {
                   </ul>
                 )}
               </div>
-              <div className="2xl:w-1/2 2xl:pl-4 2xl:border-l border-black">
+              <div className="border-black 2xl:w-1/2 2xl:pl-4 2xl:border-l">
                 <label
                   htmlFor="failingCode"
                   className="block text-sm font-medium text-gray-700"
@@ -400,7 +406,7 @@ export function EslintRuleGeneratorScreen() {
                   name="failingCode"
                   onChange={e => setFailingCodeEntry(e.target.value)}
                   id="failingCode"
-                  className="block mb-4 font-mono w-full"
+                  className="block w-full mb-4 font-mono"
                 />
                 <label
                   htmlFor="failingMessageId"
@@ -413,7 +419,7 @@ export function EslintRuleGeneratorScreen() {
                   name="failingMessageId"
                   onChange={e => setFailingMessageIdEntry(e.target.value)}
                   id="failingMessageId"
-                  className="block mb-4 font-mono w-full"
+                  className="block w-full mb-4 font-mono"
                 />
 
                 <button
