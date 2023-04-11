@@ -130,7 +130,7 @@ export const GenerationResult = ({
                 ></ClipboardDocumentCheckIcon>
               </p>
 
-              <pre className="p-2 border rounded-lg">
+              <pre className="p-2 border rounded-lg w-full">
                 {currentGenerationRecord?.epochs?.[selectedEpoch]?.code || ''}
               </pre>
             </>

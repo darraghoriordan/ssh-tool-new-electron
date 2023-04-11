@@ -226,7 +226,7 @@ export function EslintRuleGeneratorScreen() {
       <div className="px-4 py-5 bg-white shadow sm:rounded-lg sm:p-6 space-y-2">
         <div className="w-full p-4 border rounded-t-lg border-slate-200">
           <h2 className="mb-4 text-lg">Rule Criteria</h2>
-          <div className="flex">
+          <div className="flex space-x-4">
             <div className="w-1/2">
               {inputValue.criteria.length <= 0 && (
                 <>
@@ -289,8 +289,8 @@ export function EslintRuleGeneratorScreen() {
         <div className="flex space-x-4">
           <div className="w-full p-4 mb-8 border rounded-br-lg border-slate-200">
             <h2 className="mb-4 text-lg">Passing Code Examples</h2>
-            <div className="flex space-x-4">
-              <div className="w-1/2 ">
+            <div className="2xl:flex 2xl:space-x-4">
+              <div className="2xl:w-1/2 ">
                 {inputValue.passingExamples.length <= 0 && (
                   <>
                     <p className="mb-4 text-sm text-gray-500">
@@ -323,7 +323,7 @@ export function EslintRuleGeneratorScreen() {
                   </ul>
                 )}
               </div>
-              <div className="w-1/2 pl-4 border-l border-black">
+              <div className="2xl:w-1/2 2xl:pl-4 2xl:border-l border-black">
                 <label
                   htmlFor="passingCode"
                   className="block text-sm font-medium text-gray-700"
@@ -336,7 +336,7 @@ export function EslintRuleGeneratorScreen() {
                   name="passingCode"
                   onChange={e => setPassingExampleEntry(e.target.value)}
                   id="passingCode"
-                  className="block mb-4 font-mono"
+                  className="block mb-4 font-mono w-full"
                 />
 
                 <button
@@ -351,8 +351,8 @@ export function EslintRuleGeneratorScreen() {
           </div>
           <div className="w-full p-4 mb-8 border rounded-br-lg border-slate-200">
             <h2 className="mb-4 text-lg">Failing Code Examples</h2>
-            <div className="flex space-x-4">
-              <div className="w-1/2">
+            <div className="2xl:flex 2xl:space-x-4">
+              <div className="2xl:w-1/2">
                 {inputValue.failingExamples.length <= 0 && (
                   <>
                     <p className="mb-4 text-sm text-gray-500">
@@ -387,7 +387,7 @@ export function EslintRuleGeneratorScreen() {
                   </ul>
                 )}
               </div>
-              <div className="w-1/2 pl-4 border-l border-black">
+              <div className="2xl:w-1/2 2xl:pl-4 2xl:border-l border-black">
                 <label
                   htmlFor="failingCode"
                   className="block text-sm font-medium text-gray-700"
@@ -400,7 +400,7 @@ export function EslintRuleGeneratorScreen() {
                   name="failingCode"
                   onChange={e => setFailingCodeEntry(e.target.value)}
                   id="failingCode"
-                  className="block mb-4 font-mono"
+                  className="block mb-4 font-mono w-full"
                 />
                 <label
                   htmlFor="failingMessageId"
@@ -413,7 +413,7 @@ export function EslintRuleGeneratorScreen() {
                   name="failingMessageId"
                   onChange={e => setFailingMessageIdEntry(e.target.value)}
                   id="failingMessageId"
-                  className="block mb-4 font-mono"
+                  className="block mb-4 font-mono w-full"
                 />
 
                 <button
