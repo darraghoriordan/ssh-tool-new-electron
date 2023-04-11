@@ -1,3 +1,10 @@
+## [1.60.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.60.0...v1.60.1) (2023-04-11)
+
+
+### Bug Fixes
+
+* path location ([fb09be4](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/fb09be4a8b2e66e18381b845f58be238bc07d5ca))
+
 # [1.60.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.59.0...v1.60.0) (2023-04-11)
 
 
