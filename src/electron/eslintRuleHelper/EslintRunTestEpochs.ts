@@ -1,82 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import EslintRuleGeneratorMeta from './models/EslintRuleGeneratorMeta'
-import { EslintRuleChatGptService } from './EslintRuleChatGptService'
+import {
+  ChatGptCompletionResponse,
+  EslintRuleChatGptService,
+} from './EslintRuleChatGptService'
 import runTest from './EslintRunSingleTest'
 import { EslintRuleEpoch } from './models/EslintRuleEpoch'
+import fsp from 'fs/promises'
+import fs from 'fs'
+import path from 'path'
+
 import EslintRuleTestingError, {
   ErrorSource,
 } from './models/EslintRuleTestingError'
-// prettier-ignore
-const sampleCode = `import {
-    RuleContext,
-    RuleListener,
-  } from '@typescript-eslint/utils/dist/ts-eslint'
-  import {
-    ESLintUtils,
-    ASTUtils,
-    AST_NODE_TYPES,
-    AST_TOKEN_TYPES,
-    ParserServices,
-    TSESTree,
-    TSESLint,
-  } from '@typescript-eslint/utils'
-  const dissallowZebraClass = 'dissallowZebraClass';
-
-function hasZebra(word: string): boolean {
-return word.includes('Zebra');
-}
-
-const rule = ESLintUtils.RuleCreator.withoutDocs({
-defaultOptions: [],
-meta: {
-type: 'problem',
-docs: {
-  description: 'Disallow class names that include the word "Zebra"',
-  recommended: true,
-},
-schema: [],
-messages: {
-  [dissallowZebraClass]: 'Class names cannot include the word "Zebra"',
-},
-},
-
-create(context: Readonly<TSESLint.RuleContext<'dissallowZebraClass', []>>) {
-function checkNodeForZebra(node: TSESTree.Node): void {
-  if (node.type === AST_NODE_TYPES.ClassDeclaration) {
-    const className = node.id?.name;
-    if (className && hasZebra(className)) {
-      context.report({
-        node,
-        messageId: dissallowZebraClass,
-      });
-    }
-  }
-}
-
-return {
-  [AST_NODE_TYPES.ClassDeclaration]: checkNodeForZebra,
-};
-},
-});
-
-export default rule;`
-
-// async function runTestEpochsOld(
-//   ruleMeta: EslintRuleGeneratorMeta,
-//   options: {
-//     openAiApiKey: string
-//     tmpCodeFilePath: string
-//   }
-// ): Promise<EslintRuleEpoch[]> {
-//   // start a docker container and run docker
-//   await runTest(
-//     sampleCode,
-//     ruleMeta,
-//     options.tmpCodeFilePath,
-//     options.openAiApiKey
-//   )
-//   return []
-// }
+import EslintRuleGenerationRecord from './models/EslintRuleGeneration'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function runTestEpochs(
@@ -84,77 +21,131 @@ async function runTestEpochs(
   options: {
     openAiApiKey: string
     tmpCodeFilePath: string
+    generationFileStorePath: string
   }
 ): Promise<EslintRuleEpoch[]> {
+  const generationRecord = new EslintRuleGenerationRecord(ruleMeta)
+
+  if (!fs.existsSync(options.generationFileStorePath)) {
+    console.log('creating dir', options.generationFileStorePath)
+    fs.mkdirSync(options.generationFileStorePath, {
+      recursive: true,
+    })
+  }
+
   // rule tester gen initial message
   const chatMessages = EslintRuleChatGptService.getInitialChatMessages(ruleMeta)
 
-  let lastGeneratedCode = await EslintRuleChatGptService.runChatCompletion(
-    chatMessages,
-    {
-      openAIApiKey: options.openAiApiKey,
-    }
-  )
+  let lastGeneratedCode: ChatGptCompletionResponse = {
+    responseText: '',
+    tokensUsed: 0,
+    finishReason: undefined,
+  }
 
-  let currentEpoch = 1
-  const allEpochs: EslintRuleEpoch[] = []
+  let currentEpoch = 0
+
   let isSuccessful = false
   while (currentEpoch < ruleMeta.maxNumberOfEpochs && !isSuccessful) {
-    const epochRecord = new EslintRuleEpoch(
-      currentEpoch,
-      lastGeneratedCode.responseText,
-      lastGeneratedCode.tokensUsed
+    generationRecord.epochs[currentEpoch] = new EslintRuleEpoch(
+      currentEpoch + 1,
+      '',
+      0
     )
-    epochRecord.chatMessages = [...chatMessages]
+    generationRecord.epochs[currentEpoch].chatMessages = [...chatMessages]
+    // save a placeholder to show progress
+    await saveGeneration(generationRecord, options.generationFileStorePath)
     try {
-      await runTest(
-        lastGeneratedCode.responseText,
-        ruleMeta,
-        options.tmpCodeFilePath,
-        options.openAiApiKey
-      )
-      isSuccessful = true
-    } catch (error) {
-      const errorSource: ErrorSource =
-        (error as EslintRuleTestingError)?.source || 'system'
-      const errorMessage = (error as Error).message.slice(0, 500)
-      // check if we want to rerun the generation
-
-      epochRecord.errors.push({
-        message: errorMessage,
-        source: errorSource,
-      })
-      chatMessages.push({
-        role: 'assistant',
-        content: '```' + lastGeneratedCode.responseText + '```',
-      })
-      chatMessages.push({
-        role: 'user',
-        content: `There is an error with the previous code, can you fix it? The error is: ${errorMessage}
-
-        Do not apologize or explain. Only return the code that fixes the error.`,
-      })
+      // this should (almost) always return something
       lastGeneratedCode = await EslintRuleChatGptService.runChatCompletion(
         chatMessages,
         {
           openAIApiKey: options.openAiApiKey,
         }
       )
-    }
+      // update the epoch progress
+      generationRecord.epochs[currentEpoch].code =
+        lastGeneratedCode.responseText
+      generationRecord.epochs[currentEpoch].tokensUsed =
+        lastGeneratedCode.tokensUsed
+      await saveGeneration(generationRecord, options.generationFileStorePath)
+      // if there was a chat gpt error, throw it now
+      if (lastGeneratedCode.errorMessage) {
+        throw new EslintRuleTestingError(
+          lastGeneratedCode.errorMessage,
+          'chat-gpt',
+          false
+        )
+      }
 
-    allEpochs.push(epochRecord)
+      await runTest(
+        lastGeneratedCode.responseText,
+        ruleMeta,
+        options.tmpCodeFilePath,
+        options.openAiApiKey
+      )
+      generationRecord.epochs[currentEpoch].completed = true
+      await saveGeneration(generationRecord, options.generationFileStorePath)
+      isSuccessful = true
+    } catch (error) {
+      const consistentError = convertAllErrorsToEslintRuleTestingError(error)
+      generationRecord.epochs[currentEpoch].errors.push(consistentError)
+      generationRecord.epochs[currentEpoch].completed = true
+      await saveGeneration(generationRecord, options.generationFileStorePath)
+
+      // check if something is not recoverable, if so, break the loop
+      if (
+        generationRecord.epochs[currentEpoch].errors?.length > 0 &&
+        generationRecord.epochs[currentEpoch].errors?.some(
+          e => e.recoverable === false
+        )
+      ) {
+        break
+      }
+
+      // prepare for the next loop
+      chatMessages.push({
+        role: 'assistant',
+        content: '```' + lastGeneratedCode.responseText + '```',
+      })
+      chatMessages.push({
+        role: 'user',
+        content: `There is an error with the previous code, can you fix it? The error is: ${consistentError.message}
+
+        Important: Do not apologize or explain. Only return the full code with the error fixed.`,
+      })
+    }
     currentEpoch++
-
-    if (
-      epochRecord.errors?.length > 0 &&
-      epochRecord.errors[0].source === 'system'
-    ) {
-      // something went wrong with the system, so we should stop wasting tokens
-      break
-    }
   }
-  console.log('returning all epochs', { allEpochs })
-  return allEpochs
+
+  return generationRecord.epochs
 }
 
 export default runTestEpochs
+
+export const saveGeneration = async (
+  generationRecord: EslintRuleGenerationRecord,
+  generationFileStorePath: string
+) => {
+  const filePath = path.join(
+    generationFileStorePath,
+    generationRecord.createdForFilename + '.json'
+  )
+
+  // save the record to file system
+  await fsp.writeFile(filePath, JSON.stringify(generationRecord))
+}
+
+export const convertAllErrorsToEslintRuleTestingError = (error: unknown) => {
+  const errorSource: ErrorSource =
+    (error as EslintRuleTestingError)?.source || 'system'
+  const recoverableError =
+    (error as EslintRuleTestingError)?.recoverable || false
+  const errorMessage = (error as Error).message.slice(0, 800)
+
+  return {
+    message: errorMessage,
+    name: (error as Error).name,
+    recoverable: recoverableError,
+    source: errorSource,
+  }
+}

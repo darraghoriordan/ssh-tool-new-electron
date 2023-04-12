@@ -1,4 +1,5 @@
 import { ChatMessage } from './ChatMessage'
+import EslintRuleTestingError from './EslintRuleTestingError'
 
 export class EslintRuleEpoch {
   constructor(epochNumber: number, code: string, tokensUsed: number) {
@@ -12,8 +13,6 @@ export class EslintRuleEpoch {
   tokensUsed: number
   code: string
   chatMessages: ChatMessage[]
-  errors: {
-    message: string
-    source: 'system' | 'tsc' | 'eslint-test'
-  }[]
+  completed?: boolean
+  errors: EslintRuleTestingError[]
 }

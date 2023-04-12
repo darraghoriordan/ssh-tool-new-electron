@@ -29,7 +29,7 @@ export function useEslintRuleGenerator() {
       },
       onSuccess: () => {
         logAMessage({
-          message: `${wellKnownQueries.runGenerate} tool completed successfully.`,
+          message: `${wellKnownQueries.runGenerate} job has been started. This is an async process. Monitor the generations history section to track progress.`,
           level: 'info',
         })
         queryClient.invalidateQueries({
@@ -46,6 +46,7 @@ export function useGetPastGenerations() {
     async () => window.EslintListPastGenerations.invoke(),
     {
       retry: false,
+      refetchInterval: 3000,
     }
   )
 }
@@ -57,6 +58,6 @@ export function useGetPastGeneration(fileName: string) {
       const [key, { fileName }] = queryKey as [string, { fileName: string }]
       return window.EslintGetPastGeneration.invoke(fileName)
     },
-    { retry: false }
+    { retry: false, refetchInterval: 3000 }
   )
 }

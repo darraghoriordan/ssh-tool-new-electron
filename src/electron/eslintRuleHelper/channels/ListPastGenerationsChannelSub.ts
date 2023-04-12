@@ -39,6 +39,7 @@ export class ListPastGenerationsChannelSub
         const pastGenerationFile = new PastGenerationFile()
         pastGenerationFile.path = path.join(genPath, entry.name)
         pastGenerationFile.displayName = entry.name.replace('.json', '')
+
         return pastGenerationFile
       })
     return onlyFilesDesc

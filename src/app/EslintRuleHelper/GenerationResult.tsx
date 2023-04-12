@@ -7,6 +7,7 @@ import Errors from './Errors'
 import { ClipboardDocumentCheckIcon } from '@heroicons/react/24/outline'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 import Success from './Success'
+import InProgress from './InProgress'
 
 export const GenerationResult = ({
   generationResultKey,
@@ -98,17 +99,25 @@ export const GenerationResult = ({
                 Overall Result
               </p>
               <div className="mb-4">
-                {currentGenerationRecord?.epochs?.[selectedEpoch]?.errors &&
-                currentGenerationRecord?.epochs?.[selectedEpoch]?.errors
-                  .length > 0 ? (
-                  <Errors
-                    errors={
-                      currentGenerationRecord.epochs[selectedEpoch].errors
-                    }
+                {!currentGenerationRecord?.epochs?.[selectedEpoch]
+                  ?.completed && (
+                  <InProgress
+                    epoch={currentGenerationRecord.epochs[selectedEpoch]}
                   />
-                ) : (
-                  <Success />
                 )}
+
+                {currentGenerationRecord?.epochs?.[selectedEpoch]?.completed &&
+                  (currentGenerationRecord?.epochs?.[selectedEpoch]?.errors &&
+                  currentGenerationRecord?.epochs?.[selectedEpoch]?.errors
+                    .length > 0 ? (
+                    <Errors
+                      errors={
+                        currentGenerationRecord.epochs[selectedEpoch].errors
+                      }
+                    />
+                  ) : (
+                    <Success />
+                  ))}
               </div>
               <p className="block mb-2 text-sm font-medium text-gray-700">
                 Tokens Used

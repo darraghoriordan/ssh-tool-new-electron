@@ -5,13 +5,15 @@ class EslintRuleGeneratorMeta {
     this.criteria = []
     this.passingExamples = []
     this.failingExamples = []
-    this.maxNumberOfEpochs = 1
+    this.maxNumberOfEpochs = 15
+    this.requestDate = new Date()
   }
 
   criteria: string[]
   passingExamples: string[]
   failingExamples: FailingTest[]
   maxNumberOfEpochs: number
+  requestDate: Date
 }
 
 export default EslintRuleGeneratorMeta

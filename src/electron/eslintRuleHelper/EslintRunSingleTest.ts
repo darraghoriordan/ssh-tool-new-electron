@@ -25,7 +25,7 @@ const runTest = async (
     console.debug('no fixable error found - throwing system error', {
       message: message,
     })
-    throw new EslintRuleTestingError(message, 'system')
+    throw new EslintRuleTestingError(message, 'system', false)
   }
 }
 
@@ -39,14 +39,14 @@ export const sanitizeErrorMessage = (message: string): string => {
 }
 export const throwOnEslintTestError = (message: string): void => {
   if (message.includes('AssertionError')) {
-    throw new EslintRuleTestingError(message, 'eslint-test')
+    throw new EslintRuleTestingError(message, 'eslint-test', true)
   }
   console.debug('no eslint test error found', { message: message })
 }
 export const throwOnTypescriptError = (message: string): void => {
   const typescriptErrorNumberMatcher = /error TS\d{4}/g
   if (typescriptErrorNumberMatcher.test(message)) {
-    throw new EslintRuleTestingError(message, 'tsc')
+    throw new EslintRuleTestingError(message, 'tsc', true)
   }
   console.debug('no typescript error found', { message: message })
 }

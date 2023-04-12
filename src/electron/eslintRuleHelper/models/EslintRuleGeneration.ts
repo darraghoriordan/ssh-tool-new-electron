@@ -3,13 +3,12 @@ import { EslintRuleEpoch } from './EslintRuleEpoch'
 import EslintRuleGeneratorMeta from './EslintRuleGeneratorMeta'
 
 class EslintRuleGenerationRecord {
-  constructor() {
+  constructor(ruleMeta: EslintRuleGeneratorMeta) {
     this.epochs = []
-    this.created = new Date()
-    this.createdForFilename = format(this.created, 'yyyyMMdd-HHmmss-SS')
-    this.meta = new EslintRuleGeneratorMeta()
+    this.createdForFilename = format(ruleMeta.requestDate, 'yyyyMMdd-HHmmss-SS')
+    this.meta = ruleMeta
   }
-  created!: Date
+
   createdForFilename!: string
   meta!: EslintRuleGeneratorMeta
   epochs!: EslintRuleEpoch[]

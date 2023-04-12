@@ -1,7 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Configuration, OpenAIApi } from 'openai'
 import { UserSettingsService } from '../userSettings/services/UserSettingsService'
 import { ChatMessage } from './models/ChatMessage'
 import EslintRuleGeneratorMeta from './models/EslintRuleGeneratorMeta'
+import EslintRuleTestingError from './models/EslintRuleTestingError'
+
+export type ChatGptCompletionResponse = {
+  responseText: string
+  tokensUsed: number
+  finishReason?: string
+  errorMessage?: string
+}
 
 export class EslintRuleChatGptService {
   static hasSetApiKeys = async (): Promise<boolean> => {
@@ -13,28 +22,8 @@ export class EslintRuleChatGptService {
       settings.openApiOrgId.length > 0
     )
   }
-  static async runChatCompletion(
-    messages: ChatMessage[],
-    options: { openAIApiKey: string }
-  ): Promise<{
-    responseText: string
-    tokensUsed: number
-    finishReason?: string
-  }> {
-    const configuration = new Configuration({
-      apiKey: options.openAIApiKey,
-    })
-    const openai = new OpenAIApi(configuration)
 
-    const completion = await openai.createChatCompletion({
-      model: 'gpt-3.5-turbo',
-      messages,
-    })
-
-    const extractedText = completion.data.choices[0].message?.content
-    if (extractedText === undefined) {
-      throw new Error('Could not extract text from completion')
-    }
+  static cleanChatGptResponse = (text: string): string => {
     // chatgpt is terrible with import statements. so lets just add very broad ones to the top of the file
     // and remove any imports added by chatgpt
     const fullTsEslintImports = `
@@ -53,9 +42,11 @@ export class EslintRuleChatGptService {
       } from '@typescript-eslint/utils'
       `
     // remove any markdown added by chatgpt
-    let extractedTextWithoutMarkdown = extractedText
+    let extractedTextWithoutMarkdown = text
       .replace(/```typescript/, '')
       .replace(/```/g, '')
+
+    // now remove any dodgy import statements added by chatgpt
     let containsTypescriptEslintImports = true
     while (containsTypescriptEslintImports) {
       // can't make this global regex because it will remove all imports so it's messy as hell
@@ -75,15 +66,48 @@ export class EslintRuleChatGptService {
       console.log('removed import...')
       // check if any imports left
     }
+    return (fullTsEslintImports + extractedTextWithoutMarkdown).trim()
+  }
 
-    return {
-      tokensUsed: completion.data.usage?.total_tokens || 0,
-      finishReason: completion.data.choices[0].finish_reason,
-      responseText: (fullTsEslintImports + extractedTextWithoutMarkdown)
+  static async runChatCompletion(
+    messages: ChatMessage[],
+    options: { openAIApiKey: string }
+  ): Promise<ChatGptCompletionResponse> {
+    const configuration = new Configuration({
+      apiKey: options.openAIApiKey,
+    })
+    const openai = new OpenAIApi(configuration)
+    try {
+      const completion = await openai.createChatCompletion({
+        model: 'gpt-3.5-turbo',
+        messages,
+      })
 
-        // find the first const rule = and remove everything before it (imports)
-        //.replace(/[\s\S]*?(?=const)/, '')
-        .trim(),
+      const extractedText = completion.data.choices[0].message?.content
+      if (extractedText === undefined) {
+        throw new Error('Could not extract text from completion')
+      }
+
+      return {
+        tokensUsed: completion.data.usage?.total_tokens || 0,
+        finishReason: completion.data.choices[0].finish_reason,
+        responseText: this.cleanChatGptResponse(extractedText),
+      }
+    } catch (error) {
+      // try not to throw from here. makes the path easier to follow in callers
+      // the http library will throw on 400s from cat gpt but these are handlable errors
+      const finishReason = (error as any)?.data?.choices?.[0]?.finish_reason
+      const tokensUsed = (error as any)?.data?.usage?.total_tokens || 0
+      let errorMessage = (error as Error).message
+      if (errorMessage.includes('400')) {
+        errorMessage = `${errorMessage}: This usually means that we have exceeded the maximum number of tokens for the api. Or your api key is invalid.`
+      }
+      return {
+        tokensUsed: tokensUsed,
+        finishReason,
+        responseText: '',
+        errorMessage,
+      }
     }
   }
 
@@ -91,13 +115,13 @@ export class EslintRuleChatGptService {
     meta: EslintRuleGeneratorMeta
   ): ChatMessage[] => {
     const st = `
-    const rule = ESLintUtils.RuleCreator.withoutDocs({
+    const rule = {
         defaultOptions: [],
         meta: {
-          type: 'suggestion',
+          type: 'suggestion' as const,
           docs: {
             description: string,
-            recommended: false,
+            recommended: false as const,
           },
           schema: [],
           messages: {},
@@ -114,10 +138,11 @@ export class EslintRuleChatGptService {
       .filter((v, i, a) => a.indexOf(v) === i)
 
     const message = `Write an eslint rule in typescript that meets the following criteria. Do not explain the rule.
-    An example template would be:
+    The rule should return an object. An example template for a rule is:
     \`\`\`
     ${st}
     \`\`\`
+    Do not use "createRule" or other helper functions. Write the rule from scratch.
     The ESLint rule should ensure that the following criteria are met: ${meta.criteria
       .map((c, i) => `${i + 1}. ${c}.`)
       .join('\n')}
@@ -134,8 +159,7 @@ export class EslintRuleChatGptService {
       ${distinctErrorMessageIds.join('\n')}
       \`\`\`
       Write any additional helper functions you need in the rule.
-      Only respond with code.
-      You must use "ESLintUtils.RuleCreator.withoutDocs".
+      Only respond with code. Never apologize or explain your code.
       You must complete the rule with an "export default rule" statement.`
 
     console.log('message', message)
@@ -144,7 +168,7 @@ export class EslintRuleChatGptService {
         role: 'system',
         content: `You are an expert typescript abstract syntax tree developer. You are writing an eslint rule withoutDocs in typescript.
           Think through it step by step.
-          Do not explain any code with english. Do not apologise. Only response with code.`,
+          Do not explain any code with english. Never apologize for errors. Only response with working code.`,
       },
       {
         role: 'user',

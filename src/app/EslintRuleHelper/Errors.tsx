@@ -1,12 +1,10 @@
 import { XCircleIcon } from '@heroicons/react/20/solid'
+import EslintRuleTestingError from '../../electron/eslintRuleHelper/models/EslintRuleTestingError'
 
 export default function Errors({
   errors,
 }: {
-  errors: {
-    message: string
-    source: 'system' | 'tsc' | 'eslint-test'
-  }[]
+  errors: EslintRuleTestingError[]
 }) {
   return (
     <div className="p-4 rounded-md bg-red-50">
@@ -27,12 +25,12 @@ export default function Errors({
                       <span className="font-semibold">{e.source} error:</span>{' '}
                       {e.message}
                     </li>
-                    {e.source === 'system' ? (
-                      <li key={i + 'system'}>
+                    {!e.recoverable ? (
+                      <li key={i + e.source}>
                         This is an error with the generation flow. The AI
                         assistant won&apos;t be able to generate code to fix
-                        this, so generation will be cancelled for any remaining
-                        epochs to save your credits.
+                        this, generation will be cancelled for any remaining
+                        epochs to save your tokens.
                       </li>
                     ) : (
                       <li key={i + 'system'}>

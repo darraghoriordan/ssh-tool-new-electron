@@ -16,6 +16,7 @@ import clsx from 'clsx'
 import { RemoveButton } from './RemoveButton'
 import { GenerationResult } from './GenerationResult'
 import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
+import { format } from 'date-fns'
 
 const faqs = [
   {
@@ -32,36 +33,48 @@ const faqs = [
   },
   {
     id: 3,
+    question: 'Viewing Progress and Results',
+    answer:
+      "It takes some time to run an ESLint generation. The process is asynchronous. Once you click 'submit' the process will start and you can follow the generation process in the results section by scrolling below the criteria input screens.",
+  },
+  {
+    id: 4,
     question: 'YOU MUST PROVIDE:',
     answer:
       'You must provide an OpenAI api key in App Settings. You must have docker installed - this tool uses docker to run the generated code for security isolation. This is an electron app with minimal access to your environment so it depends on docker being installed or aliased in the default location - /usr/local/bin.',
   },
   {
-    id: 4,
+    id: 5,
     question: 'What does it do?',
     answer:
       'The tool will use the criteria you provide to generate an ESLint rule. It will then test the rule against the passing and failing examples you provide. If the rule fails, it will be regenerated with the error message until it passes or the maximum number of attempts is reached.',
   },
   {
-    id: 5,
+    id: 6,
     question: 'Limitations',
     answer:
       'The tool is limited to 4k total tokens at the moment, this is roughly 6 epochs. This is a limitation of OpenAI GPT 3.5 API. The tools test docker container only has access to @typescript/eslint packages. Dependency on any other package will cause an error, although you might be able to use the generated code as inspiration!',
   },
   {
-    id: 6,
+    id: 7,
     question: 'How to use the code in your project',
     answer:
       'Generally eslint rules must be part of a "plugin" but you can add "rulePaths" to your eslint config to point to your rules. You can consider using eslint-plugin-local-rules to make this easier.',
   },
   {
-    id: 7,
-    question: 'Tips',
+    id: 8,
+    question: 'Tip - every run produces a different result',
     answer:
       'You can re-run the same criteria multiple times and get a different result every time. It can be worth seeing the different approaches the AI assistant takes.',
   },
   {
-    id: 8,
+    id: 9,
+    question: 'Tip - some results are very close',
+    answer:
+      "The AI generally fails with complex examples. But the generated code is often quite close to a working solution. It's worth reviewing every epoch to find the best result.",
+  },
+  {
+    id: 10,
     question: 'Need more help?',
     answer:
       'The full docs are available at https://usemiller.dev/docs/local-dev-tools/get-started/quick-start',
@@ -80,14 +93,7 @@ export function EslintRuleGeneratorScreen() {
   const [inputValue, setInputValue] = useState<EslintRuleGeneratorMeta>(
     new EslintRuleGeneratorMeta()
   )
-  const fakeMessages = [
-    'Generating rule...',
-    'Generating rule...',
-    'Loading container...',
-    'Running Tests...',
-    'Running Tests...',
-    'Verifying rule...',
-  ]
+
   const [selectedGenerationRecordKey, setCurrentGenerationRecordKey] = useState<
     string | undefined
   >()
@@ -97,9 +103,10 @@ export function EslintRuleGeneratorScreen() {
     isError: pastGenerationsError,
   } = useGetPastGenerations()
   let control: ReactElement | undefined = undefined
+
   const onSubmitClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
-    let interval: NodeJS.Timer | undefined = undefined
+
     logAMessage({
       message: 'Checking criteria...',
       level: 'info',
@@ -116,28 +123,15 @@ export function EslintRuleGeneratorScreen() {
       })
       return
     }
-
-    try {
-      // create a fake log message every x seconds
-      let currentMessage = 0
-      interval = setInterval(() => {
-        logAMessage({
-          message: fakeMessages[currentMessage],
-          level: 'info',
-        })
-        currentMessage++
-        if (currentMessage >= fakeMessages.length) {
-          currentMessage = 0
-        }
-      }, 3000)
-
-      const result = await runMutation.mutateAsync(inputValue)
-      setCurrentGenerationRecordKey(result.createdForFilename)
-    } finally {
-      if (interval) {
-        clearInterval(interval)
-      }
-    }
+    inputValue.requestDate = new Date()
+    await runMutation.mutateAsync(inputValue)
+    // set timer for 3 seconds to allow the mutation to complete
+    // then set the currentGenerationRecordKey to the new record
+    setTimeout(() => {
+      setCurrentGenerationRecordKey(
+        format(inputValue.requestDate, 'yyyyMMdd-HHmmss-SS')
+      )
+    }, 3000)
   }
 
   const onDeleteCriteriaClick = async (itemText: string) => {
@@ -210,8 +204,9 @@ export function EslintRuleGeneratorScreen() {
   const insertSampleValue = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     const ruleMeta: EslintRuleGeneratorMeta = {
+      requestDate: new Date(),
       criteria: ['disallow interface names that start with the letter "I"'],
-      maxNumberOfEpochs: 6,
+      maxNumberOfEpochs: 15,
       passingExamples: [
         `interface MyInterface {}`,
         `interface AnotherInterface {}`,
@@ -231,42 +226,43 @@ export function EslintRuleGeneratorScreen() {
   ) => {
     event.preventDefault()
     const ruleMeta: EslintRuleGeneratorMeta = {
+      requestDate: new Date(),
       criteria: [
         'all optional properties should have @IsOptional() decorator',
         'all required properties should have @IsDefined() decorator',
         'a property should never have both @IsDefined() and  @IsOptional()',
       ],
-      maxNumberOfEpochs: 6,
+      maxNumberOfEpochs: 15,
       passingExamples: [
+        // prettier-ignore
         `
-        export const IsOptional = () => true
-        export const IsDefined = () => true
+class A {
+  @IsDefined()
+  b: string
 
-        class A {
-          @IsDefined()
-          b: string
+  @IsDefined()
+  c: string
+}`,
+        `class A {
+  @IsOptional()
+  b?: number
 
-          @IsDefined()
-          c: string
-        }
-        `,
-        `export const IsOptional = () => true
-        export const IsDefined = () => true
+  @IsOptional()
+  c?: string
+}`,
+        `class A {
+    @IsDefined()
+    b: number
 
-        class A {
-
-          @IsOptional()
-          b?: number
-
-          @IsOptional()
-          c?: string
-        }`,
+    @IsOptional()
+    c?: string
+  }`,
       ],
       failingExamples: [
         {
           code: `class A {
-            @IsOptional()
-            b: string
+@IsOptional()
+b: string
           }
 `,
           errorMessageId: 'missing-is-defined-decorator',
@@ -274,18 +270,18 @@ export function EslintRuleGeneratorScreen() {
         {
           code: `
             class A {
-              @IsOptional()
-              b?: string
+@IsOptional()
+b?: string
 
-              c: string
+  c: string
             }`,
           errorMessageId: 'missing-is-defined-decorator',
         },
         {
           code: `
         class A {
-          @IsInt()
-          b?: string
+@IsInt()
+ b?: string
         }
 `,
           errorMessageId: 'missing-is-optional-decorator',
@@ -465,9 +461,14 @@ export function EslintRuleGeneratorScreen() {
                 {inputValue.failingExamples.length > 0 && (
                   <ul className="overflow-x-auto">
                     {inputValue.failingExamples.map((c, i) => {
+                      // prettier-ignore
+                      const wrangledCode = `{
+  code: "${c.code}",
+  errorMessageId: "${c.errorMessageId}",
+}`
                       return (
                         <li key={i} className="flex flex-col mb-8 space-y-4">
-                          <pre>{JSON.stringify(c, undefined, 2)} </pre>
+                          <pre>{wrangledCode}</pre>
                           <RemoveButton
                             className="inline-flex items-center justify-center w-1/2 mt-2 text-center"
                             onClick={() => onDeleteFailingExampleClick(c.code)}
@@ -589,7 +590,7 @@ export function EslintRuleGeneratorScreen() {
           className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         >
           <ArrowDownIcon className="w-5 h-5 mr-2" />
-          Try easy example
+          Try simple example
         </button>
 
         <button
