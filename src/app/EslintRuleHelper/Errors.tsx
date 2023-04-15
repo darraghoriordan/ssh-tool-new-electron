@@ -34,8 +34,8 @@ export default function Errors({
                       </li>
                     ) : (
                       <li key={i + 'system'}>
-                        The AI assistant will try to fix this error and
-                        continue.
+                        The AI assistant will try to fix this error and continue
+                        in the next Epoch.
                       </li>
                     )}
                   </>

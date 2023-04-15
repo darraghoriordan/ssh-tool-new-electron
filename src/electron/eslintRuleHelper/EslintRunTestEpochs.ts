@@ -32,6 +32,12 @@ async function runTestEpochs(
       recursive: true,
     })
   }
+  if (!fs.existsSync(options.tmpCodeFilePath)) {
+    console.log('creating dir', options.tmpCodeFilePath)
+    fs.mkdirSync(options.tmpCodeFilePath, {
+      recursive: true,
+    })
+  }
 
   // rule tester gen initial message
   const chatMessages = EslintRuleChatGptService.getInitialChatMessages(ruleMeta)
