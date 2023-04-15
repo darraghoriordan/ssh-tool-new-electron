@@ -1,3 +1,10 @@
+# [1.61.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.60.6...v1.61.0) (2023-04-15)
+
+
+### Features
+
+* fix windows path ([5b5c3a4](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/5b5c3a422102f164d8a95216b79fb7cc4606c210))
+
 ## [1.60.6](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.60.5...v1.60.6) (2023-04-12)
 
 
