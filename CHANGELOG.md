@@ -1,3 +1,10 @@
+# [1.62.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.61.0...v1.62.0) (2023-05-10)
+
+
+### Features
+
+* add locale selector for timestamps and string sorting ([41a1677](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/41a1677b7131117b720baa1ab081e8b49883a6bf))
+
 # [1.61.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.60.6...v1.61.0) (2023-04-15)
 
 
