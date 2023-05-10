@@ -5,11 +5,15 @@ import { ArrowDownIcon, DocumentCheckIcon } from '@heroicons/react/24/outline'
 import { useTimestampConverter } from './ReactQueryWrappers'
 import { UnixTimeConverterResponse } from '../../electron/unixTimeConverter/channels/MessageTypes'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
+import LocaleSelector from './LocaleSelector'
+import { useGetSystemLocale } from './useGetCurrentLocale'
 
 export function TimestampConverterScreen() {
   const [logMessages, logAMessage] = useContext(ConsoleContext)
   const mutation = useTimestampConverter()
   const [inputValue, setInputValue] = useState('')
+  const { data: systemLocale } = useGetSystemLocale()
+  const [selectedLocale, setSelectedLocale] = useState(systemLocale || 'en-US')
   const [outputValue, setOutputValue] = useState({
     differenceFromNow: '',
     isoDate: '',
@@ -29,7 +33,7 @@ export function TimestampConverterScreen() {
   }
   const runAction = async () => {
     if (!inputValue || inputValue.length < 4) {
-      // there is a regex on the "backend"
+      // there is a regex on the "backend" to validate
       logAMessage({
         message: 'You must enter a unix timestamp or an ISO timestamp',
         level: 'error',
@@ -46,6 +50,7 @@ export function TimestampConverterScreen() {
 
     const result = await mutation.mutateAsync({
       unixTimestamp: inputValue,
+      locale: selectedLocale,
     })
     setOutputValue(result)
   }
@@ -88,6 +93,22 @@ export function TimestampConverterScreen() {
               className="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               value={inputValue}
             />
+          </div>
+          <div className="flex flex-col mt-6 space-y-3">
+            <label
+              htmlFor="locale"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Choose Locale
+            </label>
+            <div className="">
+              {systemLocale && (
+                <LocaleSelector
+                  defaultValue={systemLocale}
+                  setSelectedLocale={setSelectedLocale}
+                />
+              )}
+            </div>
           </div>
         </div>
         <p className="block mb-4 text-sm font-medium text-gray-700">Result</p>

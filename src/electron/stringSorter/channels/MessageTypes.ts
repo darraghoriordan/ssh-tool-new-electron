@@ -2,6 +2,7 @@
 export type StringSorterMessage = {
   data: string
   asc: boolean
+  locale: string
 }
 
 export type StringSorterResponse = {

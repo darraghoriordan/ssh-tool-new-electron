@@ -24,6 +24,7 @@ import { GetPastGenerationChannelPub } from './eslintRuleHelper/channels/GetPast
 import { ListPastGenerationsChannelPub } from './eslintRuleHelper/channels/ListPastGenerationsChannelPub'
 import { HtmlEncoderChannelPub } from './htmlEncoder/channels/HtmlEncoderChannelPub'
 import { ColorConverterChannelPub } from './colorConverter/channels/ColorConverterChannelPub'
+import { CurrentLocalePub } from './appSupport/CurrentLocalePub'
 
 export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
   rtmSendChannels: [
@@ -59,5 +60,6 @@ export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
     new GetPastGenerationChannelPub(),
     new HtmlEncoderChannelPub(),
     new ColorConverterChannelPub(),
+    new CurrentLocalePub(),
   ],
 }

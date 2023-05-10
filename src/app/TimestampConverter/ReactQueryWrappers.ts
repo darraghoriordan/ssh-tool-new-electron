@@ -26,9 +26,9 @@ export function useTimestampConverter() {
       onError: error => {
         logAMessage({ message: error.message, level: 'error' })
       },
-      onSuccess: () => {
+      onSuccess: (data, variables) => {
         logAMessage({
-          message: `${wellKnownQueries.convertTime} completed successfully.`,
+          message: `${wellKnownQueries.convertTime} completed successfully for ${variables.locale} locale.`,
           level: 'info',
         })
       },

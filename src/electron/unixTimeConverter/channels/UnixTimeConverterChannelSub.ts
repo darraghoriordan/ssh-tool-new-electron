@@ -18,6 +18,10 @@ export class UnixTimeConverterChannelSub
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     request: UnixTimeConverterMessage
   ): Promise<UnixTimeConverterResponse> {
-    return UnixTimeConverter.convert(request.unixTimestamp, new Date())
+    return UnixTimeConverter.convert(
+      request.unixTimestamp,
+      new Date(),
+      request.locale
+    )
   }
 }

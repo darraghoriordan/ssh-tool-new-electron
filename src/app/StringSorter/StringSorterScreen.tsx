@@ -5,6 +5,8 @@ import { ArrowDownIcon, DocumentCheckIcon } from '@heroicons/react/24/outline'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 import { useStringSort } from './ReactQueryWrappers'
 import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
+import { useGetSystemLocale } from '../TimestampConverter/useGetCurrentLocale'
+import LocaleSelector from '../TimestampConverter/LocaleSelector'
 
 const faqs = [
   {
@@ -27,6 +29,8 @@ export function StringSorterScreen() {
   const [inputValue, setInputValue] = useState('')
   const [sortAsc, setSortAscValue] = useState(true)
   const [outputValue, setOutputValue] = useState('')
+  const { data: systemLocale } = useGetSystemLocale()
+  const [selectedLocale, setSelectedLocale] = useState(systemLocale || 'en-US')
 
   let control: ReactElement | undefined = undefined
   const onDecodeClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -34,6 +38,7 @@ export function StringSorterScreen() {
     const input = {
       data: inputValue,
       asc: sortAsc,
+      locale: selectedLocale,
     }
 
     if (!input.data) {
@@ -50,7 +55,7 @@ export function StringSorterScreen() {
   }
   const insertSampleValue = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
-    setInputValue('aaa\r\nccc\r\nbbb\r\n333\r\n111\r\n')
+    setInputValue('aaa\r\nccc\r\näää\r\nbbb\r\n333\r\n111\r\n')
   }
 
   if (runMutation) {
@@ -102,6 +107,22 @@ export function StringSorterScreen() {
               </div>
             </div>
           </fieldset>
+        </div>
+        <div className="flex flex-col mt-8 mb-8 space-y-3">
+          <label
+            htmlFor="locale"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Choose Locale
+          </label>
+          <div className="">
+            {systemLocale && (
+              <LocaleSelector
+                defaultValue={systemLocale}
+                setSelectedLocale={setSelectedLocale}
+              />
+            )}
+          </div>
         </div>
         <textarea
           rows={6}

@@ -14,6 +14,6 @@ export class StringSorterChannelSub
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     request: StringSorterMessage
   ): Promise<StringSorterResponse> {
-    return StringSorter.sortByNewLine(request.data, request.asc)
+    return StringSorter.sortByNewLine(request.data, request.asc, request.locale)
   }
 }

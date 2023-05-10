@@ -2,7 +2,11 @@ import { UnixTimeConverterResponse } from './channels/MessageTypes'
 import { formatDistance, formatISO } from 'date-fns'
 
 export class UnixTimeConverter {
-  static convert(input: string, now: Date): UnixTimeConverterResponse {
+  static convert(
+    input: string,
+    now: Date,
+    locale?: string
+  ): UnixTimeConverterResponse {
     const trimmedInput = input.trim()
     // check if a string only contains numbers and is 10 characters long
     const isUnixTimestamp = /^\d{10}$/.test(trimmedInput)
@@ -32,7 +36,7 @@ export class UnixTimeConverter {
     return {
       utcDate: inputAsDate.toISOString(),
       isoDate: formatISO(inputAsDate),
-      localeDate: inputAsDate.toLocaleString(),
+      localeDate: inputAsDate.toLocaleString(locale),
       unixTimestamp: inputAsDate.getTime() / 1000,
       differenceFromNow: formatDistance(inputAsDate, now, {
         addSuffix: true,

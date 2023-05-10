@@ -132,5 +132,8 @@ declare global {
         message: ColorConverterMessage
       ) => Promise<ColorConverterResponse>
     }
+    CurrentLocale: {
+      invoke: () => Promise<string>
+    }
   }
 }

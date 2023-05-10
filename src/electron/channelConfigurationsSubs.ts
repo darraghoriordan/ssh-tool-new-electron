@@ -24,6 +24,7 @@ import { ListPastGenerationsChannelSub } from './eslintRuleHelper/channels/ListP
 import { GetPastGenerationChannelSub } from './eslintRuleHelper/channels/GetPastGenerationChannelSub'
 import { HtmlEncoderChannelSub } from './htmlEncoder/channels/HtmlEncoderChannelSub'
 import { ColorConverterChannelSub } from './colorConverter/channels/ColorConverterChannelSub'
+import { CurrentLocaleSub } from './appSupport/CurrentLocaleSub'
 
 export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
   rtmSendChannels: [
@@ -60,5 +61,6 @@ export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
     new GetPastGenerationChannelSub(),
     new HtmlEncoderChannelSub(),
     new ColorConverterChannelSub(),
+    new CurrentLocaleSub(),
   ],
 }

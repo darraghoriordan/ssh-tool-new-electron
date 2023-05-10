@@ -2,7 +2,11 @@ import { StringSorterResponse } from './channels/MessageTypes'
 import os from 'os'
 
 export class StringSorter {
-  static sortByNewLine(input: string, asc: boolean): StringSorterResponse {
+  static sortByNewLine(
+    input: string,
+    asc: boolean,
+    locale?: string
+  ): StringSorterResponse {
     const trimmedInput = input.trim()
     const detectedNewLine = trimmedInput.includes('\r\n') ? '\r\n' : '\n'
 
@@ -11,7 +15,7 @@ export class StringSorter {
       return { result: trimmedInput }
     }
 
-    const collator = new Intl.Collator(undefined, {
+    const collator = new Intl.Collator(locale, {
       numeric: true,
       sensitivity: 'base',
       usage: 'sort',
