@@ -1,3 +1,10 @@
+# [1.63.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.62.0...v1.63.0) (2023-06-01)
+
+
+### Features
+
+* update to latest electron ([a453f17](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/a453f17902b1e8911192b8ce3b2199571fb8fc96))
+
 # [1.62.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.61.0...v1.62.0) (2023-05-10)
 
 
