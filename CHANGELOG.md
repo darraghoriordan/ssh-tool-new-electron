@@ -1,3 +1,10 @@
+## [1.63.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.63.0...v1.63.1) (2023-06-13)
+
+
+### Bug Fixes
+
+* change notary to notarytool ([0fca4eb](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/0fca4eb852ff191160111fb2e3e1434dbbfe977f))
+
 # [1.63.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.62.0...v1.63.0) (2023-06-01)
 
 
