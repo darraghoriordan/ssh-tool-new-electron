@@ -18,6 +18,7 @@ const forgeConfig = {
     // The certificate is written to the default keychain during CI build.
     // See ./scripts/add-osx-cert.sh
     osxSign: {
+      tool: 'notarytool',
       identity: 'Developer ID Application: Darragh ORiordan (74NM54BFA4)',
       'hardened-runtime': true,
       'gatekeeper-assess': false,
