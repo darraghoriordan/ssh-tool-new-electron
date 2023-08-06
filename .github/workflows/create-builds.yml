@@ -24,7 +24,7 @@ jobs:
           yarn install --frozen-lockfile
       - name: Extract version
         id: extract_version
-        uses: Saionaro/extract-package-version@v1.0.6
+        uses: Saionaro/extract-package-version@6594bfa2f9f445d1ef50ae3cb1aea8026e524211 # v1.0.7
 
       - name: Package Windows (x64)
         run: yarn package:win-x64
@@ -139,7 +139,7 @@ jobs:
 
       - name: Extract version
         id: extract_version
-        uses: Saionaro/extract-package-version@v1.0.6
+        uses: Saionaro/extract-package-version@6594bfa2f9f445d1ef50ae3cb1aea8026e524211 # v1.0.7
 
       - name: Make release directory
         run: mkdir ./release
