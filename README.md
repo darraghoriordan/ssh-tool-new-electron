@@ -1,6 +1,10 @@
 # Welcome!
 
-This project will let you create an electron desktop app and help you publish it
+This project is a bunch of dev tools I made to perform common tasks. It's an electron app and tested on windows and Mac.
+
+Read more about the tools on https://usemiller.dev/local-dev-tools
+
+It's open source but if you're using it for business please pay for a license! Licenses are perpetual! and Cheap!
 
 # if you get
 
