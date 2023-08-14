@@ -1,3 +1,32 @@
+# [1.64.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.63.1...v1.64.0) (2023-08-14)
+
+
+### Bug Fixes
+
+* bug ([32fcc07](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/32fcc07b9386054d18237b09461b5ac33a9a3a14))
+* **renovate:** [@types](https://github.com/types) Update minor-types ([65cd77c](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/65cd77c89d90db2b36a25f668ddd6a3b7bdb3c86))
+* **renovate:** major Update actions/upload-artifact action to v3 ([aa18e4f](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/aa18e4f660ac27958a596ff4d4348df248368dbd))
+* **renovate:** major Update dependency typescript to v5 ([fc8a57c](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/fc8a57c46d4a6dd740064656b07bcd3c383af3b7))
+* **renovate:** major Update Node.js to v20 ([a8b4bdb](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/a8b4bdbeff70ba5ee034bd37f625a0e312d26c0e))
+* **renovate:** patch Update dependency @types/eslint to v8.44.2 ([ffff470](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/ffff4703581c046020dd65ad11315d92d0cf22e4))
+* **renovate:** patch Update patch ([e2eace2](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/e2eace25407e00fd5debacd220f6726acbe72fbe))
+* **renovate:** patch Update Saionaro/extract-package-version action to v1.0.7 ([851971c](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/851971cf9e5562a0f59abb475fa2bfadf783a97f))
+* **renovate:** pin Update BetaHuhn/do-spaces-action digest to 07d444b ([f87cf65](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/f87cf6579d6183bcd213c2c95f50bf0f179b227f))
+* **renovate:** pin Update BetaHuhn/do-spaces-action digest to 2d0ba44 ([15858ee](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/15858eeb940786703e842284866652fd29954d2d))
+* **renovate:** Update dependency @types/react to v18.2.20 ([2476efd](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/2476efd9c6f1b92f9640e3a5096c7fb8bd2c6f20))
+* **renovate:** Update dependency eslint to v8.47.0 ([a7a96a3](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/a7a96a3a60f3b5c79d3e462619e3902012ea879d))
+* **renovate:** Update major ([da1df2d](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/da1df2d3145067566f83de04fcb5e7bfe82c688f))
+* **renovate:** Update minor ([870f8e6](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/870f8e688ff33b04a52b10ab6522690f960181fd))
+* **renovate:** Update minor ([23187ee](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/23187eedcc0d73901b162e00627c9fad8986168d))
+* **renovate:** Update patch ([c35e289](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/c35e289bcc6253e072acc99b91f7210a594e3551))
+* **renovate:** Update patch ([824fad0](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/824fad0c43d7d468828302f37ccaa853dc07e21e))
+
+
+### Features
+
+* don't persist credentials ([95b88dd](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/95b88dd610655c68da1e2b58f5eb5c2114ccf297))
+* use custom gh token ([f8bca67](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/f8bca67d069d55c7bc5ddbed41c3ae17e57268f6))
+
 ## [1.63.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.63.0...v1.63.1) (2023-06-13)
 
 
