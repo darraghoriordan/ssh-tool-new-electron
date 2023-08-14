@@ -15,5 +15,5 @@ jobs:
       - run: yarn --frozen-lockfile
       - name: Release
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.CUSTOM_GH_TOKEN }}
         run: npx semantic-release
