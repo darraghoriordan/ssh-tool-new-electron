@@ -1,3 +1,10 @@
+## [1.64.5](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.64.4...v1.64.5) (2023-09-05)
+
+
+### Bug Fixes
+
+* **renovate:** Update github-actions to v4 ([531dc08](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/531dc0865523a2279acba69fe51e281eae6082e0))
+
 ## [1.64.4](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.64.3...v1.64.4) (2023-09-05)
 
 
