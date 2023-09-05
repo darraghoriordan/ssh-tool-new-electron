@@ -1,3 +1,10 @@
+## [1.64.2](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.64.1...v1.64.2) (2023-09-05)
+
+
+### Bug Fixes
+
+* **renovate:** [@types](https://github.com/types) Update dependency @types/node to v20.5.8 ([aa44e56](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/aa44e5625ea3b24537cc562b9ddffeafc9e1c7fe))
+
 ## [1.64.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.64.0...v1.64.1) (2023-08-21)
 
 
