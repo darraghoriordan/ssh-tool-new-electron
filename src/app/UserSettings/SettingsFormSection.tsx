@@ -1,3 +1,4 @@
+import { PropsWithChildren } from 'react'
 import { UserSettings } from '../../electron/userSettings/models/UserSettings'
 import SettingTextField from './SettingTextField'
 
@@ -9,10 +10,11 @@ const SettingsFormSection = ({
   register,
   errors,
   data,
+  children,
 }: {
   header: string
   subHeader: string
-  sections: {
+  sections?: {
     propertyKey: keyof UserSettings
     labelText: string
     isRequired?: boolean
@@ -20,7 +22,7 @@ const SettingsFormSection = ({
   register: (key: string, options: any) => any
   errors: Record<string, any>
   data: Record<string, any>
-}) => {
+} & PropsWithChildren) => {
   return (
     <div className="md:grid md:grid-cols-3 md:gap-6">
       <div className="md:col-span-1">
@@ -43,6 +45,7 @@ const SettingsFormSection = ({
                 labelText={section.labelText}
               />
             ))}
+          {children}
         </div>
       </div>
     </div>

@@ -18,6 +18,9 @@ import { useGetAppSettings } from '../AppSettings/ReactQueryWrappers'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 
 import SettingsFormSection from './SettingsFormSection'
+import SettingTextField from './SettingTextField'
+import { UserSettings } from '../../electron/userSettings/models/UserSettings'
+import { Button } from '../components/Button'
 const faqs = [
   {
     id: 1,
@@ -65,41 +68,55 @@ export const SettingsScreen = () => {
     // UNLESS THE ABOVE RETURNS DATA THIS BREAKS
     reset(settingsResponse)
   }
-
+  const onOpenSelectGitProjectDirectoryClick = () => {
+    console.log('open dialog')
+  }
   const onOpenSettingsFolderClick = (
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     event.preventDefault()
     // shell.showItemInFolder(data!.meta.appSettingsFileLocation)
     window.OpenFileLocation.invoke(
-      appSettings!.runtimeApplicationSettings.userSettingsFileLocation
+      appSettings!.runtimeApplicationSettings.userSettingsFileLocation,
     )
   }
   let control: ReactElement | undefined = undefined
   if (isLoading || data === undefined) {
     control = <>Loading...</>
   }
-
+  const gitSections = [
+    {
+      propertyKey: 'projectsPath' as keyof UserSettings,
+      isRequired: true,
+      labelText: 'Git project path to scan for repositories',
+    },
+    {
+      propertyKey: 'globalGitConfigFile' as keyof UserSettings,
+      isRequired: true,
+      labelText: 'Global Git Config File',
+    },
+  ]
   if (!isLoading && data && control === undefined) {
     control = (
       <div className="px-4 py-5 bg-white shadow sm:rounded-lg sm:p-6 space-y-16">
         <SettingsFormSection
           header="Git Settings"
           subHeader="Used for working with your git repositories."
-          sections={[
-            {
-              propertyKey: 'projectsPath',
-              labelText: 'Git project path to scan for repositories',
-            },
-            {
-              propertyKey: 'globalGitConfigFile',
-              labelText: 'Global Git Config File',
-            },
-          ]}
           register={register}
           errors={errors}
           data={data}
-        />
+        >
+          <Button onClick={onOpenSelectGitProjectDirectoryClick}>Select</Button>
+          <SettingTextField
+            key={gitSections[0].propertyKey}
+            settingKey={gitSections[0].propertyKey}
+            register={register}
+            errors={errors}
+            isRequired={gitSections[0].isRequired}
+            data={data}
+            labelText={gitSections[0].labelText}
+          />
+        </SettingsFormSection>
         <SettingsFormSection
           header="Ssh Settings"
           subHeader="Used for working with ssh certificates"
@@ -153,7 +170,10 @@ export const SettingsScreen = () => {
             projectsPath: data['projectsPath']!,
             globalGitConfigFile: data['globalGitConfigFile'],
             sshConfigFilePath: data['sshConfigFilePath'],
-            openApiChatGptKey: data['openApiChatGptKey'],
+            openApiChatGptKey:
+              data['openApiChatGptKey'] === '' || !data['openApiChatGptKey']
+                ? undefined
+                : data['openApiChatGptKey'],
           })
         })}
       >

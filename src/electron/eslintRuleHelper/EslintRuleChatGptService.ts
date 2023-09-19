@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Configuration, OpenAIApi } from 'openai'
+import { OpenAI } from 'openai'
 import { UserSettingsService } from '../userSettings/services/UserSettingsService'
 import { ChatMessage } from './models/ChatMessage'
 import EslintRuleGeneratorMeta from './models/EslintRuleGeneratorMeta'
-import EslintRuleTestingError from './models/EslintRuleTestingError'
 
 export type ChatGptCompletionResponse = {
   responseText: string
@@ -52,7 +51,7 @@ export class EslintRuleChatGptService {
       // can't make this global regex because it will remove all imports so it's messy as hell
       containsTypescriptEslintImports =
         /import[\s.*][\w*{}\n\r\t, ]+[\s*]from[\s*]["']@typescript-eslint.*[\w]+["']?[;]?/i.test(
-          extractedTextWithoutMarkdown
+          extractedTextWithoutMarkdown,
         )
       if (!containsTypescriptEslintImports) {
         break
@@ -60,7 +59,7 @@ export class EslintRuleChatGptService {
       extractedTextWithoutMarkdown = extractedTextWithoutMarkdown
         .replace(
           /import[\s.*][\w*{}\n\r\t, ]+[\s*]from[\s*]["']@typescript-eslint.*[\w]+["']?[;]?/i,
-          ''
+          '',
         )
         .trim()
       console.log('removed import...')
@@ -71,27 +70,26 @@ export class EslintRuleChatGptService {
 
   static async runChatCompletion(
     messages: ChatMessage[],
-    options: { openAIApiKey: string }
+    options: { openAIApiKey: string },
   ): Promise<ChatGptCompletionResponse> {
-    const configuration = new Configuration({
+    const openai = new OpenAI({
       apiKey: options.openAIApiKey,
     })
-    const openai = new OpenAIApi(configuration)
     try {
-      const completion = await openai.createChatCompletion({
+      const completion = await openai.chat.completions.create({
         model: 'gpt-3.5-turbo',
         messages,
       })
 
-      const extractedText = completion.data.choices[0].message?.content
+      const extractedText = completion.choices[0].message?.content
       if (extractedText === undefined) {
         throw new Error('Could not extract text from completion')
       }
 
       return {
-        tokensUsed: completion.data.usage?.total_tokens || 0,
-        finishReason: completion.data.choices[0].finish_reason,
-        responseText: this.cleanChatGptResponse(extractedText),
+        tokensUsed: completion.usage?.total_tokens || 0,
+        finishReason: completion.choices[0].finish_reason,
+        responseText: this.cleanChatGptResponse(extractedText || ''),
       }
     } catch (error) {
       // try not to throw from here. makes the path easier to follow in callers
@@ -112,7 +110,7 @@ export class EslintRuleChatGptService {
   }
 
   static getInitialChatMessages = (
-    meta: EslintRuleGeneratorMeta
+    meta: EslintRuleGeneratorMeta,
   ): ChatMessage[] => {
     const st = `
     const rule = {
