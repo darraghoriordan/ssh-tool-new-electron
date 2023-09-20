@@ -9,6 +9,7 @@ export const wellKnownQueries = {
 }
 
 export function useGetGitConfigurationList(filter: string | undefined) {
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
   return useQuery<GitConfigListResponse, { message: string }>(
     [wellKnownQueries.getGitConfigurations, filter],
     async () => {
@@ -17,13 +18,25 @@ export function useGetGitConfigurationList(filter: string | undefined) {
     {
       staleTime: Infinity,
       retry: false,
-    }
+      onError: error => {
+        if (error.message.toLowerCase().includes('permission denied')) {
+          logAMessage({
+            message:
+              error.message +
+              "\n Looks like you don't have permission to view some of the files in a subdir.",
+            level: 'error',
+          })
+        } else {
+          logAMessage({ message: error.message, level: 'error' })
+        }
+      },
+    },
   )
 }
 
 export function useResetCache() {
   const queryClient = useQueryClient()
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
 
   return useMutation<void, { message: string }, void, unknown>(
     [wellKnownQueries.resetGitConfiguration],
@@ -45,6 +58,6 @@ export function useResetCache() {
         })
         queryClient.resetQueries([wellKnownQueries.getGitConfigurations])
       },
-    }
+    },
   )
 }

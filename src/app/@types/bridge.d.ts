@@ -54,6 +54,10 @@ import {
   ColorConverterMessage,
   ColorConverterResponse,
 } from '../../electron/colorConverter/channels/MessageTypes'
+import {
+  DevHistoryDayResponse,
+  DevHistoryGetDayRequest,
+} from '../../electron/devHistory/channels/MessageTypes'
 
 declare global {
   // eslint-disable-next-line
@@ -143,6 +147,11 @@ declare global {
     }
     SelectSshConfigFilePath: {
       invoke: () => Promise<UserSettingsResponse>
+    }
+    GetDevHistorySingleDay: {
+      invoke: (
+        message: DevHistoryGetDayRequest,
+      ) => Promise<DevHistoryDayResponse>
     }
   }
 }

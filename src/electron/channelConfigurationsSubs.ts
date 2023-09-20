@@ -28,6 +28,7 @@ import { CurrentLocaleSub } from './appSupport/CurrentLocaleSub'
 import { SelectGitProjectsPathChannelSub } from './userSettings/channels/SelectGitProjectsPathChannelSub'
 import { SelectSshConfigFilePathChannelSub } from './userSettings/channels/SelectSshConfigFilePathChannelSub'
 import { SelectGitConfigFilePathChannelSub } from './userSettings/channels/SelectGitConfigFilePathChannelSub'
+import { DevHistoryGetDayChannelSub } from './devHistory/channels/DevHistoryGetDayChannelSub'
 
 export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
   rtmSendChannels: [
@@ -68,5 +69,6 @@ export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
     new SelectGitProjectsPathChannelSub(),
     new SelectGitConfigFilePathChannelSub(),
     new SelectSshConfigFilePathChannelSub(),
+    new DevHistoryGetDayChannelSub(),
   ],
 }

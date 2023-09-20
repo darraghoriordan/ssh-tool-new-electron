@@ -12,13 +12,13 @@ export function useGetAppSettings() {
   return useQuery<AppSettingsResponse, { message: string }>(
     [wellKnownQueries.getAppSettings],
     async () => window.LoadAppSettings.invoke(),
-    { staleTime: Infinity }
+    { staleTime: Infinity },
   )
 }
 
 export function useSetFirstUsageDate() {
   const queryClient = useQueryClient()
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
 
   return useMutation<void, { message: string }, void, unknown>(
     [wellKnownQueries.updateFirstUsage],
@@ -40,6 +40,6 @@ export function useSetFirstUsageDate() {
         })
         queryClient.resetQueries([wellKnownQueries.getAppSettings])
       },
-    }
+    },
   )
 }

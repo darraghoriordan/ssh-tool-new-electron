@@ -28,6 +28,7 @@ import { CurrentLocalePub } from './appSupport/CurrentLocalePub'
 import { SelectGitProjectsPathChannelPub } from './userSettings/channels/SelectGitProjectsPathChannelPub'
 import { SelectSshConfigFilePathChannelPub } from './userSettings/channels/SelectSshConfigFilePathChannelPub'
 import { SelectGitConfigFilePathChannelPub } from './userSettings/channels/SelectGitConfigFilePathChannelPub'
+import { DevHistoryGetDayChannelPub } from './devHistory/channels/DevHistoryGetDayChannelPub'
 
 export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
   rtmSendChannels: [
@@ -67,5 +68,6 @@ export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
     new SelectGitProjectsPathChannelPub(),
     new SelectGitConfigFilePathChannelPub(),
     new SelectSshConfigFilePathChannelPub(),
+    new DevHistoryGetDayChannelPub(),
   ],
 }
