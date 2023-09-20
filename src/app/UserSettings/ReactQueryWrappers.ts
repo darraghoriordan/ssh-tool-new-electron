@@ -8,10 +8,13 @@ export const wellKnownQueries = {
   getUserSettings: 'get-user-settings',
   saveUserSettings: 'save-user-settings',
   resetUserSettings: 'reset-user-settings',
+  selectGitProjectsPath: 'select-git-projects-path',
+  selectGitConfigFilePath: 'select-git-config-file-path',
+  selectSshConfigFilePath: 'select-ssh-config-file-path',
 }
 
 export function useGetSettings() {
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
 
   return useQuery<UserSettingsResponse, { message: string }>(
     [wellKnownQueries.getUserSettings],
@@ -21,13 +24,13 @@ export function useGetSettings() {
       onError: error => {
         logAMessage({ message: error.message, level: 'error' })
       },
-    }
+    },
   )
 }
 
 export function useSaveSettings() {
   const queryClient = useQueryClient()
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
 
   return useMutation<
     UserSettingsResponse,
@@ -54,13 +57,14 @@ export function useSaveSettings() {
         })
         queryClient.invalidateQueries([wellKnownQueries.getUserSettings])
       },
-    }
+    },
   )
 }
 
 export function useResetSettings() {
   const queryClient = useQueryClient()
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
 
   return useMutation<UserSettingsResponse, { message: string }, void, unknown>(
     [wellKnownQueries.resetUserSettings],
@@ -82,6 +86,93 @@ export function useResetSettings() {
         })
         queryClient.resetQueries([wellKnownQueries.getUserSettings])
       },
-    }
+    },
+  )
+}
+
+export function useSelectGitProjectsPath() {
+  const queryClient = useQueryClient()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
+
+  return useMutation<UserSettingsResponse, { message: string }, void, unknown>(
+    [wellKnownQueries.selectGitProjectsPath],
+    async (): Promise<UserSettingsResponse> => {
+      return window.SelectGitProjectsPath.invoke()
+    },
+    {
+      onError: error => {
+        logAMessage({ message: error.message, level: 'error' })
+      },
+      onSuccess: () => {
+        logAMessage({
+          message: `${wellKnownQueries.selectGitProjectsPath} completed successfully.`,
+          level: 'info',
+        })
+        logAMessage({
+          message: 'invalidating current settings cache.',
+          level: 'info',
+        })
+        queryClient.resetQueries([wellKnownQueries.getUserSettings])
+      },
+    },
+  )
+}
+
+export function useSelectSshConfigFilePath() {
+  const queryClient = useQueryClient()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
+
+  return useMutation<UserSettingsResponse, { message: string }, void, unknown>(
+    [wellKnownQueries.selectSshConfigFilePath],
+    async (): Promise<UserSettingsResponse> => {
+      return window.SelectSshConfigFilePath.invoke()
+    },
+    {
+      onError: error => {
+        logAMessage({ message: error.message, level: 'error' })
+      },
+      onSuccess: () => {
+        logAMessage({
+          message: `${wellKnownQueries.selectSshConfigFilePath} completed successfully.`,
+          level: 'info',
+        })
+        logAMessage({
+          message: 'invalidating current settings cache.',
+          level: 'info',
+        })
+        queryClient.resetQueries([wellKnownQueries.getUserSettings])
+      },
+    },
+  )
+}
+
+export function useSelectGitConfigFilePath() {
+  const queryClient = useQueryClient()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
+
+  return useMutation<UserSettingsResponse, { message: string }, void, unknown>(
+    [wellKnownQueries.selectGitConfigFilePath],
+    async (): Promise<UserSettingsResponse> => {
+      return window.SelectGitConfigFilePath.invoke()
+    },
+    {
+      onError: error => {
+        logAMessage({ message: error.message, level: 'error' })
+      },
+      onSuccess: () => {
+        logAMessage({
+          message: `${wellKnownQueries.selectGitConfigFilePath} completed successfully.`,
+          level: 'info',
+        })
+        logAMessage({
+          message: 'invalidating current settings cache.',
+          level: 'info',
+        })
+        queryClient.resetQueries([wellKnownQueries.getUserSettings])
+      },
+    },
   )
 }

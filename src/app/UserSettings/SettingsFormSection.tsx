@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react'
 import { UserSettings } from '../../electron/userSettings/models/UserSettings'
 import SettingTextField from './SettingTextField'
-
+import { UseFormRegister } from 'react-hook-form'
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const SettingsFormSection = ({
   header,
@@ -19,7 +19,7 @@ const SettingsFormSection = ({
     labelText: string
     isRequired?: boolean
   }[]
-  register: (key: string, options: any) => any
+  register: UseFormRegister<UserSettings>
   errors: Record<string, any>
   data: Record<string, any>
 } & PropsWithChildren) => {

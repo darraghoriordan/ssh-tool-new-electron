@@ -25,6 +25,9 @@ import { GetPastGenerationChannelSub } from './eslintRuleHelper/channels/GetPast
 import { HtmlEncoderChannelSub } from './htmlEncoder/channels/HtmlEncoderChannelSub'
 import { ColorConverterChannelSub } from './colorConverter/channels/ColorConverterChannelSub'
 import { CurrentLocaleSub } from './appSupport/CurrentLocaleSub'
+import { SelectGitProjectsPathChannelSub } from './userSettings/channels/SelectGitProjectsPathChannelSub'
+import { SelectSshConfigFilePathChannelSub } from './userSettings/channels/SelectSshConfigFilePathChannelSub'
+import { SelectGitConfigFilePathChannelSub } from './userSettings/channels/SelectGitConfigFilePathChannelSub'
 
 export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
   rtmSendChannels: [
@@ -62,5 +65,8 @@ export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
     new HtmlEncoderChannelSub(),
     new ColorConverterChannelSub(),
     new CurrentLocaleSub(),
+    new SelectGitProjectsPathChannelSub(),
+    new SelectGitConfigFilePathChannelSub(),
+    new SelectSshConfigFilePathChannelSub(),
   ],
 }

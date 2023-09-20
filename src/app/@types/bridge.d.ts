@@ -68,7 +68,7 @@ declare global {
     LoadUserSettings: { invoke: () => Promise<UserSettingsResponse> }
     SaveUserSettings: {
       invoke: (
-        message: SaveUserSettingsMessage
+        message: SaveUserSettingsMessage,
       ) => Promise<UserSettingsResponse>
     }
     ResetUserSettings: {
@@ -91,12 +91,12 @@ declare global {
     }
     UnixTimeConverter: {
       invoke: (
-        message: UnixTimeConverterMessage
+        message: UnixTimeConverterMessage,
       ) => Promise<UnixTimeConverterResponse>
     }
     SshUrlConverter: {
       invoke: (
-        message: SshUrlConverterChannelMessage
+        message: SshUrlConverterChannelMessage,
       ) => Promise<SshUrlConverterChannelResponse>
     }
     OpenSubmitFeedback: { invoke: () => void }
@@ -118,7 +118,7 @@ declare global {
     }
     EslintRuleGenerator: {
       invoke: (
-        message: EslintRuleGeneratorMeta
+        message: EslintRuleGeneratorMeta,
       ) => Promise<EslintRuleGenerationRecord>
     }
     EslintListPastGenerations: {
@@ -129,11 +129,20 @@ declare global {
     }
     ColorConverter: {
       invoke: (
-        message: ColorConverterMessage
+        message: ColorConverterMessage,
       ) => Promise<ColorConverterResponse>
     }
     CurrentLocale: {
       invoke: () => Promise<string>
+    }
+    SelectGitProjectsPath: {
+      invoke: () => Promise<UserSettingsResponse>
+    }
+    SelectGitConfigFilePath: {
+      invoke: () => Promise<UserSettingsResponse>
+    }
+    SelectSshConfigFilePath: {
+      invoke: () => Promise<UserSettingsResponse>
     }
   }
 }

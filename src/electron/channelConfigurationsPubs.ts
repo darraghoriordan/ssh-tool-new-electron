@@ -25,6 +25,9 @@ import { ListPastGenerationsChannelPub } from './eslintRuleHelper/channels/ListP
 import { HtmlEncoderChannelPub } from './htmlEncoder/channels/HtmlEncoderChannelPub'
 import { ColorConverterChannelPub } from './colorConverter/channels/ColorConverterChannelPub'
 import { CurrentLocalePub } from './appSupport/CurrentLocalePub'
+import { SelectGitProjectsPathChannelPub } from './userSettings/channels/SelectGitProjectsPathChannelPub'
+import { SelectSshConfigFilePathChannelPub } from './userSettings/channels/SelectSshConfigFilePathChannelPub'
+import { SelectGitConfigFilePathChannelPub } from './userSettings/channels/SelectGitConfigFilePathChannelPub'
 
 export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
   rtmSendChannels: [
@@ -61,5 +64,8 @@ export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
     new HtmlEncoderChannelPub(),
     new ColorConverterChannelPub(),
     new CurrentLocalePub(),
+    new SelectGitProjectsPathChannelPub(),
+    new SelectGitConfigFilePathChannelPub(),
+    new SelectSshConfigFilePathChannelPub(),
   ],
 }

@@ -1,3 +1,4 @@
+import { UseFormRegister } from 'react-hook-form'
 import { UserSettings } from '../../electron/userSettings/models/UserSettings'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -10,7 +11,7 @@ const SettingTextField = ({
   isRequired,
 }: {
   settingKey: keyof UserSettings
-  register: (key: string, options: any) => any
+  register: UseFormRegister<UserSettings>
   errors: Record<string, any>
   data: Record<string, any>
   labelText: string

@@ -8,7 +8,7 @@
         "sourceMap": true,
         "baseUrl": ".",
         "outDir": "dist",
-        "moduleResolution": "node",
+        "moduleResolution": "Node",
         "resolveJsonModule": true,
         "jsx": "react-jsx",
         "strict": true,
@@ -26,6 +26,9 @@
             ]
         }
     },
+    "exclude": [
+        "src/electron/eslintRuleHelper/tmp-file.ts"
+    ],
     "include": [
         "src/**/*"
     ]
