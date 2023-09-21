@@ -5,6 +5,7 @@ import SettingsFormSection from './SettingsFormSection'
 import { useContext } from 'react'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 import { SettingPathSelectionField } from './SettingPathSelectionField'
+import { DocumentCheckIcon } from '@heroicons/react/24/outline'
 
 const gitSections = [
   {
@@ -25,6 +26,7 @@ export function SettingsForm({
   onOpenSelectGitConfigFileClick,
   onOpenSelectSshConfigFileClick,
   onSubmit,
+  onOpenSelectChromeHistoryFileClick,
 }: {
   data: UserSettings
   onOpenSelectGitProjectDirectoryClick: (
@@ -34,6 +36,9 @@ export function SettingsForm({
     event: React.MouseEvent<HTMLButtonElement>,
   ) => Promise<void>
   onOpenSelectSshConfigFileClick: (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => Promise<void>
+  onOpenSelectChromeHistoryFileClick: (
     event: React.MouseEvent<HTMLButtonElement>,
   ) => Promise<void>
   onSubmit: (data: UserSettings) => Promise<void>
@@ -107,19 +112,38 @@ export function SettingsForm({
           />
         </SettingsFormSection>
         <SettingsFormSection
-          header="Open Api Settings"
-          subHeader="Used for working with Open Api"
+          header="Dev history Settings"
+          subHeader="Used for creating your dev history"
+          register={register}
+          errors={errors}
+          data={data}
+        >
+          <SettingPathSelectionField
+            key={'chromeHistoryPath'}
+            settingKey={'chromeHistoryPath'}
+            register={register}
+            errors={errors}
+            isRequired={true}
+            data={data}
+            labelText={'Chrome History File'}
+            pathIcon="file"
+            onSelect={onOpenSelectChromeHistoryFileClick}
+          />
+        </SettingsFormSection>
+        <SettingsFormSection
+          header="Open Ai Settings"
+          subHeader="Used for working with Open Ai"
           sections={[
             {
-              propertyKey: 'openApiChatGptKey',
+              propertyKey: 'openAiChatGptKey',
               labelText:
-                'ChatGPT Api Key ( https://platform.openai.com/account/api-keys )',
+                'ChatGPT Ai Key ( https://platform.openai.com/account/api-keys )',
               isRequired: false,
             },
             {
-              propertyKey: 'openApiOrgId',
+              propertyKey: 'openAiOrgId',
               labelText:
-                'Open Api Org Id ( https://platform.openai.com/account/org-settings )',
+                'Open Ai Org Id ( https://platform.openai.com/account/org-settings )',
               isRequired: false,
             },
           ]}
@@ -128,6 +152,13 @@ export function SettingsForm({
           data={data}
         />
       </div>
+      <button
+        type="submit"
+        className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+      >
+        <DocumentCheckIcon className="w-5 h-5 mr-2" />
+        Save
+      </button>
     </form>
   )
 }

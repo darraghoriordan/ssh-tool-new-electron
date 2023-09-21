@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { OpenAI } from 'openai'
 import { UserSettingsService } from '../userSettings/services/UserSettingsService'
-import { ChatMessage } from './models/ChatMessage'
+import { ChatMessage } from '../openai/ChatMessage'
 import EslintRuleGeneratorMeta from './models/EslintRuleGeneratorMeta'
 
 export type ChatGptCompletionResponse = {
@@ -15,10 +15,10 @@ export class EslintRuleChatGptService {
   static hasSetApiKeys = async (): Promise<boolean> => {
     const settings = await UserSettingsService.getSettings()
     return (
-      settings.openApiOrgId !== undefined &&
-      settings.openApiOrgId.length > 0 &&
-      settings.openApiChatGptKey !== undefined &&
-      settings.openApiOrgId.length > 0
+      settings.openAiOrgId !== undefined &&
+      settings.openAiOrgId.length > 0 &&
+      settings.openAiChatGptKey !== undefined &&
+      settings.openAiOrgId.length > 0
     )
   }
 

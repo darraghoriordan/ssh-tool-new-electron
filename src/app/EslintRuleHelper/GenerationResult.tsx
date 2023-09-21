@@ -17,13 +17,13 @@ export const GenerationResult = ({
   if (!generationResultKey) {
     return <></>
   }
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
   const { data: currentGenerationRecord, isLoading: currentGenRecordLoading } =
     useGetPastGeneration(generationResultKey)
   const [selectedEpoch, setSelectedEpoch] = useState<number>(
     currentGenerationRecord?.epochs
       ? currentGenerationRecord.epochs.length - 1
-      : 0
+      : 0,
   )
 
   const clipCode = (value: string) => {
@@ -64,7 +64,7 @@ export const GenerationResult = ({
                       'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
                       i === selectedEpoch
                         ? 'bg-gray-50 text-indigo-600'
-                        : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
+                        : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
                     )}
                     onClick={() => setSelectedEpoch(i)}
                   >
@@ -133,13 +133,13 @@ export const GenerationResult = ({
                   onClick={() =>
                     clipCode(
                       currentGenerationRecord?.epochs?.[selectedEpoch]?.code ||
-                        ''
+                        '',
                     )
                   }
                 ></ClipboardDocumentCheckIcon>
               </p>
 
-              <pre className="p-2 border rounded-lg w-full">
+              <pre className="w-full p-2 border rounded-lg">
                 {currentGenerationRecord?.epochs?.[selectedEpoch]?.code || ''}
               </pre>
             </>

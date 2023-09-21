@@ -148,6 +148,35 @@ export function useSelectSshConfigFilePath() {
   )
 }
 
+export function useSelectChromeHistoryFilePath() {
+  const queryClient = useQueryClient()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
+
+  return useMutation<UserSettingsResponse, { message: string }, void, unknown>(
+    [wellKnownQueries.selectSshConfigFilePath],
+    async (): Promise<UserSettingsResponse> => {
+      return window.SelectChromeHistoryFilePath.invoke()
+    },
+    {
+      onError: error => {
+        logAMessage({ message: error.message, level: 'error' })
+      },
+      onSuccess: () => {
+        logAMessage({
+          message: `${wellKnownQueries.selectSshConfigFilePath} completed successfully.`,
+          level: 'info',
+        })
+        logAMessage({
+          message: 'invalidating current settings cache.',
+          level: 'info',
+        })
+        queryClient.resetQueries([wellKnownQueries.getUserSettings])
+      },
+    },
+  )
+}
+
 export function useSelectGitConfigFilePath() {
   const queryClient = useQueryClient()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

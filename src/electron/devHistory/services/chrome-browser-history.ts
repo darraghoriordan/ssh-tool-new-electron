@@ -8,31 +8,7 @@ import {
   convertMicrosecondsToDate,
 } from './time-wrangler'
 import { ChromeHistoryEntry } from '../models/ChromeHistoryEntry'
-
-export type SupportedOS = 'linux' | 'win32' | 'darwin'
-function getChromeHistoryDatabasePath(os: SupportedOS) {
-  let historyDBPath = ''
-  // also check for /Profile 1/History in the various directories
-  // maybe ask the user to select the profile directory in the future?
-  switch (os) {
-    case 'linux':
-      // Typical path for Linux
-      historyDBPath = `${process.env.HOME}/.config/google-chrome/Default/History`
-      break
-    case 'win32':
-      // Typical path for Windows
-      historyDBPath = `C:/Users/${process.env.USERNAME}/AppData/Local/Google/Chrome/User Data/Default/History`
-      break
-    case 'darwin':
-      // Typical path for macOS (Darwin)
-      historyDBPath = `${process.env.HOME}/Library/Application Support/Google/Chrome/Default/History`
-      break
-    default:
-      console.error('Unsupported operating system:', os)
-  }
-
-  return historyDBPath
-}
+import { UserSettingsService } from '../../userSettings/services/UserSettingsService'
 
 export async function readChromeHistory({
   startDate,
@@ -41,11 +17,15 @@ export async function readChromeHistory({
   startDate: Date
   endDate: Date
 }): Promise<ChromeHistoryEntry[]> {
+  const userSettings = await UserSettingsService.getSettings()
   // Chrome history database path (update this path to match your system)
-  const historyDBPath = getChromeHistoryDatabasePath(
-    process.platform as SupportedOS,
-  )
+  const historyDBPath = userSettings.chromeHistoryPath
 
+  if (!historyDBPath) {
+    throw new Error(
+      'Chrome history database path not found. Please set the path in the settings.',
+    )
+  }
   const startTimestamp = convertDateToMicrosecondsSinceWindowsEpoch(startDate)
   const endTimestamp = convertDateToMicrosecondsSinceWindowsEpoch(endDate)
   console.log('opening chrome history database', historyDBPath)

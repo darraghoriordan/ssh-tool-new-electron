@@ -29,6 +29,7 @@ import { SelectGitProjectsPathChannelPub } from './userSettings/channels/SelectG
 import { SelectSshConfigFilePathChannelPub } from './userSettings/channels/SelectSshConfigFilePathChannelPub'
 import { SelectGitConfigFilePathChannelPub } from './userSettings/channels/SelectGitConfigFilePathChannelPub'
 import { DevHistoryGetDayChannelPub } from './devHistory/channels/DevHistoryGetDayChannelPub'
+import { SelectChromeHistoryFilePathChannelPub } from './userSettings/channels/SelectChromeHistoryFilePathChannelPub'
 
 export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
   rtmSendChannels: [
@@ -69,5 +70,6 @@ export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
     new SelectGitConfigFilePathChannelPub(),
     new SelectSshConfigFilePathChannelPub(),
     new DevHistoryGetDayChannelPub(),
+    new SelectChromeHistoryFilePathChannelPub(),
   ],
 }

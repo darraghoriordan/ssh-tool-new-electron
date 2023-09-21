@@ -5,11 +5,12 @@ import {
   useGetSettings,
   useResetSettings,
   useSaveSettings,
+  useSelectChromeHistoryFilePath,
   useSelectGitConfigFilePath,
   useSelectGitProjectsPath,
   useSelectSshConfigFilePath,
 } from './ReactQueryWrappers'
-import { DocumentCheckIcon, FolderOpenIcon } from '@heroicons/react/24/outline'
+import { FolderOpenIcon } from '@heroicons/react/24/outline'
 import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
 import { useGetAppSettings } from '../AppSettings/ReactQueryWrappers'
 import { SettingsForm } from './SettingsForm'
@@ -46,6 +47,7 @@ export const SettingsScreen = () => {
   const setProjectsPathMutation = useSelectGitProjectsPath()
   const setGitConfigFilePathMutation = useSelectGitConfigFilePath()
   const setSshConfigFilePathMutation = useSelectSshConfigFilePath()
+  const setChromeHistoryFilePathMutation = useSelectChromeHistoryFilePath()
   const { isLoading, data } = useGetSettings()
   const saveMutation = useSaveSettings()
   const resetMutation = useResetSettings()
@@ -72,6 +74,12 @@ export const SettingsScreen = () => {
     event.preventDefault()
     await setSshConfigFilePathMutation.mutateAsync()
   }
+  const onOpenSelectChromeHistoryFileClick = async (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    event.preventDefault()
+    await setChromeHistoryFilePathMutation.mutateAsync()
+  }
   const onOpenSettingsFolderClick = (
     event: React.MouseEvent<HTMLButtonElement>,
   ) => {
@@ -89,11 +97,12 @@ export const SettingsScreen = () => {
     saveMutation.mutate({
       projectsPath: data['projectsPath']!,
       globalGitConfigFile: data['globalGitConfigFile'],
+      chromeHistoryPath: data['chromeHistoryPath'],
       sshConfigFilePath: data['sshConfigFilePath'],
-      openApiChatGptKey:
-        data['openApiChatGptKey'] === '' || !data['openApiChatGptKey']
+      openAiChatGptKey:
+        data['openAiChatGptKey'] === '' || !data['openAiChatGptKey']
           ? undefined
-          : data['openApiChatGptKey'],
+          : data['openAiChatGptKey'],
     })
   }
   if (!isLoading && data && control === undefined) {
@@ -101,6 +110,7 @@ export const SettingsScreen = () => {
       <SettingsForm
         data={data}
         onSubmit={handleSubmit}
+        onOpenSelectChromeHistoryFileClick={onOpenSelectChromeHistoryFileClick}
         onOpenSelectGitProjectDirectoryClick={onSelectGitProjectPath}
         onOpenSelectGitConfigFileClick={onSelectGitConfigFilePath}
         onOpenSelectSshConfigFileClick={onSelectSshConfigFilePath}
@@ -143,15 +153,6 @@ export const SettingsScreen = () => {
             <XMarkIcon className="w-5 h-5 mr-2" />
             Cancel Changes
           </button> */}
-
-        <button
-          type="submit"
-          disabled={saveMutation.isLoading}
-          className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-        >
-          <DocumentCheckIcon className="w-5 h-5 mr-2" />
-          Save
-        </button>
       </PageHeader>
       <DescriptionAndHelp faqs={faqs} />
       {control}

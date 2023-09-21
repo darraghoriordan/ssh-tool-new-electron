@@ -21,11 +21,17 @@ export class UserSettings {
   @IsOptional()
   @IsString()
   @MinLength(1)
-  openApiChatGptKey?: string
+  openAiChatGptKey?: string
 
   @Expose()
   @IsOptional()
   @IsString()
   @MinLength(1)
-  openApiOrgId?: string
+  openAiOrgId?: string
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  @MinLength(1)
+  chromeHistoryPath?: string
 }

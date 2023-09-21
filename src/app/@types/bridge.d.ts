@@ -148,6 +148,9 @@ declare global {
     SelectSshConfigFilePath: {
       invoke: () => Promise<UserSettingsResponse>
     }
+    SelectChromeHistoryFilePath: {
+      invoke: () => Promise<UserSettingsResponse>
+    }
     GetDevHistorySingleDay: {
       invoke: (
         message: DevHistoryGetDayRequest,

@@ -21,6 +21,7 @@ export function DevHistoryScreen() {
     control = (
       <div className="px-4 py-5 bg-white shadow sm:rounded-lg sm:p-6">
         <div className="flex flex-wrap justify-start space-x-16">
+          <pre>{JSON.stringify(data, null)}</pre>
           {data.chromeHistory.map((item, index) => {
             return <p key={index}>{item.title}</p>
           })}
