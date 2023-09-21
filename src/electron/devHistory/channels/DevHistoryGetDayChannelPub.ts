@@ -3,6 +3,6 @@ import { DevHistoryChannels } from './DevHistoryChannelEnum'
 
 export class DevHistoryGetDayChannelPub extends InvokeChannelBasePub {
   constructor() {
-    super('DevHistory', DevHistoryChannels.GET_DAY)
+    super('GetDevHistorySingleDay', DevHistoryChannels.GET_DAY)
   }
 }

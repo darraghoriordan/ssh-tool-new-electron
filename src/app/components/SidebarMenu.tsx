@@ -12,6 +12,7 @@ import {
   VariableIcon,
   HashtagIcon,
   PaintBrushIcon,
+  CalendarIcon,
 } from '@heroicons/react/24/outline'
 import { NavLink } from 'react-router-dom'
 import logo from '../../assets/logo-grey800-prompt.png'
@@ -41,6 +42,12 @@ const navigation = [
     name: 'Html Char Encoding',
     href: '/html-char-encoding',
     icon: HashtagIcon,
+    current: false,
+  },
+  {
+    name: 'Dev History',
+    href: '/dev-history',
+    icon: CalendarIcon,
     current: false,
   },
   {
@@ -121,12 +128,12 @@ export const SidebarMenu = () => {
                 if (input.isActive) {
                   return classNames(
                     'bg-gray-900 text-white',
-                    'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
+                    'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
                   )
                 }
                 return classNames(
                   'text-gray-300 hover:bg-gray-700 hover:text-white',
-                  'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
+                  'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
                 )
               }}
             >

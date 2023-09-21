@@ -1,28 +1,22 @@
-import { useMutation } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useContext } from 'react'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
-import {
-  DevHistoryDayResponse,
-  DevHistoryGetDayRequest,
-} from '../../electron/devHistory/channels/MessageTypes'
 
 export const wellKnownQueries = {
   getSingleDay: 'get-single-day',
 }
-export function useDevHistoryGetDay() {
+export function useDevHistoryGetDay({ date }: { date: Date }) {
   const [_logMessages, logAMessage] = useContext(ConsoleContext)
-  return useMutation<
-    DevHistoryDayResponse,
-    { message: string },
-    DevHistoryGetDayRequest,
-    unknown
-  >(
+  return useQuery(
     [wellKnownQueries.getSingleDay],
-    async variables => {
-      return window.GetDevHistorySingleDay.invoke(variables)
+    async () => {
+      return window.GetDevHistorySingleDay.invoke({
+        date: date,
+      })
     },
     {
-      onError: error => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      onError: (error: any) => {
         logAMessage({ message: error.message, level: 'error' })
       },
       onSuccess: () => {

@@ -16,6 +16,7 @@ import { StringCaseConverterScreen } from './StringCaseConverter/StringCaseConve
 import { EslintRuleGeneratorScreen } from './EslintRuleHelper/EslintRuleGeneratorScreen'
 import { HtmlEncoderScreen } from './HtmlEncoder/HtmlEncoderScreen'
 import { ColorConverterScreen } from './ColorConverter/ColorConverterScreen'
+import { DevHistoryScreen } from './DevHistory/DevHistoryScreen'
 
 function AppRoutes() {
   return (
@@ -47,6 +48,7 @@ function AppRoutes() {
         <Route path="string-case" element={<StringCaseConverterScreen />} />
         <Route path="url-encoder" element={<UrlEncoderScreen />} />
         <Route path="string-sort" element={<StringSorterScreen />} />
+        <Route path="dev-history" element={<DevHistoryScreen />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
