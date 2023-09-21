@@ -7,7 +7,7 @@ import {
   convertDateToMicrosecondsSinceWindowsEpoch,
   convertMicrosecondsToDate,
 } from './time-wrangler'
-import { ChromeHistoryEntry } from './ChromeHistoryEntry'
+import { ChromeHistoryEntry } from '../models/ChromeHistoryEntry'
 
 export type SupportedOS = 'linux' | 'win32' | 'darwin'
 function getChromeHistoryDatabasePath(os: SupportedOS) {
