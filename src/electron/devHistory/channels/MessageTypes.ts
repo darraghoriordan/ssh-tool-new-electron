@@ -1,4 +1,4 @@
-import { ChromeHistoryEntry } from '../models/ChromeHistoryEntry'
+import { BrowserHistoryEntry } from '../models/HistoryEntry'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type DevHistoryGetDayRequest = {
@@ -6,5 +6,5 @@ export type DevHistoryGetDayRequest = {
 }
 
 export type DevHistoryDayResponse = {
-  chromeHistory: ChromeHistoryEntry[]
+  chromeHistory: BrowserHistoryEntry[]
 }

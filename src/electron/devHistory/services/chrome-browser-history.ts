@@ -7,8 +7,8 @@ import {
   convertDateToMicrosecondsSinceWindowsEpoch,
   convertMicrosecondsToDate,
 } from './time-wrangler'
-import { ChromeHistoryEntry } from '../models/ChromeHistoryEntry'
 import { UserSettingsService } from '../../userSettings/services/UserSettingsService'
+import { BrowserHistoryEntry } from '../models/HistoryEntry'
 
 export async function readChromeHistory({
   startDate,
@@ -16,7 +16,7 @@ export async function readChromeHistory({
 }: {
   startDate: Date
   endDate: Date
-}): Promise<ChromeHistoryEntry[]> {
+}): Promise<BrowserHistoryEntry[]> {
   const userSettings = await UserSettingsService.getSettings()
   // Chrome history database path (update this path to match your system)
   const historyDBPath = userSettings.chromeHistoryPath
@@ -54,11 +54,7 @@ export async function readChromeHistory({
           console.error('Error accessing Chrome history database:', err.message)
           reject(err)
         } else {
-          const formattedHistory = rows.map(row => ({
-            url: row.url,
-            title: row.title,
-            visitTime: convertMicrosecondsToDate(row.last_visit_time),
-          }))
+          const formattedHistory = rows.map(mapToBrowserHistoryEvent)
           resolve(formattedHistory)
         }
         db.close(err => {
@@ -69,6 +65,21 @@ export async function readChromeHistory({
       },
     )
   })
+}
+
+function mapToBrowserHistoryEvent(row: {
+  url: string
+  title: string
+  last_visit_time: number
+}): BrowserHistoryEntry {
+  return {
+    type: 'browser history',
+    date: convertMicrosecondsToDate(row.last_visit_time),
+    metadata: {
+      url: row.url,
+      title: row.title,
+    },
+  }
 }
 
 async function getFileSizeInMB(filePath: string): Promise<number | null> {

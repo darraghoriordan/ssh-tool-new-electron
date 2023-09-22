@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import OpenAI from 'openai'
 import { ChatMessage } from '../../openai/ChatMessage'
-import { ChromeHistoryEntry } from '../models/ChromeHistoryEntry'
+import { HistoryEntry } from '../models/HistoryEntry'
 
 export interface DayAnalysis {
   day: Date
@@ -19,7 +19,7 @@ export interface DayAnalysis {
 export async function runChatCompletion(
   request: {
     day: Date
-    chromeHistory: ChromeHistoryEntry[]
+    chromeHistory: HistoryEntry[]
   },
   options: { openAIApiKey: string },
 ): Promise<DayAnalysis> {
@@ -32,12 +32,12 @@ export async function runChatCompletion(
       {
         role: 'user',
         content: `Day: ${JSON.stringify(request.chromeHistory)}
-        
+
         First, split the provided data into 30 minute blocks.
         For each block, generate concise, dense summaries of all the items in that block. The summary should be 1 or 2 sentences.
         Finally, categorize the activities into these categories: development, work, personal, and other. development is anything that is related to coding.
-       
-        The output should be in JSON format. e.g. 
+
+        The output should be in JSON format. e.g.
         [{startOfPeriod: 2023-09-21T12:00:00, endOfPeriod: 2023-09-21T12:30:00, summary: "Worked on organisations api, added manager controller.", category: "development"}
         ,{startOfPeriod: 2023-09-21T17:30:00, endOfPeriod: 2023-09-21T18:00:00, summary: "Browsed @someuser and others on twitter", category: "personal"}]`,
       },
