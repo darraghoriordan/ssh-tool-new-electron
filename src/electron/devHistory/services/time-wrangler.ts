@@ -5,6 +5,11 @@ export function getStartAndEndOfDay(date: Date = new Date()): DateRange {
   // Set the time to the start of the day (midnight)
   inputDate.setHours(0, 0, 0, 0)
 
+  // if the day is today, use the current time as the endTime
+  const now = new Date()
+  if (inputDate.toDateString() === now.toDateString()) {
+    return { startDate: inputDate, endDate: now }
+  }
   // Create a new Date object for the end of the day
   const endDate = new Date(inputDate)
   endDate.setHours(23, 59, 59, 999)

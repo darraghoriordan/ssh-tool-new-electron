@@ -12,6 +12,7 @@ import {
   calculateIncrements,
   getStartAndEndOfDay,
 } from './time-wrangler'
+import { getFromCache, saveToCache } from './dev-history-cache'
 
 export interface IncrementAnalysis {
   increment: DateRange
@@ -21,15 +22,46 @@ export interface IncrementAnalysis {
     analysis: IncrementGPTResponse | undefined
   }
 }
+
 export async function analyseDay(date: Date) {
+  const dayRange = getStartAndEndOfDay(date)
+  // check if we have a cached version of this day
+  const cachedDayAnalysis = await getFromCache(dayRange.startDate)
+  const increments = calculateIncrements(dayRange)
+  // if the cached analysis has every increment by end, return it
+  if (
+    cachedDayAnalysis &&
+    cachedDayAnalysis.length === increments.length &&
+    cachedDayAnalysis.every(
+      a =>
+        a.increment.endDate.getTime() ===
+        increments
+          .find(i => i.endDate === a.increment.endDate)
+          ?.endDate?.getTime(),
+    )
+  ) {
+    return cachedDayAnalysis
+  }
   const settings = await UserSettingsService.getSettings()
   if (!settings.openAiChatGptKey) {
     throw new Error('no openApiChatGptKey')
   }
   await copyLatestChromeHistory()
-  const increments = calculateIncrements(getStartAndEndOfDay(date))
 
+  // create a promise for each increment that does all the work
   const gptPromises = increments.map(async increment => {
+    // check if we have a cached version of this increment
+    const cachedItem = cachedDayAnalysis?.find(
+      a =>
+        a.increment.startDate === increment.startDate &&
+        a.increment.endDate === increment.endDate,
+    )
+    if (cachedItem) {
+      console.log(`using cached analysis for ${increment.startDate}`)
+      return cachedItem
+    }
+
+    // otherwise get any data we need
     const chromeEventsForPeriod = await readChromeHistory(increment)
     const gitEventsForPeriod = await readGitHistory(increment)
 
@@ -39,7 +71,7 @@ export async function analyseDay(date: Date) {
     ].sort((a, b) => {
       return a.date.getTime() - b.date.getTime()
     })
-    console.log()
+
     if (eventsForPeriod.length === 0) {
       return {
         increment: increment,
@@ -69,11 +101,11 @@ export async function analyseDay(date: Date) {
     }
   })
 
-  // open ai api limits?
   console.log(`starting ${gptPromises.length} gptPromises`)
   const chatResults = await Promise.allSettled(gptPromises)
   console.log(`gptPromises complete`)
 
+  // filter out any errors and empty results
   const results = chatResults
     .map(result => {
       return result.status === 'fulfilled' ? result.value : undefined
@@ -85,6 +117,9 @@ export async function analyseDay(date: Date) {
         (b?.increment?.startDate?.getTime() || 0)
       )
     })
+
+  // save to cache
+  await saveToCache(dayRange.startDate, results)
 
   return results
 }

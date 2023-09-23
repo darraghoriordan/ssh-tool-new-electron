@@ -14,7 +14,12 @@ export function useDevHistoryGetDay({ date }: { date: Date }) {
         date: date,
       })
     },
+
     {
+      // never invalidate
+      staleTime: Infinity,
+      retry: 0,
+      refetchOnWindowFocus: false,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onError: (error: any) => {
         logAMessage({ message: error.message, level: 'error' })
