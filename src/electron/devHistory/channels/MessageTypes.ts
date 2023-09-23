@@ -1,4 +1,4 @@
-import { BrowserHistoryEntry } from '../models/HistoryEntry'
+import { IncrementAnalysis } from '../services/day-analyser'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type DevHistoryGetDayRequest = {
@@ -6,5 +6,5 @@ export type DevHistoryGetDayRequest = {
 }
 
 export type DevHistoryDayResponse = {
-  chromeHistory: BrowserHistoryEntry[]
+  analysis: IncrementAnalysis[]
 }

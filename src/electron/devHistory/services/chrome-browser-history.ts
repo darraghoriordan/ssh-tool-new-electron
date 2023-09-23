@@ -10,13 +10,11 @@ import {
 import { UserSettingsService } from '../../userSettings/services/UserSettingsService'
 import { BrowserHistoryEntry } from '../models/HistoryEntry'
 
-export async function readChromeHistory({
-  startDate,
-  endDate,
-}: {
-  startDate: Date
-  endDate: Date
-}): Promise<BrowserHistoryEntry[]> {
+export const electronAppTempPath = path.join(
+  app.getPath('userData'),
+  'chromeHistory.sqlite',
+)
+export async function copyLatestChromeHistory(): Promise<void> {
   const userSettings = await UserSettingsService.getSettings()
   // Chrome history database path (update this path to match your system)
   const historyDBPath = userSettings.chromeHistoryPath
@@ -26,17 +24,23 @@ export async function readChromeHistory({
       'Chrome history database path not found. Please set the path in the settings.',
     )
   }
-  const startTimestamp = convertDateToMicrosecondsSinceWindowsEpoch(startDate)
-  const endTimestamp = convertDateToMicrosecondsSinceWindowsEpoch(endDate)
   console.log('opening chrome history database', historyDBPath)
   console.log('filesize', await getFileSizeInMB(historyDBPath))
 
-  const electronAppTempPath = path.join(
-    app.getPath('userData'),
-    'chromeHistory.sqlite',
-  )
   await copyFileAsync(historyDBPath, electronAppTempPath)
   console.log('copied file to', electronAppTempPath)
+}
+
+export async function readChromeHistory({
+  startDate,
+  endDate,
+}: {
+  startDate: Date
+  endDate: Date
+}): Promise<BrowserHistoryEntry[]> {
+  const startTimestamp = convertDateToMicrosecondsSinceWindowsEpoch(startDate)
+  const endTimestamp = convertDateToMicrosecondsSinceWindowsEpoch(endDate)
+
   const db = new sqlite3.Database(electronAppTempPath, sqlite3.OPEN_READONLY)
 
   const query = `

@@ -5,6 +5,7 @@ export interface GitCommitHistoryEntry {
   metadata: {
     diff: string
     message: string
+    fileNames: string[]
   }
 }
 

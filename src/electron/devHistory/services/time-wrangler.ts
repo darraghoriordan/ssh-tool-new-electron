@@ -1,7 +1,4 @@
-export function getStartAndEndOfDay(date: Date): {
-  startDate: Date
-  endDate: Date
-} {
+export function getStartAndEndOfDay(date: Date = new Date()): DateRange {
   // Clone the input date to avoid modifying it
   const inputDate = new Date(date)
 
@@ -14,6 +11,7 @@ export function getStartAndEndOfDay(date: Date): {
 
   return { startDate: inputDate, endDate }
 }
+
 const MICROSECONDS_PER_SECOND = 1e6
 const MICROSECONDS_BETWEEN_EPOCHS = 11644473600 * MICROSECONDS_PER_SECOND
 export function convertMicrosecondsToDate(microseconds: number): Date {
@@ -34,4 +32,45 @@ export function convertDateToMicrosecondsSinceWindowsEpoch(date: Date): number {
     unixTimestampInMilliseconds * 1000 + MICROSECONDS_BETWEEN_EPOCHS
 
   return microsecondsSinceWindowsEpoch
+}
+
+export interface DateRange {
+  startDate: Date
+  endDate: Date
+}
+
+export function calculateIncrements(dateRange: DateRange): DateRange[] {
+  const { startDate, endDate } = dateRange
+  const increments: DateRange[] = []
+  let currentIncrement = new Date(startDate)
+
+  while (currentIncrement < endDate) {
+    // Calculate the end time for this increment
+    const nextIncrement = new Date(currentIncrement)
+    nextIncrement.setMinutes(currentIncrement.getMinutes() + 30)
+
+    // Check if the next increment exceeds the end date
+    if (nextIncrement > endDate) {
+      // Calculate the remaining time and extend the last increment
+      const extendedIncrement = new Date(currentIncrement)
+      extendedIncrement.setMinutes(
+        currentIncrement.getMinutes() +
+          Math.ceil((endDate.getTime() - currentIncrement.getTime()) / 60000),
+      )
+
+      increments.push({
+        startDate: currentIncrement,
+        endDate: extendedIncrement,
+      })
+      break
+    }
+
+    // Add the 30-minute increment to the list
+    increments.push({ startDate: currentIncrement, endDate: nextIncrement })
+
+    // Move to the next 30-minute interval
+    currentIncrement = nextIncrement
+  }
+
+  return increments
 }
