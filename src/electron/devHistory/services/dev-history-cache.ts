@@ -13,6 +13,7 @@ export async function getFromCache(
   }
   const fileUtf8 = await fsp.readFile(cachePath, { encoding: 'utf-8' })
   const cache = JSON.parse(fileUtf8)
+
   return cache
 }
 
