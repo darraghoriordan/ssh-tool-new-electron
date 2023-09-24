@@ -9,13 +9,12 @@ export const IncrementGPTResponseSchema = z.object({
   tokensUsed: z.number(),
   errorMessage: z.string().optional(),
   finishReason: z.string().optional(),
-  summary: z.array(
-    z.object({
-      Missing_Entities: z.string(),
-      Denser_Summary: z.string(),
-      Category: z.string(),
-    }),
-  ),
+  summary: z
+    .object({
+      text: z.string(),
+      category: z.string(),
+    })
+    .or(z.undefined()),
 })
 export type IncrementGPTResponse = z.infer<typeof IncrementGPTResponseSchema>
 
@@ -28,74 +27,20 @@ export async function runChatCompletion(
   const openai = new OpenAI({
     apiKey: options.openAIApiKey,
   })
-  // can only send 200 history entries at a time
   try {
-    const chatMessages: ChatMessage[] = [
-      {
-        role: 'user',
-        content: `Events: ${JSON.stringify(request.historyItems)}
+    const browserHistoryItems = request.historyItems
+      .filter(x => x.type === 'browser history')
+      .map(x => x.metadata)
 
-        You will generate increasingly concise, entity-dense summaries of the combined array of events above. A summary will concisely describe what the user was trying to achieve by triggering these events.
-
-        Repeat the following 3 steps 5 times. 
-        
-        Step 1. Identify 1-3 informative entities (";" delimited) from the events metadata which are missing from the previously generated summary. 
-        Step 2. Write a new, denser summary of identical length which covers every entity and detail from the previous summary plus the missing entities.
-        Step 3. Categorise the summary into one of the following enum values: "personal", "software-development", "sales","marketing","other".
-        
-        A missing entity is:
-        - relevant to the main story, 
-        - specific yet concise (5 words or fewer), 
-        - novel (not in the previous summary), 
-        - faithful (present in the events), 
-        - anywhere (can be located anywhere in the events).
-        
-        Guidelines:
-        
-        - Ignore the times except for ordering and context
-        - The first summary should be 1-2 sentences, ~10 words, yet highly non-specific, containing little information beyond the entities marked as missing. Use overly verbose language and fillers (e.g., "User tried to") to reach ~10 words.
-        - Make every word count: rewrite the previous summary to improve flow and make space for additional entities.
-        - Make space with fusion, compression, and removal of uninformative phrases like "User searched for" or "User inquired about".
-        - The summaries should become highly dense and concise yet self-contained, i.e., easily understood without the events themselves. 
-        - Missing entities can appear anywhere in the new summary.
-        - Never drop entities from the previous summary. If space cannot be made, add fewer new entities.
-        - the categories must be spelled exactly as described here: "personal", "software-development", "sales","marketing", "other". do not change the spelling of categories in any way.
-        
-        Remember, use the exact same number of words for each summary.
-        Answer in JSON. The JSON should be a list (length 5) of dictionaries whose keys are "Missing_Entities","Denser_Summary" and "Category". e.g.
-        [{
-        "Missing_Entities": "JavaScript;day;current locale",
-        "Denser_Summary": "Searched for JavaScript day start.",
-        "Category": software-development
-        },{
-        "Missing_Entities": "JavaScript;7am;current timezone.",
-        "Denser_Summary": "Searched for JavaScript 7am.",
-        "Category": software-development
-        }]`,
-      },
-    ]
-    const model = selectBestModel(chatMessages)
-
-    const completion = await openai.chat.completions.create({
-      model: model,
-      messages: chatMessages,
-    })
-
-    const extractedText = JSON.parse(
-      completion.choices[0].message?.content || '[]',
-    ) as {
-      Missing_Entities: string
-      Denser_Summary: string
-      Category: string
-    }[]
-    if (extractedText === undefined) {
-      throw new Error('Could not extract text from completion')
+    if (browserHistoryItems.length > 0) {
+      return await runBrowserHistoryCompletion(browserHistoryItems, openai)
     }
-    console.log('extractedText', extractedText)
+
     return {
-      tokensUsed: completion.usage?.total_tokens || 0,
-      finishReason: completion.choices[0].finish_reason,
-      summary: extractedText,
+      tokensUsed: 0,
+      summary: undefined,
+      finishReason: undefined,
+      errorMessage: 'No handler to run for the provided history items',
     }
   } catch (error) {
     // try not to throw from here. makes the path easier to follow in callers
@@ -108,12 +53,74 @@ export async function runChatCompletion(
     }
     return {
       tokensUsed: tokensUsed,
-      summary: [],
+      summary: undefined,
       finishReason,
       errorMessage,
     }
   }
 }
+
+async function runBrowserHistoryCompletion(
+  browserHistoryItems: any,
+  openai: OpenAI,
+): Promise<IncrementGPTResponse> {
+  const chatMessages: ChatMessage[] = [
+    {
+      role: 'user',
+      content: `Browsing History Session: ${JSON.stringify(browserHistoryItems)}
+  
+          I want to summarise the browser history session into one paragraph.
+  
+    You will generate a concise, entity-dense summary of the overall session. The summary should cover all items, do not write a summary for individual items.
+  
+  Guidelines:
+          
+  - The summary should be 2-3 sentences, ~25 words, highly specific and information dense. Do not use filler if it takes up words from information.
+  - Only return the summary, do not explain
+  - do not use subjects like "The user's browsing session...", instead use "A browsing session..."`,
+    },
+  ]
+  const model = selectBestModel(chatMessages)
+
+  const completion = await openai.chat.completions.create({
+    model: model,
+    messages: chatMessages,
+  })
+
+  const extractedSummary = completion.choices[0].message.content
+
+  if (!extractedSummary) {
+    throw new Error(
+      `No summary generated for ${JSON.stringify(browserHistoryItems)}`,
+    )
+  }
+
+  chatMessages.push({
+    role: 'assistant',
+    content: extractedSummary,
+  })
+  chatMessages.push({
+    role: 'user',
+    content: `categorise that summary into one of the following: "software-development", "marketing", "sales", "other", "personal". 
+    Guidelines:
+      - only return the category, do not explain
+      - if the summary is not about any of these categories, return "other"
+      - if the summary is about multiple categories, return the most relevant category
+      - use lower case and hyphens for the category name`,
+  })
+  const categoryCompletion = await openai.chat.completions.create({
+    model: model,
+    messages: chatMessages,
+  })
+  const extractedCategory = categoryCompletion.choices[0].message.content
+
+  return {
+    tokensUsed: categoryCompletion.usage?.total_tokens || 0,
+    finishReason: completion.choices[0].finish_reason,
+    summary: { text: extractedSummary, category: extractedCategory || 'other' },
+  }
+}
+
 function selectBestModel(chatMessages: ChatMessage[]) {
   let model = 'gpt-3.5-turbo'
   const length = encode(chatMessages[0].content).length

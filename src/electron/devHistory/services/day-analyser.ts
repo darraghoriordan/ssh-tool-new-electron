@@ -108,7 +108,7 @@ export async function analyseDay(date: Date) {
     // probably this is where a record should be written to sqlite rather than the files i use
     return {
       increment: increment,
-      summary: chatResult.summary[3].Denser_Summary,
+      summary: chatResult.summary?.text,
       raw: {
         events: eventsForPeriod,
         analysis: chatResult,
