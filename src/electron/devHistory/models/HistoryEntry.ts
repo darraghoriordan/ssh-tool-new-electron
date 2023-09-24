@@ -1,19 +1,29 @@
-export type HistoryEntry = GitCommitHistoryEntry | BrowserHistoryEntry
-export interface GitCommitHistoryEntry {
-  type: 'git commit'
-  date: Date
-  metadata: {
-    diff: string
-    message: string
-    fileNames: string[]
-  }
-}
+import z from 'zod'
 
-export interface BrowserHistoryEntry {
-  type: 'browser history'
-  date: Date
-  metadata: {
-    url: string
-    title: string
-  }
-}
+export const GitCommitHistoryEntrySchema = z.object({
+  type: z.literal('git commit'),
+  date: z.coerce.date(),
+  metadata: z.object({
+    diff: z.string(),
+    message: z.string(),
+    fileNames: z.array(z.string()),
+  }),
+})
+
+export const BrowserHistoryEntrySchema = z.object({
+  type: z.literal('browser history'),
+  date: z.coerce.date(),
+  metadata: z.object({
+    url: z.string(),
+    title: z.string(),
+  }),
+})
+
+export const HistoryEntrySchema = z.union([
+  GitCommitHistoryEntrySchema,
+  BrowserHistoryEntrySchema,
+])
+
+export type HistoryEntry = z.infer<typeof HistoryEntrySchema>
+export type GitCommitHistoryEntry = z.infer<typeof GitCommitHistoryEntrySchema>
+export type BrowserHistoryEntry = z.infer<typeof BrowserHistoryEntrySchema>

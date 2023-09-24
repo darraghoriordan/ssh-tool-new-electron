@@ -1,12 +1,30 @@
-export function getStartAndEndOfDay(date: Date = new Date()): DateRange {
-  // Clone the input date to avoid modifying it
-  const inputDate = new Date(date)
+import z from 'zod'
+
+export const DateRangeSchema = z.object({
+  startDate: z.coerce.date(),
+  endDate: z.coerce.date(),
+})
+export type DateRange = z.infer<typeof DateRangeSchema>
+
+export function getStartAndEndOfDay(
+  localDate: {
+    day: number
+    monthIndex: number
+    year: number
+  },
+  now: Date, // passing this in is easier for testing
+): DateRange {
+  // create a new date object for the input date
+  const inputDate = new Date(
+    localDate.year,
+    localDate.monthIndex,
+    localDate.day,
+  )
 
   // Set the time to the start of the day (midnight)
   inputDate.setHours(0, 0, 0, 0)
 
   // if the day is today, use the current time as the endTime
-  const now = new Date()
   if (inputDate.toDateString() === now.toDateString()) {
     return { startDate: inputDate, endDate: now }
   }
@@ -15,6 +33,27 @@ export function getStartAndEndOfDay(date: Date = new Date()): DateRange {
   endDate.setHours(23, 59, 59, 999)
 
   return { startDate: inputDate, endDate }
+}
+
+export function isLastPossibleTimeOfDay(endDate: Date): boolean {
+  return (
+    endDate.getHours() === 23 &&
+    endDate.getMinutes() === 59 &&
+    endDate.getSeconds() === 59 &&
+    endDate.getMilliseconds() === 999
+  )
+}
+
+export function timeOfDayMatchesToSecond(date1: Date, date2: Date): boolean {
+  // json can't handle dates, so we convert them from the strings
+  if (typeof date1 === 'string') {
+    date1 = new Date(date1)
+  }
+  return (
+    date1.getHours() === date2.getHours() &&
+    date1.getMinutes() === date2.getMinutes() &&
+    date1.getSeconds() === date2.getSeconds()
+  )
 }
 
 const MICROSECONDS_PER_SECOND = 1e6
@@ -37,11 +76,6 @@ export function convertDateToMicrosecondsSinceWindowsEpoch(date: Date): number {
     unixTimestampInMilliseconds * 1000 + MICROSECONDS_BETWEEN_EPOCHS
 
   return microsecondsSinceWindowsEpoch
-}
-
-export interface DateRange {
-  startDate: Date
-  endDate: Date
 }
 
 export function calculateIncrements(dateRange: DateRange): DateRange[] {

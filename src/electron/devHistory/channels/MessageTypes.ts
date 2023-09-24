@@ -1,4 +1,4 @@
-import { IncrementAnalysis } from '../services/day-analyser'
+import { IncrementAnalysis } from '../models/IncrementAnalysis'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type DevHistoryGetDayRequest = {

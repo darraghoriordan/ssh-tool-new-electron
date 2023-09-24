@@ -32,7 +32,7 @@ export async function readSingleGitRepoHistory({
   try {
     // Fetch all commits in the repository for the date range
     // seems like if the repo is empty, or there are no results, this throws an error
-    console.log('Running log for params', options, logParams)
+
     commitsInDateRange = await git.log(logParams)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {

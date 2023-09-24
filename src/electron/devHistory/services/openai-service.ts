@@ -3,19 +3,21 @@ import OpenAI from 'openai'
 import { ChatMessage } from '../../openai/ChatMessage'
 import { HistoryEntry } from '../models/HistoryEntry'
 import { encode } from 'gpt-3-encoder'
+import z from 'zod'
 
-export interface IncrementGPTResponse {
-  tokensUsed: number
-  errorMessage?: string
-  finishReason?: string
-  summary: { Missing_Entities: string[]; Denser_Summary: string }[]
-  //   activities: {
-  //     startOfPeriod: Date
-  //     endOfPeriod: Date
-  //     summary: string
-  //     details: string[]
-  //   }[]
-}
+export const IncrementGPTResponseSchema = z.object({
+  tokensUsed: z.number(),
+  errorMessage: z.string().optional(),
+  finishReason: z.string().optional(),
+  summary: z.array(
+    z.object({
+      Missing_Entities: z.string(),
+      Denser_Summary: z.string(),
+      Category: z.string(),
+    }),
+  ),
+})
+export type IncrementGPTResponse = z.infer<typeof IncrementGPTResponseSchema>
 
 export async function runChatCompletion(
   request: {
@@ -81,7 +83,11 @@ export async function runChatCompletion(
 
     const extractedText = JSON.parse(
       completion.choices[0].message?.content || '[]',
-    ) as { Missing_Entities: string[]; Denser_Summary: string }[]
+    ) as {
+      Missing_Entities: string
+      Denser_Summary: string
+      Category: string
+    }[]
     if (extractedText === undefined) {
       throw new Error('Could not extract text from completion')
     }
