@@ -8,7 +8,7 @@ export const wellKnownQueries = {
 export function useDevHistoryGetDay({ date }: { date: Date }) {
   const [_logMessages, logAMessage] = useContext(ConsoleContext)
   return useQuery(
-    [wellKnownQueries.getSingleDay],
+    [wellKnownQueries.getSingleDay, date.toISOString()],
     async () => {
       return window.GetDevHistorySingleDay.invoke({
         date: date,
