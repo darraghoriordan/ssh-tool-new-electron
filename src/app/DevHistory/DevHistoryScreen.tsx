@@ -70,7 +70,7 @@ export function DevHistoryScreen() {
           {/* <TimeScaleMenu /> */}
         </div>
       </header>
-      {data ? <Calendar analysis={data.analysis} /> : null}
+      {data ? <Calendar date={selectedDate} analysis={data.analysis} /> : null}
     </div>
   )
   return (
