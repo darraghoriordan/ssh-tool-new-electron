@@ -1,18 +1,27 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { ReactElement, useContext } from 'react'
 import PageHeader from '../components/PageHeader'
-import { DocumentCheckIcon } from '@heroicons/react/24/outline'
+import {
+  AtSymbolIcon,
+  DocumentCheckIcon,
+  PencilSquareIcon,
+} from '@heroicons/react/24/outline'
 import { useDevHistoryGetDay } from './ReactQueryWrappers'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 import Calendar from './Calendar'
 import { DiscreteDayNav } from './Components/DiscreteDayNav'
+import DateActions from './Components/DateActions'
+import { IncrementAnalysis } from '../../electron/devHistory/models/IncrementAnalysis'
+import { timeOfDayMatchesToSecond } from '../../electron/devHistory/services/time-wrangler'
 
-export function DevHistoryScreen() {
+export function MarketingWeekScreen() {
   const [_logMessages, logAMessage] = useContext(ConsoleContext)
-  const [selectedDate, setSelectedDate] = React.useState<Date>(new Date()) //
-
+  const [selectedDate, setSelectedDate] = React.useState<Date>(new Date())
+  const [isDateActionsOpen, setOpenDateActions] = React.useState(false)
   const { data, isLoading } = useDevHistoryGetDay({ date: selectedDate })
-
+  const [selectedIncrement, setSelectedIncrement] = React.useState<
+    IncrementAnalysis | undefined
+  >(data?.analysis?.[0])
   let control: ReactElement | undefined = undefined
   const onRefreshClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -21,29 +30,44 @@ export function DevHistoryScreen() {
     logAMessage({ message: 'Refresh Clicked', level: 'info' })
   }
   control = (
-    <div className="flex flex-col  max-h-screen">
-      <header className="flex items-center justify-between flex-none px-6 py-4 border-b border-gray-200">
-        <div>
-          <h1 className="text-base font-semibold text-gray-900 leading-6">
-            <time dateTime={selectedDate.toUTCString()} className="sm:hidden">
-              {selectedDate.toLocaleDateString()}
-            </time>
-            <time
-              dateTime={selectedDate.toUTCString()}
-              className="hidden sm:inline"
-            >
-              {selectedDate.toLocaleDateString()}
-            </time>
-          </h1>
-          <p className="mt-1 text-sm text-gray-500">
-            {selectedDate.toLocaleDateString(undefined, {
-              weekday: 'long',
-            })}
-          </p>
+    <div className="flex flex-col h-[70vh]">
+      <header className="flex items-center justify-between flex-none py-4 border-b border-gray-200">
+        <div className="flex items-center">
+          <div>
+            <h2 className="text-base font-semibold text-gray-900 leading-6">
+              <time dateTime={selectedDate.toUTCString()} className="sm:hidden">
+                {selectedDate.toLocaleDateString()}
+              </time>
+              <time
+                dateTime={selectedDate.toUTCString()}
+                className="hidden sm:inline"
+              >
+                {selectedDate.toLocaleDateString()}
+              </time>
+            </h2>
+            <p className="mt-1 text-sm text-gray-500">
+              {selectedDate.toLocaleDateString(undefined, {
+                weekday: 'long',
+              })}
+            </p>
+          </div>
+          <div className="justify-between ml-8 text-sm">
+            <div className="flex items-center">
+              <AtSymbolIcon className="w-4 h-4 mr-3" /> 0 Potential Tweets/Posts
+            </div>
+            <div className="flex items-center">
+              <PencilSquareIcon className="w-4 h-4 mr-3" /> 0 Potential Blog
+              Posts
+            </div>
+          </div>
         </div>
         <div className="flex items-center">
           {isLoading ? (
             <div role="status" className="mx-8">
+              <span className="text-sm">
+                Please wait! We&apos;re doing some crazy things with your
+                data...
+              </span>{' '}
               <svg
                 aria-hidden="true"
                 className="inline w-10 h-10 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
@@ -67,15 +91,33 @@ export function DevHistoryScreen() {
             date={selectedDate}
             setSelectedDate={setSelectedDate}
           />
-          {/* <TimeScaleMenu /> */}
         </div>
       </header>
-      {data ? <Calendar date={selectedDate} analysis={data.analysis} /> : null}
+      <DateActions
+        open={isDateActionsOpen}
+        setOpen={setOpenDateActions}
+        increment={
+          selectedIncrement?.increment.startDate &&
+          data?.analysis.find(x =>
+            timeOfDayMatchesToSecond(
+              x.increment.startDate,
+              selectedIncrement?.increment.startDate,
+            ),
+          )
+        }
+      />
+      <Calendar
+        date={selectedDate}
+        analysis={data?.analysis || []}
+        setSelectedIncrement={setSelectedIncrement}
+        setOpenDateActions={setOpenDateActions}
+        setSelectedDate={setSelectedDate}
+      />
     </div>
   )
   return (
     <div className="mx-auto max-w-10xl">
-      <PageHeader pageTitle={'History'}>
+      <PageHeader pageTitle={'Marketing Week'}>
         <button
           type="button"
           onClick={e => onRefreshClick(e)}

@@ -112,8 +112,8 @@ export function SettingsForm({
           />
         </SettingsFormSection>
         <SettingsFormSection
-          header="Dev history Settings"
-          subHeader="Used for creating your dev history"
+          header="Marketing Week Settings"
+          subHeader="Used for creating your Marketing Week reports"
           register={register}
           errors={errors}
           data={data}

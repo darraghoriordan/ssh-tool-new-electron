@@ -17,4 +17,9 @@ describe('time-degrees', () => {
     date.setMinutes(30)
     expect(calculateTimeDegree(date)).toBe(18)
   })
+  it('should return 18 degrees for 1:38', () => {
+    date.setHours(1)
+    date.setMinutes(38)
+    expect(calculateTimeDegree(date)).toBe(20)
+  })
 })

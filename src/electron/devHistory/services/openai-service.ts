@@ -13,7 +13,7 @@ const CategoryEnumSchema = z.enum([
   'personal',
 ])
 export type CategoryEnum = z.infer<typeof CategoryEnumSchema>
-// 'Salmon' | 'Tuna' | 'Trout'
+
 export const IncrementGPTResponseSchema = z.object({
   tokensUsed: z.number(),
   errorMessage: z.string().optional(),
@@ -26,6 +26,25 @@ export const IncrementGPTResponseSchema = z.object({
     .or(z.undefined()),
 })
 export type IncrementGPTResponse = z.infer<typeof IncrementGPTResponseSchema>
+
+export const SocialMediaGptResponseSchema = z.object({
+  tokensUsed: z.number(),
+  errorMessage: z.string().optional(),
+  finishReason: z.string().optional(),
+  tweets: z.array(
+    z.object({
+      text: z.string(),
+    }),
+  ),
+  blogPosts: z.array(
+    z.object({
+      text: z.string(),
+    }),
+  ),
+})
+export type SocialMediaGptResponse = z.infer<
+  typeof SocialMediaGptResponseSchema
+>
 
 export async function runChatCompletion(
   request: {
@@ -40,6 +59,7 @@ export async function runChatCompletion(
     const browserHistoryItems = request.historyItems
       .filter(x => x.type === 'browser history')
       .map(x => x.metadata)
+    const socialMedia = []
     const completedSummaries = []
     if (browserHistoryItems.length > 0) {
       completedSummaries.push(
@@ -51,6 +71,7 @@ export async function runChatCompletion(
       .map(x => x.metadata)
 
     if (codeHistoryItems.length > 0) {
+      socialMedia.push(runSocialMediaPostsCompletion(codeHistoryItems, openai))
       completedSummaries.push(runCodeDiffCompletion(codeHistoryItems, openai))
     }
     const allSummaries = await Promise.all(completedSummaries)
@@ -93,14 +114,15 @@ async function runCombinationSummaryCompletion(
         responses.map(x => x.summary?.text).join('\n'),
       )}
       
-              I want to condense the summaries provided into one paragraph.
+      Given the provided activity reports, generate a 1-3 sentence summary that combines the reports without.
       
-        You will generate a concise, entity-dense summary. The summary should condense all items, do not write a summary for individual items.
+      You will generate a concise, entity-dense summary. The summary should condense all items into one paragraph, do not write individual summaries for individual items.
       
       Guidelines:
-              
-      - The summary should be 2-3 sentences, ~25 words, highly specific and information dense. Do not use filler if it takes up words from information.
+
+      - The summary should be 1-3 sentences, highly specific and information dense. Do not use filler if it takes up words from information.
       - Only return the summary, do not explain
+      - Rewrite the summary to be coherent and flow well
      `,
     },
   ]
@@ -136,15 +158,14 @@ async function runCodeDiffCompletion(
         codeHistoryItems,
       )}
     
-            I want to summarise the git commits for the coding session provided into one paragraph.
-    
-      You will generate a concise, entity-dense summary of the overall session. The summary should cover all items, do not write a summary for individual items.
-    
-    Guidelines:
-            
-    - The summary should be 2-3 sentences, ~25 words, highly specific and information dense. Do not use filler if it takes up words from information.
-    - Only return the summary, do not explain
-    - do not use subjects like "The user's session...", instead use "Coding session..."`,
+      Given the tasks completed above by a software engineer on their computer, you will write their report for a standup meeting. The standup is a very short meeting so be terse.
+
+      Standup meeting report format is "What I did"
+      
+      Guidelines:
+       - only return the stand up meeting report
+       - be terse
+       - make sure to talk about any git code diffs`,
     },
   ]
   const model = selectBestModel(chatMessages)
@@ -166,6 +187,90 @@ async function runCodeDiffCompletion(
     summary: { text: extractedSummary, category: 'software-development' },
   }
 }
+export async function runSocialMediaPostsCompletion(
+  historyItems: any,
+  openai: OpenAI,
+): Promise<SocialMediaGptResponse> {
+  const chatMessages: ChatMessage[] = [
+    {
+      role: 'user',
+      content: `Browsing History Session: ${JSON.stringify(historyItems)}
+    
+      Given the code changes completed above by a software engineer on their computer, you will generate 3 tweets for a technical audience. 
+
+Perform the following steps
+1. Understand what each diff in the code was changing
+2. identify tricky sections
+3. write tweets about the code
+
+examples of topics for tweets:
+ - the libraries, tools and frameworks used and how they helped
+ - the benefit of overall change 
+ - the number of lines added or removed if significant
+ - the learnings from making the tricky changes if any
+ - the power of software to help people
+ - change is forward progress
+ - the importance of testing if any
+ - thanking everyone who helped (not just the author)
+
+guidelines:
+- do not explain your answer
+ - you don't have to add properties for hashtags, just include them in the text
+ - you don't have to suggest an image for the social media posts, just the text
+ - output JSON only. Output an array of JSON objects with property "text" e.g. [
+   {"text": "abc..."},
+ {"text": "abc..."},
+ {"text": "abc..."}
+]`,
+    },
+  ]
+  let model = selectBestModel(chatMessages)
+
+  const completion = await openai.chat.completions.create({
+    model: model,
+    messages: chatMessages,
+  })
+
+  const tweets = JSON.parse(completion.choices[0].message.content || '[]') as {
+    text: string
+  }[]
+
+  if (!tweets) {
+    throw new Error(`No summary generated`)
+  }
+  chatMessages.push({
+    role: 'assistant',
+    content: completion.choices[0].message.content || 'No tweets generated',
+  })
+
+  chatMessages.push({
+    role: 'user',
+    content: `
+    now write a long form blog post about the code changes. The audience is technical. 
+    - Write a compelling introduction
+    - Talk about why the change was nessecary
+    - describe details about the code change
+    - Write a conclusion
+    
+    Write a title and meta description that is optimizer for google search SEO
+    
+    Output everything in markdown format`,
+  })
+  model = selectBestModel(chatMessages)
+  const blogCompletion = await openai.chat.completions.create({
+    model: model,
+    messages: chatMessages,
+  })
+  const extractedBlog =
+    blogCompletion.choices[0].message.content || 'No blog post generated'
+
+  return {
+    tokensUsed: completion.usage?.total_tokens || 0,
+    finishReason: completion.choices[0].finish_reason,
+    tweets,
+    blogPosts: [{ text: extractedBlog }],
+  }
+}
 
 async function runBrowserHistoryCompletion(
   browserHistoryItems: any,
@@ -176,15 +281,14 @@ async function runBrowserHistoryCompletion(
       role: 'user',
       content: `Browsing History Session: ${JSON.stringify(browserHistoryItems)}
   
-          I want to summarise the browser history session into one paragraph.
-  
-    You will generate a concise, entity-dense summary of the overall session. The summary should cover all items, do not write a summary for individual items.
-  
-  Guidelines:
-          
-  - The summary should be 2-3 sentences, ~25 words, highly specific and information dense. Do not use filler if it takes up words from information.
-  - Only return the summary, do not explain
-  - do not use subjects like "The user's browsing session...", instead use "A browsing session..."`,
+      Given the tasks completed above by a team member on their computer, you will write their report for a standup meeting. The standup is a very short meeting so be terse.
+
+Standup meeting report format is "What I did"
+
+Guidelines:
+ - only return the stand up meeting report
+ - be terse
+ - make sure to talk about any git code diffs`,
     },
   ]
   const model = selectBestModel(chatMessages)
@@ -232,12 +336,12 @@ async function runBrowserHistoryCompletion(
 function selectBestModel(chatMessages: ChatMessage[]) {
   let model = 'gpt-3.5-turbo'
   const length = encode(chatMessages[0].content).length
-  if (length > 16000) {
+  if (length > 15750) {
     throw new Error(
       'Too many tokens! Too much happened during this period for the LLM to make sense of it.',
     )
   }
-  if (length > 4000) {
+  if (length > 3800) {
     model = 'gpt-3.5-turbo-16k'
   }
   console.log('using gpt model', model)

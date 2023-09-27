@@ -20,13 +20,13 @@ export const Layout = () => {
         <SidebarMenu />
       </div>
       <div className="">
-        <div className="pl-64 pb-44">
-          <main className="h-full pt-8 mx-8 mb-auto overflow-clip">
+        <div className="pl-64 pb-44 max-h-[82vh] overflow-y-auto">
+          <main className="h-full pt-8 mx-8 mb-auto ">
             <Outlet />
           </main>
         </div>
 
-        <div className="fixed bottom-0 right-0 w-full pl-64">
+        <div className="fixed bottom-0 right-0 w-full pl-64 max-h-[18vh]">
           <Console />
         </div>
       </div>

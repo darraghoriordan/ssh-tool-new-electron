@@ -9,7 +9,7 @@ export type ConsoleLogMessage = {
 }
 
 export const Console = () => {
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [logMessages, _logAMessage] = useContext(ConsoleContext)
   const consoleScrollRef = React.createRef<HTMLDivElement>()
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export const Console = () => {
   }, [logMessages])
 
   return (
-    <div className="h-40 bg-neutral-800">
+    <div className="h-[18vh] bg-neutral-800">
       <div className="flex items-center h-8 text-white border-t-2 border-b-2 bg-neutral-800 border-neutral-600 w-100">
         <CommandLineIcon className="w-4 h-4 text-white" aria-hidden="true" />
         <span className="ml-2 font-mono">console</span>

@@ -45,8 +45,8 @@ const navigation = [
     current: false,
   },
   {
-    name: 'Dev History',
-    href: '/dev-history',
+    name: 'Marketing Week',
+    href: '/marketing-week',
     icon: CalendarIcon,
     current: false,
   },

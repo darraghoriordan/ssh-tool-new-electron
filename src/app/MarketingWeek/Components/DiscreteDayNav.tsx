@@ -1,4 +1,5 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
+import clsx from 'clsx'
 import isToday from 'date-fns/isToday'
 
 export function DiscreteDayNav({
@@ -37,7 +38,10 @@ export function DiscreteDayNav({
           newDate.setDate(newDate.getDate() + 1)
           setSelectedDate(newDate)
         }}
-        className="flex items-center justify-center w-12 pl-1 text-gray-400 border-r border-gray-300 h-9 rounded-r-md border-y hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50"
+        className={clsx(
+          'disabled:opacity-50 disabled:cursor-not-allowed',
+          'flex items-center justify-center w-12 pl-1 text-gray-400 border-r border-gray-300 h-9 rounded-r-md border-y hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50',
+        )}
       >
         <span className="sr-only">Next day</span>
         <ChevronRightIcon className="w-5 h-5" aria-hidden="true" />
