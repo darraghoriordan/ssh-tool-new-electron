@@ -85,6 +85,8 @@ export async function analyseDay(date: Date) {
       return {
         increment: increment,
         summary: undefined,
+        blogPosts: [],
+        tweets: [],
         raw: {
           events: eventsForPeriod,
           analysis: undefined,
@@ -109,6 +111,10 @@ export async function analyseDay(date: Date) {
     return {
       increment: increment,
       summary: chatResult.summary?.text,
+      // these are intentionally empty for now
+      // they will be filled with combinations of the entire set of events
+      blogPosts: [],
+      tweets: [],
       raw: {
         events: eventsForPeriod,
         analysis: chatResult,

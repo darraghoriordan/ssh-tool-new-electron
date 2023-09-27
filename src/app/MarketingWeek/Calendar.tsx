@@ -233,9 +233,12 @@ export default function Calendar({
                 const startDegree = calculateTimeDegree(
                   item.increment.startDate,
                 )
-                const spanDegree =
+                let spanDegree =
                   calculateTimeDegree(item.increment.endDate) - startDegree
-
+                // if the span degree is less than 30 mins i'ts too hard to read. so set that as a floor
+                if (spanDegree < 6) {
+                  spanDegree = 6
+                }
                 return (
                   <li
                     className="relative flex mt-px"
@@ -245,7 +248,7 @@ export default function Calendar({
                     key={index}
                   >
                     <ScheduledItem
-                      item={item.raw.analysis.summary}
+                      item={item}
                       onClick={() => {
                         setSelectedIncrement(item)
                         setOpenDateActions(true)

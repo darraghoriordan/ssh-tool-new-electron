@@ -18,6 +18,16 @@ export const IncrementGPTResponseSchema = z.object({
   tokensUsed: z.number(),
   errorMessage: z.string().optional(),
   finishReason: z.string().optional(),
+  tweets: z.array(
+    z.object({
+      text: z.string(),
+    }),
+  ),
+  blogPosts: z.array(
+    z.object({
+      text: z.string(),
+    }),
+  ),
   summary: z
     .object({
       text: z.string(),
@@ -59,7 +69,7 @@ export async function runChatCompletion(
     const browserHistoryItems = request.historyItems
       .filter(x => x.type === 'browser history')
       .map(x => x.metadata)
-    const socialMedia = []
+
     const completedSummaries = []
     if (browserHistoryItems.length > 0) {
       completedSummaries.push(
@@ -71,8 +81,9 @@ export async function runChatCompletion(
       .map(x => x.metadata)
 
     if (codeHistoryItems.length > 0) {
-      socialMedia.push(runSocialMediaPostsCompletion(codeHistoryItems, openai))
-      completedSummaries.push(runCodeDiffCompletion(codeHistoryItems, openai))
+      const codeDiffCompletion = runCodeDiffCompletion(codeHistoryItems, openai)
+
+      completedSummaries.push(codeDiffCompletion)
     }
     const allSummaries = await Promise.all(completedSummaries)
     if (allSummaries.length === 1) {
@@ -97,6 +108,8 @@ export async function runChatCompletion(
     return {
       tokensUsed: tokensUsed,
       summary: undefined,
+      tweets: [],
+      blogPosts: [],
       finishReason,
       errorMessage,
     }
@@ -107,6 +120,12 @@ async function runCombinationSummaryCompletion(
   responses: IncrementGPTResponse[],
   openai: OpenAI,
 ): Promise<IncrementGPTResponse> {
+  if (responses.length === 1) {
+    return responses[0]
+  }
+  if (responses.length <= 0) {
+    throw new Error('No responses to combine')
+  }
   const chatMessages: ChatMessage[] = [
     {
       role: 'user',
@@ -142,6 +161,8 @@ async function runCombinationSummaryCompletion(
   return {
     tokensUsed: completion.usage?.total_tokens || 0,
     finishReason: completion.choices[0].finish_reason,
+    tweets: responses.flatMap(x => x.tweets),
+    blogPosts: responses.flatMap(x => x.blogPosts),
     summary: { text: extractedSummary, category: 'software-development' },
   }
 }
@@ -160,12 +181,14 @@ async function runCodeDiffCompletion(
     
       Given the tasks completed above by a software engineer on their computer, you will write their report for a standup meeting. The standup is a very short meeting so be terse.
 
-      Standup meeting report format is "What I did"
+      The Standup meeting report format describes what was done and why.
       
       Guidelines:
        - only return the stand up meeting report
+       - don't explain your answer
+       - don't use "stand up report:" or a descriptor like that. just return the report.
        - be terse
-       - make sure to talk about any git code diffs`,
+       - make sure to talk about any git code diffs if they are provided, but don't mention this if there are no diffs provided to you`,
     },
   ]
   const model = selectBestModel(chatMessages)
@@ -181,9 +204,16 @@ async function runCodeDiffCompletion(
     throw new Error(`No summary generated`)
   }
 
+  const socialMediaCompletion = await runSocialMediaPostsCompletion(
+    codeHistoryItems,
+    openai,
+  )
   return {
-    tokensUsed: completion.usage?.total_tokens || 0,
+    tokensUsed:
+      (completion.usage?.total_tokens || 0) + socialMediaCompletion?.tokensUsed,
     finishReason: completion.choices[0].finish_reason,
+    blogPosts: socialMediaCompletion.blogPosts,
+    tweets: socialMediaCompletion.tweets,
     summary: { text: extractedSummary, category: 'software-development' },
   }
 }
@@ -194,7 +224,7 @@ export async function runSocialMediaPostsCompletion(
   const chatMessages: ChatMessage[] = [
     {
       role: 'user',
-      content: `Browsing History Session: ${JSON.stringify(historyItems)}
+      content: `Git Code changes: ${JSON.stringify(historyItems)}
     
       Given the code changes completed above by a software engineer on their computer, you will generate 3 tweets for a technical audience. 
 
@@ -203,7 +233,7 @@ Perform the following steps
 2. identify tricky sections
 3. write tweets about the code
 
-examples of topics for tweets:
+examples of good topics for tweets:
  - the libraries, tools and frameworks used and how they helped
  - the benefit of overall change 
  - the number of lines added or removed if significant
@@ -212,6 +242,9 @@ examples of topics for tweets:
  - change is forward progress
  - the importance of testing if any
  - thanking everyone who helped (not just the author)
+ - a question e.g. a question about anyone else who has done something similar
+ - or a question about how to improve the code
+ - or a question about how to improve the process
 
 guidelines:
 - do not explain your answer
@@ -246,13 +279,14 @@ guidelines:
   chatMessages.push({
     role: 'user',
     content: `
-    now write a long form blog post about the code changes. The audience is technical. 
+    now write a long form blog post about the code changes. The audience is technical but it's ok to do some product marketing also. 
+
     - Write a compelling introduction
-    - Talk about why the change was nessecary
-    - describe details about the code change
-    - Write a conclusion
+    - Talk about why the change was necessary but don't oversell it
+    - describe details about the actual code change
+    - Write a short conclusion
     
-    Write a title and meta description that is optimizer for google search SEO
+    Write a title and meta description that are optimized for google search SEO
     
     Output everything in markdown format`,
   })
@@ -326,6 +360,8 @@ Guidelines:
   return {
     tokensUsed: categoryCompletion.usage?.total_tokens || 0,
     finishReason: completion.choices[0].finish_reason,
+    tweets: [],
+    blogPosts: [],
     summary: {
       text: extractedSummary,
       category: (extractedCategory || 'other') as CategoryEnum, // kinda hacky

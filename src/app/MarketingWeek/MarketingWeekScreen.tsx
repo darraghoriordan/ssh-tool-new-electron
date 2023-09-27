@@ -29,6 +29,13 @@ export function MarketingWeekScreen() {
     e.preventDefault()
     logAMessage({ message: 'Refresh Clicked', level: 'info' })
   }
+
+  const sumOfBlogPosts = data?.analysis.reduce((acc, cur) => {
+    return acc + (cur?.raw?.analysis?.blogPosts?.length || 0)
+  }, 0)
+  const sumOfTweets = data?.analysis.reduce((acc, cur) => {
+    return acc + (cur?.raw?.analysis?.tweets?.length || 0)
+  }, 0)
   control = (
     <div className="flex flex-col h-[70vh]">
       <header className="flex items-center justify-between flex-none py-4 border-b border-gray-200">
@@ -53,11 +60,12 @@ export function MarketingWeekScreen() {
           </div>
           <div className="justify-between ml-8 text-sm">
             <div className="flex items-center">
-              <AtSymbolIcon className="w-4 h-4 mr-3" /> 0 Potential Tweets/Posts
+              <AtSymbolIcon className="w-4 h-4 mr-3" /> {sumOfTweets} Potential
+              Tweets/Posts
             </div>
             <div className="flex items-center">
-              <PencilSquareIcon className="w-4 h-4 mr-3" /> 0 Potential Blog
-              Posts
+              <PencilSquareIcon className="w-4 h-4 mr-3" /> {sumOfBlogPosts}{' '}
+              Potential Blog Posts
             </div>
           </div>
         </div>
