@@ -62,6 +62,8 @@ export async function readSingleGitRepoHistory({
         metadata: {
           diff: commitDiff,
           message: commit.message,
+          repository: gitRepoPath,
+          authorName: commit.author_name,
           fileNames: filenames
             .split('\n')
             .filter(Boolean)

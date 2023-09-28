@@ -374,15 +374,15 @@ async function runBrowserHistoryCompletion(
       text: extractedSummary,
       category: (extractedCategory || 'other') as CategoryEnum, // kinda hacky
     },
-  }
+  } as IncrementGPTResponse
 
   if (extractedCategory !== 'other') {
     const socialMediaCompletion = await runBrowsingSocialMediaPostsCompletion(
       browserHistoryItems,
       openai,
     )
-    result.tweets == socialMediaCompletion.tweets
-    result.blogPosts == socialMediaCompletion.blogPosts
+    result.tweets.push(...socialMediaCompletion.tweets)
+    result.blogPosts.push(...socialMediaCompletion.blogPosts)
     result.tokensUsed += socialMediaCompletion.tokensUsed
   }
   return result

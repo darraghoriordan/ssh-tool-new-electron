@@ -72,9 +72,9 @@ export function MarketingWeekScreen() {
         <div className="flex items-center">
           {isLoading ? (
             <div role="status" className="mx-8">
-              <span className="text-sm">
-                Please wait! We&apos;re doing some crazy things with your
-                data...
+              <span className="text-xm">
+                Please wait! Crunching your data and it might take 3-4
+                minutes...
               </span>{' '}
               <svg
                 aria-hidden="true"

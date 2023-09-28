@@ -6,6 +6,8 @@ export const GitCommitHistoryEntrySchema = z.object({
   metadata: z.object({
     diff: z.string(),
     message: z.string(),
+    repository: z.string().or(z.undefined()),
+    authorName: z.string().or(z.undefined()),
     fileNames: z.array(z.string()),
   }),
 })
