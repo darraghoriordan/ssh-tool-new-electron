@@ -57,6 +57,8 @@ import {
 import {
   DevHistoryDayResponse,
   DevHistoryGetDayRequest,
+  GitActivityForMonthRequest,
+  GitActivityForMonthResponse,
 } from '../../electron/devHistory/channels/MessageTypes'
 
 declare global {
@@ -155,6 +157,11 @@ declare global {
       invoke: (
         message: DevHistoryGetDayRequest,
       ) => Promise<DevHistoryDayResponse>
+    }
+    GitActivityForMonth: {
+      invoke: (
+        message: GitActivityForMonthRequest,
+      ) => Promise<GitActivityForMonthResponse>
     }
   }
 }

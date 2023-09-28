@@ -19,6 +19,7 @@ export function MarketingWeekScreen() {
   const [selectedDate, setSelectedDate] = React.useState<Date>(new Date())
   const [isDateActionsOpen, setOpenDateActions] = React.useState(false)
   const { data, isLoading } = useDevHistoryGetDay({ date: selectedDate })
+
   const [selectedIncrement, setSelectedIncrement] = React.useState<
     IncrementAnalysis | undefined
   >(data?.analysis?.[0])
@@ -30,12 +31,14 @@ export function MarketingWeekScreen() {
     logAMessage({ message: 'Refresh Clicked', level: 'info' })
   }
 
-  const sumOfBlogPosts = data?.analysis.reduce((acc, cur) => {
-    return acc + (cur?.raw?.analysis?.blogPosts?.length || 0)
-  }, 0)
-  const sumOfTweets = data?.analysis.reduce((acc, cur) => {
-    return acc + (cur?.raw?.analysis?.tweets?.length || 0)
-  }, 0)
+  const sumOfBlogPosts =
+    data?.analysis.reduce((acc, cur) => {
+      return acc + (cur?.raw?.analysis?.blogPosts?.length || 0)
+    }, 0) || 0
+  const sumOfTweets =
+    data?.analysis.reduce((acc, cur) => {
+      return acc + (cur?.raw?.analysis?.tweets?.length || 0)
+    }, 0) || 0
   control = (
     <div className="flex flex-col h-[70vh]">
       <header className="flex items-center justify-between flex-none py-4 border-b border-gray-200">
@@ -72,9 +75,11 @@ export function MarketingWeekScreen() {
         <div className="flex items-center">
           {isLoading ? (
             <div role="status" className="mx-8">
-              <span className="text-xm">
-                Please wait! Crunching your data and it might take 3-4
-                minutes...
+              <span className="text-xs">
+                Please wait! Crunching your data and setting GPUs on fire. It
+                might take{' '}
+                <span className="font-semibold">3-4 minutes or more</span> for
+                an entire day!...
               </span>{' '}
               <svg
                 aria-hidden="true"

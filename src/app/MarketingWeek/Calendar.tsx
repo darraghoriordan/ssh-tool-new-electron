@@ -18,6 +18,7 @@ import {
   subMonths,
   addMonths,
 } from 'date-fns'
+import { useGitActivityGetMonth } from './ReactQueryWrappers'
 
 const firstDayOfMonth = new Date(2023, 8, 1)
 let nearestMonday = new Date(firstDayOfMonth)
@@ -98,6 +99,11 @@ export default function Calendar({
   setOpenDateActions: React.Dispatch<React.SetStateAction<boolean>>
   date: Date
 }) {
+  const { data: gitActivity } = useGitActivityGetMonth({
+    startDate: days[0]?.jsDate,
+    endDate: days.at(-1)?.jsDate,
+  })
+
   const container = useRef<HTMLDivElement | null>(null)
   const containerNav = useRef<HTMLDivElement | null>(null)
   const containerOffset = useRef<HTMLDivElement | null>(null)
@@ -297,6 +303,10 @@ export default function Calendar({
           <div className="mt-2 text-sm bg-gray-200 rounded-lg shadow isolate grid grid-cols-7 gap-px ring-1 ring-gray-200">
             {days.map((day, dayIdx) => {
               day.isSelected = isSameDay(day.jsDate, date)
+              const hasGitActivity =
+                gitActivity?.activity.get(day.jsDate.getTime()) &&
+                '!bg-green-500'
+
               return (
                 <button
                   disabled={day.isFuture}
@@ -304,6 +314,7 @@ export default function Calendar({
                   type="button"
                   onClick={() => setSelectedDate(day.jsDate)}
                   className={classNames(
+                    hasGitActivity && '!bg-green-500/80',
                     'py-1.5 hover:bg-gray-100 focus:z-10',
                     day.isCurrentMonth ? 'bg-white' : 'bg-gray-50',
                     (day.isSelected || day.isToday) && 'font-semibold',

@@ -19,7 +19,7 @@ export class DevHistoryGetDayChannelSub
     // read the list of entries from the chrome history sqlite database
     // return the list of entries
     const analysis = await analyseDay(request.date)
-    console.log(analysis)
+
     return {
       analysis,
     }

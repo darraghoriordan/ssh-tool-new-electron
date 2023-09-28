@@ -38,12 +38,7 @@ export async function analyseDay(date: Date) {
   if (cachedDayAnalysis && cachedDayAnalysis.length === increments.length) {
     return cachedDayAnalysis
   }
-  console.log(`Cached analysis not complete for ${dayRange.startDate}`, {
-    dayRange,
-    cachedIncrementsLength: cachedDayAnalysis?.length,
-    incrementCount: increments.length,
-    lastCachedIncrement: cachedDayAnalysis?.[cachedDayAnalysis.length - 1],
-  })
+  console.log(`Cached analysis not complete for ${dayRange.startDate}`)
 
   // we have to copy the chrome history sqlite file so that we can read it even if it
   // is locked by chrome. This might not work for multi instances of getting a day history in parallel
@@ -60,7 +55,6 @@ export async function analyseDay(date: Date) {
     if (cachedItem) {
       console.log(
         `using cached analysis for ${increment.startDate} to ${increment.endDate}`,
-        cachedItem,
       )
       return cachedItem
     }

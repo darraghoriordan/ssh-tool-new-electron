@@ -54,7 +54,6 @@ export async function readSingleGitRepoHistory({
       const commitDiff = await git.raw(['--no-pager', 'show', commit.hash])
 
       const filenames = await git.raw(['diff', commit.hash, '--name-only'])
-      console.log('filenames', filenames)
 
       commitAndDiffs.push({
         type: 'git commit',

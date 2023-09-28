@@ -24,11 +24,8 @@ export async function copyLatestChromeHistory(): Promise<void> {
       'Chrome history database path not found. Please set the path in the settings.',
     )
   }
-  console.log('opening chrome history database', historyDBPath)
-  console.log('filesize', await getFileSizeInMB(historyDBPath))
 
   await copyFileAsync(historyDBPath, electronAppTempPath)
-  console.log('copied file to', electronAppTempPath)
 }
 
 export async function readChromeHistory({
@@ -86,7 +83,9 @@ function mapToBrowserHistoryEvent(row: {
   }
 }
 
-async function getFileSizeInMB(filePath: string): Promise<number | null> {
+export async function getFileSizeInMB(
+  filePath: string,
+): Promise<number | null> {
   try {
     // Get the file stats (including size) asynchronously
     const stats = await fs.promises.stat(filePath)

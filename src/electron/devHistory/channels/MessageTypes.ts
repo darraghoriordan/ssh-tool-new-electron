@@ -8,3 +8,11 @@ export type DevHistoryGetDayRequest = {
 export type DevHistoryDayResponse = {
   analysis: IncrementAnalysis[]
 }
+
+export type GitActivityForMonthRequest = {
+  startDate: Date
+  endDate: Date
+}
+export type GitActivityForMonthResponse = {
+  activity: Map<number, boolean>
+}

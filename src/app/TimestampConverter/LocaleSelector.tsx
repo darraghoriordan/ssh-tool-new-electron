@@ -12,7 +12,6 @@ export default function LocaleSelector({
     setSelectedLocale(newLocale)
   }
 
-  console.log(`configuring locale selector with default value ${defaultValue}`)
   return (
     <select name="locale" onChange={onChange} defaultValue={defaultValue}>
       {locale.all.map(l => (

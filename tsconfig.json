@@ -15,6 +15,7 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "strictNullChecks": true,
+        "downlevelIteration": true,
         "strictFunctionTypes": true,
         "strictPropertyInitialization": true,
         "alwaysStrict": true,

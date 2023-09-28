@@ -155,6 +155,7 @@ export default function DateActions({
                     <div className="relative px-4 sm:px-6">
                       <details>
                         <summary className="my-4 text-lg font-semibold text-gray-900 leading-6">
+                          {increment?.raw.analysis?.blogPosts?.length || '0'}{' '}
                           Generated Blog Posts
                         </summary>
 
@@ -180,6 +181,7 @@ export default function DateActions({
                     <div className="relative px-4 sm:px-6">
                       <details>
                         <summary className="my-4 text-lg font-semibold text-gray-900 leading-6">
+                          {increment?.raw.analysis?.tweets?.length || '0'}{' '}
                           Generated Tweets / Social Posts
                         </summary>
                         <div className="grid grid-cols-2 gap-2">
