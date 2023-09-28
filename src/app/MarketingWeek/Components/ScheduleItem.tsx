@@ -19,9 +19,9 @@ export function ScheduledItem({
   return (
     <button
       onClick={onClick}
-      className={`absolute flex flex-col p-2 overflow-y-auto text-xs rounded-lg group inset-1 ${color.textDark} ${color.bg} leading-5 ${color.bgDark}`}
+      className={`absolute p-2 overflow-y-auto text-xs rounded-lg group inset-1 ${color.textDark} ${color.bg} leading-5 ${color.bgDark}`}
     >
-      <div className="flex gap-x-3 items-center inline">
+      <div className="inline-flex items-center gap-x-2">
         <p className={`font-semibold`}>{`[ ${cat}`}</p>
         {hasBlogPosts ? (
           <PencilSquareIcon
@@ -31,10 +31,12 @@ export function ScheduledItem({
         ) : null}
         {hasTweets ? (
           <AtSymbolIcon title="click to view tweets" className="w-3 h-3" />
-        ) : null}{' '}
-        <p className={`font-semibold `}> {'] - '}</p>
+        ) : null}
+        <p className={`font-semibold`}>{'] - '}</p>
       </div>
-      <p className={`${color.text} ${color.hoverTextDark}`}>{text}</p>
+      <span className={`${color.text} ${color.hoverTextDark} inline`}>
+        {text}
+      </span>
     </button>
   )
 }
