@@ -19,6 +19,7 @@ import {
   addMonths,
 } from 'date-fns'
 import { useGitActivityGetMonth } from './ReactQueryWrappers'
+import { CalendarDaysIcon } from '@heroicons/react/24/outline'
 
 const firstDayOfMonth = new Date(2023, 8, 1)
 let nearestMonday = new Date(firstDayOfMonth)
@@ -99,10 +100,11 @@ export default function Calendar({
   setOpenDateActions: React.Dispatch<React.SetStateAction<boolean>>
   date: Date
 }) {
-  const { data: gitActivity } = useGitActivityGetMonth({
-    startDate: days[0]?.jsDate,
-    endDate: days.at(-1)?.jsDate,
-  })
+  const { data: gitActivity, isLoading: isLoadingGitActivity } =
+    useGitActivityGetMonth({
+      startDate: days[0]?.jsDate,
+      endDate: days.at(-1)?.jsDate,
+    })
 
   const container = useRef<HTMLDivElement | null>(null)
   const containerNav = useRef<HTMLDivElement | null>(null)
@@ -348,6 +350,17 @@ export default function Calendar({
                 </button>
               )
             })}
+          </div>
+          <div className="flex items-center mx-auto mt-8">
+            {isLoadingGitActivity ? (
+              <p>loading git activity...</p>
+            ) : (
+              <p>
+                <CalendarDaysIcon className="inline w-4 h-4 text-xs stroke-green-800 fill-green-500" />{' '}
+                = you committed code that day. These days might have good social
+                posts.
+              </p>
+            )}
           </div>
         </div>
       </div>

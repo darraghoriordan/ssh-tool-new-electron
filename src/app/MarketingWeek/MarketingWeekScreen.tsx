@@ -40,7 +40,7 @@ export function MarketingWeekScreen() {
       return acc + (cur?.raw?.analysis?.tweets?.length || 0)
     }, 0) || 0
   control = (
-    <div className="flex flex-col h-[70vh]">
+    <div className="flex flex-col h-[72vh]">
       <header className="flex items-center justify-between flex-none py-4 border-b border-gray-200">
         <div className="flex items-center">
           <div>
@@ -74,12 +74,13 @@ export function MarketingWeekScreen() {
         </div>
         <div className="flex items-center">
           {isLoading ? (
-            <div role="status" className="mx-8">
+            <div role="status" className="mx-8 w-1/4">
               <span className="text-xs">
-                Please wait! Crunching your data and setting GPUs on fire. It
-                might take{' '}
-                <span className="font-semibold">3-4 minutes or more</span> for
-                an entire day!...
+                Please wait! This looks like a day that hasn&apos;t been
+                processed or there is new activity. We&apos;re crunching your
+                data and setting GPUs on fire. It could take{' '}
+                <span className="font-semibold">3-4 minutes or more</span> to
+                pass an entire day through AI!...
               </span>{' '}
               <svg
                 aria-hidden="true"

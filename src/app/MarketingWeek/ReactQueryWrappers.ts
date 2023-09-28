@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useContext } from 'react'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 import { GitActivityForMonthResponse } from '../../electron/devHistory/channels/MessageTypes'
+import { isToday } from 'date-fns'
 
 export const wellKnownQueries = {
   getSingleDay: 'get-single-day',
@@ -19,7 +20,7 @@ export function useDevHistoryGetDay({ date }: { date: Date }) {
 
     {
       // never invalidate
-      staleTime: Infinity,
+      staleTime: isToday(date) ? 5 : Infinity,
       retry: 0,
       refetchOnWindowFocus: false,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -67,6 +68,7 @@ export function useGitActivityGetMonth({
       onError: (error: any) => {
         logAMessage({ message: error.message, level: 'error' })
       },
+
       onSuccess: () => {
         logAMessage({
           message: `${wellKnownQueries.getSingleDay} completed successfully.`,
