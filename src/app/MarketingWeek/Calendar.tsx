@@ -20,6 +20,8 @@ import {
 } from 'date-fns'
 import { useGitActivityGetMonth } from './ReactQueryWrappers'
 import { CalendarDaysIcon } from '@heroicons/react/24/outline'
+import { BlogPostsDetailsSummary } from './Components/BlogPostsDetailsSummary'
+import { SocialPostsDetailsSummary } from './Components/SocialPostsDetailsSummary'
 
 const firstDayOfMonth = new Date(2023, 8, 1)
 let nearestMonday = new Date(firstDayOfMonth)
@@ -93,12 +95,16 @@ export default function Calendar({
   setSelectedDate,
   setSelectedIncrement,
   setOpenDateActions,
+  allBlogPosts,
+  allSocialPosts,
 }: {
   analysis: IncrementAnalysis[]
   setSelectedIncrement: React.Dispatch<IncrementAnalysis | undefined>
   setSelectedDate: React.Dispatch<React.SetStateAction<Date>>
   setOpenDateActions: React.Dispatch<React.SetStateAction<boolean>>
   date: Date
+  allBlogPosts: { text: string }[]
+  allSocialPosts: { text: string }[]
 }) {
   const { data: gitActivity, isLoading: isLoadingGitActivity } =
     useGitActivityGetMonth({
@@ -302,7 +308,7 @@ export default function Calendar({
             <div>S</div>
             <div>S</div>
           </div>
-          <div className="mt-2 text-sm bg-gray-200 rounded-lg shadow isolate grid grid-cols-7 gap-px ring-1 ring-gray-200">
+          <div className="mt-1 text-sm bg-gray-200 rounded-lg shadow isolate grid grid-cols-7 gap-px ring-1 ring-gray-200 w-1/2">
             {days.map((day, dayIdx) => {
               day.isSelected = isSameDay(day.jsDate, date)
               const hasGitActivity =
@@ -317,7 +323,7 @@ export default function Calendar({
                   onClick={() => setSelectedDate(day.jsDate)}
                   className={classNames(
                     hasGitActivity && '!bg-green-500/80',
-                    'py-1.5 hover:bg-gray-100 focus:z-10',
+                    'py-1 hover:bg-gray-100 focus:z-10',
                     day.isCurrentMonth ? 'bg-white' : 'bg-gray-50',
                     (day.isSelected || day.isToday) && 'font-semibold',
                     day.isSelected && 'text-white',
@@ -353,7 +359,7 @@ export default function Calendar({
           </div>
           <div className="flex items-center mx-auto mt-8">
             {isLoadingGitActivity ? (
-              <p>loading git activity...</p>
+              <p>Loading git activity...</p>
             ) : (
               <p>
                 <CalendarDaysIcon className="inline w-4 h-4 text-xs stroke-green-800 fill-green-500" />{' '}
@@ -362,6 +368,10 @@ export default function Calendar({
               </p>
             )}
           </div>
+        </div>
+        <div className="flex flex-col mx-auto mt-8">
+          <BlogPostsDetailsSummary blogPosts={allBlogPosts} />
+          <SocialPostsDetailsSummary tweets={allSocialPosts} />
         </div>
       </div>
     </div>

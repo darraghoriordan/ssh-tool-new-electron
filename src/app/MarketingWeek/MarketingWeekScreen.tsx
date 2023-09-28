@@ -31,14 +31,19 @@ export function MarketingWeekScreen() {
     logAMessage({ message: 'Refresh Clicked', level: 'info' })
   }
 
-  const sumOfBlogPosts =
-    data?.analysis.reduce((acc, cur) => {
-      return acc + (cur?.raw?.analysis?.blogPosts?.length || 0)
-    }, 0) || 0
-  const sumOfTweets =
-    data?.analysis.reduce((acc, cur) => {
-      return acc + (cur?.raw?.analysis?.tweets?.length || 0)
-    }, 0) || 0
+  const allBlogPosts = data?.analysis.reduce(
+    (acc, cur) => {
+      return acc.concat(cur?.raw?.analysis?.blogPosts || [])
+    },
+    [] as { text: string }[],
+  )
+  const allSocialPosts = data?.analysis.reduce(
+    (acc, cur) => {
+      return acc.concat(cur?.raw?.analysis?.tweets || [])
+    },
+    [] as { text: string }[],
+  )
+
   control = (
     <div className="flex flex-col h-[72vh]">
       <header className="flex items-center justify-between flex-none py-4 border-b border-gray-200">
@@ -63,18 +68,18 @@ export function MarketingWeekScreen() {
           </div>
           <div className="justify-between ml-8 text-sm">
             <div className="flex items-center">
-              <AtSymbolIcon className="w-4 h-4 mr-3" /> {sumOfTweets} Potential
-              Tweets/Posts
+              <AtSymbolIcon className="w-4 h-4 mr-3" />{' '}
+              {allSocialPosts?.length || '-'} Potential Tweets/Posts
             </div>
             <div className="flex items-center">
-              <PencilSquareIcon className="w-4 h-4 mr-3" /> {sumOfBlogPosts}{' '}
-              Potential Blog Posts
+              <PencilSquareIcon className="w-4 h-4 mr-3" />{' '}
+              {allBlogPosts?.length || '-'} Potential Blog Posts
             </div>
           </div>
         </div>
         <div className="flex items-center">
           {isLoading ? (
-            <div role="status" className="mx-8 w-1/4">
+            <div role="status" className="w-1/4 mx-8">
               <span className="text-xs">
                 Please wait! This looks like a day that hasn&apos;t been
                 processed or there is new activity. We&apos;re crunching your
@@ -126,6 +131,8 @@ export function MarketingWeekScreen() {
         setSelectedIncrement={setSelectedIncrement}
         setOpenDateActions={setOpenDateActions}
         setSelectedDate={setSelectedDate}
+        allBlogPosts={allBlogPosts || []}
+        allSocialPosts={allSocialPosts || []}
       />
     </div>
   )
