@@ -13,6 +13,7 @@ import { IncrementApplicationRuns } from './licencing/services/incrementApplicat
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
 } from 'electron-devtools-installer'
+import contextMenu from 'electron-context-menu'
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
@@ -30,6 +31,7 @@ export default class Main {
       UserSettingsService.init(runtimeSettings)
       GitConfigsFileCacheService.init(runtimeSettings)
 
+      contextMenu()
       await app.on('ready', this.createWindow).whenReady()
 
       console.log('registering channels...')
@@ -64,7 +66,7 @@ export default class Main {
       } catch (err: any) {
         console.error(
           `Could not install DevTools extension: ${String(err.message)}`,
-          err
+          err,
         )
       }
     }
@@ -134,18 +136,18 @@ export default class Main {
 
   private registerIpChannels(
     rtmSendChannels: IIpcMainSendEventSub<unknown>[],
-    rtmInvokeChannels: IIpcMainInvokeEventSub<unknown, unknown>[]
+    rtmInvokeChannels: IIpcMainInvokeEventSub<unknown, unknown>[],
   ) {
     // set up the handlers on the main process side
     rtmSendChannels.forEach(channel => {
       ipcMain.on(channel.getChannelName(), (event, request) =>
-        channel.handle(event, request)
+        channel.handle(event, request),
       )
     })
 
     rtmInvokeChannels.forEach(channel => {
       ipcMain.handle(channel.getChannelName(), (event, request) =>
-        channel.handle(event, request)
+        channel.handle(event, request),
       )
     })
   }

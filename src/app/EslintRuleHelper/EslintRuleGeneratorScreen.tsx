@@ -574,7 +574,7 @@ b?: string
     )
   }
   return (
-    <div className="mx-auto max-w-10xl">
+    <div className="mx-auto overflow-y-auto max-w-10xl">
       <PageHeader pageTitle={'ESLint Rule Generator'}>
         <button
           onClick={e => insertComplexSampleValue(e)}

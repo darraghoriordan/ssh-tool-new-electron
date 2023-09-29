@@ -308,7 +308,7 @@ export default function Calendar({
             <div>S</div>
             <div>S</div>
           </div>
-          <div className="mt-1 text-sm bg-gray-200 rounded-lg shadow isolate grid grid-cols-7 gap-px ring-1 ring-gray-200 w-1/2">
+          <div className="mt-2 text-sm bg-gray-200 rounded-lg shadow isolate grid grid-cols-7 gap-px ring-1 ring-gray-200">
             {days.map((day, dayIdx) => {
               day.isSelected = isSameDay(day.jsDate, date)
               const hasGitActivity =

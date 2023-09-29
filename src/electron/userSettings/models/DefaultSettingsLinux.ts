@@ -11,6 +11,7 @@ export class DefaultSettingsLinux extends UserSettings {
     this.sshConfigFilePath = path.join(os.homedir(), '.ssh', 'config')
     this.globalGitConfigFile = path.join(os.homedir(), '.gitconfig')
     this.chromeHistoryPath = getChromeHistoryDatabasePath('linux')
+    this.hasEnabledMarketingWeek = false
   }
 
   platformMatcher!: string

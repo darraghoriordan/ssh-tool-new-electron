@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer'
-import { IsOptional, IsString, MinLength } from 'class-validator'
+import { IsBoolean, IsOptional, IsString, MinLength } from 'class-validator'
 
 export class UserSettings {
   @Expose()
@@ -34,4 +34,9 @@ export class UserSettings {
   @IsString()
   @MinLength(1)
   chromeHistoryPath?: string
+
+  @Expose()
+  @IsOptional()
+  @IsBoolean()
+  hasEnabledMarketingWeek?: boolean
 }

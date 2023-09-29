@@ -13,6 +13,33 @@ import { DiscreteDayNav } from './Components/DiscreteDayNav'
 import DateActions from './Components/DateActions'
 import { IncrementAnalysis } from '../../electron/devHistory/models/IncrementAnalysis'
 import { timeOfDayMatchesToSecond } from '../../electron/devHistory/services/time-wrangler'
+import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
+const faqs = [
+  {
+    id: 1,
+    question: 'What is this tool for?',
+    answer:
+      'Marketing week is for people who build products. Product builders should alternate between a week of building and a week of marketing. This tool helps you plan your marketing week.',
+  },
+  {
+    id: 2,
+    question: 'Why use it?',
+    answer:
+      'It can be difficult to remember all the awesome things you did for your product. Builders often find it hard to find things to say about their work. This tool uses AI to automatically process your work to generate drafts and ideas for engaging content for your audience.',
+  },
+  {
+    id: 3,
+    question: 'How does it work?',
+    answer:
+      "Based on the configuration you provided for your Git repositories and other tools, this tool will scan your work and with OpenAI's products, it will compile summaries of what you achieved.",
+  },
+  {
+    id: 4,
+    question: 'Privacy notice',
+    answer:
+      'This tool IS NOT LOCAL. It will send your data to Open AI for processing. Browser history for the configured Chrome profile and raw Git commit diffs will be processed by Open AI.',
+  },
+]
 
 export function MarketingWeekScreen() {
   const [_logMessages, logAMessage] = useContext(ConsoleContext)
@@ -79,7 +106,7 @@ export function MarketingWeekScreen() {
         </div>
         <div className="flex items-center">
           {isLoading ? (
-            <div role="status" className="w-1/4 mx-8">
+            <div role="status" className="w-1/4 mx-auto">
               <span className="text-xs">
                 Please wait! This looks like a day that hasn&apos;t been
                 processed or there is new activity. We&apos;re crunching your
@@ -149,7 +176,10 @@ export function MarketingWeekScreen() {
           Refresh
         </button>
       </PageHeader>
-
+      <DescriptionAndHelp
+        title="Description and FAQ (Please Read!!)"
+        faqs={faqs}
+      />
       {control}
     </div>
   )

@@ -10,6 +10,7 @@ export class DefaultSettingsWindows extends UserSettings {
     this.sshConfigFilePath = path.join(os.homedir(), '.ssh', 'config')
     this.globalGitConfigFile = path.join(os.homedir(), '.gitconfig')
     this.chromeHistoryPath = getChromeHistoryDatabasePath('win32')
+    this.hasEnabledMarketingWeek = false
   }
 
   platformMatcher!: string

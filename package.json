@@ -145,6 +145,7 @@
     "colord": "2.9.3",
     "date-fns": "2.30.0",
     "date-fns-tz": "2.0.0",
+    "electron-context-menu": "3.6.1",
     "electron-squirrel-startup": "1.0.0",
     "file-loader": "6.2.0",
     "git-url-parse": "13.1.0",
