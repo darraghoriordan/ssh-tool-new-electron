@@ -1,3 +1,10 @@
+# [1.68.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.67.1...v1.68.0) (2023-09-30)
+
+
+### Features
+
+* remove sqlite ([cdff566](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/cdff566b794c59153a21c636977af07389efcebd))
+
 ## [1.67.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.67.0...v1.67.1) (2023-09-30)
 
 
