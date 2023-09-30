@@ -36,8 +36,10 @@ const forgeConfig = {
         ? {
             appleId: process.env.APPLE_ID,
             appleIdPassword: process.env.APPLE_ID_PASS,
+            tool: 'notarytool',
           }
         : false,
+
     extraResource: ['src/assets/icons/icon.icns'],
   },
   makers: [
