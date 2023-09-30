@@ -1,3 +1,10 @@
+# [1.67.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.66.0...v1.67.0) (2023-09-30)
+
+
+### Features
+
+* remove odd file that breaks windows git ([98ed476](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/98ed476f9ff0fa30c43a523ee58cf127baba7a09))
+
 # [1.66.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.65.2...v1.66.0) (2023-09-30)
 
 
