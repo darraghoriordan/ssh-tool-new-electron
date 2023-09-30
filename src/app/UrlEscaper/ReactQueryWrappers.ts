@@ -10,7 +10,7 @@ export const wellKnownQueries = {
   urlEncode: 'url-encode',
 }
 export function useUrlEncoder() {
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
   return useMutation<
     UrlEncoderResponse,
     { message: string },
@@ -31,6 +31,6 @@ export function useUrlEncoder() {
           level: 'info',
         })
       },
-    }
+    },
   )
 }

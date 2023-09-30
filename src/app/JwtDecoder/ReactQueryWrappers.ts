@@ -10,7 +10,7 @@ export const wellKnownQueries = {
   decodeJwt: 'decode-jwt',
 }
 export function useDecodeJwt() {
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
 
   return useMutation<
     DecodeJwtResponse,
@@ -32,6 +32,6 @@ export function useDecodeJwt() {
           level: 'info',
         })
       },
-    }
+    },
   )
 }

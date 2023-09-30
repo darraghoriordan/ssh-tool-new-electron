@@ -6,6 +6,7 @@ import { useContext } from 'react'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 import { SettingPathSelectionField } from './SettingPathSelectionField'
 import { DocumentCheckIcon } from '@heroicons/react/24/outline'
+import BooleanField from './BooleanField'
 
 const gitSections = [
   {
@@ -48,7 +49,7 @@ export function SettingsForm({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<UserSettings>()
+  } = useForm<UserSettings>({ defaultValues: data })
 
   return (
     <form
@@ -61,13 +62,19 @@ export function SettingsForm({
       }}
       onSubmit={handleSubmit(data => onSubmit(data))}
     >
+      <button
+        type="submit"
+        className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+      >
+        <DocumentCheckIcon className="w-5 h-5 mr-2" />
+        Save
+      </button>
       <div className="px-4 py-5 bg-white shadow sm:rounded-lg sm:p-6 space-y-16">
         <SettingsFormSection
           header="Git Settings"
           subHeader="Used for working with your git repositories."
           register={register}
           errors={errors}
-          data={data}
         >
           <SettingPathSelectionField
             key={gitSections[0].propertyKey}
@@ -75,7 +82,6 @@ export function SettingsForm({
             register={register}
             errors={errors}
             isRequired={gitSections[0].isRequired}
-            data={data}
             labelText={gitSections[0].labelText}
             pathIcon="folder"
             onSelect={onOpenSelectGitProjectDirectoryClick}
@@ -86,7 +92,6 @@ export function SettingsForm({
             register={register}
             errors={errors}
             isRequired={gitSections[1].isRequired}
-            data={data}
             labelText={gitSections[1].labelText}
             pathIcon="file"
             onSelect={onOpenSelectGitConfigFileClick}
@@ -97,7 +102,6 @@ export function SettingsForm({
           subHeader="Used for working with ssh certificates"
           register={register}
           errors={errors}
-          data={data}
         >
           <SettingPathSelectionField
             key={'sshConfigFilePath'}
@@ -105,7 +109,6 @@ export function SettingsForm({
             register={register}
             errors={errors}
             isRequired={true}
-            data={data}
             labelText={'SSH Config File'}
             pathIcon="file"
             onSelect={onOpenSelectSshConfigFileClick}
@@ -113,26 +116,32 @@ export function SettingsForm({
         </SettingsFormSection>
         <SettingsFormSection
           header="Marketing Week Settings"
-          subHeader="Used for creating your Marketing Week reports"
+          subHeader="Used for creating your Marketing Week reports. You must enable this tool because it sends your browsing history to a third party (Open AI). You must also have an open AI key and Git repo directory configured."
           register={register}
           errors={errors}
-          data={data}
         >
+          <BooleanField
+            key={'hasEnabledMarketingWeek'}
+            settingKey={'hasEnabledMarketingWeek'}
+            register={register}
+            errors={errors}
+            isRequired={true}
+            labelText={'Enable Marketing Week'}
+          />
           <SettingPathSelectionField
             key={'chromeHistoryPath'}
             settingKey={'chromeHistoryPath'}
             register={register}
             errors={errors}
             isRequired={true}
-            data={data}
-            labelText={'Chrome History File'}
+            labelText={'Select the Chrome history file to use'}
             pathIcon="file"
             onSelect={onOpenSelectChromeHistoryFileClick}
           />
         </SettingsFormSection>
         <SettingsFormSection
           header="Open Ai Settings"
-          subHeader="Used for working with Open Ai"
+          subHeader="Used for connecting to the Open Ai API"
           sections={[
             {
               propertyKey: 'openAiChatGptKey',
@@ -143,13 +152,12 @@ export function SettingsForm({
             {
               propertyKey: 'openAiOrgId',
               labelText:
-                'Open Ai Org Id ( https://platform.openai.com/account/org-settings )',
+                '[Optional] Open Ai Org Id ( https://platform.openai.com/account/org-settings )',
               isRequired: false,
             },
           ]}
           register={register}
           errors={errors}
-          data={data}
         />
       </div>
       <button

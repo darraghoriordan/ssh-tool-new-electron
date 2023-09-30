@@ -10,7 +10,7 @@ export const wellKnownQueries = {
   stringSort: 'string-sort',
 }
 export function useStringSort() {
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
   return useMutation<
     StringSorterResponse,
     { message: string },
@@ -31,6 +31,6 @@ export function useStringSort() {
           level: 'info',
         })
       },
-    }
+    },
   )
 }

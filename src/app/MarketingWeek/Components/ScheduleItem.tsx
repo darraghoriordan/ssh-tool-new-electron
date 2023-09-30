@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { AtSymbolIcon, PencilSquareIcon } from '@heroicons/react/24/outline'
-import { IncrementAnalysis } from '../../../electron/devHistory/models/IncrementAnalysis'
+import { IncrementAnalysis } from '../../../electron/marketingWeek/models/IncrementAnalysis'
 import { colorMap, defaultColor } from './colorMap'
 
 export function ScheduledItem({

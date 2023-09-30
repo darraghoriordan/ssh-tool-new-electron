@@ -59,7 +59,7 @@ import {
   DevHistoryGetDayRequest,
   GitActivityForMonthRequest,
   GitActivityForMonthResponse,
-} from '../../electron/devHistory/channels/MessageTypes'
+} from '../../electron/marketingWeek/channels/MessageTypes'
 
 declare global {
   // eslint-disable-next-line
@@ -70,7 +70,9 @@ declare global {
     }
     SimpleMessage: { invoke: (message: string) => void }
     OpenFileLocation: { invoke: (filePath: string) => void }
-
+    OpenDevHistoryCacheLocation: {
+      invoke: () => Promise<void>
+    }
     LoadUserSettings: { invoke: () => Promise<UserSettingsResponse> }
     SaveUserSettings: {
       invoke: (

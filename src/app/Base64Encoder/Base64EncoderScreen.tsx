@@ -4,9 +4,10 @@ import PageHeader from '../components/PageHeader'
 import { ArrowDownIcon, DocumentCheckIcon } from '@heroicons/react/24/outline'
 import { useEncodeBase64 } from './ReactQueryWrappers'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
+import { ScreenWrapper } from '../ReusableComponents/ScreenWrapper'
 
 export function Base64EncoderScreen() {
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
   const encodeBase64Mutation = useEncodeBase64()
   const [inputValue, setInputValue] = useState('')
   const [encodeToggleValue, setEncodeToggleValue] = useState(false)
@@ -37,7 +38,7 @@ export function Base64EncoderScreen() {
     setOutputValue(result.result)
   }
   const handleInputKeyDown = async (
-    event: React.KeyboardEvent<HTMLTextAreaElement>
+    event: React.KeyboardEvent<HTMLTextAreaElement>,
   ) => {
     if (event.key === 'Enter') {
       return runAction()
@@ -131,7 +132,7 @@ export function Base64EncoderScreen() {
     )
   }
   return (
-    <div className="mx-auto max-w-10xl">
+    <ScreenWrapper>
       <PageHeader pageTitle={'Base64 Encoder'}>
         <button
           onClick={e => insertSampleValue(e)}
@@ -153,6 +154,6 @@ export function Base64EncoderScreen() {
       </PageHeader>
 
       {control}
-    </div>
+    </ScreenWrapper>
   )
 }

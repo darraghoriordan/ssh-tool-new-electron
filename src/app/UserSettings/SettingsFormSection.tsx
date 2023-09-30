@@ -9,7 +9,6 @@ const SettingsFormSection = ({
   sections,
   register,
   errors,
-  data,
   children,
 }: {
   header: string
@@ -21,7 +20,6 @@ const SettingsFormSection = ({
   }[]
   register: UseFormRegister<UserSettings>
   errors: Record<string, any>
-  data: Record<string, any>
 } & PropsWithChildren) => {
   return (
     <div className="md:grid md:grid-cols-3 md:gap-6">
@@ -41,7 +39,6 @@ const SettingsFormSection = ({
                 register={register}
                 errors={errors}
                 isRequired={section.isRequired}
-                data={data}
                 labelText={section.labelText}
               />
             ))}

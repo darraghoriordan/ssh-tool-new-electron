@@ -4,12 +4,13 @@ import PageHeader from '../components/PageHeader'
 import { useDecodeJwt } from './ReactQueryWrappers'
 import { ArrowDownIcon, DocumentCheckIcon } from '@heroicons/react/24/outline'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
+import { ScreenWrapper } from '../ReusableComponents/ScreenWrapper'
 
 export function JwtDecoderScreen() {
   const decodeJwtMutation = useDecodeJwt()
   const [inputValue, setInputValue] = useState('')
   const [outputValue, setOutputValue] = useState('')
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
 
   const onDecodeClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
@@ -24,19 +25,19 @@ export function JwtDecoderScreen() {
       JSON.stringify(
         { header: result.algorithm, payload: result.payload },
         null,
-        2
-      )
+        2,
+      ),
     )
   }
   const insertSampleValue = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     setInputValue(
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0b3B0YWwuY29tIiwiZXhwIjoxNDI2NDIwODAwLCJodHRwOi8vdG9wdGFsLmNvbS9qd3RfY2xhaW1zL2lzX2FkbWluIjp0cnVlLCJjb21wYW55IjoiVG9wdGFsIiwiYXdlc29tZSI6dHJ1ZX0.yRQYnWzskCZUxPwaQupWkiUzKELZ49eM7oWxAQK_ZXw'
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ0b3B0YWwuY29tIiwiZXhwIjoxNDI2NDIwODAwLCJodHRwOi8vdG9wdGFsLmNvbS9qd3RfY2xhaW1zL2lzX2FkbWluIjp0cnVlLCJjb21wYW55IjoiVG9wdGFsIiwiYXdlc29tZSI6dHJ1ZX0.yRQYnWzskCZUxPwaQupWkiUzKELZ49eM7oWxAQK_ZXw',
     )
   }
 
   return (
-    <div className="mx-auto max-w-10xl">
+    <ScreenWrapper>
       <PageHeader pageTitle={'JWT Decoder'}>
         <button
           onClick={e => insertSampleValue(e)}
@@ -84,6 +85,6 @@ export function JwtDecoderScreen() {
           value={outputValue}
         />
       </div>
-    </div>
+    </ScreenWrapper>
   )
 }

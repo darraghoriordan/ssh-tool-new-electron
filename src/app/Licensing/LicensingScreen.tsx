@@ -9,8 +9,9 @@ import { LicenseDisplay } from './LicenseDisplay'
 import { TrialDisplay } from './TrialDisplay'
 import { CTADisplayOld } from './CTADisplayOld'
 import { CTADisplayManualElements } from './CTADisplayManualElements'
+import { ScreenWrapper } from '../ReusableComponents/ScreenWrapper'
 export const LicensingScreen = () => {
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
 
   const { isLoading, data, error } = useGetLicensing()
 
@@ -19,7 +20,7 @@ export const LicensingScreen = () => {
   }
 
   return (
-    <div className="">
+    <ScreenWrapper>
       <PageHeader pageTitle={'Your License Details'}></PageHeader>
       {data.licenseKey && !data.mustEnterLicenseKey && (
         <div className="mt-8">
@@ -52,6 +53,6 @@ export const LicensingScreen = () => {
           </div>
         </>
       )}
-    </div>
+    </ScreenWrapper>
   )
 }

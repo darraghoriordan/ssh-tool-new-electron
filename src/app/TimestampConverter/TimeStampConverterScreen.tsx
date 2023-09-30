@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { ReactElement, useContext, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import PageHeader from '../components/PageHeader'
 import { ArrowDownIcon, DocumentCheckIcon } from '@heroicons/react/24/outline'
 import { useTimestampConverter } from './ReactQueryWrappers'
@@ -7,9 +7,10 @@ import { UnixTimeConverterResponse } from '../../electron/unixTimeConverter/chan
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 import LocaleSelector from './LocaleSelector'
 import { useGetSystemLocale } from './useGetCurrentLocale'
+import { ScreenWrapper } from '../ReusableComponents/ScreenWrapper'
 
 export function TimestampConverterScreen() {
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
   const mutation = useTimestampConverter()
   const [inputValue, setInputValue] = useState('')
   const { data: systemLocale } = useGetSystemLocale()
@@ -21,7 +22,7 @@ export function TimestampConverterScreen() {
     utcDate: '',
   } as UnixTimeConverterResponse)
   const handleInputKeyDown = async (
-    event: React.KeyboardEvent<HTMLInputElement>
+    event: React.KeyboardEvent<HTMLInputElement>,
   ) => {
     if (event.key === 'Enter') {
       return runAction()
@@ -60,7 +61,7 @@ export function TimestampConverterScreen() {
   }
 
   return (
-    <div className="mx-auto max-w-10xl">
+    <ScreenWrapper>
       <PageHeader pageTitle={'Timestamp converter'}>
         <button
           onClick={e => insertSampleValue(e)}
@@ -157,6 +158,6 @@ export function TimestampConverterScreen() {
           </dl>
         </div>
       </div>
-    </div>
+    </ScreenWrapper>
   )
 }

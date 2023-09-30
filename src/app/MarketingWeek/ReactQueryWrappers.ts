@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import { useContext } from 'react'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
-import { GitActivityForMonthResponse } from '../../electron/devHistory/channels/MessageTypes'
-import { isToday } from 'date-fns'
+import { GitActivityForMonthResponse } from '../../electron/marketingWeek/channels/MessageTypes'
+import { format, isToday } from 'date-fns'
 
 export const wellKnownQueries = {
   getSingleDay: 'get-single-day',
@@ -10,9 +10,17 @@ export const wellKnownQueries = {
 }
 export function useDevHistoryGetDay({ date }: { date: Date }) {
   const [_logMessages, logAMessage] = useContext(ConsoleContext)
+
   return useQuery(
     [wellKnownQueries.getSingleDay, date.toISOString()],
     async () => {
+      logAMessage({
+        message: `Started analyising ${format(
+          date,
+          'yyyy-MM-dd',
+        )} Please wait for processing to finish! 🤖 We're crunching your data and setting GPUs on fire 🔥🔥.  It could take 3-4 minutes or more to pass an entire day through AI! Honestly, get yourself a coffee ☕`,
+        level: 'info',
+      })
       return window.GetDevHistorySingleDay.invoke({
         date: date,
       })

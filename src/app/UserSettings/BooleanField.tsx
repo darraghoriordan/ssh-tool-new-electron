@@ -2,12 +2,12 @@ import { UseFormRegister } from 'react-hook-form'
 import { UserSettings } from '../../electron/userSettings/models/UserSettings'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const SettingTextField = ({
-  settingKey, // projectsPath
+const BooleanField = ({
+  settingKey,
   register,
   errors,
-  labelText, //       Git project path to scan for repositories
-  isRequired,
+
+  labelText,
 }: {
   settingKey: keyof UserSettings
   register: UseFormRegister<UserSettings>
@@ -23,13 +23,11 @@ const SettingTextField = ({
       >
         {labelText}
       </label>
-      <div className="flex mt-1 rounded-md shadow-sm">
+      <div className="flex mt-1 rounded-sm">
         <input
-          {...register(settingKey, {
-            required: isRequired === undefined ? true : isRequired,
-            min: 1,
-          })}
-          className="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          {...register(settingKey, {})}
+          type="checkbox"
+          className="block p-3 border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
         />
       </div>
       {errors[settingKey] && (
@@ -38,4 +36,4 @@ const SettingTextField = ({
     </div>
   )
 }
-export default SettingTextField
+export default BooleanField

@@ -10,7 +10,7 @@ export const wellKnownQueries = {
   convertSshUrl: 'convert-ssh-url',
 }
 export function useConvertSshUrl() {
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
 
   return useMutation<
     SshUrlConverterChannelResponse,
@@ -32,6 +32,6 @@ export function useConvertSshUrl() {
           level: 'info',
         })
       },
-    }
+    },
   )
 }

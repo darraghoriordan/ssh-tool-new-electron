@@ -1,4 +1,4 @@
-import { CategoryEnum } from '../../../electron/devHistory/services/openai-service'
+import { CategoryEnum } from '../../../electron/marketingWeek/services/openai-service'
 
 export const defaultColor = {
   text: 'text-stone-500',

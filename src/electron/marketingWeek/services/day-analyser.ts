@@ -15,6 +15,7 @@ import { getFromCache, saveToCache } from './dev-history-cache'
 
 export async function analyseDay(date: Date) {
   // make sure we have the openAi key
+
   const settings = await UserSettingsService.getSettings()
   if (!settings.openAiChatGptKey) {
     throw new Error('no openApiChatGptKey')

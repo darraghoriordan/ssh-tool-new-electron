@@ -15,6 +15,7 @@ import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
 import { useGetAppSettings } from '../AppSettings/ReactQueryWrappers'
 import { SettingsForm } from './SettingsForm'
 import { UserSettings } from '../../electron/userSettings/models/UserSettings'
+import { ScreenWrapper } from '../ReusableComponents/ScreenWrapper'
 const faqs = [
   {
     id: 1,
@@ -94,11 +95,24 @@ export const SettingsScreen = () => {
     control = <>Loading...</>
   }
   const handleSubmit = async (data: UserSettings) => {
+    console.log('data', data)
     saveMutation.mutate({
       projectsPath: data['projectsPath']!,
       globalGitConfigFile: data['globalGitConfigFile'],
       chromeHistoryPath: data['chromeHistoryPath'],
       sshConfigFilePath: data['sshConfigFilePath'],
+      openAiOrgId:
+        data['openAiOrgId'] === '' || !data['openAiOrgId']
+          ? undefined
+          : data['openAiOrgId'],
+      hasEnabledMarketingWeek:
+        // there's some issue with react form here. it returned "false" as a string one time
+        // so i do this to make sure it's a boolean
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (data['hasEnabledMarketingWeek'] as any) === 'true' ||
+        data['hasEnabledMarketingWeek'] === true
+          ? true
+          : false,
       openAiChatGptKey:
         data['openAiChatGptKey'] === '' || !data['openAiChatGptKey']
           ? undefined
@@ -118,9 +132,7 @@ export const SettingsScreen = () => {
     )
   }
   return (
-    <div className="mx-auto max-w-10xl">
-      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
-
+    <ScreenWrapper>
       <PageHeader pageTitle={'App Settings'}>
         {data && (
           <button
@@ -133,29 +145,9 @@ export const SettingsScreen = () => {
             Edit settings as JSON...
           </button>
         )}
-
-        {/* <button
-            type="button"
-            disabled={resetMutation.isLoading}
-            onClick={e => onResetClick(e)}
-            className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-          >
-            <ArrowPathIcon className="w-5 h-5 mr-2" />
-            Reset All To Defaults
-          </button> */}
-
-        {/* <button
-            type="button"
-            onClick={() => reset()}
-            disabled={!isDirty}
-            className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-          >
-            <XMarkIcon className="w-5 h-5 mr-2" />
-            Cancel Changes
-          </button> */}
       </PageHeader>
       <DescriptionAndHelp faqs={faqs} />
       {control}
-    </div>
+    </ScreenWrapper>
   )
 }

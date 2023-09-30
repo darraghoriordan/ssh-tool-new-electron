@@ -10,7 +10,7 @@ export const wellKnownQueries = {
   htmlEncode: 'html-encode',
 }
 export function useEncodeHtmlCharacter() {
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
   return useMutation<
     HtmlEncoderResponse,
     { message: string },
@@ -31,6 +31,6 @@ export function useEncodeHtmlCharacter() {
           level: 'info',
         })
       },
-    }
+    },
   )
 }

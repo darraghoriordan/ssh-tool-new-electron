@@ -17,6 +17,7 @@ import { RemoveButton } from './RemoveButton'
 import { GenerationResult } from './GenerationResult'
 import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
 import { format } from 'date-fns'
+import { ScreenWrapper } from '../ReusableComponents/ScreenWrapper'
 
 const faqs = [
   {
@@ -574,8 +575,8 @@ b?: string
     )
   }
   return (
-    <div className="mx-auto overflow-y-auto max-w-10xl">
-      <PageHeader pageTitle={'ESLint Rule Generator'}>
+    <ScreenWrapper>
+      <PageHeader pageTitle={'ESLint Rule AI Agent'}>
         <button
           onClick={e => insertComplexSampleValue(e)}
           type="button"
@@ -608,6 +609,6 @@ b?: string
         faqs={faqs}
       />
       {control}
-    </div>
+    </ScreenWrapper>
   )
 }

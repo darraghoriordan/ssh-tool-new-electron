@@ -1,10 +1,6 @@
-import React, { ReactElement, useContext, useEffect } from 'react'
+import React, { ReactElement, useContext } from 'react'
 import { ArrowPathIcon } from '@heroicons/react/24/solid'
-import {
-  Cog6ToothIcon,
-  ExclamationTriangleIcon,
-  FolderOpenIcon,
-} from '@heroicons/react/24/outline'
+import { FolderOpenIcon } from '@heroicons/react/24/outline'
 import PageHeader from '../components/PageHeader'
 import GitConfigurationViewCard from './GitConfigurationViewCard'
 import { useGetGitConfigurationList, useResetCache } from './ReactQueryWrappers'
@@ -48,12 +44,12 @@ const faqs = [
 ]
 
 export function GitConfigurationListScreen() {
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
 
   const resetCachesMutation = useResetCache()
 
   const [filter, setFilter] = React.useState<string | undefined>(undefined)
-  const [debouncedFilter, debounceControl] = useDebounce(filter, 500)
+  const [debouncedFilter, _debounceControl] = useDebounce(filter, 500)
 
   const { isLoading, data } = useGetGitConfigurationList(debouncedFilter)
 
@@ -64,7 +60,7 @@ export function GitConfigurationListScreen() {
 
   const onOpenFolderClick = (
     event: React.MouseEvent<HTMLButtonElement>,
-    location: string
+    location: string,
   ) => {
     event.preventDefault()
     logAMessage({ level: 'info', message: `Opening folder ${location}` })

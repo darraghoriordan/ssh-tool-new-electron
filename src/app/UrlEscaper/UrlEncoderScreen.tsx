@@ -5,6 +5,7 @@ import { ArrowDownIcon, DocumentCheckIcon } from '@heroicons/react/24/outline'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 import { useUrlEncoder } from './ReactQueryWrappers'
 import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
+import { ScreenWrapper } from '../ReusableComponents/ScreenWrapper'
 
 const faqs = [
   {
@@ -21,7 +22,7 @@ const faqs = [
 ]
 
 export function UrlEncoderScreen() {
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
   const runMutation = useUrlEncoder()
   const [inputValue, setInputValue] = useState('')
   const [encodeToggleValue, setEncodeToggleValue] = useState(true)
@@ -130,7 +131,7 @@ export function UrlEncoderScreen() {
                     defaultChecked={true}
                     onChange={e =>
                       setEncodeComponentToggleValue(
-                        e.currentTarget.id === 'forComponent'
+                        e.currentTarget.id === 'forComponent',
                       )
                     }
                     type="radio"
@@ -150,7 +151,7 @@ export function UrlEncoderScreen() {
                     type="radio"
                     onChange={e =>
                       setEncodeComponentToggleValue(
-                        e.currentTarget.id === 'forComponent'
+                        e.currentTarget.id === 'forComponent',
                       )
                     }
                     className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
@@ -194,7 +195,7 @@ export function UrlEncoderScreen() {
     )
   }
   return (
-    <div className="mx-auto max-w-10xl">
+    <ScreenWrapper>
       <PageHeader pageTitle={'Uri Encoder'}>
         <button
           onClick={e => insertSampleValue(e)}
@@ -216,6 +217,6 @@ export function UrlEncoderScreen() {
       </PageHeader>
       <DescriptionAndHelp faqs={faqs} />
       {control}
-    </div>
+    </ScreenWrapper>
   )
 }

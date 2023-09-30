@@ -4,13 +4,14 @@ import PageHeader from '../components/PageHeader'
 import { useEscapeJson } from './ReactQueryWrappers'
 import { ArrowDownIcon, DocumentCheckIcon } from '@heroicons/react/24/outline'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
+import { ScreenWrapper } from '../ReusableComponents/ScreenWrapper'
 
 export function JsonEscaperScreen() {
   const escapeJsonMutation = useEscapeJson()
   const [inputValue, setInputValue] = useState('')
   const [unescapeToggleValue, setUnescapeToggleValue] = useState(true)
   const [outputValue, setOutputValue] = useState('')
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
 
   let control: ReactElement | undefined = undefined
   const onDecodeClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -36,7 +37,7 @@ export function JsonEscaperScreen() {
     setInputValue(
       // eslint-disable-next-line no-useless-escape
       // prettier-ignore
-      `{\\"this\\":\\"isescaped\\"}`
+      `{\\"this\\":\\"isescaped\\"}`,
     )
   }
 
@@ -122,7 +123,7 @@ export function JsonEscaperScreen() {
     )
   }
   return (
-    <div className="mx-auto max-w-10xl">
+    <ScreenWrapper>
       <PageHeader pageTitle={'Json Escaper'}>
         <button
           onClick={e => insertSampleValue(e)}
@@ -144,6 +145,6 @@ export function JsonEscaperScreen() {
       </PageHeader>
 
       {control}
-    </div>
+    </ScreenWrapper>
   )
 }

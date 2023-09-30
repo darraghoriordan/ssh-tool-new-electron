@@ -5,9 +5,10 @@ import { ArrowDownIcon, DocumentCheckIcon } from '@heroicons/react/24/outline'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 import { StringCases } from '../../electron/stringCase/channels/MessageTypes'
 import { useStringCaseConverter } from './ReactQueryWrappers'
+import { ScreenWrapper } from '../ReusableComponents/ScreenWrapper'
 
 export function StringCaseConverterScreen() {
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
   const runMutation = useStringCaseConverter()
   const [inputValue, setInputValue] = useState('')
   const [caseMethod, setCaseMethod] = useState(StringCases.lower)
@@ -36,7 +37,7 @@ export function StringCaseConverterScreen() {
   const insertSampleValue = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     setInputValue(
-      'THIS IS A SAMPLE VALUE\r\nand_another_sample_value\r\none more sample value'
+      'THIS IS A SAMPLE VALUE\r\nand_another_sample_value\r\none more sample value',
     )
   }
 
@@ -98,7 +99,7 @@ export function StringCaseConverterScreen() {
     )
   }
   return (
-    <div className="mx-auto max-w-10xl">
+    <ScreenWrapper>
       <PageHeader pageTitle={'String Case Converter'}>
         <button
           onClick={e => insertSampleValue(e)}
@@ -120,6 +121,6 @@ export function StringCaseConverterScreen() {
       </PageHeader>
 
       {control}
-    </div>
+    </ScreenWrapper>
   )
 }

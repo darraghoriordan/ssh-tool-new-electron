@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Fragment, useEffect, useRef } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
-import { IncrementAnalysis } from '../../electron/devHistory/models/IncrementAnalysis'
+import { IncrementAnalysis } from '../../electron/marketingWeek/models/IncrementAnalysis'
 import { ScheduledItem } from './Components/ScheduleItem'
 import {
   eachDayOfInterval,
@@ -140,7 +140,10 @@ export default function Calendar({
 
   return (
     <div className="flex flex-auto overflow-hidden bg-white isolate">
-      <div ref={container} className="flex flex-col flex-auto overflow-auto">
+      <div
+        ref={container}
+        className="flex flex-col flex-auto overflow-x-hidden overflow-y-scroll"
+      >
         <div
           ref={containerNav}
           className="sticky top-0 z-10 flex-none text-xs text-gray-500 bg-white shadow grid grid-cols-7 ring-1 ring-black ring-opacity-5 md:hidden"
@@ -275,7 +278,7 @@ export default function Calendar({
           </div>
         </div>
       </div>
-      <div className="flex-none hidden w-1/2 max-w-2xl px-8 py-10 border-l border-gray-100 md:block">
+      <div className="flex-none hidden w-1/2 max-w-2xl px-8 py-10 overflow-y-scroll border-l border-gray-100 md:block">
         <div className="flex-none max-w-md mx-auto">
           <div className="flex items-center text-center text-gray-900">
             <button
@@ -371,7 +374,7 @@ export default function Calendar({
         </div>
         <div className="flex flex-col mx-auto mt-8">
           <BlogPostsDetailsSummary blogPosts={allBlogPosts} />
-          <SocialPostsDetailsSummary tweets={allSocialPosts} />
+          <SocialPostsDetailsSummary socialPosts={allSocialPosts} />
         </div>
       </div>
     </div>

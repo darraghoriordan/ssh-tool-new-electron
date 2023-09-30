@@ -5,12 +5,13 @@ import { useSetFirstUsageDate } from '../AppSettings/ReactQueryWrappers'
 import PageHeader from '../components/PageHeader'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 import OnboardingDialog from './OnboardingDialog'
+import { ScreenWrapper } from '../ReusableComponents/ScreenWrapper'
 
 export function OnboardingScreen() {
   const navigation = useNavigate()
   const setFirstUsage = useSetFirstUsageDate()
   const [closed, setClosed] = useState(false)
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
 
   useEffect(() => {
     if (
@@ -39,9 +40,9 @@ export function OnboardingScreen() {
   ])
 
   return (
-    <div className="mx-auto max-w-10xl">
+    <ScreenWrapper>
       <PageHeader pageTitle={''}></PageHeader>
       <OnboardingDialog closed={closed} setClosed={setClosed} />
-    </div>
+    </ScreenWrapper>
   )
 }

@@ -19,7 +19,7 @@ export const useFirstRunRedirect = (): {
   const { data: licenceData, isLoading: licIsLd } = useGetLicensing()
 
   const navigateRoute = useNavigate()
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
 
   // REDIRECT IF FIRST TIME USED!
   useEffect(() => {

@@ -193,6 +193,7 @@ async function runCodeDiffCompletion(
        - don't explain your answer
        - don't mention the date or time period events occurred in your summary e.g. don't say "In september I...."
        - don't prepend with "stand up report:" or a descriptor like that. just return the report.
+       - don't prepend with "the team member..." or similar, just return the report.
        - be terse
        - make sure to talk about any git code diffs if they are provided, but don't mention this if there are no diffs provided to you`,
     },
@@ -233,6 +234,8 @@ export async function runCodeSocialMediaPostsCompletion(
       role: 'system',
       content: `You are an expert software engineer and social media marketer. You have been asked to generate social media posts (tweets and blog posts) for a business. The audience is technical.
       
+      do not use hashtags
+
       examples of good topics for tweets and blog posts:
   
     Industry Trends: Share your insights on the latest trends in your industry.
@@ -307,7 +310,7 @@ Perform the following steps
 2. identify tricky sections or interesting sections. If none just write about the overall change.
 3. write tweets about the code
 
-examples of interesting sections:
+examples of interesting code things:
  - the libraries, tools and frameworks used and how they helped
  - the benefit of overall change 
  - the number of lines added or removed if significant
@@ -324,6 +327,7 @@ guidelines:
 - do not explain your answer
  - you don't have to add properties for hashtags, just include them in the text
  - you don't have to suggest an image for the social media posts, just the text
+ - you shouldn't use hashtags, don't add any hashtags
  - output JSON only. Output an array of JSON objects with property "text" e.g. [
    {"text": "abc..."},
  {"text": "abc..."},
@@ -542,6 +546,7 @@ export async function runBrowsingSocialMediaPostsCompletion(
   - do not explain your answer
    - you don't have to add properties for hashtags, just include them in the text
    - you don't have to suggest an image for the social media posts, just the text
+   - you shouldn't use hashtags, don't add any hashtags
    - output JSON only. Output an array of JSON objects with property "text" e.g. [
      {"text": "abc..."},
    {"text": "abc..."},

@@ -3,7 +3,7 @@ import React, { ReactElement, useContext } from 'react'
 import PageHeader from '../components/PageHeader'
 import {
   AtSymbolIcon,
-  DocumentCheckIcon,
+  FolderOpenIcon,
   PencilSquareIcon,
 } from '@heroicons/react/24/outline'
 import { useDevHistoryGetDay } from './ReactQueryWrappers'
@@ -11,9 +11,11 @@ import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 import Calendar from './Calendar'
 import { DiscreteDayNav } from './Components/DiscreteDayNav'
 import DateActions from './Components/DateActions'
-import { IncrementAnalysis } from '../../electron/devHistory/models/IncrementAnalysis'
-import { timeOfDayMatchesToSecond } from '../../electron/devHistory/services/time-wrangler'
+import { IncrementAnalysis } from '../../electron/marketingWeek/models/IncrementAnalysis'
+import { timeOfDayMatchesToSecond } from '../../electron/marketingWeek/services/time-wrangler'
 import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
+import { ScreenWrapper } from '../ReusableComponents/ScreenWrapper'
+
 const faqs = [
   {
     id: 1,
@@ -51,12 +53,6 @@ export function MarketingWeekScreen() {
     IncrementAnalysis | undefined
   >(data?.analysis?.[0])
   let control: ReactElement | undefined = undefined
-  const onRefreshClick = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => {
-    e.preventDefault()
-    logAMessage({ message: 'Refresh Clicked', level: 'info' })
-  }
 
   const allBlogPosts = data?.analysis.reduce(
     (acc, cur) => {
@@ -70,9 +66,15 @@ export function MarketingWeekScreen() {
     },
     [] as { text: string }[],
   )
+  const onOpenFolderClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+
+    logAMessage({ level: 'info', message: `Opening folder ${location}` })
+    window.OpenDevHistoryCacheLocation.invoke()
+  }
 
   control = (
-    <div className="flex flex-col h-[72vh]">
+    <div className="flex flex-col h-[86%]">
       <header className="flex items-center justify-between flex-none py-4 border-b border-gray-200">
         <div className="flex items-center">
           <div>
@@ -96,23 +98,22 @@ export function MarketingWeekScreen() {
           <div className="justify-between ml-8 text-sm">
             <div className="flex items-center">
               <AtSymbolIcon className="w-4 h-4 mr-3" />{' '}
-              {allSocialPosts?.length || '-'} Potential Tweets/Posts
+              {allSocialPosts?.length || '-'} Draft Tweets/Posts
             </div>
             <div className="flex items-center">
               <PencilSquareIcon className="w-4 h-4 mr-3" />{' '}
-              {allBlogPosts?.length || '-'} Potential Blog Posts
+              {allBlogPosts?.length || '-'} Draft Blog Posts
             </div>
           </div>
         </div>
         <div className="flex items-center">
           {isLoading ? (
-            <div role="status" className="w-1/4 mx-auto">
+            <div role="status" className="mx-12 min-w-1/4 grow">
               <span className="text-xs">
                 Please wait! This looks like a day that hasn&apos;t been
-                processed or there is new activity. We&apos;re crunching your
-                data and setting GPUs on fire. It could take{' '}
+                processed or there is new activity. It could take{' '}
                 <span className="font-semibold">3-4 minutes or more</span> to
-                pass an entire day through AI!...
+                pass an entire day through AI!
               </span>{' '}
               <svg
                 aria-hidden="true"
@@ -164,16 +165,15 @@ export function MarketingWeekScreen() {
     </div>
   )
   return (
-    <div className="mx-auto max-w-10xl">
+    <ScreenWrapper>
       <PageHeader pageTitle={'Marketing Week'}>
         <button
+          onClick={e => onOpenFolderClick(e)}
           type="button"
-          onClick={e => onRefreshClick(e)}
-          disabled={isLoading}
-          className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         >
-          <DocumentCheckIcon className="w-5 h-5 mr-2" />
-          Refresh
+          <FolderOpenIcon className="w-5 h-5 mr-2" />
+          Open cache data folder...
         </button>
       </PageHeader>
       <DescriptionAndHelp
@@ -181,6 +181,6 @@ export function MarketingWeekScreen() {
         faqs={faqs}
       />
       {control}
-    </div>
+    </ScreenWrapper>
   )
 }

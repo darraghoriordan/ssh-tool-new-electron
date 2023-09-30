@@ -33,7 +33,7 @@ const navigation = [
     current: false,
   },
   {
-    name: 'Eslint Rule Generator',
+    name: 'Eslint Rule AI Agent',
     href: '/eslint-rule-generator',
     icon: VariableIcon,
     current: false,

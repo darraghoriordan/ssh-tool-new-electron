@@ -9,7 +9,7 @@ export function BlogPostsDetailsSummary({
     return (
       <details>
         <summary className="my-4 text-lg font-semibold text-gray-900 leading-6">
-          0 Generated Blog Posts
+          0 Draft Blog Posts
         </summary>
         <div className="grid grid-cols-2 gap-2">
           No posts for this time period
@@ -21,7 +21,7 @@ export function BlogPostsDetailsSummary({
   return (
     <details>
       <summary className="my-4 text-lg font-semibold text-gray-900 leading-6">
-        {blogPosts?.length || '0'} Generated Blog Posts
+        {blogPosts?.length || '0'} Draft Blog Posts
       </summary>
 
       {blogPosts?.map((post, index) => {

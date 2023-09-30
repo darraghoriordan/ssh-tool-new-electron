@@ -18,12 +18,12 @@ export function useGetLicensing() {
     {
       staleTime: Infinity,
       retry: false,
-    }
+    },
   )
 }
 
 export function useSetLicensing() {
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
   const queryClient = useQueryClient()
 
   return useMutation<
@@ -51,6 +51,6 @@ export function useSetLicensing() {
         })
         queryClient.resetQueries([wellKnownQueries.loadLicensingData])
       },
-    }
+    },
   )
 }

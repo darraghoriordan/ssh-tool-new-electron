@@ -6,12 +6,12 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import { Fragment } from 'react'
-import { IncrementAnalysis } from '../../../electron/devHistory/models/IncrementAnalysis'
+import { IncrementAnalysis } from '../../../electron/marketingWeek/models/IncrementAnalysis'
 import { colorMap } from './colorMap'
 import {
   BrowserHistoryEntry,
   GitCommitHistoryEntry,
-} from '../../../electron/devHistory/models/HistoryEntry'
+} from '../../../electron/marketingWeek/models/HistoryEntry'
 import { SocialPostsDetailsSummary } from './SocialPostsDetailsSummary'
 import { BlogPostsDetailsSummary } from './BlogPostsDetailsSummary'
 
@@ -145,7 +145,11 @@ export default function DateActions({
                                   className="list-inside"
                                 >
                                   <CommandLineIcon className="inline w-4 h-4 mr-2 text-gray-200  dark:text-gray-600 fill-blue-600" />
-                                  <p className="inline">{gitMeta.message}</p>
+                                  <p className="inline">
+                                    {gitMeta.repository +
+                                      ' | ' +
+                                      gitMeta.message}
+                                  </p>
                                 </li>
                               )
                             })}
@@ -159,7 +163,7 @@ export default function DateActions({
                     </div>
                     <div className="relative px-4 sm:px-6">
                       <SocialPostsDetailsSummary
-                        tweets={increment?.raw.analysis?.tweets || []}
+                        socialPosts={increment?.raw.analysis?.tweets || []}
                       />
                     </div>
                   </div>

@@ -11,7 +11,7 @@ export const wellKnownQueries = {
   getPastGeneration: 'eslint-rule-past-generation',
 }
 export function useEslintRuleGenerator() {
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
   const queryClient = useQueryClient()
   return useMutation<
     EslintRuleGenerationRecord,
@@ -36,7 +36,7 @@ export function useEslintRuleGenerator() {
           queryKey: [wellKnownQueries.getPastGenerations],
         })
       },
-    }
+    },
   )
 }
 
@@ -47,7 +47,7 @@ export function useGetPastGenerations() {
     {
       retry: false,
       refetchInterval: 3000,
-    }
+    },
   )
 }
 export function useGetPastGeneration(fileName: string) {
@@ -58,6 +58,6 @@ export function useGetPastGeneration(fileName: string) {
       const [key, { fileName }] = queryKey as [string, { fileName: string }]
       return window.EslintGetPastGeneration.invoke(fileName)
     },
-    { retry: false, refetchInterval: 3000 }
+    { retry: false, refetchInterval: 3000 },
   )
 }

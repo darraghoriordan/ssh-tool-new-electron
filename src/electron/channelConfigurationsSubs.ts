@@ -28,9 +28,10 @@ import { CurrentLocaleSub } from './appSupport/CurrentLocaleSub'
 import { SelectGitProjectsPathChannelSub } from './userSettings/channels/SelectGitProjectsPathChannelSub'
 import { SelectSshConfigFilePathChannelSub } from './userSettings/channels/SelectSshConfigFilePathChannelSub'
 import { SelectGitConfigFilePathChannelSub } from './userSettings/channels/SelectGitConfigFilePathChannelSub'
-import { DevHistoryGetDayChannelSub } from './devHistory/channels/DevHistoryGetDayChannelSub'
+import { DevHistoryGetDayChannelSub } from './marketingWeek/channels/DevHistoryGetDayChannelSub'
 import { SelectChromeHistoryFilePathChannelSub } from './userSettings/channels/SelectChromeHistoryFilePathChannelSub'
-import { GitActivityForMonthChannelSub } from './devHistory/channels/GitActivityForMonthChannelSub'
+import { GitActivityForMonthChannelSub } from './marketingWeek/channels/GitActivityForMonthChannelSub'
+import { OpenDevHistoryCacheLocationSub } from './marketingWeek/channels/OpenDevHistoryCacheLocationSub'
 
 export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
   rtmSendChannels: [
@@ -38,6 +39,7 @@ export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
     new OpenFileLocationSub(),
     new OpenSubmitFeedbackSub(),
     new OpenStorePageSub(),
+    new OpenDevHistoryCacheLocationSub(),
   ],
   rtmInvokeChannels: [
     //userSettings

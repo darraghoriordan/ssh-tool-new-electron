@@ -12,6 +12,7 @@ import { SshConverterResults } from '../../electron/sshConfigFile/models/SshConv
 import { useGetSettings } from '../UserSettings/ReactQueryWrappers'
 import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
+import { ScreenWrapper } from '../ReusableComponents/ScreenWrapper'
 
 const faqs = [
   {
@@ -46,14 +47,14 @@ export const SshUrlConverterScreen = () => {
   const [outputValue, setOutputValue] = useState<
     SshConverterResults | undefined
   >(undefined)
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
 
   let control: ReactElement | undefined = undefined
-  const { isLoading, data, error } = useGetSettings()
+  const { isLoading, data } = useGetSettings()
 
   const onCopyClick = (
     event: React.MouseEvent<HTMLButtonElement>,
-    value: string
+    value: string,
   ) => {
     event.preventDefault()
 
@@ -82,7 +83,7 @@ export const SshUrlConverterScreen = () => {
     setOutputValue(result.possibleGitUrls)
   }
   const handleInputKeyDown = async (
-    event: React.KeyboardEvent<HTMLInputElement>
+    event: React.KeyboardEvent<HTMLInputElement>,
   ) => {
     if (event.key === 'Enter') {
       return runAction()
@@ -90,7 +91,7 @@ export const SshUrlConverterScreen = () => {
   }
   const onOpenFolderClick = (
     event: React.MouseEvent<HTMLButtonElement>,
-    location: string
+    location: string,
   ) => {
     event.preventDefault()
     window.OpenFileLocation.invoke(location)
@@ -99,7 +100,7 @@ export const SshUrlConverterScreen = () => {
   const insertSampleValue = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     setInputValue(
-      'https://github.com/darraghoriordan/eslint-plugin-nestjs-typed.git'
+      'https://github.com/darraghoriordan/eslint-plugin-nestjs-typed.git',
     )
   }
 
@@ -196,8 +197,8 @@ export const SshUrlConverterScreen = () => {
     )
   }
   return (
-    <div className="mx-auto max-w-10xl">
-      <PageHeader pageTitle={'Git/ssh Url Converter'}>
+    <ScreenWrapper>
+      <PageHeader pageTitle={'Git/SSH Url Converter'}>
         {data?.sshConfigFilePath && (
           <button
             onClick={e => onOpenFolderClick(e, data.sshConfigFilePath)}
@@ -228,6 +229,6 @@ export const SshUrlConverterScreen = () => {
       </PageHeader>
       <DescriptionAndHelp faqs={faqs} />
       {control}
-    </div>
+    </ScreenWrapper>
   )
 }

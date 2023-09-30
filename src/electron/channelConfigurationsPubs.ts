@@ -28,9 +28,10 @@ import { CurrentLocalePub } from './appSupport/CurrentLocalePub'
 import { SelectGitProjectsPathChannelPub } from './userSettings/channels/SelectGitProjectsPathChannelPub'
 import { SelectSshConfigFilePathChannelPub } from './userSettings/channels/SelectSshConfigFilePathChannelPub'
 import { SelectGitConfigFilePathChannelPub } from './userSettings/channels/SelectGitConfigFilePathChannelPub'
-import { DevHistoryGetDayChannelPub } from './devHistory/channels/DevHistoryGetDayChannelPub'
+import { DevHistoryGetDayChannelPub } from './marketingWeek/channels/DevHistoryGetDayChannelPub'
 import { SelectChromeHistoryFilePathChannelPub } from './userSettings/channels/SelectChromeHistoryFilePathChannelPub'
-import { GitActivityForMonthChannelPub } from './devHistory/channels/GitActivityForMonthChannelPub'
+import { GitActivityForMonthChannelPub } from './marketingWeek/channels/GitActivityForMonthChannelPub'
+import { OpenDevHistoryCacheLocationPub } from './marketingWeek/channels/OpenDevHistoryCacheLocationPub'
 
 export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
   rtmSendChannels: [
@@ -38,6 +39,7 @@ export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
     new OpenFileLocationPub(),
     new OpenSubmitFeedbackPub(),
     new OpenStorePagePub(),
+    new OpenDevHistoryCacheLocationPub(),
   ],
   rtmInvokeChannels: [
     // userSettings

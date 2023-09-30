@@ -11,7 +11,7 @@ export const wellKnownQueries = {
   convertColor: 'convert-color',
 }
 export function useColorConverter() {
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
 
   return useMutation<
     ColorConverterResponse,
@@ -33,6 +33,6 @@ export function useColorConverter() {
           level: 'info',
         })
       },
-    }
+    },
   )
 }
