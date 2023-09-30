@@ -20,11 +20,11 @@ const forgeConfig = {
     osxSign: {
       tool: 'notarytool',
       identity: 'Developer ID Application: Darragh ORiordan (74NM54BFA4)',
-      'hardened-runtime': true,
-      'gatekeeper-assess': false,
+      //   'hardened-runtime': true,
+      //   'gatekeeper-assess': false,
       entitlements: 'src/assets/mac-store-meta/entitlements.plist',
-      'entitlements-inherit': 'src/assets/mac-store-meta/entitlements.plist',
-      'signature-flags': 'library',
+      //   'entitlements-inherit': 'src/assets/mac-store-meta/entitlements.plist',
+      //   'signature-flags': 'library',
     },
     // Since electron-notarize 1.1.0 it will throw instead of simply print a
     // warning to the console, so we have to actively check if we should

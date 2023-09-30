@@ -1,4 +1,4 @@
-name: CreateBuilds
+name: Build & Ship Installers
 on: workflow_dispatch
 
 env:
