@@ -1,3 +1,11 @@
+## [1.65.2](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.65.1...v1.65.2) (2023-09-30)
+
+
+### Bug Fixes
+
+* **renovate:** [@types](https://github.com/types) Update minor-types ([81e3d4c](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/81e3d4c4b1f5799eecb4ff4d2825383091d928a4))
+* **renovate:** Update dependency semantic-release to v22 ([fcab603](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/fcab603f360f5374b2583873ebf16fa6c1ee753e))
+
 ## [1.65.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.65.0...v1.65.1) (2023-09-30)
 
 
