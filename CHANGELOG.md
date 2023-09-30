@@ -1,3 +1,11 @@
+# [1.66.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.65.2...v1.66.0) (2023-09-30)
+
+
+### Features
+
+* fix git config screen margins ([5f0195e](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/5f0195e776afedce7965837b3dcb79e4c0f9634e))
+* update everything ([9c0494e](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/9c0494ea8cff77d3a6c73c3532dcca47ca1af545))
+
 ## [1.65.2](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.65.1...v1.65.2) (2023-09-30)
 
 
