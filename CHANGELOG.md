@@ -1,3 +1,10 @@
+## [1.68.3](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.68.2...v1.68.3) (2023-09-30)
+
+
+### Bug Fixes
+
+* use apple team id ([16cb597](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/16cb5971f07ffe39d5c081fd7c4d3ce38b5b428d))
+
 ## [1.68.2](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.68.1...v1.68.2) (2023-09-30)
 
 
