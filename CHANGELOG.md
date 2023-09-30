@@ -1,3 +1,35 @@
+# [1.65.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.64.6...v1.65.0) (2023-09-30)
+
+
+### Bug Fixes
+
+* properly set the output of social media generation ([402cd98](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/402cd98d2b745b698b40d5a6b9f637812bf48c48))
+
+
+### Features
+
+* add git events ([4c48afd](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/4c48afd902d55315cb4d4a69efc73604a05d6d99))
+* add git events ([9061377](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/9061377a110ea078ddb4e3730324526f6ba69805))
+* add git events ([d78400b](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/d78400b4f7ab7aa864700c11fff2c261f546ea45))
+* add more detail to the analysis ([1a811ee](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/1a811eeba328090d9812552fe501d7e2df2f015b))
+* add more detail to the analysis ([1351494](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/135149480d199f94ad56d348a1468d314263ad3a))
+* added display of all generated content to the day view ([100b608](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/100b608de98eff0d7466c5f106f67c33d8654243))
+* added green github activity like color to the calendar ([0218611](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/02186113887ab251c9fd39154086ffe4d463ecae))
+* finished the marketing week feature MVP ([a250783](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/a2507832c62c1bca65e6241149a551ba9209c89b))
+* fix chat gpt messages ([ad66825](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/ad6682522e05f7c153383803acd95a9927894e86))
+* fix some of the window resizing areas ([663f1f5](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/663f1f5f10a375f2312531e76f62cdd4d4ed461d))
+* fix the calendar section ([66fa90e](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/66fa90ec824b844c6716a587e357e54f3bcc538f))
+* improve llm instructions and fix output display ([d944ccf](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/d944ccfc26a5db9948a495a00b818553c2894311))
+* made the caching work-ish ([06bbf0e](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/06bbf0ea0e9a4d986e981756ec7a0206f5b6a4d2))
+* make the calendar better ([81128b2](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/81128b2db55c62c35c509512582548f8d9801ad6))
+* update calendar grid ([d07b8a3](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/d07b8a34f7e06b4050e78cab14d93f3e348dce41))
+* wip ([9746621](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/97466217ae62e20056d18a7afaf3f8a064265d96))
+* wip ([f307409](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/f30740964eb2b738a5604dbc98b7c5e64cf3ea12))
+* wip ([a383230](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/a383230490798c4e3b22254a4ee7dbb9d1b6307e))
+* wip adding nw screen ([6190c18](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/6190c18c0f6470efb3fec10e077b8e9ed18b55b9))
+* wip wip ([a465546](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/a4655469f5d5bc21a0d29421e39b4c11a6cd083c))
+* wip wip ([f2bd07f](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/f2bd07f20ef23c65f6978d6bea8abb1c356255f0))
+
 ## [1.64.6](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.64.5...v1.64.6) (2023-09-05)
 
 
