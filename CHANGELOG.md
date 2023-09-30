@@ -1,3 +1,10 @@
+## [1.67.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.67.0...v1.67.1) (2023-09-30)
+
+
+### Bug Fixes
+
+* new lock file ([81d2793](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/81d2793d56a92f12aae29dc1f02481598c7c2db9))
+
 # [1.67.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.66.0...v1.67.0) (2023-09-30)
 
 
