@@ -9,6 +9,7 @@ import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 import EmptyList from './EmptyList'
 import WarningList from './WarningList'
+import { ScreenWrapper } from '../ReusableComponents/ScreenWrapper'
 
 const faqs = [
   {
@@ -98,7 +99,7 @@ export function GitConfigurationListScreen() {
   }
 
   return (
-    <div className="mx-auto max-w-10xl">
+    <ScreenWrapper>
       <PageHeader pageTitle={'Git Project Configurations'}>
         <div className="">
           <input
@@ -137,6 +138,6 @@ export function GitConfigurationListScreen() {
 
       <DescriptionAndHelp faqs={faqs} />
       <div>{control}</div>
-    </div>
+    </ScreenWrapper>
   )
 }
