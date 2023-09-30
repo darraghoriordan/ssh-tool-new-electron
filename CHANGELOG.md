@@ -1,3 +1,10 @@
+## [1.68.2](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.68.1...v1.68.2) (2023-09-30)
+
+
+### Bug Fixes
+
+* set notary tool ([99992a8](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/99992a85907c8518cdb37a44e4f95cedc11b3cf3))
+
 ## [1.68.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.68.0...v1.68.1) (2023-09-30)
 
 
