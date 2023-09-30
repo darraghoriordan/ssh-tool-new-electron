@@ -10,7 +10,7 @@ export const wellKnownQueries = {
   escapeJson: 'escape-json',
 }
 export function useEscapeJson() {
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
 
   return useMutation<
     EscapeJsonResponse,
@@ -32,6 +32,6 @@ export function useEscapeJson() {
           level: 'info',
         })
       },
-    }
+    },
   )
 }

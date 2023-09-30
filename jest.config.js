@@ -6,7 +6,7 @@ module.exports = {
   roots: ['<rootDir>/src'],
   preset: 'ts-jest',
   testRegex: '(.*.(test|spec)).(jsx?|tsx?|ts?)$',
-  moduleFileExtensions: ['ts', 'js', 'json'],
+  moduleFileExtensions: ['ts', 'js', 'json', 'tsx'],
   setupFilesAfterEnv: ['./src/tests/setupTests.ts'],
   collectCoverage: true,
   collectCoverageFrom: [

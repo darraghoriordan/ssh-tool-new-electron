@@ -16,25 +16,25 @@ export class EslintRuleHelperChannelSub
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     event: IpcMainEvent,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    request: EslintRuleGeneratorMeta
+    request: EslintRuleGeneratorMeta,
   ): Promise<EslintRuleGenerationRecord> {
     const settings = await UserSettingsService.getSettings()
 
-    if (settings.openApiChatGptKey === undefined) {
+    if (settings.openAiChatGptKey === undefined) {
       throw new Error('no openApiChatGptKey')
     }
 
     const tmpCodeWorkingDir = path.join(
       app.getPath('userData'),
-      'eslint-test-build'
+      'eslint-test-build',
     )
     const generationFileStorePath = path.join(
       app.getPath('userData'),
-      'eslint-generations'
+      'eslint-generations',
     )
     // let this run but return to FE
     runTestEpochs(request, {
-      openAiApiKey: settings.openApiChatGptKey,
+      openAiApiKey: settings.openAiChatGptKey,
       tmpCodeFilePath: tmpCodeWorkingDir,
       generationFileStorePath,
     })

@@ -5,9 +5,10 @@ import { ArrowDownIcon, DocumentCheckIcon } from '@heroicons/react/24/outline'
 import { useEncodeHtmlCharacter } from './ReactQueryWrappers'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 import { HtmlEncoderType } from '../../electron/htmlEncoder/HtmlEncoderService'
+import { ScreenWrapper } from '../ReusableComponents/ScreenWrapper'
 
 export function HtmlEncoderScreen() {
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
   const encodeHtmlMutation = useEncodeHtmlCharacter()
   const [inputValue, setInputValue] = useState('')
   const [encodeToggleValue, setEncodeToggleValue] = useState(true)
@@ -41,7 +42,7 @@ export function HtmlEncoderScreen() {
     setOutputValue(result.result)
   }
   const handleInputKeyDown = async (
-    event: React.KeyboardEvent<HTMLTextAreaElement>
+    event: React.KeyboardEvent<HTMLTextAreaElement>,
   ) => {
     if (event.key === 'Enter') {
       return runAction()
@@ -189,7 +190,7 @@ export function HtmlEncoderScreen() {
     )
   }
   return (
-    <div className="mx-auto max-w-10xl">
+    <ScreenWrapper>
       <PageHeader pageTitle={'Html Char Encoder'}>
         <button
           onClick={e => insertSampleValue(e)}
@@ -211,6 +212,6 @@ export function HtmlEncoderScreen() {
       </PageHeader>
 
       {control}
-    </div>
+    </ScreenWrapper>
   )
 }

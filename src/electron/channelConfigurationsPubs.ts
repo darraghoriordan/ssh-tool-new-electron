@@ -25,6 +25,13 @@ import { ListPastGenerationsChannelPub } from './eslintRuleHelper/channels/ListP
 import { HtmlEncoderChannelPub } from './htmlEncoder/channels/HtmlEncoderChannelPub'
 import { ColorConverterChannelPub } from './colorConverter/channels/ColorConverterChannelPub'
 import { CurrentLocalePub } from './appSupport/CurrentLocalePub'
+import { SelectGitProjectsPathChannelPub } from './userSettings/channels/SelectGitProjectsPathChannelPub'
+import { SelectSshConfigFilePathChannelPub } from './userSettings/channels/SelectSshConfigFilePathChannelPub'
+import { SelectGitConfigFilePathChannelPub } from './userSettings/channels/SelectGitConfigFilePathChannelPub'
+import { DevHistoryGetDayChannelPub } from './marketingWeek/channels/DevHistoryGetDayChannelPub'
+import { SelectChromeHistoryFilePathChannelPub } from './userSettings/channels/SelectChromeHistoryFilePathChannelPub'
+import { GitActivityForMonthChannelPub } from './marketingWeek/channels/GitActivityForMonthChannelPub'
+import { OpenDevHistoryCacheLocationPub } from './marketingWeek/channels/OpenDevHistoryCacheLocationPub'
 
 export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
   rtmSendChannels: [
@@ -32,6 +39,7 @@ export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
     new OpenFileLocationPub(),
     new OpenSubmitFeedbackPub(),
     new OpenStorePagePub(),
+    new OpenDevHistoryCacheLocationPub(),
   ],
   rtmInvokeChannels: [
     // userSettings
@@ -61,5 +69,11 @@ export const ChannelConfigurationPubs: ChannelConfigurationTypePub = {
     new HtmlEncoderChannelPub(),
     new ColorConverterChannelPub(),
     new CurrentLocalePub(),
+    new SelectGitProjectsPathChannelPub(),
+    new SelectGitConfigFilePathChannelPub(),
+    new SelectSshConfigFilePathChannelPub(),
+    new DevHistoryGetDayChannelPub(),
+    new SelectChromeHistoryFilePathChannelPub(),
+    new GitActivityForMonthChannelPub(),
   ],
 }

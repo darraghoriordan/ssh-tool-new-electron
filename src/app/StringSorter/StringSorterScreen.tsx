@@ -7,6 +7,7 @@ import { useStringSort } from './ReactQueryWrappers'
 import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
 import { useGetSystemLocale } from '../TimestampConverter/useGetCurrentLocale'
 import LocaleSelector from '../TimestampConverter/LocaleSelector'
+import { ScreenWrapper } from '../ReusableComponents/ScreenWrapper'
 
 const faqs = [
   {
@@ -24,7 +25,7 @@ const faqs = [
 ]
 
 export function StringSorterScreen() {
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
   const runMutation = useStringSort()
   const [inputValue, setInputValue] = useState('')
   const [sortAsc, setSortAscValue] = useState(true)
@@ -152,7 +153,7 @@ export function StringSorterScreen() {
     )
   }
   return (
-    <div className="mx-auto max-w-10xl">
+    <ScreenWrapper>
       <PageHeader pageTitle={'String Sort'}>
         <button
           onClick={e => insertSampleValue(e)}
@@ -174,6 +175,6 @@ export function StringSorterScreen() {
       </PageHeader>
       <DescriptionAndHelp faqs={faqs} />
       {control}
-    </div>
+    </ScreenWrapper>
   )
 }

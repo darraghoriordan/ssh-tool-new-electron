@@ -8,13 +8,14 @@
         "sourceMap": true,
         "baseUrl": ".",
         "outDir": "dist",
-        "moduleResolution": "node",
+        "moduleResolution": "Node",
         "resolveJsonModule": true,
         "jsx": "react-jsx",
         "strict": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "strictNullChecks": true,
+        "downlevelIteration": true,
         "strictFunctionTypes": true,
         "strictPropertyInitialization": true,
         "alwaysStrict": true,
@@ -26,6 +27,9 @@
             ]
         }
     },
+    "exclude": [
+        "src/electron/eslintRuleHelper/tmp-file.ts"
+    ],
     "include": [
         "src/**/*"
     ]

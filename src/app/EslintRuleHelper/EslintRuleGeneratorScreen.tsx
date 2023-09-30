@@ -17,6 +17,7 @@ import { RemoveButton } from './RemoveButton'
 import { GenerationResult } from './GenerationResult'
 import { DescriptionAndHelp } from '../components/DescriptionAndHelp'
 import { format } from 'date-fns'
+import { ScreenWrapper } from '../ReusableComponents/ScreenWrapper'
 
 const faqs = [
   {
@@ -82,7 +83,7 @@ const faqs = [
 ]
 
 export function EslintRuleGeneratorScreen() {
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
   // form fields
   const [criteriaEntry, setCriteriaEntry] = useState<string>('')
   const [passingExampleEntry, setPassingExampleEntry] = useState<string>('')
@@ -91,7 +92,7 @@ export function EslintRuleGeneratorScreen() {
 
   const runMutation = useEslintRuleGenerator()
   const [inputValue, setInputValue] = useState<EslintRuleGeneratorMeta>(
-    new EslintRuleGeneratorMeta()
+    new EslintRuleGeneratorMeta(),
   )
 
   const [selectedGenerationRecordKey, setCurrentGenerationRecordKey] = useState<
@@ -100,7 +101,7 @@ export function EslintRuleGeneratorScreen() {
   const {
     data: pastGenerations,
     isLoading: pastGenerationsLoading,
-    isError: pastGenerationsError,
+    isError: _pastGenerationsError,
   } = useGetPastGenerations()
   let control: ReactElement | undefined = undefined
 
@@ -129,7 +130,7 @@ export function EslintRuleGeneratorScreen() {
     // then set the currentGenerationRecordKey to the new record
     setTimeout(() => {
       setCurrentGenerationRecordKey(
-        format(inputValue.requestDate, 'yyyyMMdd-HHmmss-SS')
+        format(inputValue.requestDate, 'yyyyMMdd-HHmmss-SS'),
       )
     }, 3000)
   }
@@ -144,7 +145,7 @@ export function EslintRuleGeneratorScreen() {
   }
   const onDeletePassingExampleClick = async (itemText: string) => {
     const newPassingExamples = inputValue.passingExamples.filter(
-      c => c !== itemText
+      c => c !== itemText,
     )
     setInputValue({ ...inputValue, passingExamples: newPassingExamples })
     logAMessage({
@@ -154,7 +155,7 @@ export function EslintRuleGeneratorScreen() {
   }
   const onDeleteFailingExampleClick = async (itemText: string) => {
     const newFailingExamples = inputValue.failingExamples.filter(
-      c => c.code !== itemText
+      c => c.code !== itemText,
     )
     setInputValue({ ...inputValue, failingExamples: newFailingExamples })
     logAMessage({
@@ -222,7 +223,7 @@ export function EslintRuleGeneratorScreen() {
     setInputValue(ruleMeta)
   }
   const insertComplexSampleValue = (
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     event.preventDefault()
     const ruleMeta: EslintRuleGeneratorMeta = {
@@ -545,7 +546,7 @@ b?: string
                             'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
                             e.displayName === selectedGenerationRecordKey
                               ? 'bg-gray-50 text-indigo-600'
-                              : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50'
+                              : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
                           )}
                           onClick={() =>
                             setCurrentGenerationRecordKey(e.displayName)
@@ -556,7 +557,7 @@ b?: string
                               'h-6 w-6 shrink-0',
                               e.displayName === selectedGenerationRecordKey
                                 ? 'text-indigo-600'
-                                : 'text-gray-400 group-hover:text-indigo-600'
+                                : 'text-gray-400 group-hover:text-indigo-600',
                             )}
                           />
                           {e.displayName}
@@ -574,8 +575,8 @@ b?: string
     )
   }
   return (
-    <div className="mx-auto max-w-10xl">
-      <PageHeader pageTitle={'ESLint Rule Generator'}>
+    <ScreenWrapper>
+      <PageHeader pageTitle={'ESLint Rule AI Agent'}>
         <button
           onClick={e => insertComplexSampleValue(e)}
           type="button"
@@ -608,6 +609,6 @@ b?: string
         faqs={faqs}
       />
       {control}
-    </div>
+    </ScreenWrapper>
   )
 }

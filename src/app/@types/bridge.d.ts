@@ -54,6 +54,12 @@ import {
   ColorConverterMessage,
   ColorConverterResponse,
 } from '../../electron/colorConverter/channels/MessageTypes'
+import {
+  DevHistoryDayResponse,
+  DevHistoryGetDayRequest,
+  GitActivityForMonthRequest,
+  GitActivityForMonthResponse,
+} from '../../electron/marketingWeek/channels/MessageTypes'
 
 declare global {
   // eslint-disable-next-line
@@ -64,11 +70,13 @@ declare global {
     }
     SimpleMessage: { invoke: (message: string) => void }
     OpenFileLocation: { invoke: (filePath: string) => void }
-
+    OpenDevHistoryCacheLocation: {
+      invoke: () => Promise<void>
+    }
     LoadUserSettings: { invoke: () => Promise<UserSettingsResponse> }
     SaveUserSettings: {
       invoke: (
-        message: SaveUserSettingsMessage
+        message: SaveUserSettingsMessage,
       ) => Promise<UserSettingsResponse>
     }
     ResetUserSettings: {
@@ -91,12 +99,12 @@ declare global {
     }
     UnixTimeConverter: {
       invoke: (
-        message: UnixTimeConverterMessage
+        message: UnixTimeConverterMessage,
       ) => Promise<UnixTimeConverterResponse>
     }
     SshUrlConverter: {
       invoke: (
-        message: SshUrlConverterChannelMessage
+        message: SshUrlConverterChannelMessage,
       ) => Promise<SshUrlConverterChannelResponse>
     }
     OpenSubmitFeedback: { invoke: () => void }
@@ -118,7 +126,7 @@ declare global {
     }
     EslintRuleGenerator: {
       invoke: (
-        message: EslintRuleGeneratorMeta
+        message: EslintRuleGeneratorMeta,
       ) => Promise<EslintRuleGenerationRecord>
     }
     EslintListPastGenerations: {
@@ -129,11 +137,33 @@ declare global {
     }
     ColorConverter: {
       invoke: (
-        message: ColorConverterMessage
+        message: ColorConverterMessage,
       ) => Promise<ColorConverterResponse>
     }
     CurrentLocale: {
       invoke: () => Promise<string>
+    }
+    SelectGitProjectsPath: {
+      invoke: () => Promise<UserSettingsResponse>
+    }
+    SelectGitConfigFilePath: {
+      invoke: () => Promise<UserSettingsResponse>
+    }
+    SelectSshConfigFilePath: {
+      invoke: () => Promise<UserSettingsResponse>
+    }
+    SelectChromeHistoryFilePath: {
+      invoke: () => Promise<UserSettingsResponse>
+    }
+    GetDevHistorySingleDay: {
+      invoke: (
+        message: DevHistoryGetDayRequest,
+      ) => Promise<DevHistoryDayResponse>
+    }
+    GitActivityForMonth: {
+      invoke: (
+        message: GitActivityForMonthRequest,
+      ) => Promise<GitActivityForMonthResponse>
     }
   }
 }

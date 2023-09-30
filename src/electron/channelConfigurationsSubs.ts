@@ -25,6 +25,13 @@ import { GetPastGenerationChannelSub } from './eslintRuleHelper/channels/GetPast
 import { HtmlEncoderChannelSub } from './htmlEncoder/channels/HtmlEncoderChannelSub'
 import { ColorConverterChannelSub } from './colorConverter/channels/ColorConverterChannelSub'
 import { CurrentLocaleSub } from './appSupport/CurrentLocaleSub'
+import { SelectGitProjectsPathChannelSub } from './userSettings/channels/SelectGitProjectsPathChannelSub'
+import { SelectSshConfigFilePathChannelSub } from './userSettings/channels/SelectSshConfigFilePathChannelSub'
+import { SelectGitConfigFilePathChannelSub } from './userSettings/channels/SelectGitConfigFilePathChannelSub'
+import { DevHistoryGetDayChannelSub } from './marketingWeek/channels/DevHistoryGetDayChannelSub'
+import { SelectChromeHistoryFilePathChannelSub } from './userSettings/channels/SelectChromeHistoryFilePathChannelSub'
+import { GitActivityForMonthChannelSub } from './marketingWeek/channels/GitActivityForMonthChannelSub'
+import { OpenDevHistoryCacheLocationSub } from './marketingWeek/channels/OpenDevHistoryCacheLocationSub'
 
 export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
   rtmSendChannels: [
@@ -32,6 +39,7 @@ export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
     new OpenFileLocationSub(),
     new OpenSubmitFeedbackSub(),
     new OpenStorePageSub(),
+    new OpenDevHistoryCacheLocationSub(),
   ],
   rtmInvokeChannels: [
     //userSettings
@@ -62,5 +70,11 @@ export const ChannelConfigurationSubs: ChannelConfigurationTypeSub = {
     new HtmlEncoderChannelSub(),
     new ColorConverterChannelSub(),
     new CurrentLocaleSub(),
+    new SelectGitProjectsPathChannelSub(),
+    new SelectGitConfigFilePathChannelSub(),
+    new SelectSshConfigFilePathChannelSub(),
+    new DevHistoryGetDayChannelSub(),
+    new SelectChromeHistoryFilePathChannelSub(),
+    new GitActivityForMonthChannelSub(),
   ],
 }

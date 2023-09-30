@@ -1,6 +1,7 @@
+import { PropsWithChildren } from 'react'
 import { UserSettings } from '../../electron/userSettings/models/UserSettings'
 import SettingTextField from './SettingTextField'
-
+import { UseFormRegister } from 'react-hook-form'
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const SettingsFormSection = ({
   header,
@@ -8,19 +9,18 @@ const SettingsFormSection = ({
   sections,
   register,
   errors,
-  data,
+  children,
 }: {
   header: string
   subHeader: string
-  sections: {
+  sections?: {
     propertyKey: keyof UserSettings
     labelText: string
     isRequired?: boolean
   }[]
-  register: (key: string, options: any) => any
+  register: UseFormRegister<UserSettings>
   errors: Record<string, any>
-  data: Record<string, any>
-}) => {
+} & PropsWithChildren) => {
   return (
     <div className="md:grid md:grid-cols-3 md:gap-6">
       <div className="md:col-span-1">
@@ -39,10 +39,10 @@ const SettingsFormSection = ({
                 register={register}
                 errors={errors}
                 isRequired={section.isRequired}
-                data={data}
                 labelText={section.labelText}
               />
             ))}
+          {children}
         </div>
       </div>
     </div>

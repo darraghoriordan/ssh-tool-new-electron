@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer'
-import { IsOptional, IsString, MinLength } from 'class-validator'
+import { IsBoolean, IsOptional, IsString, MinLength } from 'class-validator'
 
 export class UserSettings {
   @Expose()
@@ -21,11 +21,22 @@ export class UserSettings {
   @IsOptional()
   @IsString()
   @MinLength(1)
-  openApiChatGptKey?: string
+  openAiChatGptKey?: string
 
   @Expose()
   @IsOptional()
   @IsString()
   @MinLength(1)
-  openApiOrgId?: string
+  openAiOrgId?: string
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  @MinLength(1)
+  chromeHistoryPath?: string
+
+  @Expose()
+  @IsOptional()
+  @IsBoolean()
+  hasEnabledMarketingWeek?: boolean
 }

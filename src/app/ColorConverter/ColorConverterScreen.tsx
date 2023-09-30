@@ -1,29 +1,26 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { ReactElement, useContext, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import PageHeader from '../components/PageHeader'
-import {
-  ArrowDownIcon,
-  ClipboardDocumentCheckIcon,
-  DocumentCheckIcon,
-} from '@heroicons/react/24/outline'
+import { ArrowDownIcon, DocumentCheckIcon } from '@heroicons/react/24/outline'
 import { useColorConverter } from './ReactQueryWrappers'
 import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 import { ColorConverterResponse } from '../../electron/colorConverter/channels/MessageTypes'
 import { ColorDataItem } from './ColorDataItem'
 import ColorItem from './ColorItem'
 import { HarmonyColorsSet } from './HarmonyColorSet'
+import { ScreenWrapper } from '../ReusableComponents/ScreenWrapper'
 
 export function ColorConverterScreen() {
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
   const mutation = useColorConverter()
   const [inputValue, setInputValue] = useState('')
   const [outputValue, setOutputValue] = useState<
     ColorConverterResponse | undefined
   >()
   const handleInputKeyDown = async (
-    event: React.KeyboardEvent<HTMLInputElement>
+    event: React.KeyboardEvent<HTMLInputElement>,
   ) => {
     if (event.key === 'Enter') {
       return runAction()
@@ -61,7 +58,7 @@ export function ColorConverterScreen() {
     })
   }
   return (
-    <div className="mx-auto max-w-10xl">
+    <ScreenWrapper>
       <PageHeader pageTitle={'Color Tool'}>
         <button
           onClick={e => insertSampleValue(e)}
@@ -180,6 +177,6 @@ export function ColorConverterScreen() {
           </div>
         )}
       </div>
-    </div>
+    </ScreenWrapper>
   )
 }

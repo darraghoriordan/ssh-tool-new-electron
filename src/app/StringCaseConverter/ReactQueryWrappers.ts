@@ -11,7 +11,7 @@ export const wellKnownQueries = {
   stringCase: 'string-case',
 }
 export function useStringCaseConverter() {
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
   return useMutation<
     StringCaseResponse,
     { message: string },
@@ -32,6 +32,6 @@ export function useStringCaseConverter() {
           level: 'info',
         })
       },
-    }
+    },
   )
 }

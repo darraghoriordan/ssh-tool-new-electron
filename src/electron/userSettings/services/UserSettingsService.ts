@@ -9,6 +9,30 @@ import { DefaultSettingsWindows } from '../models/DefaultSettingsWindows'
 import { validate } from 'class-validator'
 import { RuntimeApplicationSettings } from '../../appSettings/models/RuntimeApplicationSettings'
 
+export type SupportedOS = 'linux' | 'win32' | 'darwin'
+export function getChromeHistoryDatabasePath(os: SupportedOS) {
+  let historyDBPath = ''
+  // also check for /Profile 1/History in the various directories
+  // maybe ask the user to select the profile directory in the future?
+  switch (os) {
+    case 'linux':
+      // Typical path for Linux
+      historyDBPath = `${process.env.HOME}/.config/google-chrome/Default/History`
+      break
+    case 'win32':
+      // Typical path for Windows
+      historyDBPath = `C:/Users/${process.env.USERNAME}/AppData/Local/Google/Chrome/User Data/Default/History`
+      break
+    case 'darwin':
+      // Typical path for macOS (Darwin)
+      historyDBPath = `${process.env.HOME}/Library/Application Support/Google/Chrome/Default/History`
+      break
+    default:
+      console.error('Unsupported operating system:', os)
+  }
+
+  return historyDBPath
+}
 export class UserSettingsService {
   static filePath: string
 
@@ -54,11 +78,11 @@ export class UserSettingsService {
     ]
 
     const defaultSettingsInstance = defaultSettings.find(
-      x => x.platformMatcher === os.platform()
+      x => x.platformMatcher === os.platform(),
     )
     if (defaultSettingsInstance === undefined) {
       throw new Error(
-        "Couldn't find application configuration to run on current platform. Only mac, windows and linux supported."
+        "Couldn't find application configuration to run on current platform. Only mac, windows and linux supported.",
       )
     }
 
@@ -68,13 +92,13 @@ export class UserSettingsService {
   static async saveFile(settings: UserSettings): Promise<void> {
     console.log(
       `saving settings file path ${UserSettingsService.filePath}`,
-      settings
+      settings,
     )
 
     // would probably want to validate the settings here
     //validateOrReject(settings)
     const validationErrors = await validate(
-      plainToInstance(UserSettings, settings)
+      plainToInstance(UserSettings, settings),
     )
     if (validationErrors && validationErrors.length > 0) {
       const errors = validationErrors.map(v => v.toString())
@@ -84,7 +108,7 @@ export class UserSettingsService {
     console.log('writing settings', { path: this.filePath, settings })
     await fsp.writeFile(
       this.filePath,
-      JSON.stringify(instanceToPlain(settings))
+      JSON.stringify(instanceToPlain(settings)),
     )
 
     this.loadedSettings = settings

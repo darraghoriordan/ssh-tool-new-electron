@@ -19,77 +19,36 @@ export default class FileListResolverNix {
    * @param scanStartPath
    * @returns
    */
+
+  // for this to be useful to more people, they might need to be able to configure this
+  public ignoreNames = [
+    './Library',
+    './.Trash',
+    './.config',
+    './.nuget',
+    './.vscode',
+    './.npm',
+    './Music',
+    './Pictures',
+    '.docker-compose',
+    'node_modules',
+  ]
   public async scanFileSystem(scanStartPath: string): Promise<string> {
     try {
       const cmdArguments = [
         `${scanStartPath}`,
         // prettier-ignore
-        "-type d \\( -name './Music' -o -name './Movies' -o -name './Pictures' -o -name './Trash' -o -name './Library' -o -name 'node_modules' \\) -prune -o -type d -name '.git' -print",
+        "-type d \\( "
+        +
+        `${this.ignoreNames.map(name => `-name '${name}'`).join(' -o ')}`
+         +
+         " \\) -prune -o -type d -name '.git' -print",
       ]
       const command = `find ${cmdArguments.join(' ')}`
       console.log(`Running command: find ${cmdArguments.join(' ')}`)
-      const output = await execPromise(
-        command,
-        //   [
-        //     `${scanStartPath}`,
-        //     '-type',
-        //     'd',
-        //     '\(',
-        //     '-path',
-        //     './Library',
-        //     '-o',
-        //     '-path',
-        //     './.Trash',
-        //     '-o',
-        //     '-path',
-        //     './.config',
-        //     '-o',
-        //     '-path',
-        //     './.nuget',
-        //     '-o',
-        //     '-path',
-        //     './.vscode',
-        //     '-o',
-        //     '-path',
-        //     './.npm',
-        //     '-o',
-        //     '-path',
-        //     './development/flutter',
-        //     '-o',
-        //     '-path',
-        //     './Virtual Machines.localized',
-        //     '-o',
-        //     '-path',
-        //     './Applications',
-        //     '-o',
-        //     '-path',
-        //     './Movies',
-        //     '-o',
-        //     '-path',
-        //     './Music',
-        //     '-o',
-        //     '-path',
-        //     './Pictures',
-        //     '-o',
-        //     '-path',
-        //     './Public',
-        //     '-o',
-        //     '-path',
-        //     './.antigen',
-        //     '-o',
-        //     '-name',
-        //     'node_modules',
-        //     '\)',
-        //     '-prune',
-        //     '-o',
-        //     '-name',
-        //     '.git',
-        //     '-print',
-        //   ],
-        {
-          cwd: scanStartPath,
-        }
-      )
+      const output = await execPromise(command, {
+        cwd: scanStartPath,
+      })
       return output.stdout
     } catch (error) {
       console.error(error)

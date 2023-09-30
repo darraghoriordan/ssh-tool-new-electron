@@ -4,7 +4,7 @@ import { ConsoleContext } from '../ConsoleArea/ConsoleContext'
 import { useSetLicensing } from './ReactQueryWrappers'
 
 export const LicenseKeyForm = () => {
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
   const setLicense = useSetLicensing()
   const {
     register,

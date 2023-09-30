@@ -10,7 +10,7 @@ export const wellKnownQueries = {
   base64encode: 'base-64-encode',
 }
 export function useEncodeBase64() {
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
   return useMutation<
     Base64EncoderResponse,
     { message: string },
@@ -31,6 +31,6 @@ export function useEncodeBase64() {
           level: 'info',
         })
       },
-    }
+    },
   )
 }

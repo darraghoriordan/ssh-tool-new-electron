@@ -10,7 +10,7 @@ export const wellKnownQueries = {
   convertTime: 'convert-time',
 }
 export function useTimestampConverter() {
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
 
   return useMutation<
     UnixTimeConverterResponse,
@@ -32,6 +32,6 @@ export function useTimestampConverter() {
           level: 'info',
         })
       },
-    }
+    },
   )
 }

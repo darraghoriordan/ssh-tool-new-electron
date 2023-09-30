@@ -13,12 +13,12 @@ export class GitConfigurationViewCardProps {
 }
 
 const GitConfigurationViewCard = (props: GitConfigurationViewCardProps) => {
-  const [logMessages, logAMessage] = useContext(ConsoleContext)
-  const origin = props.gitConfigInfo.remotes.find(x =>
-    x.remoteName?.includes('origin')
+  const [_logMessages, logAMessage] = useContext(ConsoleContext)
+  const origin = props.gitConfigInfo.remotes.find(
+    x => x.remoteName?.includes('origin'),
   )
   const onOpenSettingsFolderClick = (
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     event.preventDefault()
 
@@ -31,7 +31,7 @@ const GitConfigurationViewCard = (props: GitConfigurationViewCardProps) => {
 
   const onCopyForGitConfigClick = (
     event: React.MouseEvent<HTMLButtonElement>,
-    value: string
+    value: string,
   ) => {
     event.preventDefault()
 
@@ -99,7 +99,7 @@ const GitConfigurationViewCard = (props: GitConfigurationViewCardProps) => {
             onClick={e =>
               onCopyForGitConfigClick(
                 e,
-                props.gitConfigInfo.userAsIniString || ''
+                props.gitConfigInfo.userAsIniString || '',
               )
             }
             className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"

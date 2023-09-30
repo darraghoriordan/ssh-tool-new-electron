@@ -1,4 +1,4 @@
-import { ChatMessage } from './ChatMessage'
+import { ChatMessage } from '../../openai/ChatMessage'
 import EslintRuleTestingError from './EslintRuleTestingError'
 
 export class EslintRuleEpoch {
