@@ -1,3 +1,10 @@
+# [1.70.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.69.0...v1.70.0) (2023-09-30)
+
+
+### Features
+
+* remove some of the ectra flags and options ([3e1b9b9](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/3e1b9b9925965304fb8658ef043f59dacdbc389b))
+
 # [1.69.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.68.4...v1.69.0) (2023-09-30)
 
 
