@@ -1,3 +1,10 @@
+# [1.69.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.68.4...v1.69.0) (2023-09-30)
+
+
+### Features
+
+* release separate mac versions ([c85efeb](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/c85efeb81c9e8d58db43cca66f9b4e5639b75568))
+
 ## [1.68.4](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.68.3...v1.68.4) (2023-09-30)
 
 
