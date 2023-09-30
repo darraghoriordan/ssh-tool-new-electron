@@ -1,3 +1,11 @@
+## [1.68.4](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.68.3...v1.68.4) (2023-09-30)
+
+
+### Bug Fixes
+
+* **renovate:** Update dependency @electron-forge/maker-appx to ^6.4.2 ([f865f2b](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/f865f2b2b8318805e5d86689e7e8101738b7e631))
+* **renovate:** Update minor ([e577c57](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/e577c5708ccd4e73ea7f3be7477aa8eb1e012f02))
+
 ## [1.68.3](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.68.2...v1.68.3) (2023-09-30)
 
 
