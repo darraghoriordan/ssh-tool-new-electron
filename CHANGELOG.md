@@ -1,3 +1,11 @@
+## [1.65.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.65.0...v1.65.1) (2023-09-30)
+
+
+### Bug Fixes
+
+* **renovate:** pin Update github-actions ([06a237a](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/06a237a37b596d7ec9a63d092286df1d1414765d))
+* **renovate:** Update patch ([e603632](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/e603632cd407173b1d98c71913df59479d349bd8))
+
 # [1.65.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.64.6...v1.65.0) (2023-09-30)
 
 
