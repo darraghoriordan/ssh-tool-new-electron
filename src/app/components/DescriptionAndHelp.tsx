@@ -9,7 +9,7 @@ export const DescriptionAndHelp = (
   props: {
     faqs: { id: number; question: string; answer: string }[]
     title?: string
-  } & React.PropsWithChildren
+  } & React.PropsWithChildren,
 ) => {
   return (
     <Disclosure>

@@ -6,48 +6,21 @@ import { ScheduledItem } from './Components/ScheduleItem'
 import {
   eachDayOfInterval,
   endOfMonth,
-  isMonday,
   isSameMonth,
-  isSunday,
   isToday,
-  nextSunday,
   format,
-  previousMonday,
   isSameDay,
   isFuture,
   subMonths,
   addMonths,
+  startOfMonth,
+  startOfWeek,
+  endOfWeek,
 } from 'date-fns'
 import { useGitActivityGetMonth } from './ReactQueryWrappers'
 import { CalendarDaysIcon } from '@heroicons/react/24/outline'
 import { BlogPostsDetailsSummary } from './Components/BlogPostsDetailsSummary'
 import { SocialPostsDetailsSummary } from './Components/SocialPostsDetailsSummary'
-
-const firstDayOfMonth = new Date(2023, 8, 1)
-let nearestMonday = new Date(firstDayOfMonth)
-let lastSunday = endOfMonth(nearestMonday)
-
-if (!isMonday(nearestMonday)) {
-  nearestMonday = previousMonday(nearestMonday)
-}
-if (!isSunday(lastSunday)) {
-  lastSunday = nextSunday(lastSunday)
-}
-const newDays = eachDayOfInterval({
-  start: nearestMonday,
-  end: lastSunday,
-})
-
-const days = newDays.map(day => {
-  return {
-    date: format(day, 'yyyy-MM-dd'),
-    jsDate: day,
-    isCurrentMonth: isSameMonth(firstDayOfMonth, day),
-    isToday: isToday(day),
-    isSelected: false,
-    isFuture: isFuture(day),
-  }
-})
 
 const times = [
   '12AM',
@@ -76,6 +49,31 @@ const times = [
   '11PM',
 ]
 
+function getMonthCalDays(selectedDate: Date) {
+  const firstDayOfMonth = startOfMonth(selectedDate)
+  const lastDayOfMonth = endOfMonth(selectedDate)
+
+  const nearestStartMonday = startOfWeek(firstDayOfMonth, { weekStartsOn: 1 })
+  const nearestEndSunday = endOfWeek(lastDayOfMonth, { weekStartsOn: 1 })
+
+  const newDays = eachDayOfInterval({
+    start: nearestStartMonday,
+    end: nearestEndSunday,
+  })
+
+  const days = newDays.map(day => {
+    return {
+      date: format(day, 'yyyy-MM-dd'),
+      jsDate: day,
+      isCurrentMonth: isSameMonth(firstDayOfMonth, day),
+      isToday: isToday(day),
+      isSelected: false,
+      isFuture: isFuture(day),
+    }
+  })
+  return days
+}
+
 function classNames(...classes: (string | boolean | undefined)[]) {
   return classes.filter(Boolean).join(' ')
 }
@@ -100,12 +98,13 @@ export default function Calendar({
 }: {
   analysis: IncrementAnalysis[]
   setSelectedIncrement: React.Dispatch<IncrementAnalysis | undefined>
-  setSelectedDate: React.Dispatch<React.SetStateAction<Date>>
+  setSelectedDate: (date: Date) => void
   setOpenDateActions: React.Dispatch<React.SetStateAction<boolean>>
   date: Date
   allBlogPosts: { text: string }[]
   allSocialPosts: { text: string }[]
 }) {
+  const days = getMonthCalDays(date)
   const { data: gitActivity, isLoading: isLoadingGitActivity } =
     useGitActivityGetMonth({
       startDate: days[0]?.jsDate,
@@ -321,6 +320,7 @@ export default function Calendar({
               return (
                 <button
                   disabled={day.isFuture}
+                  title={day.isFuture ? 'Cannot analyse the future' : undefined}
                   key={day.date}
                   type="button"
                   onClick={() => setSelectedDate(day.jsDate)}
@@ -366,8 +366,8 @@ export default function Calendar({
             ) : (
               <p>
                 <CalendarDaysIcon className="inline w-4 h-4 text-xs stroke-green-800 fill-green-500" />{' '}
-                = you committed code that day. These days might have good social
-                posts.
+                means you committed code that day. These days might have better
+                social posts.
               </p>
             )}
           </div>

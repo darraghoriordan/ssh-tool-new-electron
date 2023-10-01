@@ -7,7 +7,7 @@ export function DiscreteDayNav({
   setSelectedDate,
 }: {
   date: Date
-  setSelectedDate: React.Dispatch<React.SetStateAction<Date>>
+  setSelectedDate: (date: Date) => void
 }) {
   return (
     <div className="relative flex items-center bg-white rounded-md shadow-sm md:items-stretch">

@@ -37,9 +37,21 @@ const faqs = [
   },
   {
     id: 4,
-    question: 'ChatGPT Api Key',
+    question: 'Marketing week Enabled',
     answer:
-      'The ChatGPT Api Key is used to access the ChatGPT API. You can get a free API key by signing up at https://chatgpt.com.',
+      "You have to explicitly enable marketing week because it does send data out to OpenAI's servers. By enabling this feature, you agree to share your data.",
+  },
+  {
+    id: 5,
+    question: 'Chrome History Path',
+    answer:
+      'Marketing week uses your Chrome history to provide suggestions for marketing. You have to set this manually, here are the default locations. Mac: <home>/Library/Application Support/Google/Chrome/Default/History Linux: <home>/.config/google-chrome/Default/History Windows: <home>/AppData/Local/Google/Chrome/User Data/Default/History ',
+  },
+  {
+    id: 6,
+    question: 'ChatGPT Api Key and Org Id',
+    answer:
+      'The ChatGPT Api Key is used to access the ChatGPT API. You can get an api key at https://openai.com',
   },
 ]
 
@@ -95,7 +107,6 @@ export const SettingsScreen = () => {
     control = <>Loading...</>
   }
   const handleSubmit = async (data: UserSettings) => {
-    console.log('data', data)
     saveMutation.mutate({
       projectsPath: data['projectsPath']!,
       globalGitConfigFile: data['globalGitConfigFile'],
@@ -146,7 +157,7 @@ export const SettingsScreen = () => {
           </button>
         )}
       </PageHeader>
-      <DescriptionAndHelp faqs={faqs} />
+      <DescriptionAndHelp faqs={faqs} title={'Settings Help and FAQ'} />
       {control}
     </ScreenWrapper>
   )

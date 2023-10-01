@@ -37,7 +37,10 @@ export function useDevHistoryGetDay({ date }: { date: Date }) {
       },
       onSuccess: () => {
         logAMessage({
-          message: `${wellKnownQueries.getSingleDay} completed successfully.`,
+          message: `${wellKnownQueries.getSingleDay} (${format(
+            date,
+            'yyyy-MM-dd',
+          )}) completed successfully.`,
           level: 'info',
         })
       },
@@ -79,7 +82,7 @@ export function useGitActivityGetMonth({
 
       onSuccess: () => {
         logAMessage({
-          message: `${wellKnownQueries.getSingleDay} completed successfully.`,
+          message: `${wellKnownQueries.getGitCommitActivityForMonth} completed successfully.`,
           level: 'info',
         })
       },

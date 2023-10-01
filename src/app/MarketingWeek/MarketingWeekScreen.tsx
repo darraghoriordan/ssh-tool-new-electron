@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { ReactElement, useContext } from 'react'
+import React, { ReactElement, useContext, useEffect } from 'react'
 import PageHeader from '../components/PageHeader'
 import {
   AtSymbolIcon,
@@ -21,7 +21,7 @@ const faqs = [
     id: 1,
     question: 'What is this tool for?',
     answer:
-      'Marketing week is for people who build products. Product builders should alternate between a week of building and a week of marketing. This tool helps you plan your marketing week.',
+      "Marketing week is for people who build products but don't have a marketing team. There's a rule-of-thumb that product teams (solo or or not) should alternate between a week of building and a week of marketing. This tool helps you plan your marketing week around all the work you did during product week!",
   },
   {
     id: 2,
@@ -37,21 +37,93 @@ const faqs = [
   },
   {
     id: 4,
+    question: 'Git and multiple users',
+    answer:
+      "I built this tool for myself, mostly solo developing. The tool will include changes from everyone to a Git repository so if you're working on a team, you'll see everyone's work represented in the summaries. It also might break the app due to memory usage! Let me know if you have issues.",
+  },
+  {
+    id: 5,
+    question: 'Why is it unresponsive?',
+    answer:
+      "Processing a single day starts up 48 threads and each of those start up 3-4 async tasks. This evolved out of a synchronous approach around files and I haven't bothered to refactor because it would need a queue or similar limits to avoid taking over your whole machine, if you ran 5 days of analysis at the same for example.",
+  },
+  {
+    id: 6,
+    question: 'Caching and performance',
+    answer:
+      "The data processed for any block of time in the past is cached. The idea is that the past never changes.  But if for example you didn't pull Git changes and you want to rerun a generation for a day, you can open the cache folder (button on top right) and delete the cache for that day. The current time block is always re-analysed. ",
+  },
+  {
+    id: 7,
+    question: 'Why is it slow?',
+    answer:
+      "It's slow because of how much analysis it does - It breaks the day down to 48 increments and processes each increment individually. An increment includes all browsing history and Git repository history. All of this is sent to open AI for summarization, categorization and for marketing post generation.",
+  },
+  {
+    id: 8,
     question: 'Privacy notice',
     answer:
-      'This tool IS NOT LOCAL. It will send your data to Open AI for processing. Browser history for the configured Chrome profile and raw Git commit diffs will be processed by Open AI.',
+      'This tool IS NOT LOCAL. It will send your data to Open AI for processing. Browser history for the configured Chrome profile and raw Git commit diffs WILL be processed by Open AI.',
   },
 ]
 
+const loadingMessages = [
+  // eslint-disable-next-line react/jsx-key
+  <span className="text-xs">
+    Please wait... This looks like a day that hasn&apos;t been processed or
+    there is new activity. It could take{' '}
+    <span className="font-semibold">3-4 minutes or more</span> to pass an entire
+    day through the AI! See the FAQ for more details.
+  </span>,
+  // eslint-disable-next-line react/jsx-key
+  <span className="text-xs">Still processing...</span>,
+  // eslint-disable-next-line react/jsx-key
+  <span className="text-xs">
+    Scanning your browsing history, all your Git repos and summarising...
+  </span>,
+  // eslint-disable-next-line react/jsx-key
+  <span className="text-xs">Beep Boop. 🤖 Honestly, still processing...</span>,
+  // eslint-disable-next-line react/jsx-key
+  <span className="text-xs">Still processing...</span>,
+  // eslint-disable-next-line react/jsx-key
+  <span className="text-xs">Almost there...</span>,
+  // eslint-disable-next-line react/jsx-key
+  <span className="text-xs">Still processing...</span>,
+  // eslint-disable-next-line react/jsx-key
+  <span className="text-xs">
+    Please wait... This looks like a day that hasn&apos;t been processed or
+    there is new activity. It could take{' '}
+    <span className="font-semibold">3-4 minutes or more</span> to pass an entire
+    day through the AI! See the FAQ for more details.
+  </span>,
+]
 export function MarketingWeekScreen() {
   const [_logMessages, logAMessage] = useContext(ConsoleContext)
-  const [selectedDate, setSelectedDate] = React.useState<Date>(new Date())
+  const [selectedDate, setCachedDate] = React.useState<Date>(new Date())
   const [isDateActionsOpen, setOpenDateActions] = React.useState(false)
   const { data, isLoading } = useDevHistoryGetDay({ date: selectedDate })
-
+  const [loadingMessageIndex, setLoadingMessageIndex] = React.useState(-1)
   const [selectedIncrement, setSelectedIncrement] = React.useState<
     IncrementAnalysis | undefined
   >(data?.analysis?.[0])
+  useEffect(() => {
+    if (isLoading) {
+      setTimeout(
+        () => {
+          setLoadingMessageIndex(
+            loadingMessageIndex === loadingMessages.length - 1
+              ? 0
+              : loadingMessageIndex + 1,
+          )
+        },
+        15_000 * Math.abs(loadingMessageIndex),
+      )
+    }
+  }, [isLoading])
+  const setSelectedDate = (date: Date) => {
+    setLoadingMessageIndex(-1)
+    setCachedDate(date)
+  }
   let control: ReactElement | undefined = undefined
 
   const allBlogPosts = data?.analysis.reduce(
@@ -109,15 +181,10 @@ export function MarketingWeekScreen() {
         <div className="flex items-center">
           {isLoading ? (
             <div role="status" className="mx-12 min-w-1/4 grow">
-              <span className="text-xs">
-                Please wait! This looks like a day that hasn&apos;t been
-                processed or there is new activity. It could take{' '}
-                <span className="font-semibold">3-4 minutes or more</span> to
-                pass an entire day through AI!
-              </span>{' '}
+              {loadingMessages.at(loadingMessageIndex)}
               <svg
                 aria-hidden="true"
-                className="inline w-10 h-10 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                className="inline w-10 h-10 mx-3 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"

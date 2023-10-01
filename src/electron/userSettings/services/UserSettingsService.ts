@@ -54,16 +54,27 @@ export class UserSettingsService {
   static async loadFile(path: string): Promise<UserSettings> {
     // trying to catch the error on promises readFile still throws for some reason
     // so using this instead
+    const defaultSettingsInstance = this.getDefaultSettings()
     if (!fs.existsSync(path)) {
-      const settingsInstance = this.getDefaultSettings()
-      this.saveFile(settingsInstance)
+      console.log('User settings file not found, creating new one')
+      this.saveFile(defaultSettingsInstance)
 
-      return settingsInstance
+      return defaultSettingsInstance
     }
 
     const fileUtf8 = await fsp.readFile(path, { encoding: 'utf-8' })
-
+    console.log('Raw user settings', fileUtf8)
     const settingsInstance = plainToInstance(UserSettings, JSON.parse(fileUtf8))
+    console.log('Parsed user settings', settingsInstance)
+    // now add defaults for new settings that might not have been set in old installs ()
+    if (
+      settingsInstance.chromeHistoryPath === undefined ||
+      settingsInstance.chromeHistoryPath === ''
+    ) {
+      settingsInstance.chromeHistoryPath =
+        defaultSettingsInstance.chromeHistoryPath
+    }
+
     return settingsInstance
   }
 
