@@ -1,3 +1,10 @@
+# [1.73.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.72.0...v1.73.0) (2023-10-01)
+
+
+### Features
+
+* set proper env var for build ([417900c](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/417900c94140873757814ddd98b0fbf6c404410c))
+
 # [1.72.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.71.0...v1.72.0) (2023-10-01)
 
 
