@@ -5,7 +5,7 @@
 appId: com.darraghor.localdevtools
 productName: LocalDevTools
 npmRebuild: false
-copyright: Darragh ORiordan
+copyright: Copyright © 2023 Darragh O Riordan
 # fileAssociations:
 #   - ext: md
 #     name: Markdown

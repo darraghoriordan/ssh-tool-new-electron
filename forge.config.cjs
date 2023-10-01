@@ -1,8 +1,9 @@
 const forgeConfig = {
   packagerConfig: {
+    quiet: false,
     icon: 'src/assets/icons/icon',
     // This info.plist file contains file association for the app on macOS.
-    extendInfo: './src/assets/mac-store-meta/info.plist',
+    //extendInfo: './src/assets/mac-store-meta/info.plist',
     asar: true,
     darwinDarkModeSupport: 'false',
     // Electron-forge automatically adds the file extension based on OS
@@ -18,12 +19,19 @@ const forgeConfig = {
     // The certificate is written to the default keychain during CI build.
     // See ./scripts/add-osx-cert.sh
     osxSign: {
-      tool: 'notarytool',
+      platform: 'darwin',
       identity: 'Developer ID Application: Darragh ORiordan (74NM54BFA4)',
       //   'hardened-runtime': true,
-      //   'gatekeeper-assess': false,
-      entitlements: 'src/assets/mac-store-meta/entitlements.plist',
-      //   'entitlements-inherit': 'src/assets/mac-store-meta/entitlements.plist',
+      'gatekeeper-assess': false,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      optionsForFile: _filepath => {
+        return {
+          entitlements: './src/assets/mac-store-meta/entitlements.plist',
+          //   'entitlements-inherit':
+          //     './src/assets/mac-store-meta/entitlements.plist',
+        }
+      },
+
       //   'signature-flags': 'library',
     },
     // Since electron-notarize 1.1.0 it will throw instead of simply print a
@@ -32,14 +40,15 @@ const forgeConfig = {
     // variables and set the osxNotarize option to false otherwise to prevent
     // notarization.
     osxNotarize:
-      'APPLE_ID' in process.env && 'APPLE_ID_PASS' in process.env
-        ? {
-            appleId: process.env.APPLE_ID,
-            appleIdPassword: process.env.APPLE_ID_PASS,
-            teamId: process.env.APPLE_TEAM_ID,
-            tool: 'notarytool',
-          }
-        : false,
+      //   'APPLE_ID' in process.env && 'APPLE_APP_SPECIFIC_PASSWORD' in process.env
+      //     ?
+      {
+        appleId: process.env.APPLE_ID,
+        appleIdPassword: process.env.APPLE_APP_SPECIFIC_PASSWORD,
+        teamId: process.env.APPLE_TEAM_ID,
+        tool: 'notarytool',
+      },
+    // : false,
 
     extraResource: ['src/assets/icons/icon.icns'],
   },

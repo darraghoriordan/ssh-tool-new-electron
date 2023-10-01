@@ -89,6 +89,7 @@
     "@electron-forge/maker-squirrel": "6.4.2",
     "@electron-forge/maker-zip": "6.4.2",
     "@electron-forge/plugin-webpack": "6.4.2",
+    "@electron/notarize": "2.1.0",
     "@semantic-release/changelog": "6.0.3",
     "@semantic-release/exec": "6.0.3",
     "@semantic-release/git": "10.0.1",
