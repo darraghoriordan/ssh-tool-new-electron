@@ -1,3 +1,10 @@
+# [1.72.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.71.0...v1.72.0) (2023-10-01)
+
+
+### Features
+
+* revert auto change ([e39c2f3](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/e39c2f3f23e6f995aba20bb643c9d942514ca92b))
+
 # [1.71.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.70.0...v1.71.0) (2023-10-01)
 
 
