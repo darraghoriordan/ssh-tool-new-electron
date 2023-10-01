@@ -1,3 +1,10 @@
+# [1.71.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.70.0...v1.71.0) (2023-10-01)
+
+
+### Features
+
+* make the os x signing work ([c13bba9](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/c13bba9fa112cfbac35373196419066e5915d6fc))
+
 # [1.70.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.69.0...v1.70.0) (2023-09-30)
 
 
