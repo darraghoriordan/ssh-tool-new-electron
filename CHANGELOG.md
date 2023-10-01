@@ -1,3 +1,10 @@
+## [1.73.2](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.73.1...v1.73.2) (2023-10-01)
+
+
+### Bug Fixes
+
+* stop building the universal package ([f788eb6](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/f788eb6ed125c155401c8975c57a60532206a0c8))
+
 ## [1.73.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.73.0...v1.73.1) (2023-10-01)
 
 
