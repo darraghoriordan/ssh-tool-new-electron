@@ -1,3 +1,10 @@
+## [1.73.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.73.0...v1.73.1) (2023-10-01)
+
+
+### Bug Fixes
+
+* calendar display for month, settings loading, added more help ([56e60d2](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/56e60d261ccfedb0178d10eca2c6555475e360a1))
+
 # [1.73.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.72.0...v1.73.0) (2023-10-01)
 
 
