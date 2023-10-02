@@ -57,7 +57,7 @@ export async function gitActivityForMonth(
   // return the map
   return hasCommitForDateMap
 }
-function removeGitConfig(filePath: string) {
+export function removeGitConfig(filePath: string) {
   const targetPath = path.normalize(filePath)
   const gitConfigPath = path.join('.git', 'config')
 
