@@ -1,3 +1,10 @@
+## [1.73.3](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.73.2...v1.73.3) (2023-10-02)
+
+
+### Bug Fixes
+
+* paths on windows ([1288955](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/1288955dd74d7af325a09c3f944ee44bfd858736))
+
 ## [1.73.2](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.73.1...v1.73.2) (2023-10-01)
 
 
