@@ -1,3 +1,14 @@
+## [1.73.4](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.73.3...v1.73.4) (2023-10-02)
+
+
+### Bug Fixes
+
+* bug in git setup ([b7295d4](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/b7295d4ca4cfa992abdd84ab39873723889ef0de))
+* change the remove git config path method ([c61be68](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/c61be688c3823475aeb017ee32a13e923367bf03))
+* remove slash from line end and add more logging around git commit dates ([404e192](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/404e19229681be240a24202dc1fc0311c6001f85))
+* update yarn lock ([fb6802f](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/fb6802fe445f5d6e9152adba9de7c98238a6069c))
+* windows paths cannot use colons ([54cad69](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/54cad69fbbaaf098c632a8c27dedfd85600392d9))
+
 ## [1.73.3](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.73.2...v1.73.3) (2023-10-02)
 
 
