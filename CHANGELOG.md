@@ -1,3 +1,10 @@
+## [1.73.5](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.73.4...v1.73.5) (2023-10-02)
+
+
+### Bug Fixes
+
+* calendar overlapping event bug ([2c4ddd0](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/2c4ddd0b1517467333e5497dc5decba4ff4e0036))
+
 ## [1.73.4](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.73.3...v1.73.4) (2023-10-02)
 
 
