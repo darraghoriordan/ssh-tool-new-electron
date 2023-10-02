@@ -29,7 +29,7 @@ export async function readSingleGitRepoHistory({
   let commitsInDateRange: LogResult<DefaultLogFields> | undefined = undefined
   try {
     // Create a simple-git instance to interact with the repository
-    const git = simpleGit(options)
+    git = simpleGit(options)
     const logParams = [
       `--since='${startDate.toISOString()}'`,
       `--until='${endDate.toISOString()}'`,
