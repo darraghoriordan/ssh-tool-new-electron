@@ -7,6 +7,7 @@ import {
 } from 'simple-git'
 import { GitConfigsService } from '../../gitConfigurations/services/GitConfigsService'
 import { GitCommitHistoryEntry } from '../models/HistoryEntry'
+import { removeGitConfig } from './month-analyser'
 
 export async function readSingleGitRepoHistory({
   gitRepoPath,
@@ -28,7 +29,7 @@ export async function readSingleGitRepoHistory({
   let commitsInDateRange: LogResult<DefaultLogFields> | undefined = undefined
   try {
     // Create a simple-git instance to interact with the repository
-    const git = simpleGit(options)
+    git = simpleGit(options)
     const logParams = [
       `--since='${startDate.toISOString()}'`,
       `--until='${endDate.toISOString()}'`,
@@ -94,7 +95,7 @@ export async function readGitHistory({
   const gitConfigs = await GitConfigsService.loadGitConfigs()
 
   const gitPromises = gitConfigs.configList.map(async config => {
-    const gitRepoPath = config.path.replace('/.git/config', '')
+    const gitRepoPath = removeGitConfig(config.path)
     return readSingleGitRepoHistory({
       gitRepoPath,
       startDate,

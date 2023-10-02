@@ -16,6 +16,7 @@ import {
   startOfMonth,
   startOfWeek,
   endOfWeek,
+  endOfDay,
 } from 'date-fns'
 import { useGitActivityGetMonth } from './ReactQueryWrappers'
 import { CalendarDaysIcon } from '@heroicons/react/24/outline'
@@ -107,8 +108,8 @@ export default function Calendar({
   const days = getMonthCalDays(date)
   const { data: gitActivity, isLoading: isLoadingGitActivity } =
     useGitActivityGetMonth({
-      startDate: days[0]?.jsDate,
-      endDate: days.at(-1)?.jsDate,
+      startDate: days.at(0)?.jsDate,
+      endDate: days.at(-1)?.jsDate ? endOfDay(days.at(-1)!.jsDate) : undefined,
     })
 
   const container = useRef<HTMLDivElement | null>(null)

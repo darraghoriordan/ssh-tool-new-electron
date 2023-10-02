@@ -26,6 +26,7 @@ export class GitActivityForMonthChannelSub
     // return the list of entries
 
     await validateSettingsForTool()
+
     const analysis = await gitActivityForMonth(
       request.startDate,
       request.endDate,
