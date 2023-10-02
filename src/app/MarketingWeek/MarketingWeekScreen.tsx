@@ -33,7 +33,7 @@ const faqs = [
     id: 3,
     question: 'How does it work?',
     answer:
-      "Based on the configuration you provided for your Git repositories and other tools, this tool will scan your work and with OpenAI's products, it will compile summaries of what you achieved.",
+      "This tool will take all the building work you did for a give date and summarize what you achieved. Then you can use the example social media posts and summaries as starting points for your marketing. Don't use the generated posts directly, people can tell it's fake. Use the output for inspiration. I HIGHLY recommend rewriting the posts in your own voice.",
   },
   {
     id: 4,

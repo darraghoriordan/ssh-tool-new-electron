@@ -3,6 +3,7 @@ import fs from 'fs'
 import fsp from 'fs/promises'
 import { CacheFileSchema, IncrementAnalysis } from '../models/IncrementAnalysis'
 import { app } from 'electron'
+import { format } from 'date-fns'
 
 export async function getFromCache(
   startDate: Date,
@@ -48,7 +49,7 @@ export function getBaseCachePath(): string {
 async function getCachePath(startDate: Date): Promise<string> {
   const cachePath = path.join(
     getBaseCachePath(),
-    `${startDate.toISOString()}.json`,
+    `${format(startDate, 'yyyy-MM-dd')}.json`,
   )
   return cachePath
 }
