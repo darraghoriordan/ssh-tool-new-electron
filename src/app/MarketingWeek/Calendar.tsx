@@ -256,11 +256,12 @@ export default function Calendar({
                 if (spanDegree < 6) {
                   spanDegree = 6
                 }
+
                 return (
                   <li
                     className="relative flex mt-px"
                     style={{
-                      gridRow: `${startDegree + 1} / span ${spanDegree + 1}`,
+                      gridRow: `${startDegree} / span ${spanDegree}`,
                     }}
                     key={index}
                   >
