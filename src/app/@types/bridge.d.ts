@@ -71,7 +71,7 @@ declare global {
     SimpleMessage: { invoke: (message: string) => void }
     OpenFileLocation: { invoke: (filePath: string) => void }
     OpenDevHistoryCacheLocation: {
-      invoke: () => Promise<void>
+      invoke: () => void
     }
     LoadUserSettings: { invoke: () => Promise<UserSettingsResponse> }
     SaveUserSettings: {

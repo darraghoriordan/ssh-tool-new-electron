@@ -8,6 +8,7 @@ import {
 import { GitConfigsService } from '../../gitConfigurations/services/GitConfigsService'
 import { readSingleGitRepoHistory } from './git-repository-history'
 import { getFromCache, saveToCache } from './month-analyser-cache'
+import path from 'path'
 
 export async function gitActivityForMonth(
   startDate: Date,
@@ -33,7 +34,7 @@ export async function gitActivityForMonth(
     }
     // otherwise get the commits for this repo
     const commits = await readSingleGitRepoHistory({
-      gitRepoPath: gitConfig.path.replace('/.git/config', ''),
+      gitRepoPath: removeGitConfig(gitConfig.path),
       startDate: startOfDay(startDate),
       endDate: endOfDay(endDate),
     })
@@ -56,7 +57,17 @@ export async function gitActivityForMonth(
   // return the map
   return hasCommitForDateMap
 }
+function removeGitConfig(filePath: string) {
+  const targetPath = path.normalize(filePath)
+  const gitConfigPath = path.join('.git', 'config')
 
+  if (targetPath.endsWith(gitConfigPath)) {
+    // Remove ".git/config" from the end of the path
+    return targetPath.slice(0, -gitConfigPath.length)
+  } else {
+    return targetPath
+  }
+}
 function areAllValuesTrue(map: Map<number, boolean>) {
   const asArray = Array.from(map.values())
   return asArray.length > 0 && asArray.every(value => value === true)

@@ -146,7 +146,7 @@ export function SettingsForm({
             {
               propertyKey: 'openAiChatGptKey',
               labelText:
-                'ChatGPT Ai Key ( https://platform.openai.com/account/api-keys )',
+                'ChatGPT API Key ( https://platform.openai.com/account/api-keys )',
               isRequired: false,
             },
             {

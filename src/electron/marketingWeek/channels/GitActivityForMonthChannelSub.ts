@@ -40,15 +40,18 @@ export async function validateSettingsForTool() {
   const userSettings = await UserSettingsService.getSettings()
   if (!userSettings.hasEnabledMarketingWeek) {
     throw new Error(
-      'Marketing week is not enabled. You have to explicitly enable this feature in the App Settings because it shares your data with Open AI when this tool is opened.',
+      'Marketing week is not enabled. You must explicitly enable Marketing Week in the App Settings screen because it shares your data with Open AI when this tool is opened.',
     )
   }
-  if (!userSettings.openAiChatGptKey) {
+  if (!userSettings.openAiChatGptKey || userSettings.openAiChatGptKey === '') {
     throw new Error(
-      'Marketing week is not enabled. You must configure an Open AI key in the App Settings.',
+      'Marketing week is not enabled. You must configure an Open AI API key in the App Settings.',
     )
   }
-  if (!userSettings.chromeHistoryPath) {
+  if (
+    !userSettings.chromeHistoryPath ||
+    userSettings.chromeHistoryPath === ''
+  ) {
     throw new Error(
       'Marketing week is not enabled. You must configure the Chrome History file path in the App Settings.',
     )

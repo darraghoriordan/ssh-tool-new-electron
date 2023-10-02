@@ -141,7 +141,7 @@ export function MarketingWeekScreen() {
   const onOpenFolderClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
 
-    logAMessage({ level: 'info', message: `Opening folder ${location}` })
+    logAMessage({ level: 'info', message: `Opening cached data folder...` })
     window.OpenDevHistoryCacheLocation.invoke()
   }
 

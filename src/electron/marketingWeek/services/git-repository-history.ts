@@ -3,6 +3,7 @@ import {
   SimpleGitOptions,
   LogResult,
   DefaultLogFields,
+  SimpleGit,
 } from 'simple-git'
 import { GitConfigsService } from '../../gitConfigurations/services/GitConfigsService'
 import { GitCommitHistoryEntry } from '../models/HistoryEntry'
@@ -16,20 +17,23 @@ export async function readSingleGitRepoHistory({
   startDate: Date
   endDate: Date
 }) {
+  let git: SimpleGit | undefined
+
   const options: Partial<SimpleGitOptions> = {
     baseDir: gitRepoPath,
     binary: 'git',
     maxConcurrentProcesses: 6,
     trimmed: false,
   }
-  // Create a simple-git instance to interact with the repository
-  const git = simpleGit(options)
-  const logParams = [
-    `--since='${startDate.toISOString()}'`,
-    `--until='${endDate.toISOString()}'`,
-  ]
   let commitsInDateRange: LogResult<DefaultLogFields> | undefined = undefined
   try {
+    // Create a simple-git instance to interact with the repository
+    const git = simpleGit(options)
+    const logParams = [
+      `--since='${startDate.toISOString()}'`,
+      `--until='${endDate.toISOString()}'`,
+    ]
+
     // Fetch all commits in the repository for the date range
     // seems like if the repo is empty, or there are no results, this throws an error
 
@@ -43,11 +47,10 @@ export async function readSingleGitRepoHistory({
     )
     commitsInDateRange = { total: 0, all: [], latest: null }
   }
-
+  if (!git || commitsInDateRange.total === 0) {
+    return []
+  }
   try {
-    if (commitsInDateRange.total === 0) {
-      return []
-    }
     const commitAndDiffs: GitCommitHistoryEntry[] = []
     // Get the diffs for each commit in the date range
     for (const commit of commitsInDateRange.all) {

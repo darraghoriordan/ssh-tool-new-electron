@@ -19,15 +19,15 @@ import { ScreenWrapper } from '../ReusableComponents/ScreenWrapper'
 const faqs = [
   {
     id: 1,
-    question: 'Git Projects Path',
+    question: 'Git projects path',
     answer:
       'This setting controls where the app will look for git projects. It will look in this folder and all subfolders. You should make sure this setting is correct before using the Git Project Tool.',
   },
   {
     id: 2,
-    question: 'Global Git Config File',
+    question: 'Global Git config file',
     answer:
-      "This setting controls where the app will look for your global git config file. It's used to determine your global git username and email address.",
+      "This setting controls where the app will look for your global git config file. It's used to determine your global git username and email address and other settings.",
   },
   {
     id: 3,
@@ -37,19 +37,19 @@ const faqs = [
   },
   {
     id: 4,
-    question: 'Marketing week Enabled',
+    question: 'Marketing week enabled',
     answer:
-      "You have to explicitly enable marketing week because it does send data out to OpenAI's servers. By enabling this feature, you agree to share your data.",
+      "You have to explicitly enable marketing week because it sends data out to OpenAI's servers. By enabling the marketing week feature, you agree to share your data. Please check your company policies before enabling this feature on a work computer.",
   },
   {
     id: 5,
-    question: 'Chrome History Path',
+    question: 'Chrome history path',
     answer:
-      'Marketing week uses your Chrome history to provide suggestions for marketing. You have to set this manually, here are the default locations. Mac: <home>/Library/Application Support/Google/Chrome/Default/History Linux: <home>/.config/google-chrome/Default/History Windows: <home>/AppData/Local/Google/Chrome/User Data/Default/History ',
+      'Marketing week provides suggestions for social media posts based on your actual Chrome history. You may have to set this path manually, here are the default locations. Mac: <home>/Library/Application Support/Google/Chrome/Default/History Linux: <home>/.config/google-chrome/Default/History Windows: <home>/AppData/Local/Google/Chrome/User Data/Default/History ',
   },
   {
     id: 6,
-    question: 'ChatGPT Api Key and Org Id',
+    question: 'ChatGPT API key and org ID',
     answer:
       'The ChatGPT Api Key is used to access the ChatGPT API. You can get an api key at https://openai.com',
   },
