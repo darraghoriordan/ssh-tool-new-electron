@@ -164,7 +164,7 @@ jobs:
       #     name: linux
       #     path: ./release
 
-      - uses: BetaHuhn/do-spaces-action@64cac1b4d38af4d8f9c48bc9bd54f7f65e78c89e # v2
+      - uses: BetaHuhn/do-spaces-action@b6152d5b7801887d1b74faf71181f17db074991e # v2
         with:
           access_key: ${{ secrets.SPACE_KEY}}
           secret_key: ${{ secrets.SPACE_SECRET_ACCESS_KEY }}
