@@ -1,3 +1,12 @@
+## [1.73.6](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.73.5...v1.73.6) (2023-10-08)
+
+
+### Bug Fixes
+
+* **renovate:** pin Update BetaHuhn/do-spaces-action digest to b6152d5 ([dc49555](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/dc495557d011bed45213777fe45054107bc73a84))
+* **renovate:** Update minor ([8798cda](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/8798cda33f04154a9f8ce974641ae608b7007137))
+* **renovate:** Update patch ([ff1c15d](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/ff1c15dabb5fa6122030034825fa8e41bf68fe4d))
+
 ## [1.73.5](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.73.4...v1.73.5) (2023-10-02)
 
 
