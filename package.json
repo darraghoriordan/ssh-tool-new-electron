@@ -2,7 +2,7 @@
   "name": "local-dev-tools",
   "productName": "LocalDevTools",
   "private": true,
-  "version": "1.73.6",
+  "version": "1.73.7",
   "description": "Local offline tools for developers",
   "main": ".webpack/main",
   "local-dev-tools": {

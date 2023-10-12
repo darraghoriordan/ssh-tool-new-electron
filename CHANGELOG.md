@@ -1,3 +1,10 @@
+## [1.73.7](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.73.6...v1.73.7) (2023-10-12)
+
+
+### Bug Fixes
+
+* bump all libs ([848f3d0](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/848f3d07cad95ebb4310d2fe1753b90d28177f31))
+
 ## [1.73.6](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.73.5...v1.73.6) (2023-10-08)
 
 
