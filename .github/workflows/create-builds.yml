@@ -11,11 +11,11 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Clone repository (master branch)
-        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
         with:
           ref: 'master'
       - name: Setup NodeJS ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3
+        uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Set up build environment
@@ -63,11 +63,11 @@ jobs:
     steps:
       # Check out master for a regular release, or develop branch for a nightly
       - name: Clone repository (master branch)
-        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
         with:
           ref: 'master'
       - name: Setup NodeJS ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3
+        uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Set up build environment
@@ -130,11 +130,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone repository
-        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
         with:
           ref: 'master'
       - name: Setup NodeJS ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3
+        uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3
         with:
           node-version: ${{ env.NODE_VERSION }}
 
@@ -164,7 +164,7 @@ jobs:
       #     name: linux
       #     path: ./release
 
-      - uses: BetaHuhn/do-spaces-action@b6152d5b7801887d1b74faf71181f17db074991e # v2
+      - uses: BetaHuhn/do-spaces-action@2fb6497dd825a2548218992e28056ec949963b97 # v2
         with:
           access_key: ${{ secrets.SPACE_KEY}}
           secret_key: ${{ secrets.SPACE_SECRET_ACCESS_KEY }}
