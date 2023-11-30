@@ -1,3 +1,11 @@
+## [1.74.1](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.74.0...v1.74.1) (2023-11-30)
+
+
+### Bug Fixes
+
+* **renovate:** Update actions/setup-node action to v4 ([4280ce8](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/4280ce8e52885cc4779539d872af86b25fb4946b))
+* **renovate:** Update minor ([f37ea19](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/f37ea19af6d5e6770773609af409d149d3071f14))
+
 # [1.74.0](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.73.8...v1.74.0) (2023-11-28)
 
 
