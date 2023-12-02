@@ -106,7 +106,7 @@
     "@types/react-dom": "18.2.17",
     "@typescript-eslint/utils": "6.13.1",
     "@vercel/webpack-asset-relocator-loader": "1.7.3",
-    "aws-sdk": "2.1505.0",
+    "aws-sdk": "2.1506.0",
     "cross-env": "^7.0.3",
     "css-loader": "6.8.1",
     "electron": "27.1.2",
