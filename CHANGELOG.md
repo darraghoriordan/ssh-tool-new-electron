@@ -1,3 +1,10 @@
+## [1.74.4](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.74.3...v1.74.4) (2023-12-07)
+
+
+### Bug Fixes
+
+* **renovate:** Update minor ([0d701e8](https://github.com/darraghoriordan/ssh-tool-new-electron/commit/0d701e86a2a2ff48aa35f3ce60a9620a497dfe81))
+
 ## [1.74.3](https://github.com/darraghoriordan/ssh-tool-new-electron/compare/v1.74.2...v1.74.3) (2023-12-07)
 
 
