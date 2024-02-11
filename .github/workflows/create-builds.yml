@@ -15,7 +15,7 @@ jobs:
         with:
           ref: 'master'
       - name: Setup NodeJS ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@b39b52d1213e96004bfcb1c61a8a6fa8ab84f3e8 # v4
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Set up build environment
@@ -67,7 +67,7 @@ jobs:
         with:
           ref: 'master'
       - name: Setup NodeJS ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@b39b52d1213e96004bfcb1c61a8a6fa8ab84f3e8 # v4
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Set up build environment
@@ -134,7 +134,7 @@ jobs:
         with:
           ref: 'master'
       - name: Setup NodeJS ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@b39b52d1213e96004bfcb1c61a8a6fa8ab84f3e8 # v4
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4
         with:
           node-version: ${{ env.NODE_VERSION }}
 
@@ -164,7 +164,7 @@ jobs:
       #     name: linux
       #     path: ./release
 
-      - uses: BetaHuhn/do-spaces-action@cc9798e1e680662d6b7e4b65a3595469a5f59fd8 # v2
+      - uses: BetaHuhn/do-spaces-action@d640de442532720a1718bd621837c099e474cb46 # v2
         with:
           access_key: ${{ secrets.SPACE_KEY}}
           secret_key: ${{ secrets.SPACE_SECRET_ACCESS_KEY }}
