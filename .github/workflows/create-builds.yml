@@ -11,11 +11,11 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Clone repository (master branch)
-        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           ref: 'master'
       - name: Setup NodeJS ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Set up build environment
@@ -24,7 +24,7 @@ jobs:
           yarn install --frozen-lockfile
       - name: Extract version
         id: extract_version
-        uses: Saionaro/extract-package-version@fdb5b74adc1278ddb777dfed4c988b9d098bb48d # v1.2.1
+        uses: Saionaro/extract-package-version@35ced6bfe3b1491af23de4db27c601697e6d8d17 # v1.3.0
 
       - name: Package Windows (x64)
         run: yarn package:win-x64
@@ -51,7 +51,7 @@ jobs:
       # step. It should be noted that "artifacts" are more like file shares.
       # Thus they can contain multiple files.
       - name: Cache installers
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4
         with:
           name: win32
           path: |
@@ -63,11 +63,11 @@ jobs:
     steps:
       # Check out master for a regular release, or develop branch for a nightly
       - name: Clone repository (master branch)
-        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           ref: 'master'
       - name: Setup NodeJS ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Set up build environment
@@ -77,7 +77,7 @@ jobs:
 
       - name: Extract version
         id: extract_version
-        uses: Saionaro/extract-package-version@fdb5b74adc1278ddb777dfed4c988b9d098bb48d # v1.2.1
+        uses: Saionaro/extract-package-version@35ced6bfe3b1491af23de4db27c601697e6d8d17 # v1.3.0
       # Save the macOS certificate on this runner for forge to access it in the
       # next step below.
       - name: Retrieve code signing certificate
@@ -116,7 +116,7 @@ jobs:
       #   run: yarn release:mac-universal
       # Finally upload both
       - name: Cache image files
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4
         with:
           name: darwin
           path: |
@@ -130,11 +130,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone repository
-        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           ref: 'master'
       - name: Setup NodeJS ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4
         with:
           node-version: ${{ env.NODE_VERSION }}
 
@@ -143,18 +143,18 @@ jobs:
 
       - name: Extract version
         id: extract_version
-        uses: Saionaro/extract-package-version@fdb5b74adc1278ddb777dfed4c988b9d098bb48d # v1.2.1
+        uses: Saionaro/extract-package-version@35ced6bfe3b1491af23de4db27c601697e6d8d17 # v1.3.0
 
       - name: Make release directory
         run: mkdir ./release
       # First, download all resulting assets from the previous steps.
       - name: Retrieve windows installers
-        uses: actions/download-artifact@65a9edc5881444af0b9093a5e628f2fe47ea3b2e # v4
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4
         with:
           name: win32
           path: ./release
       - name: Retrieve macOS images
-        uses: actions/download-artifact@65a9edc5881444af0b9093a5e628f2fe47ea3b2e # v4
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4
         with:
           name: darwin
           path: ./release
